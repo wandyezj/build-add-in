@@ -1,5 +1,7 @@
-import React from 'react';
-import { Clock } from './Clock';
+import React from "react";
+import { Clock } from "./Pages/Clock";
+import PageRouter from "./PageRouter";
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 
 /**
  * The top level application component.
@@ -7,7 +9,9 @@ import { Clock } from './Clock';
 export function App() {
     return (
         <div id="insert">
-        <Clock />
+            <FluentProvider theme={webLightTheme}>
+                <PageRouter />
+            </FluentProvider>
         </div>
     );
 }

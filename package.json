@@ -34,8 +34,10 @@
     },
     "homepage": "https://github.com/wandyezj/website#readme",
     "dependencies": {
+        "@fluentui/react-components": "^9.46.7",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.22.2"
     },
     "devDependencies": {
         "@playwright/test": "^1.41.2",
@@ -49,6 +51,7 @@
         "cspell": "8.4.1",
         "eslint": "^8.57.0",
         "html-webpack-plugin": "^5.5.0",
+        "monaco-editor-webpack-plugin": "^7.1.0",
         "playwright": "^1.41.2",
         "prettier": "^3.2.5",
         "ts-loader": "^9.5.1",
