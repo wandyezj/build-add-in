@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const path = require("path");
 
@@ -43,6 +44,9 @@ module.exports = async (env, options) => {
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "src/index.html",
+            }),
+            new MonacoWebpackPlugin({
+                languages: ["json", "yaml", "typescript", "javascript", "css", "html", "markdown", "plaintext"],
             }),
             new CopyWebpackPlugin({
                 patterns: [

@@ -14,6 +14,9 @@ export function PageLink() {
                 <li>
                     <Link to="/link">link</Link>
                 </li>
+                <li>
+                    <Link to="/editor">editor</Link>
+                </li>
             </ul>
         </div>
     );

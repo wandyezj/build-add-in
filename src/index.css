@@ -5,3 +5,9 @@ h1 {
 #insert {
     text-align: center;
 }
+
+.Editor {
+	width: 800px;
+	height: 600px;
+	border: 1px solid #ccc;
+}
