@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "davidanson.vscode-markdownlint",
+        "ms-playwright.playwright",
+        "bierner.github-markdown-preview",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}

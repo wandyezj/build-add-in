@@ -1,0 +1,10 @@
+*       text=auto
+*.txt   text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.ts    text eol=lf
+*.json  text eol=lf
+*.jsonc text eol=lf
+*.yml   text eol=lf
+*.md    text eol=lf
+*.jpg   -text

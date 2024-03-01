@@ -1,0 +1,60 @@
+{
+    "name": "website",
+    "version": "0.0.0",
+    "description": "Simple Website Template",
+    "private": true,
+    "engines": {
+        "node": ">=20.0",
+        "npm": ">=10.0"
+    },
+    "scripts": {
+        "build": "npm run clean && npm run style-check && npm run spell-check && npm run lint && npm run compile",
+        "clean": "node ./scripts/clean.js dist",
+        "compile": "webpack --config ./config/webpack.config.js --mode production",
+        "server": "npm run start",
+        "start": "webpack serve --config ./config/webpack.config.js --mode development",
+        "style": "prettier --config ./config/prettier.json  --write \"@(src|Tests|scripts)/**/*.@(ts|js|md|html|css|json)\"",
+        "style-check": "prettier --config ./config/prettier.json  --check \"@(src|tests|scripts)/**/*.@(ts|js|md|html|css|json)\"",
+        "spell-check": "cspell --config ./.vscode/cspell.json --gitignore \"@(src|test|scripts)/**/*.@(ts|js|md|html|css|json)\"",
+        "lint": "eslint --config ./config/eslint.json --no-eslintrc \"@(src|tests|scripts)/**/*.@(ts|js)\"",
+        "lint-fix": "eslint --config ./config/eslint.json --no-eslintrc --fix \"@(src|tests|scripts)/**/*.@(ts|js)\"",
+        "test": "npm run compile && npm run playwright-test",
+        "playwright-install": "playwright install --with-deps chromium",
+        "playwright-test": "playwright test --config ./config/playwright.config.ts",
+        "playwright-report": "playwright show-report"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wandyezj/website.git"
+    },
+    "author": "wandyezj",
+    "license": "Unlicense",
+    "bugs": {
+        "url": "https://github.com/wandyezj/website/issues"
+    },
+    "homepage": "https://github.com/wandyezj/website#readme",
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.41.2",
+        "@types/node": "^18.7.17",
+        "@types/react": "^18.2.58",
+        "@types/react-dom": "^18.2.19",
+        "@typescript-eslint/eslint-plugin": "^7.0.2",
+        "@typescript-eslint/parser": "^7.0.2",
+        "clean-webpack-plugin": "^4.0.0",
+        "copy-webpack-plugin": "^12.0.2",
+        "cspell": "8.4.1",
+        "eslint": "^8.57.0",
+        "html-webpack-plugin": "^5.5.0",
+        "playwright": "^1.41.2",
+        "prettier": "^3.2.5",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.3.3",
+        "webpack": "^5.90.3",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.0.1"
+    }
+}
