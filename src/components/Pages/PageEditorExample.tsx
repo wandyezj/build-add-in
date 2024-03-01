@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as monaco from 'monaco-editor';
 
-export function PageEditor() {
+export function PageEditorExample() {
     return (
         <Editor />
     );
