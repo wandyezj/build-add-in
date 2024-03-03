@@ -25,6 +25,10 @@ export function PageEditor() {
         setSnip(snip);
     };
 
+    function copySnipToClipboard() {
+        navigator.clipboard.writeText(JSON.stringify(snip, null, 4));
+    }
+
     return (
         <>
             <Toolbar>
@@ -39,7 +43,7 @@ export function PageEditor() {
                 />
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 {/* */}
-                <TooltipButton tip="Copy to clipboard" icon={<ClipboardRegular />} />
+                <TooltipButton tip="Copy to clipboard" icon={<ClipboardRegular />} onClick={copySnipToClipboard} />
 
                 <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
                 <TooltipButton tip="New" icon={<AddRegular />} />
