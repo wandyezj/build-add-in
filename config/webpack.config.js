@@ -2,8 +2,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+//const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
-const devCerts = require("office-addin-dev-certs");
+//const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
 
@@ -12,13 +13,20 @@ module.exports = async (env, options) => {
     const config = {
         // no source maps for production
         devtool: isDevelopment ? "inline-source-map" : undefined,
+
+        // Use Cache (to speed up build)
+        cache: true,
+        // Ignore file size violation hints
+        performance: {
+            hints: false,
+        },
         devServer: {
             static: {
                 directory: path.join(__dirname, "..", "dist"),
             },
         },
         entry: {
-            index: "./src/index.tsx",
+            edit: "./src/edit.tsx",
             run: "./src/run.ts",
         },
         output: {
@@ -46,10 +54,16 @@ module.exports = async (env, options) => {
             ],
         },
         plugins: [
+            //new BundleAnalyzerPlugin(),
             new CleanWebpackPlugin(),
+            // new HtmlWebpackPlugin({
+            //     template: "src/index.html",
+            //     filename: "index.html",
+            // }),
             new HtmlWebpackPlugin({
-                template: "src/index.html",
-                chunks: ["index"],
+                template: "src/edit.html",
+                filename: "edit.html",
+                chunks: ["edit"],
             }),
             new HtmlWebpackPlugin({
                 template: "src/run.html",
@@ -70,8 +84,8 @@ module.exports = async (env, options) => {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        to: "index.css",
-                        from: "./src/index.css",
+                        to: "edit.css",
+                        from: "./src/edit.css",
                     },
                     {
                         to: "robots.txt",
@@ -84,26 +98,25 @@ module.exports = async (env, options) => {
     };
 
     // Only need to configure webserver in development mode
-    if (options.mode === "development") {
-        config.devServer = {
-            ...config.devServer,
-            server: "https",
-
-            port: 8080,
-            server: {
-                type: "https",
-                options: getHttpsOptions(),
-            },
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-        };
-    }
+    // if (options.mode === "development") {
+    //     config.devServer = {
+    //         ...config.devServer,
+    //         open: ["/edit.html"],
+    //         port: 3000,
+    //         server: {
+    //             type: "https",
+    //             options: getHttpsOptions(),
+    //         },
+    //         headers: {
+    //             "Access-Control-Allow-Origin": "*",
+    //         },
+    //     };
+    // }
 
     return config;
 };
 
-async function getHttpsOptions() {
-    const options = await devCerts.getHttpsServerOptions();
-    return options;
-}
+// async function getHttpsOptions() {
+//     const options = await devCerts.getHttpsServerOptions();
+//     return options;
+// }
