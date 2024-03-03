@@ -1,16 +1,15 @@
-import { Snip, defaultSnip } from "./Snip";
-
+import { Snip } from "./Snip";
 const currentSnipId = "currentSnipId";
 
 export function saveSnip(snip: Snip) {
     window.localStorage.setItem(currentSnipId, JSON.stringify(snip));
 }
 
-export function loadSnip(): Snip {
+export function loadSnip(): Snip | undefined {
     const snip = window.localStorage.getItem(currentSnipId);
     if (snip) {
         return JSON.parse(snip);
-    } else {
-        return defaultSnip;
     }
+
+    return undefined;
 }

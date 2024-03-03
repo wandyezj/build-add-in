@@ -4,6 +4,9 @@ console.log("run");
 function initialize() {
     const snip = loadSnip();
     console.log("snip", snip);
+    if (snip === undefined) {
+        return;
+    }
 
     // Content
     const css = snip.files["css"].content;

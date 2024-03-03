@@ -14,10 +14,11 @@ import {
 import { Snip } from "../../core/Snip";
 import { loadSnip, saveSnip } from "../../core/storage";
 import { TooltipButton } from "./TooltipButton";
+import { defaultSnip } from "../../core/defaultSnip";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
-    const [snip, setSnip] = useState(loadSnip());
+    const [snip, setSnip] = useState(loadSnip() || defaultSnip);
 
     const updateSnip = (snip: Snip) => {
         saveSnip(snip);
