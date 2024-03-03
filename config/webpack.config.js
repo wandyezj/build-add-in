@@ -56,10 +56,6 @@ module.exports = async (env, options) => {
         plugins: [
             //new BundleAnalyzerPlugin(),
             new CleanWebpackPlugin(),
-            // new HtmlWebpackPlugin({
-            //     template: "src/index.html",
-            //     filename: "index.html",
-            // }),
             new HtmlWebpackPlugin({
                 template: "src/edit.html",
                 filename: "edit.html",
@@ -83,6 +79,10 @@ module.exports = async (env, options) => {
             }),
             new CopyWebpackPlugin({
                 patterns: [
+                    {
+                        to: "index.html",
+                        from: "./src/index.html",
+                    },
                     {
                         to: "edit.css",
                         from: "./src/edit.css",
