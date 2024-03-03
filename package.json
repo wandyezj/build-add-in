@@ -19,6 +19,10 @@
         "lint": "eslint --config ./config/eslint.json --no-eslintrc \"@(src|tests|scripts)/**/*.@(ts|js)\"",
         "lint-fix": "eslint --config ./config/eslint.json --no-eslintrc --fix \"@(src|tests|scripts)/**/*.@(ts|js)\"",
         "test": "npm run compile && npm run playwright-test",
+        "manifest": "npm run check-manifest-local && node ./scripts/make-manifest.js && npm run check-manifest",
+        "make-manifest": "node ./scripts/make-manifest.js",
+        "check-manifest": "npx office-addin-manifest validate manifests/manifest.xml",
+        "check-manifest-local": "npx office-addin-manifest validate manifests/manifest-local.xml",
         "playwright-install": "playwright install --with-deps chromium",
         "playwright-test": "playwright test --config ./config/playwright.config.ts",
         "playwright-report": "playwright show-report"
@@ -35,6 +39,7 @@
     "homepage": "https://github.com/wandyezj/website#readme",
     "dependencies": {
         "@fluentui/react-components": "^9.46.7",
+        "office-addin-dev-certs": "^1.12.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.22.2"

@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
+const devCerts = require("office-addin-dev-certs");
+
 const path = require("path");
 
 module.exports = async (env, options) => {
@@ -75,10 +77,33 @@ module.exports = async (env, options) => {
                         to: "robots.txt",
                         from: "./src/robots.txt",
                     },
+                    { from: "assets/*.png", to: "" },
                 ],
             }),
         ],
     };
 
+    // Only need to configure webserver in development mode
+    if (options.mode === "development") {
+        config.devServer = {
+            ...config.devServer,
+            server: "https",
+
+            port: 8080,
+            server: {
+                type: "https",
+                options: getHttpsOptions(),
+            },
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+    }
+
     return config;
 };
+
+async function getHttpsOptions() {
+    const options = await devCerts.getHttpsServerOptions();
+    return options;
+}
