@@ -11,7 +11,7 @@ import {
     DocumentFolderRegular,
     SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, defaultSnip } from "../../core/Snip";
+import { Snip } from "../../core/Snip";
 import { loadSnip, saveSnip } from "../../core/storage";
 import { TooltipButton } from "./TooltipButton";
 

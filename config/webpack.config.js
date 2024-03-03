@@ -15,10 +15,13 @@ module.exports = async (env, options) => {
                 directory: path.join(__dirname, "..", "dist"),
             },
         },
-        entry: ["./src/index.tsx"],
+        entry: {
+            index: "./src/index.tsx",
+            run: "./src/run.ts",
+        },
         output: {
             // Add contenthash to cache bust on CDN
-            filename: isDevelopment ? "bundle.js" : "bundle-[contenthash].js",
+            filename: isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js",
             path: path.resolve(__dirname, "..", "dist"),
         },
         resolve: {
@@ -44,9 +47,23 @@ module.exports = async (env, options) => {
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "src/index.html",
+                chunks: ["index"],
+            }),
+            new HtmlWebpackPlugin({
+                template: "src/run.html",
+                filename: "run.html",
+                chunks: ["run"],
             }),
             new MonacoWebpackPlugin({
-                languages: ["json", "yaml", "typescript", "javascript", "css", "html", "markdown", "plaintext"],
+                languages: [
+                    "typescript",
+                    "css",
+                    "html",
+                    //"javascript",
+                    //"markdown",
+                    //"json", "yaml",
+                    //"plaintext",
+                ],
             }),
             new CopyWebpackPlugin({
                 patterns: [
