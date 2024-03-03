@@ -10,8 +10,11 @@
     "scripts": {
         "build": "npm run clean && npm run style-check && npm run spell-check && npm run lint && npm run compile",
         "clean": "node ./scripts/clean.js dist",
-        "compile": "webpack --config ./config/webpack.config.js --mode production",
-        "server": "npm run start",
+        "compile": "webpack --config ./config/webpack.config.js --mode development",
+        "server": "npx http-server %CD%/dist --ssl --cert %USERPROFILE%\\.office-addin-dev-certs\\localhost.crt --key %USERPROFILE%\\.office-addin-dev-certs\\localhost.key -c-1 --cors -p 3000",
+        "localhost-certificates-install": "npx office-addin-dev-certs install",
+        "localhost-certificates-install-i-am-admin": "npx office-addin-dev-certs install --machine",
+        "localhost-certificates-verify": "npx office-addin-dev-certs verify",
         "start": "webpack serve --config ./config/webpack.config.js --mode development",
         "style": "prettier --config ./config/prettier.json  --write \"@(src|Tests|scripts)/**/*.@(ts|tsx|js|md|html|css|json)\"",
         "style-check": "prettier --config ./config/prettier.json  --check \"@(src|tests|scripts)/**/*.@(ts|tsx|js|md|html|css|json)\"",
@@ -39,10 +42,8 @@
     "homepage": "https://github.com/wandyezj/website#readme",
     "dependencies": {
         "@fluentui/react-components": "^9.46.7",
-        "office-addin-dev-certs": "^1.12.2",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-router-dom": "^6.22.2"
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
         "@playwright/test": "^1.41.2",
@@ -65,7 +66,9 @@
         "ts-loader": "^9.5.1",
         "typescript": "^5.3.3",
         "webpack": "^5.90.3",
+        "webpack-bundle-analyzer": "^4.10.1",
         "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^5.0.1"
+        "webpack-dev-server": "^5.0.1",
+        "office-addin-dev-certs": "^1.12.2"
     }
 }

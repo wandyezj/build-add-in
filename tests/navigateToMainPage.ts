@@ -8,7 +8,7 @@ import { getLocalDistIndexData } from "./getLocalDistIndexData";
 const useLocalDist = true;
 
 const mainPageUrl = "https://wandyezj.github.io/website";
-export const mainPageTitle = "Website";
+export const mainPageTitle = "Index";
 
 export async function navigateToMainPage(browser: Browser): Promise<Page> {
     // Create a separate browser context for each test

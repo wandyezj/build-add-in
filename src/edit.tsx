@@ -11,6 +11,6 @@ Office.onReady(({ host, platform }) => {
 
 console.log(website());
 
-const container = document.getElementById("react-app")!;
+const container = document.body;
 const root = createRoot(container);
 root.render(<App />);
