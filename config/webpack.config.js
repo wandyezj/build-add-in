@@ -4,9 +4,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 //const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
-//const devCerts = require("office-addin-dev-certs");
+const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
+const { fstat } = require("fs");
 
 module.exports = async (env, options) => {
     const isDevelopment = options.mode === "development";
@@ -14,8 +15,6 @@ module.exports = async (env, options) => {
         // no source maps for production
         devtool: isDevelopment ? "inline-source-map" : undefined,
 
-        // Use Cache (to speed up build)
-        cache: true,
         // Ignore file size violation hints
         performance: {
             hints: false,
@@ -97,26 +96,26 @@ module.exports = async (env, options) => {
         ],
     };
 
-    // Only need to configure webserver in development mode
-    // if (options.mode === "development") {
-    //     config.devServer = {
-    //         ...config.devServer,
-    //         open: ["/edit.html"],
-    //         port: 3000,
-    //         server: {
-    //             type: "https",
-    //             options: getHttpsOptions(),
-    //         },
-    //         headers: {
-    //             "Access-Control-Allow-Origin": "*",
-    //         },
-    //     };
-    // }
+    //Only need to configure webserver in development mode
+    if (options.mode === "development") {
+        config.devServer = {
+            ...config.devServer,
+            open: ["/edit.html"],
+            port: 3000,
+            server: {
+                type: "https",
+                options: await getHttpsOptions(),
+            },
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+    }
 
     return config;
 };
 
-// async function getHttpsOptions() {
-//     const options = await devCerts.getHttpsServerOptions();
-//     return options;
-// }
+async function getHttpsOptions() {
+    const options = await devCerts.getHttpsServerOptions();
+    return options;
+}

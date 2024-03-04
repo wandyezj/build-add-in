@@ -7,10 +7,8 @@ import { PageEditor } from "./Pages/PageEditor";
  */
 export function App() {
     return (
-        <div id="insert">
-            <FluentProvider theme={webLightTheme}>
-                <PageEditor />
-            </FluentProvider>
-        </div>
+        <FluentProvider theme={webLightTheme}>
+            <PageEditor />
+        </FluentProvider>
     );
 }

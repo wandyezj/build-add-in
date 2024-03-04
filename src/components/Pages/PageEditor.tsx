@@ -18,7 +18,12 @@ import { defaultSnip } from "../../core/defaultSnip";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
-    const [snip, setSnip] = useState(loadSnip() || defaultSnip);
+
+    const initialSnip = loadSnip();
+    if (initialSnip === undefined) {
+        throw new Error("snip is undefined");
+    }
+    const [snip, setSnip] = useState(initialSnip);
 
     const updateSnip = (snip: Snip) => {
         saveSnip(snip);
