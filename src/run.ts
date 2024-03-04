@@ -5,11 +5,11 @@ type LibType = "css" | "js" | undefined;
 
 async function loadScript(lib: string) {
     return new Promise<void>((resolve, reject) => {
-        console.log("load - start: ", lib);
+        console.log("load js - start: ", lib);
         const script = document.createElement("script");
         script.setAttribute("src", lib);
         script.onload = () => {
-            console.log("load - complete: ", lib);
+            console.log("load js - complete: ", lib);
             resolve();
         };
         document.head.appendChild(script);
@@ -47,10 +47,13 @@ async function loadLibraries(libraries: string) {
 
     // load css
     css.forEach((lib) => {
-        console.log("load: ", lib);
+        console.log(`load css  - start ${lib}`);
         const style = document.createElement("link");
         style.rel = "stylesheet";
         style.href = lib;
+        style.onload = () => {
+            console.log(`load css - complete: ${lib}`);
+        };
         document.head.appendChild(style);
     });
 }
@@ -91,5 +94,10 @@ async function initialize() {
     loadHtml(html);
     loadJs(js);
 }
+
+// Prevent modifications to core functions.
+[initialize, loadScript, loadLibraries, loadCss, loadHtml, loadJs].forEach((fn) => {
+    Object.freeze(fn);
+});
 
 initialize();

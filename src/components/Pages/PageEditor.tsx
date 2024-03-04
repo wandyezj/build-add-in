@@ -55,7 +55,7 @@ export function PageEditor() {
                         updateSnip({ ...snip, name: value });
                     }}
                 />
-                <TooltipButton tip="Run" icon={<PlayRegular />} />
+                
                 {/* */}
                 <TooltipButton
                     tip="Copy to clipboard"
@@ -64,11 +64,15 @@ export function PageEditor() {
                 />
 
                 <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
+                {/*
+                <TooltipButton tip="Run" icon={<PlayRegular />} />
                 <TooltipButton tip="New" icon={<AddRegular />} />
                 <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
-                <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} />
-                <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
+                <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
+                */}
+                <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
+                
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"
