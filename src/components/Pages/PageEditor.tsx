@@ -55,7 +55,7 @@ export function PageEditor() {
                         updateSnip({ ...snip, name: value });
                     }}
                 />
-                
+
                 {/* */}
                 <TooltipButton
                     tip="Copy to clipboard"
@@ -72,7 +72,6 @@ export function PageEditor() {
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
-                
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"

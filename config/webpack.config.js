@@ -3,6 +3,26 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 //const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { Marked } = require("marked");
+const marked = new Marked();
+marked.use({
+    gfm: true,
+});
+
+function mdToHtml(content, title) {
+    const body = marked.parse(content.toString());
+    return `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>${title}</title>
+</head>
+<body>
+${body}
+</body>
+</html>
+`;
+}
 
 const devCerts = require("office-addin-dev-certs");
 
@@ -89,6 +109,13 @@ module.exports = async (env, options) => {
                         from: "./src/robots.txt",
                     },
                     { from: "assets/*.png", to: "" },
+                    {
+                        from: "statements/*.md",
+                        to: "statements/[name].html",
+                        transform: (content, absoluteFilename) => {
+                            return mdToHtml(content, path.basename(absoluteFilename, ".md"));
+                        },
+                    },
                 ],
             }),
         ],
