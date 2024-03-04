@@ -4,7 +4,7 @@ console.log("run");
 type LibType = "css" | "js" | undefined;
 
 async function loadScript(lib: string) {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         console.log("load js - start: ", lib);
         const script = document.createElement("script");
         script.setAttribute("src", lib);
@@ -12,6 +12,7 @@ async function loadScript(lib: string) {
             console.log("load js - complete: ", lib);
             resolve();
         };
+        // TODO: reject if it takes too long
         document.head.appendChild(script);
     });
 }

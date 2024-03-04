@@ -30,11 +30,10 @@
     - Description Long
     - Description Short
     - Screen Shots
-    - Required statements
+    - [X] Required statements
         - eula
         - privacy
         - support
-
 
 ## Phase - Nice
 
@@ -43,3 +42,4 @@
 - [ ] editor settings
 - [ ] button run in editor
 - [ ] library load files from unpkg shorthand
+- [ ] console component (not necessary since can use F12 tools)
