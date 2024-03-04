@@ -23,7 +23,8 @@ function clean(data) {
  */
 function production(data) {
     // replace
-    data = data.replaceAll("https://localhost:8080/", "https://wandyezj.github.io/website-react-extension/");
+    data = data.replaceAll("https://localhost:3000/", "https://wandyezj.github.io/website-react-extension/");
+    data = data.replaceAll("https://localhost:3000", "https://wandyezj.github.io");
 
     // for production remove local prefix
     data = data.replaceAll("(local) Extension", "Extension");

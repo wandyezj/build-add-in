@@ -14,7 +14,7 @@
   <Description DefaultValue="Build Extensions"/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://localhost:3000/statements/support.md"/>
+  <SupportUrl DefaultValue="https://localhost:3000/statements/support.html"/>
   <AppDomains>
     <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
