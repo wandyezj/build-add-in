@@ -1,3 +1,7 @@
-# website
+# Extension Office Add-In
 
-Simple Website Template
+## Goals
+
+- Easily play with office.js APIs.
+- Write scripts to automate work.
+- Explore samples.
