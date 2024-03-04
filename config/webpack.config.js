@@ -7,8 +7,6 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
-const { fstat } = require("fs");
-
 module.exports = async (env, options) => {
     const isDevelopment = options.mode === "development";
     const config = {

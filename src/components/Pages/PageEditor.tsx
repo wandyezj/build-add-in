@@ -12,26 +12,35 @@ import {
     SettingsRegular,
 } from "@fluentui/react-icons";
 import { Snip } from "../../core/Snip";
-import { loadSnip, saveSnip } from "../../core/storage";
+import { deleteSnip, loadSnip, saveSnip } from "../../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { defaultSnip } from "../../core/defaultSnip";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
 
-    const initialSnip = loadSnip();
-    if (initialSnip === undefined) {
-        throw new Error("snip is undefined");
-    }
-    const [snip, setSnip] = useState(initialSnip);
+    const [snip, setSnip] = useState(loadSnip() || defaultSnip);
 
     const updateSnip = (snip: Snip) => {
         saveSnip(snip);
         setSnip(snip);
     };
 
-    function copySnipToClipboard() {
+    /**
+     * Copy the current snip to the clipboard
+     */
+    function buttonCopySnipToClipboard() {
+        console.log("button - copy to clipboard");
         navigator.clipboard.writeText(JSON.stringify(snip, null, 4));
+    }
+
+    /**
+     * Delete the current snip, replace it with the default snip
+     */
+    function buttonDeleteSnip() {
+        console.log("button - delete");
+        deleteSnip();
+        setSnip(defaultSnip);
     }
 
     return (
@@ -48,13 +57,17 @@ export function PageEditor() {
                 />
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 {/* */}
-                <TooltipButton tip="Copy to clipboard" icon={<ClipboardRegular />} onClick={copySnipToClipboard} />
+                <TooltipButton
+                    tip="Copy to clipboard"
+                    icon={<ClipboardRegular />}
+                    onClick={buttonCopySnipToClipboard}
+                />
 
                 <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
                 <TooltipButton tip="New" icon={<AddRegular />} />
                 <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
                 <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} />
-                <TooltipButton tip="Delete" icon={<DeleteRegular />} />
+                <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
             </Toolbar>
             <TabList
@@ -67,6 +80,7 @@ export function PageEditor() {
                 <Tab value="typescript"> TS </Tab>
                 <Tab value="html">HTML</Tab>
                 <Tab value="css"> CSS</Tab>
+                <Tab value="libraries"> Libraries</Tab>
             </TabList>
 
             <Editor snip={snip} updateSnip={updateSnip} fileId={fileId} />
@@ -84,6 +98,23 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
      */
     const container = useRef<HTMLDivElement>(null);
 
+    function setupEditor() {
+        if (editor) {
+            editor.getModel()?.dispose();
+            const file = snip.files[fileId];
+            const model = monaco.editor.createModel(file.content, file.language);
+            editor.setModel(model);
+            editor.onDidChangeModelContent(() => {
+                const id = editor.getModel()?.getLanguageId();
+                if (id) {
+                    console.log(`update snip file content ${id}`);
+                    snip.files[id].content = editor.getValue();
+                    updateSnip(snip);
+                }
+            });
+        }
+    }
+
     // runs setup once
     useEffect(() => {
         console.log("effect");
@@ -93,26 +124,14 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
                 value: file.content,
                 language: file.language,
             });
+            setupEditor();
         }
         return () => {
             editor.dispose();
         };
     }, []);
 
-    if (editor) {
-        editor.getModel()?.dispose();
-        const file = snip.files[fileId];
-        const model = monaco.editor.createModel(file.content, file.language);
-        editor.setModel(model);
-        editor.onDidChangeModelContent(() => {
-            const id = editor.getModel()?.getLanguageId();
-            if (id) {
-                console.log(`update snip file content ${id}`);
-                snip.files[id].content = editor.getValue();
-                updateSnip(snip);
-            }
-        });
-    }
+    setupEditor();
 
     return <div className="Editor" ref={container}></div>;
 }
