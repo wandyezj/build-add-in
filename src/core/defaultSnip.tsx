@@ -15,5 +15,9 @@ export const defaultSnip: Snip = {
             content: "h1 { color: red; }",
             language: "css",
         },
+        libraries: {
+            content: "https://appsforoffice.microsoft.com/lib/1/hosted/office.js",
+            language: "text",
+        },
     },
 };
