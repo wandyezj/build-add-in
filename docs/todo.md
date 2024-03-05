@@ -11,12 +11,13 @@
     - [X] .d.ts
 - [X] editor intellisense (office.d.ts)
 - [ ] button import
-- [ ] compile typescript
+- [X] compile typescript
 
 ## Phase - Important
 
 - [ ] Warn before delete
 - [ ] display compile errors
+    - typescript pre emit diagnostics require program construction
 
 ## Phase - Multiple Files
 
@@ -49,6 +50,7 @@
 - [ ] run automatic refresh
 - [ ] samples
 - [ ] editor settings
+- [ ] typescript compiler settings
 - [ ] button run in editor
 - [ ] library load files from unpkg shorthand
 - [ ] console component (not necessary since can use F12 tools)
