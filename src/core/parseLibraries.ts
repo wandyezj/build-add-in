@@ -2,7 +2,12 @@
 // Parse out the different types of libraries from the libraries list
 //
 
-export type LibType = "css" | "js" | undefined;
+/**
+ * css - link to css file
+ * js - link to js file
+ * dts - link to dts file
+ */
+export type LibType = "css" | "js" | "dts" | undefined;
 
 export function parseLibraries(libraries: string) {
     const libs = libraries
@@ -17,6 +22,8 @@ export function parseLibraries(libraries: string) {
                     libType = "css";
                 } else if (lib.endsWith(".js")) {
                     libType = "js";
+                } else if (lib.endsWith(".d.ts")) {
+                    libType = "dts";
                 }
             }
 
@@ -26,7 +33,13 @@ export function parseLibraries(libraries: string) {
             };
         });
 
-    const js = libs.filter(({ libType }) => libType === "js").map(({ lib }) => lib);
-    const css = libs.filter(({ libType }) => libType === "css").map(({ lib }) => lib);
-    return { js, css };
+    function getLibType(type: LibType) {
+        return libs.filter(({ libType }) => libType === type).map(({ lib }) => lib);
+    }
+
+    const js = getLibType("js");
+    const css = getLibType("css");
+    const dts = getLibType("dts");
+
+    return { js, css, dts };
 }
