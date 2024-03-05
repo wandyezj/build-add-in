@@ -54,6 +54,7 @@ module.exports = async (env, options) => {
         resolve: {
             extensions: [".ts", ".json", ".js", ".tsx"],
         },
+
         module: {
             rules: [
                 {
@@ -69,6 +70,7 @@ module.exports = async (env, options) => {
                     loader: "ts-loader",
                 },
             ],
+            noParse: [require.resolve("typescript/lib/typescript.js")],
         },
         plugins: [
             //new BundleAnalyzerPlugin(),

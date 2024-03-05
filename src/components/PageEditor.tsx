@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as monaco from "monaco-editor";
+import React, { useState } from "react";
+
 import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
 import {
     AddRegular,
@@ -11,19 +11,27 @@ import {
     DocumentFolderRegular,
     SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip } from "../../core/Snip";
-import { deleteSnip, loadSnip, saveSnip } from "../../core/storage";
+import { Snip } from "../core/Snip";
+import { deleteSnip, loadSnip, saveSnip } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
-import { defaultSnip } from "../../core/defaultSnip";
+import { defaultSnip } from "../core/defaultSnip";
+import { updateMonacoLibs } from "../core/updateMonacoLibs";
+import { Editor } from "./Editor";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
 
     const [snip, setSnip] = useState(loadSnip() || defaultSnip);
 
-    const updateSnip = (snip: Snip) => {
-        saveSnip(snip);
-        setSnip(snip);
+    // TODO: make this more precise in terms of what is updated instead of the entire snip
+    const updateSnip = (newSnip: Snip) => {
+        const currentLibrary = snip.files.libraries.content;
+        const newLibrary = newSnip.files.libraries.content;
+        if (currentLibrary !== newLibrary) {
+            updateMonacoLibs(newLibrary);
+        }
+        saveSnip(newSnip);
+        setSnip(newSnip);
     };
 
     /**
@@ -89,52 +97,4 @@ export function PageEditor() {
             <Editor snip={snip} updateSnip={updateSnip} fileId={fileId} />
         </>
     );
-}
-
-let editor: monaco.editor.IStandaloneCodeEditor;
-
-export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Snip; updateSnip: (snip: Snip) => void }) {
-    console.log(`editor ${fileId}`);
-
-    /**
-     * div container for the editor
-     */
-    const container = useRef<HTMLDivElement>(null);
-
-    function setupEditor() {
-        if (editor) {
-            editor.getModel()?.dispose();
-            const file = snip.files[fileId];
-            const model = monaco.editor.createModel(file.content, file.language);
-            editor.setModel(model);
-            editor.onDidChangeModelContent(() => {
-                const id = editor.getModel()?.getLanguageId();
-                if (id) {
-                    console.log(`update snip file content ${id}`);
-                    snip.files[id].content = editor.getValue();
-                    updateSnip(snip);
-                }
-            });
-        }
-    }
-
-    // runs setup once
-    useEffect(() => {
-        console.log("effect");
-        if (container.current) {
-            const file = snip.files[fileId];
-            editor = monaco.editor.create(container.current, {
-                value: file.content,
-                language: file.language,
-            });
-            setupEditor();
-        }
-        return () => {
-            editor.dispose();
-        };
-    }, []);
-
-    setupEditor();
-
-    return <div className="Editor" ref={container}></div>;
 }

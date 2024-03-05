@@ -1,7 +1,8 @@
 import { loadSnip } from "./core/storage";
-console.log("run");
+import { parseLibraries } from "./core/parseLibraries";
+import { compileCode } from "./core/compileCode";
 
-type LibType = "css" | "js" | undefined;
+console.log("run");
 
 async function loadScript(lib: string) {
     return new Promise<void>((resolve) => {
@@ -19,29 +20,7 @@ async function loadScript(lib: string) {
 
 async function loadLibraries(libraries: string) {
     // trim and remove empty lines
-    const libs = libraries
-        .split("\n")
-        .map((lib) => lib.trim())
-        .filter((lib) => lib !== "")
-        .map((lib) => {
-            let libType: LibType = undefined;
-            const isLink = lib.startsWith("http://") || lib.startsWith("https://");
-            if (isLink) {
-                if (lib.endsWith(".css")) {
-                    libType = "css";
-                } else if (lib.endsWith(".js")) {
-                    libType = "js";
-                }
-            }
-
-            return {
-                lib,
-                libType,
-            };
-        });
-
-    const js = libs.filter(({ libType }) => libType === "js").map(({ lib }) => lib);
-    const css = libs.filter(({ libType }) => libType === "css").map(({ lib }) => lib);
+    const { js, css } = parseLibraries(libraries);
 
     // load js first
     await Promise.all(js.map(loadScript));
@@ -75,7 +54,7 @@ function loadJs(js: string) {
     document.head.appendChild(script);
 }
 
-async function initialize() {
+async function runSnip() {
     const snip = loadSnip();
     console.log("snip", snip);
     if (snip === undefined) {
@@ -87,7 +66,10 @@ async function initialize() {
     const css = snip.files["css"].content;
     const html = snip.files["html"].content;
     // TODO: will need to compile TypeScript, where should this be done?
-    const js = snip.files["typescript"].content;
+    const ts = snip.files["typescript"].content;
+    const { js, issues } = compileCode(ts);
+    console.log("Issues");
+    console.log(issues);
 
     // Loading order matters
     await loadLibraries(libraries);
@@ -96,9 +78,6 @@ async function initialize() {
     loadJs(js);
 }
 
-// Prevent modifications to core functions.
-[initialize, loadScript, loadLibraries, loadCss, loadHtml, loadJs].forEach((fn) => {
-    Object.freeze(fn);
-});
+// TODO: does run need to prevent modifications to core functions. with Object.freeze?
 
-initialize();
+runSnip();

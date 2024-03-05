@@ -8,14 +8,16 @@
 - [ ] external file loading
     - [X] js
     - [X] css
-    - [ ] .d.ts
-- [ ] editor intellisense (office.d.ts)
+    - [X] .d.ts
+- [X] editor intellisense (office.d.ts)
 - [ ] button import
-- [ ] compile typescript
+- [X] compile typescript
 
 ## Phase - Important
 
 - [ ] Warn before delete
+- [ ] display compile errors
+    - typescript pre emit diagnostics require program construction
 
 ## Phase - Multiple Files
 
@@ -30,16 +32,32 @@
     - Description Long
     - Description Short
     - Screen Shots
+    - submission
     - [X] Required statements
         - eula
         - privacy
         - support
 
+## Phase - test
+
+- [ ] always an open snip
+- [ ] always something to run
+
 ## Phase - Nice
 
+- [ ] global log function to ease debugging and silencing
+- [ ] import from url
 - [ ] run automatic refresh
 - [ ] samples
 - [ ] editor settings
+- [ ] typescript compiler settings
 - [ ] button run in editor
 - [ ] library load files from unpkg shorthand
 - [ ] console component (not necessary since can use F12 tools)
+
+
+## Phase Document
+
+- [ ] dependencies.md
+    - why each dependency
+    - how is each dependency used

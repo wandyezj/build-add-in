@@ -1,6 +1,6 @@
 import React from "react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
-import { PageEditor } from "./Pages/PageEditor";
+import { PageEditor } from "./PageEditor";
 
 /**
  * The top level application component.
