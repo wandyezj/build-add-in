@@ -1,5 +1,6 @@
 import { loadSnip } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
+
 console.log("run");
 
 async function loadScript(lib: string) {
@@ -52,7 +53,7 @@ function loadJs(js: string) {
     document.head.appendChild(script);
 }
 
-async function initialize() {
+async function runSnip() {
     const snip = loadSnip();
     console.log("snip", snip);
     if (snip === undefined) {
@@ -73,9 +74,6 @@ async function initialize() {
     loadJs(js);
 }
 
-// Prevent modifications to core functions.
-[initialize, loadScript, loadLibraries, loadCss, loadHtml, loadJs].forEach((fn) => {
-    Object.freeze(fn);
-});
+// TODO: does run need to prevent modifications to core functions. with Object.freeze?
 
-initialize();
+runSnip();
