@@ -16,7 +16,8 @@ export const defaultSnip: Snip = {
             language: "css",
         },
         libraries: {
-            content: "https://appsforoffice.microsoft.com/lib/1/hosted/office.js",
+            content:
+                "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
             language: "text",
         },
     },

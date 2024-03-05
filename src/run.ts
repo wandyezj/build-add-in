@@ -1,7 +1,6 @@
 import { loadSnip } from "./core/storage";
+import { parseLibraries } from "./core/parseLibraries";
 console.log("run");
-
-type LibType = "css" | "js" | undefined;
 
 async function loadScript(lib: string) {
     return new Promise<void>((resolve) => {
@@ -19,29 +18,7 @@ async function loadScript(lib: string) {
 
 async function loadLibraries(libraries: string) {
     // trim and remove empty lines
-    const libs = libraries
-        .split("\n")
-        .map((lib) => lib.trim())
-        .filter((lib) => lib !== "")
-        .map((lib) => {
-            let libType: LibType = undefined;
-            const isLink = lib.startsWith("http://") || lib.startsWith("https://");
-            if (isLink) {
-                if (lib.endsWith(".css")) {
-                    libType = "css";
-                } else if (lib.endsWith(".js")) {
-                    libType = "js";
-                }
-            }
-
-            return {
-                lib,
-                libType,
-            };
-        });
-
-    const js = libs.filter(({ libType }) => libType === "js").map(({ lib }) => lib);
-    const css = libs.filter(({ libType }) => libType === "css").map(({ lib }) => lib);
+    const { js, css } = parseLibraries(libraries);
 
     // load js first
     await Promise.all(js.map(loadScript));

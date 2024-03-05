@@ -16,6 +16,7 @@
 ## Phase - Important
 
 - [ ] Warn before delete
+- [ ] display compile errors
 
 ## Phase - Multiple Files
 
@@ -30,6 +31,7 @@
     - Description Long
     - Description Short
     - Screen Shots
+    - submission
     - [X] Required statements
         - eula
         - privacy
@@ -37,6 +39,8 @@
 
 ## Phase - Nice
 
+- [ ] global log function to ease debugging and silencing
+- [ ] import from url
 - [ ] run automatic refresh
 - [ ] samples
 - [ ] editor settings
