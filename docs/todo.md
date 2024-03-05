@@ -52,3 +52,6 @@
 - [ ] button run in editor
 - [ ] library load files from unpkg shorthand
 - [ ] console component (not necessary since can use F12 tools)
+
+
+## Phase Document
