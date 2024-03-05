@@ -8,8 +8,8 @@
 - [ ] external file loading
     - [X] js
     - [X] css
-    - [ ] .d.ts
-- [ ] editor intellisense (office.d.ts)
+    - [X] .d.ts
+- [X] editor intellisense (office.d.ts)
 - [ ] button import
 - [ ] compile typescript
 
@@ -36,6 +36,11 @@
         - eula
         - privacy
         - support
+
+## Phase - test
+
+- [ ] always an open snip
+- [ ] always something to run
 
 ## Phase - Nice
 
