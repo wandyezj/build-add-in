@@ -1,5 +1,6 @@
 import { loadSnip } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
+import { compileCode } from "./core/compileCode";
 
 console.log("run");
 
@@ -65,7 +66,10 @@ async function runSnip() {
     const css = snip.files["css"].content;
     const html = snip.files["html"].content;
     // TODO: will need to compile TypeScript, where should this be done?
-    const js = snip.files["typescript"].content;
+    const ts = snip.files["typescript"].content;
+    const { js, issues } = compileCode(ts);
+    console.log("Issues");
+    console.log(issues);
 
     // Loading order matters
     await loadLibraries(libraries);

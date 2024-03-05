@@ -55,3 +55,7 @@
 
 
 ## Phase Document
+
+- [ ] dependencies.md
+    - why each dependency
+    - how is each dependency used
