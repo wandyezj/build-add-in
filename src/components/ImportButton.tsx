@@ -24,9 +24,15 @@ const useStyles = makeStyles({
     },
 });
 
-export function ImportButton() {
+export function ImportButton({ setImport }: { setImport: (value: string) => void }) {
     const textareaId = useId("textarea");
     const styles = useStyles();
+
+    function onClickImport() {
+        console.log("import", textareaId);
+        const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
+        setImport(value);
+    }
 
     return (
         <Dialog>
@@ -35,10 +41,10 @@ export function ImportButton() {
             </DialogTrigger>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Dialog title</DialogTitle>
+                    <DialogTitle>Import Snip Json</DialogTitle>
                     <DialogContent>
                         <div className={styles.base}>
-                            <Label htmlFor={textareaId}>Default Textarea</Label>
+                            <Label htmlFor={textareaId}>Paste the JSON</Label>
                             <Textarea id={textareaId} />
                         </div>
                     </DialogContent>
@@ -46,7 +52,9 @@ export function ImportButton() {
                         <DialogTrigger disableButtonEnhancement>
                             <Button appearance="secondary">Close</Button>
                         </DialogTrigger>
-                        <Button appearance="primary">Import</Button>
+                        <Button appearance="primary" onClick={onClickImport}>
+                            Import
+                        </Button>
                     </DialogActions>
                 </DialogBody>
             </DialogSurface>
