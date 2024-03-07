@@ -17,6 +17,7 @@ import { TooltipButton } from "./TooltipButton";
 import { defaultSnip } from "../core/defaultSnip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
+import { ImportButton } from "./ImportButton";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
@@ -71,7 +72,7 @@ export function PageEditor() {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
+                <ImportButton />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 <TooltipButton tip="New" icon={<AddRegular />} />
