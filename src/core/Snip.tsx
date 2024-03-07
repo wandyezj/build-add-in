@@ -1,6 +1,6 @@
 export interface Snip {
     name: string;
-    files: { [key: string]: SnipFile };
+    files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
 }
 
 export interface SnipFile {
@@ -49,7 +49,7 @@ function isSnipJson(snip: Snip): boolean {
  * Make sure the snip is valid and only contains what is expected.
  */
 function pruneSnipJson(snip: Snip): Snip {
-    const files: typeof snip.files = {};
+    const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
             content: snip.files[key].content,
