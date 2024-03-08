@@ -56,7 +56,7 @@ function loadCurrentLibraries() {
  * @param libraries text
  */
 export function updateMonacoLibs(libraries: string) {
-    console.log("updateMonacoLibs", libraries);
+    console.log(`updateMonacoLibs\n${libraries}`);
     const { dts } = parseLibraries(libraries);
 
     globalCurrentLibraries.sort();

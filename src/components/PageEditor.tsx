@@ -11,12 +11,13 @@ import {
     DocumentFolderRegular,
     SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip } from "../core/Snip";
+import { Snip, getSnipFromJson } from "../core/Snip";
 import { deleteSnip, loadSnip, saveSnip } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { defaultSnip } from "../core/defaultSnip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
+import { ImportButton } from "./ImportButton";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
@@ -32,6 +33,18 @@ export function PageEditor() {
         }
         saveSnip(newSnip);
         setSnip(newSnip);
+    };
+
+    const setImport = (value: string) => {
+        console.log("Import snip");
+        console.log(value);
+        const newSnip = getSnipFromJson(value);
+        console.log(newSnip);
+        if (newSnip) {
+            updateSnip(newSnip);
+        } else {
+            console.error("import failed - invalid snip");
+        }
     };
 
     /**
@@ -71,7 +84,7 @@ export function PageEditor() {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
+                <ImportButton setImport={setImport} />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 <TooltipButton tip="New" icon={<AddRegular />} />

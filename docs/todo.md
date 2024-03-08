@@ -5,23 +5,23 @@
 - [x] Edit
 - [x] Run
 - [x] Office Add-In manifest
-- [ ] external file loading
+- [X] external file loading
     - [X] js
     - [X] css
     - [X] .d.ts
 - [X] editor intellisense (office.d.ts)
-- [ ] button import
+- [X] button import
 - [X] compile typescript
+
+## Phase - Multiple Files
+
+- [ ] multiple local snip
 
 ## Phase - Important
 
 - [ ] Warn before delete
 - [ ] display compile errors
     - typescript pre emit diagnostics require program construction
-
-## Phase - Multiple Files
-
-- [ ] multiple local scripts
 
 ## Phase - Publish
 
@@ -49,15 +49,17 @@
 - [ ] import from url
 - [ ] run automatic refresh
 - [ ] samples
-- [ ] editor settings
-- [ ] typescript compiler settings
-- [ ] button run in editor
-- [ ] library load files from unpkg shorthand
 - [ ] console component (not necessary since can use F12 tools)
-
+- [ ] library load files from unpkg shorthand
+- [ ] import yaml
+- [ ] button - settings
+- [ ] settings - monaco editor
+- [ ] settings - typescript compiler
+- [ ] button - run in editor
 
 ## Phase Document
 
-- [ ] dependencies.md
+- [X] dependencies.md
     - why each dependency
     - how is each dependency used
+- [ ] deployment infrastructure

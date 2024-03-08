@@ -21,10 +21,13 @@ export function compileCode(code: string) {
         inlineSources: true,
     };
 
+    // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#a-minimal-compiler
     // TODO: get pre emit diagnostics
     // ts.getPreEmitDiagnostics(ts.createProgram(["file.ts"], compilerOptions));
 
+    // only used to get the js
     const result = ts.transpileModule(code, {
+        // doesn't actually get all errors
         reportDiagnostics: true,
         compilerOptions,
     });
