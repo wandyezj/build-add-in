@@ -1,4 +1,5 @@
 export interface Snip {
+    id?: string;
     name: string;
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
 }

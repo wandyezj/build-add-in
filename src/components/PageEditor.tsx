@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
 import {
@@ -18,11 +18,20 @@ import { defaultSnip } from "../core/defaultSnip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
 import { ImportButton } from "./ImportButton";
+import { getSnipByName } from "../core/database";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
 
-    const [snip, setSnip] = useState(loadSnip() || defaultSnip);
+    const [snip, setSnip] = useState(defaultSnip);
+
+    useEffect(() => {
+        getSnipByName(defaultSnip.name).then((snip) => {
+            if (snip) {
+                setSnip(snip);
+            }
+        });
+    }, []);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
     const updateSnip = (newSnip: Snip) => {

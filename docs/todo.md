@@ -16,6 +16,10 @@
 ## Phase - Multiple Files
 
 - [ ] multiple local snip
+    - storage scheme
+    - storage system
+        - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
+    - multi snip display and selection
 
 ## Phase - Important
 
