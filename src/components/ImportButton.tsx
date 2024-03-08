@@ -25,11 +25,12 @@ const useStyles = makeStyles({
 });
 
 export function ImportButton({ setImport }: { setImport: (value: string) => void }) {
-    const textareaId = useId("textarea");
+    const textareaId = useId("import-textarea");
     const styles = useStyles();
 
-    function onClickImport() {
-        console.log("import", textareaId);
+    function onClickImport(event: React.FormEvent) {
+        event.preventDefault();
+        console.log("import");
         const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
         setImport(value);
     }
@@ -40,23 +41,27 @@ export function ImportButton({ setImport }: { setImport: (value: string) => void
                 <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
             </DialogTrigger>
             <DialogSurface>
-                <DialogBody>
-                    <DialogTitle>Import Snip Json</DialogTitle>
-                    <DialogContent>
-                        <div className={styles.base}>
-                            <Label htmlFor={textareaId}>Paste the JSON</Label>
-                            <Textarea id={textareaId} />
-                        </div>
-                    </DialogContent>
-                    <DialogActions>
-                        <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="secondary">Close</Button>
-                        </DialogTrigger>
-                        <Button appearance="primary" onClick={onClickImport}>
-                            Import
-                        </Button>
-                    </DialogActions>
-                </DialogBody>
+                <form onSubmit={onClickImport}>
+                    <DialogBody>
+                        <DialogTitle>Import Snip Json</DialogTitle>
+                        <DialogContent>
+                            <div className={styles.base}>
+                                <Label htmlFor={textareaId}>Paste the JSON</Label>
+                                <Textarea id={textareaId} />
+                            </div>
+                        </DialogContent>
+                        <DialogActions>
+                            <DialogTrigger disableButtonEnhancement>
+                                <Button appearance="secondary">Close</Button>
+                            </DialogTrigger>
+                            <DialogTrigger disableButtonEnhancement>
+                                <Button type="submit" appearance="primary">
+                                    Import
+                                </Button>
+                            </DialogTrigger>
+                        </DialogActions>
+                    </DialogBody>
+                </form>
             </DialogSurface>
         </Dialog>
     );
