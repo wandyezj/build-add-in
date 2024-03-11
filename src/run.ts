@@ -1,8 +1,18 @@
-import { loadSnip } from "./core/storage";
+import { loadCurrentSnipId } from "./core/storage";
+import { getSnipById } from "./core/database";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
 
 console.log("run");
+
+async function getCurrentSnip() {
+    const id = loadCurrentSnipId();
+    if (id === undefined) {
+        return undefined;
+    }
+
+    return getSnipById(id);
+}
 
 async function loadScript(lib: string) {
     return new Promise<void>((resolve) => {
@@ -55,7 +65,7 @@ function loadJs(js: string) {
 }
 
 async function runSnip() {
-    const snip = loadSnip();
+    const snip = await getCurrentSnip();
     console.log("snip", snip);
     if (snip === undefined) {
         return;
