@@ -18,10 +18,10 @@ const useStyles = makeStyles({
     base: {
         display: "flex",
         flexDirection: "column",
-        "& > label": {
-            marginBottom: tokens.spacingVerticalMNudge,
-        },
     },
+    label: {
+        marginBottom: tokens.spacingVerticalMNudge,
+    }
 });
 
 export function ImportButton({ setImport }: { setImport: (value: string) => void }) {
@@ -46,7 +46,7 @@ export function ImportButton({ setImport }: { setImport: (value: string) => void
                         <DialogTitle>Import Snip Json</DialogTitle>
                         <DialogContent>
                             <div className={styles.base}>
-                                <Label htmlFor={textareaId}>Paste the JSON</Label>
+                                <Label className={styles.label} htmlFor={textareaId}>Paste the JSON</Label>
                                 <Textarea id={textareaId} />
                             </div>
                         </DialogContent>

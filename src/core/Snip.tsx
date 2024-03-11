@@ -1,5 +1,5 @@
 export interface Snip {
-    id?: string;
+    id: string;
     name: string;
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
 }
@@ -8,6 +8,12 @@ export interface SnipFile {
     content: string;
     language: string;
 }
+
+/**
+ * A Snip without the id.
+ * Used for export.
+ */
+export type PrunedSnip = Omit<Snip, "id">;
 
 const requiredKeys = ["typescript", "html", "css", "libraries"];
 
@@ -49,7 +55,7 @@ function isSnipJson(snip: Snip): boolean {
 /**
  * Make sure the snip is valid and only contains what is expected.
  */
-function pruneSnipJson(snip: Snip): Snip {
+function pruneSnipJson(snip: Snip): PrunedSnip {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
@@ -76,8 +82,21 @@ export function getSnipFromJson(value: string): Snip | undefined {
             return undefined;
         }
         const pruned = pruneSnipJson(snip);
-        return pruned;
+        const complete = completeSnip(pruned);
+        return complete;
     } catch (e) {
         return undefined;
     }
+}
+
+export function completeSnip(piece: PrunedSnip): Snip {
+    const complete = {
+        id: createNewSnipId(),
+        ...piece,
+    };
+    return complete;
+}
+
+function createNewSnipId(): string {
+    return `${Date.now()}`;
 }

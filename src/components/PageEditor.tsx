@@ -2,35 +2,41 @@ import React, { useEffect, useState } from "react";
 
 import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
 import {
-    AddRegular,
-    ArrowDownloadRegular,
-    PlayRegular,
+    // AddRegular,
+    // ArrowDownloadRegular,
+    // PlayRegular,
     ClipboardRegular,
     DeleteRegular,
-    BookDefault28Regular,
-    DocumentFolderRegular,
-    SettingsRegular,
+    // BookDefault28Regular,
+    // DocumentFolderRegular,
+    // SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, getSnipFromJson } from "../core/Snip";
-import { deleteSnip, loadSnip, saveSnip } from "../core/storage";
+import { Snip, completeSnip, getSnipFromJson } from "../core/Snip";
+import { loadCurrentSnipId, saveCurrentSnipId } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { defaultSnip } from "../core/defaultSnip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
 import { ImportButton } from "./ImportButton";
-import { getSnipByName } from "../core/database";
+import { deleteSnipById, saveSnip, getSnipById } from "../core/database";
+
+function newDefaultSnip(): Snip {
+    return completeSnip(JSON.parse(JSON.stringify(defaultSnip)));
+}
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
-
-    const [snip, setSnip] = useState(defaultSnip);
+    const [snip, setSnip] = useState(newDefaultSnip());
 
     useEffect(() => {
-        getSnipByName(defaultSnip.name).then((snip) => {
-            if (snip) {
-                setSnip(snip);
-            }
-        });
+        const currentId = loadCurrentSnipId();
+        if (currentId) {
+            getSnipById(currentId).then((snip) => {
+                if (snip) {
+                    setSnip(snip);
+                }
+            });
+        }
     }, []);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
@@ -41,6 +47,7 @@ export function PageEditor() {
             updateMonacoLibs(newLibrary);
         }
         saveSnip(newSnip);
+        saveCurrentSnipId(newSnip.id);
         setSnip(newSnip);
     };
 
@@ -50,7 +57,7 @@ export function PageEditor() {
         const newSnip = getSnipFromJson(value);
         console.log(newSnip);
         if (newSnip) {
-            updateSnip(newSnip);
+            updateSnip(completeSnip(newSnip));
         } else {
             console.error("import failed - invalid snip");
         }
@@ -69,8 +76,10 @@ export function PageEditor() {
      */
     function buttonDeleteSnip() {
         console.log("button - delete");
-        deleteSnip();
-        setSnip(defaultSnip);
+        const previousId = snip.id;
+        const newSnip = newDefaultSnip();
+        updateSnip(newSnip);
+        deleteSnipById(previousId);
     }
 
     return (

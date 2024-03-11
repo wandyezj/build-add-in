@@ -1,6 +1,6 @@
 import { Snip } from "./Snip";
 
-export const defaultSnip: Snip = {
+export const defaultSnip: Omit<Snip, "id"> = {
     name: "Default Snip",
     files: {
         typescript: {
