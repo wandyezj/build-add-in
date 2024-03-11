@@ -53,6 +53,23 @@
                 "trailingUnderscore": "forbid"
             },
             {
+                "selector": ["parameter"],
+                "modifiers": ["unused"],
+                "format": ["strictCamelCase"],
+                "leadingUnderscore": "allow",
+                "trailingUnderscore": "forbid"
+            },
+            // Allow import of React
+            {
+                "selector": "import",
+                "format": ["camelCase", "PascalCase"]
+            },
+            {
+                "selector": "function",
+                "modifiers": ["exported"],
+                "format": ["strictCamelCase", "StrictPascalCase"]
+            },
+            {
                 "selector": ["variable"],
                 "modifiers": ["const"],
                 "format": ["strictCamelCase" /*, "UPPER_CASE" */],
