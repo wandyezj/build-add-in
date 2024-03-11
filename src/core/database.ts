@@ -11,8 +11,7 @@ const databaseTableNameSnips = "snips";
 const databaseTableNameSnipsIndexName = "name";
 
 // Database Structure
-// The unique key is the name of the snip.
-// Will need logic when importing snips to alert that a snip with the same name already exists and to ask if want to overwrite.
+// The unique key is the id of the snip.
 
 /**
  *
