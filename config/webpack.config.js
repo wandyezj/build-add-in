@@ -45,6 +45,7 @@ module.exports = async (env, options) => {
         entry: {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
+            blocks: "./src/blocks.tsx",
         },
         output: {
             // Add contenthash to cache bust on CDN
@@ -75,6 +76,11 @@ module.exports = async (env, options) => {
         plugins: [
             //new BundleAnalyzerPlugin(),
             new CleanWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                template: "src/blocks.html",
+                filename: "blocks.html",
+                chunks: ["blocks"],
+            }),
             new HtmlWebpackPlugin({
                 template: "src/edit.html",
                 filename: "edit.html",
@@ -127,7 +133,7 @@ module.exports = async (env, options) => {
     if (options.mode === "development") {
         config.devServer = {
             ...config.devServer,
-            open: ["/edit.html", "/run.html"],
+            open: ["/edit.html", "/run.html", "/blocks.html"],
             port: 3000,
             server: {
                 type: "https",
