@@ -35,40 +35,44 @@ export type CodeTemplateBlockParameterValue =
     | CodeTemplateBlockParameterValueBoolean;
 
 export interface CodeTemplateBlockParameterValueString {
-    key: string;
     type: "string";
     value: string;
 }
 
 export interface CodeTemplateBlockParameterValueNumber {
-    key: string;
     type: "number";
     value: number;
 }
 
 export interface CodeTemplateBlockParameterValueBoolean {
-    key: string;
     type: "boolean";
     value: boolean;
 }
 
-export interface CodeTemplateBlockParameter {
+export type CodeTemplateBlockParameter = {
     /**
      * display name for the parameter
      */
     name: string;
     description: string;
+} & CodeTemplateBlockParameterValue;
 
-    /**
-     * The type of the parameter for input
-     */
-    type: CodeTemplateBlockParameterType;
-}
-
-export function getFilledTemplate(template: string, parameters: CodeTemplateBlockParameterValue[]): string {
+export function getFilledTemplate(
+    template: string,
+    parameters: Record<string, CodeTemplateBlockParameterValue>
+): string {
     let filledTemplate = template;
-    for (const parameter of parameters) {
-        filledTemplate = filledTemplate.replaceAll(`{{${parameter.key}}}`, parameter.value.toString());
+    for (const key of Object.getOwnPropertyNames(parameters)) {
+        const { type, value } = parameters[key];
+
+        let replaceValue = "/* unknown */";
+        // determine how the value should be formatted for replacement
+        if (type === "boolean") {
+            replaceValue = value.toString();
+        }
+
+        // replace all keys with the value
+        filledTemplate = filledTemplate.replaceAll(`{{${key}}}`, replaceValue);
     }
 
     return filledTemplate;

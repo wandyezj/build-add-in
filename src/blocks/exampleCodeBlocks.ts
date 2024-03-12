@@ -7,6 +7,7 @@ const exampleCodeBlockBoolean: CodeTemplateBlock = {
             name: "exampleBoolean",
             description: "An example boolean parameter",
             type: "boolean",
+            value: true,
         },
     },
     template: `console.log({{exampleBoolean}});`,
@@ -19,11 +20,13 @@ const exampleCodeBlockBooleanMultiple: CodeTemplateBlock = {
             name: "name one",
             description: "Boolean one",
             type: "boolean",
+            value: true,
         },
         two: {
             name: "name two",
             description: "Boolean two",
             type: "boolean",
+            value: false,
         },
     },
     template: `console.log({{one}});
