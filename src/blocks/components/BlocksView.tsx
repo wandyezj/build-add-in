@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 
-import { Button } from "@fluentui/react-components";
 import { Blocks } from "./Blocks";
 import { exampleCodeBlocks } from "../exampleCodeBlocks";
 import { newDefaultSnip } from "../../core/newDefaultSnip";
 import { saveCurrentSnipId } from "../../core/storage";
 import { saveSnip } from "../../core/database";
 import { CodeTemplateBlock, CodeTemplateBlockParameterValue, getFilledTemplate } from "../CodeTemplateBlock";
-
-function objectClone<T>(o: T): T {
-    return JSON.parse(JSON.stringify(o));
-}
+import { objectClone } from "../../core/objectClone";
 
 export function BlocksView() {
     const blocks = exampleCodeBlocks;
@@ -25,14 +21,7 @@ export function BlocksView() {
 
         return values;
     });
-    const [
-        parameterValues, // setParameterValues
-    ] = useState(originalValues);
-
-    // const updateParameterValue = (blockIndex: number, parameterKey: string, value: CodeTemplateBlockParameterValue) => {
-    //     const newValues = parameterValues;
-    //     newValues[blockIndex][parameterKey].value = value.value;
-    // };
+    const [parameterValues, setParameterValues] = useState(originalValues);
 
     const run = async () => {
         console.log("Run");
@@ -40,10 +29,18 @@ export function BlocksView() {
         runBlocks(blocks, parameterValues);
     };
 
+    const updateParameterValue = (blockIndex: number, parameterKey: string, value: unknown) => {
+        const newValues = parameterValues;
+        newValues[blockIndex][parameterKey].value = value as string | number | boolean;
+        setParameterValues(newValues);
+
+        // Automatically run after a parameter is updated.
+        run();
+    };
+
     return (
         <>
-            <Button onClick={run}>Run</Button>
-            <Blocks blocks={blocks}></Blocks>
+            <Blocks blocks={blocks} updateParameterValue={updateParameterValue}></Blocks>
         </>
     );
 }
