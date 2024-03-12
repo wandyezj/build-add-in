@@ -12,12 +12,12 @@ export function Block({ block }: { block: CodeTemplateBlock }) {
 
     const pieces = getDescriptionPieces(description);
     console.log(pieces);
-    const pieceParts = pieces.map((piece) => {
+    const pieceParts = pieces.map((piece, index) => {
         if (piece.type === "text") {
-            return <Text>{piece.value}</Text>;
+            return <Text key={index}>{piece.value}</Text>;
         }
         const parameter = parameters[piece.value];
-        return <BlockParameter parameter={parameter} />;
+        return <BlockParameter key={index} parameter={parameter} />;
     });
 
     return (

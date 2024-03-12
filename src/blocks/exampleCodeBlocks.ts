@@ -23,7 +23,6 @@ const exampleCodeBlockBooleanMultiple: CodeTemplateBlock = {
         two: {
             name: "name two",
             description: "Boolean two",
-
             type: "boolean",
         },
     },

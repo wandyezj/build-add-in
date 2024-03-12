@@ -14,15 +14,11 @@ import {
 import { Snip, completeSnip, getSnipFromJson } from "../core/Snip";
 import { loadCurrentSnipId, saveCurrentSnipId } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
-import { defaultSnip } from "../core/defaultSnip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
 import { ImportButton } from "./ImportButton";
 import { deleteSnipById, saveSnip, getSnipById } from "../core/database";
-
-function newDefaultSnip(): Snip {
-    return completeSnip(JSON.parse(JSON.stringify(defaultSnip)));
-}
+import { newDefaultSnip } from "../core/newDefaultSnip";
 
 export function PageEditor() {
     const [fileId, setFileId] = useState("typescript");
