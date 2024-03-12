@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Text, Card, CardHeader, Switch, Tooltip, makeStyles } from "@fluentui/react-components";
-import { CodeTemplateBlock, CodeTemplateBlockParameter, getDescriptionPieces } from "../CodeTemplateBlock";
+import { Text, Card, CardHeader } from "@fluentui/react-components";
+import { CodeTemplateBlock, getDescriptionPieces } from "../CodeTemplateBlock";
+import { BlockParameter } from "./BlockParameter";
 
 export function Block({
     block,
@@ -30,55 +31,5 @@ export function Block({
         <Card orientation="horizontal">
             <CardHeader header={pieceParts} />
         </Card>
-    );
-}
-
-export function BlockParameter({
-    parameter,
-    updateValue,
-}: {
-    parameter: CodeTemplateBlockParameter;
-    updateValue: (value: unknown) => void;
-}) {
-    const { name, description, type } = parameter;
-
-    if (type === "boolean") {
-        return <BlockParameterBoolean name={name} description={description} updateValue={updateValue} />;
-    }
-    return <div> Unknown Parameter</div>;
-}
-
-const useStyles = makeStyles({
-    text: {
-        paddingLeft: "10px",
-        paddingRight: "10px",
-    },
-});
-
-export function BlockParameterBoolean({
-    name,
-    description,
-    updateValue,
-}: Pick<CodeTemplateBlockParameter, "name" | "description"> & { updateValue: (value: boolean) => void }) {
-    const styles = useStyles();
-    const [checked, setChecked] = React.useState(true);
-    const onChange = React.useCallback(
-        (ev: React.ChangeEvent<HTMLInputElement>) => {
-            const value = ev.currentTarget.checked;
-            setChecked(value);
-            updateValue(value);
-        },
-        [setChecked]
-    );
-
-    return (
-        <>
-            <div className={styles.text}>
-                <Text>{name}</Text>
-                <Tooltip content={`${description}: ${checked ? "True" : "False"}`} relationship="label">
-                    <Switch checked={checked} onChange={onChange} />
-                </Tooltip>
-            </div>
-        </>
     );
 }
