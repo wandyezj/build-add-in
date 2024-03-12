@@ -16,22 +16,18 @@
 ## Phase - Multiple Files
 
 - [ ] multiple local snip
-    - storage scheme
-    - storage system
+    - [X] storage scheme
+    - [X] storage system
         - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
-    - multi snip display and selection
-
-## Phase - Important
-
-- [ ] Warn before delete
-- [ ] display compile errors
-    - typescript pre emit diagnostics require program construction
+    - [ ] multi snip display and selection
 
 ## Phase - Publish
 
 - [ ] Icons Run and Edit
+    - [ ] Run 
+    - [ ] Edit
 - [ ] Manifest - Cross Application
-- [ ] Manifest - Ribbon Tab
+- [ ] Manifest - Ribbon Tab - (Extension)
 - [ ] Store Publish
     - Description Long
     - Description Short
@@ -41,6 +37,12 @@
         - eula
         - privacy
         - support
+
+## Phase - Important
+
+- [ ] Warn before delete
+- [ ] display compile errors
+    - typescript pre emit diagnostics require program construction
 
 ## Phase - test
 
@@ -67,3 +69,12 @@
     - why each dependency
     - how is each dependency used
 - [ ] deployment infrastructure
+
+## Phase - Blocks
+
+- [ ] Dynamic Blocks
+    - [ ] Add arbitrary new blocks to end
+        - [ ] New block validation
+    - [ ] Remove block from end
+- [ ] Block Library
+- [ ] Include block steps in a snip
