@@ -20,11 +20,16 @@
   </AppDomains>
   <Hosts>
     <Host Name="Document" />
+    <Host Name="Workbook" />
+    <Host Name="Presentation" />
   </Hosts>
   <Requirements>
     <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
+    <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
     <Sets DefaultMinVersion="1.1">
-      <Set Name="WordApi" />
+      <Set Name="WordApi" MinVersion="1.7" />
+      <Set Name="ExcelApi" MinVersion="1.17" />
+      <Set Name="PowerPointApi" MinVersion="1.5" />
     </Sets>
   </Requirements>
   <DefaultSettings>
@@ -85,8 +90,8 @@
         </DesktopFormFactor>
       </Host>
       <!-- Word - End -->
-      <!-- Duplicate Word for Excel Replace:(Document,Workbook -->
-      <!-- Duplicate Word for PowerPoint Presentation-->
+      <!-- Duplicate:(Word) Replace:(Document,Workbook) -->
+      <!-- Duplicate:(Word) Replace:(Document,Presentation) -->
     </Hosts>
     <Resources>
       <bt:Images>
