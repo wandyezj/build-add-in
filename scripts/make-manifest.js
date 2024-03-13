@@ -33,6 +33,9 @@ function production(data) {
         "<Id>01000000-0000-0000-0000-000000007357</Id>",
         "<Id>01000000-0000-0000-1000-000000007357</Id>"
     );
+
+    data = data.replaceAll("<Version>1.0.1.0</Version>", "<Version>1.0.0.0</Version>");
+
     return clean(data);
 }
 
