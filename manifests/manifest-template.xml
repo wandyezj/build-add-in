@@ -23,15 +23,26 @@
     <Host Name="Workbook" />
     <Host Name="Presentation" />
   </Hosts>
-  <Requirements>
-    <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
-    <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
+  <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
+  <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
+  <!-- <Requirements>
+
     <Sets DefaultMinVersion="1.1">
-      <Set Name="WordApi" MinVersion="1.7" />
-      <Set Name="ExcelApi" MinVersion="1.17" />
-      <Set Name="PowerPointApi" MinVersion="1.5" />
+      <Set Name="WordApi" MinVersion="1.5" />
+      <Set Name="ExcelApi" MinVersion="1.12" />
+      <Set Name="PowerPointApi" MinVersion="1.4" />
     </Sets>
-  </Requirements>
+  </Requirements> 
+      <Set Name="ExcelApi" />
+      <Set Name="PowerPointApi" />
+-->
+<!-- <Requirements>
+
+  <Sets DefaultMinVersion="1.1">
+    <Set Name="WordApi" MinVersion="1.5" />
+  </Sets>
+</Requirements>  -->
+
   <DefaultSettings>
     <SourceLocation DefaultValue="https://localhost:3000/edit.html" />
   </DefaultSettings>

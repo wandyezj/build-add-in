@@ -20,13 +20,29 @@
   </AppDomains>
   <Hosts>
     <Host Name="Document" />
+    <Host Name="Workbook" />
+    <Host Name="Presentation" />
   </Hosts>
-  <Requirements>
-    <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
+  <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
+  <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
+  <!-- <Requirements>
+
     <Sets DefaultMinVersion="1.1">
-      <Set Name="WordApi" />
+      <Set Name="WordApi" MinVersion="1.5" />
+      <Set Name="ExcelApi" MinVersion="1.12" />
+      <Set Name="PowerPointApi" MinVersion="1.4" />
     </Sets>
-  </Requirements>
+  </Requirements> 
+      <Set Name="ExcelApi" />
+      <Set Name="PowerPointApi" />
+-->
+<!-- <Requirements>
+
+  <Sets DefaultMinVersion="1.1">
+    <Set Name="WordApi" MinVersion="1.5" />
+  </Sets>
+</Requirements>  -->
+
   <DefaultSettings>
     <SourceLocation DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html" />
   </DefaultSettings>
@@ -34,11 +50,11 @@
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
+      <!-- Word - Start -->
       <Host xsi:type="Document">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
-
               <Group id="CommandsGroup">
                 <Label resid="CommandsGroup.Label" />
                 <Icon>
@@ -84,6 +100,109 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
+      <!-- Word - End -->
+      
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
+      
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
     </Hosts>
     <Resources>
       <bt:Images>
