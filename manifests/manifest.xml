@@ -23,25 +23,14 @@
     <Host Name="Workbook" />
     <Host Name="Presentation" />
   </Hosts>
-  <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
+
   <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
-  <!-- <Requirements>
-
+  <!-- Eliminate Office 2013, 2016, 2019 platforms by requiring this minimum requirement set -->
+  <Requirements>
     <Sets DefaultMinVersion="1.1">
-      <Set Name="WordApi" MinVersion="1.5" />
-      <Set Name="ExcelApi" MinVersion="1.12" />
-      <Set Name="PowerPointApi" MinVersion="1.4" />
+      <Set Name="DialogApi" MinVersion="1.2" />
     </Sets>
-  </Requirements> 
-      <Set Name="ExcelApi" />
-      <Set Name="PowerPointApi" />
--->
-<!-- <Requirements>
-
-  <Sets DefaultMinVersion="1.1">
-    <Set Name="WordApi" MinVersion="1.5" />
-  </Sets>
-</Requirements>  -->
+  </Requirements>
 
   <DefaultSettings>
     <SourceLocation DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html" />
@@ -50,7 +39,7 @@
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
-      <!-- Word - Start -->
+      
       <Host xsi:type="Document">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -100,7 +89,7 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-      <!-- Word - End -->
+      
       
       <Host xsi:type="Workbook">
         <DesktopFormFactor>
@@ -152,7 +141,6 @@
         </DesktopFormFactor>
       </Host>
       
-      
       <Host xsi:type="Presentation">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -202,7 +190,6 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-      
     </Hosts>
     <Resources>
       <bt:Images>

@@ -22,7 +22,11 @@ function clean(data) {
  * @param {string} data
  */
 function localhost(data) {
-    const duplicate = data.split("<!-- Word - Start -->")[1].split("<!-- Word - End -->")[0];
+    const delimiterStart = "<!-- Word - Start -->";
+    const delimiterEnd = "<!-- Word - End -->";
+    const duplicate = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
+    data = data.replaceAll(delimiterStart, "");
+    data = data.replaceAll(delimiterEnd, "");
 
     // Place place template duplicates on Excel and PowerPoint
     data = data.replaceAll(
