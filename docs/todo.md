@@ -23,20 +23,20 @@
 
 ## Phase - Publish
 
-- [ ] Icons Run and Edit
-    - [ ] Run 
-    - [ ] Edit
-- [ ] Manifest - Cross Application
-- [ ] Manifest - Ribbon Tab - (Extension)
+- [X] Icons Run and Edit
+    - [X] Run
+    - [X] Edit
+- [X] Manifest - Cross Application
+- [X] Manifest - Ribbon Tab - (Extension)
 - [ ] Store Publish
     - Description Long
     - Description Short
     - Screen Shots
     - submission
     - [X] Required statements
-        - eula
-        - privacy
-        - support
+        - [X] eula
+        - [X] privacy
+        - [X] support
 
 ## Phase - Important
 
