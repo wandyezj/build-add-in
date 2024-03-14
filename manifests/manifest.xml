@@ -13,7 +13,7 @@
   <DisplayName DefaultValue="Extension" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
-  <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-80.png" />
+  <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-64.png" />
   <SupportUrl DefaultValue="https://wandyezj.github.io/website-react-extension/statements/support.html" />
   <AppDomains>
     <AppDomain>https://wandyezj.github.io</AppDomain>
