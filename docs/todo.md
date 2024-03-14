@@ -13,6 +13,10 @@
 - [X] button import
 - [X] compile typescript
 
+## Phase - UI Polish
+
+- [ ] Resizable Editor that adjusts to screen size
+
 ## Phase - Multiple Files
 
 - [ ] multiple local snip
@@ -29,14 +33,19 @@
 - [X] Manifest - Cross Application
 - [X] Manifest - Ribbon Tab - (Extension)
 - [ ] Store Publish
-    - Description Long
-    - Description Short
+    - [ ] Catch Name (Build?)
+    - [AppSource publishing](https://learn.microsoft.com/en-us/partner-center/marketplace/submit-to-appsource-via-partner-center)
+    - [X] Description Short
+    - [X] Description Long
     - Screen Shots
     - submission
     - [X] Required statements
         - [X] eula
         - [X] privacy
         - [X] support
+    - [ ] Publisher Attestation
+        - After publish
+        - Say no to everything - be explicit that there is limited support and it is updated at whim.
 
 ## Phase - Important
 
