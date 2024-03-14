@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp 
+<OfficeApp
   xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
@@ -7,36 +7,43 @@
   xsi:type="TaskPaneApp"
 >
   <Id>01000000-0000-0000-1000-000000007357</Id>
-  <Version>1.0.1.0</Version>
+  <Version>1.0.0.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Extension"/>
-  <Description DefaultValue="Build Extensions"/>
-  <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://wandyezj.github.io/website-react-extension/statements/support.html"/>
+  <DisplayName DefaultValue="Extension" />
+  <Description DefaultValue="Build Extensions" />
+  <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-80.png" />
+  <SupportUrl DefaultValue="https://wandyezj.github.io/website-react-extension/statements/support.html" />
   <AppDomains>
     <AppDomain>https://wandyezj.github.io</AppDomain>
   </AppDomains>
   <Hosts>
-    <Host Name="Document"/>
+    <Host Name="Document" />
+    <Host Name="Workbook" />
+    <Host Name="Presentation" />
   </Hosts>
+
+  <!-- https://learn.microsoft.com/en-us/javascript/api/requirement-sets -->
+  <!-- Eliminate Office 2013, 2016, 2019 platforms by requiring this minimum requirement set -->
   <Requirements>
-    <!-- Eliminate Office 2013 as an available platform by requiring this minimum requirement set -->
     <Sets DefaultMinVersion="1.1">
-      <Set Name="WordApi"/>
+      <Set Name="DialogApi" MinVersion="1.2" />
     </Sets>
   </Requirements>
+
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html"/>
+    <SourceLocation DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
     <Hosts>
+      
       <Host xsi:type="Document">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
-            <OfficeTab id="TabHome">
+            <CustomTab id="TabExtension">
               <Group id="CommandsGroup">
                 <Label resid="CommandsGroup.Label" />
                 <Icon>
@@ -51,9 +58,9 @@
                     <Description resid="TaskpaneButtonEdit.Tooltip" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="Icon.16x16" />
-                    <bt:Image size="32" resid="Icon.32x32" />
-                    <bt:Image size="80" resid="Icon.80x80" />
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
@@ -67,9 +74,9 @@
                     <Description resid="TaskpaneButtonRun.Tooltip" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="Icon.16x16" />
-                    <bt:Image size="32" resid="Icon.32x32" />
-                    <bt:Image size="80" resid="Icon.80x80" />
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonIdRun</TaskpaneId>
@@ -77,22 +84,133 @@
                   </Action>
                 </Control>
               </Group>
-            </OfficeTab>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
+      
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-16.png" />
+        <bt:Image id="Icon.32x32" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
+        <bt:Image id="Icon.80x80" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-80.png" />
+
+        <bt:Image id="Icon.Run.16x16" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-play-16.png" />
+        <bt:Image id="Icon.Run.32x32" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-play-32.png" />
+        <bt:Image id="Icon.Run.80x80" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-play-80.png" />
+
+        <bt:Image id="Icon.Edit.16x16" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-edit-16.png" />
+        <bt:Image id="Icon.Edit.32x32" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-edit-32.png" />
+        <bt:Image id="Icon.Edit.80x80" DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-edit-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html" />
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://wandyezj.github.io/website-react-extension/run.html" />
       </bt:Urls>
       <bt:ShortStrings>
+        <bt:String id="TabExtension.TabLabel" DefaultValue="Extension" />
         <bt:String id="CommandsGroup.Label" DefaultValue="Extension" />
         <bt:String id="TaskpaneButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneButtonRun.Label" DefaultValue="Run" />

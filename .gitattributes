@@ -6,8 +6,9 @@
 *.html  text eol=lf
 *.ts    text eol=lf
 *.json  text eol=lf
-*.js  text eol=lf
+*.js    text eol=lf
 *.jsonc text eol=lf
 *.yml   text eol=lf
 *.md    text eol=lf
+*.svg   text eol=lf
 *.jpg   -text
