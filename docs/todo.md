@@ -35,6 +35,7 @@
 - [ ] Store Publish
     - [ ] Catch Name (Build?)
     - [AppSource publishing](https://learn.microsoft.com/en-us/partner-center/marketplace/submit-to-appsource-via-partner-center)
+        - [Offer Overview](https://partner.microsoft.com/en-us/dashboard/marketplace-offers/overview)
     - [X] Description Short
     - [X] Description Long
     - Screen Shots
