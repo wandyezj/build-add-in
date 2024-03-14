@@ -40,6 +40,9 @@
     - [X] Description Short
     - [X] Description Long
     - Screen Shots
+        - Walk through and screen shots of how to use
+        - (1) Go to Extension tab (2) Click Edit, edit your snip (3) click run button to run the current snip. (4) observe running.
+        - Update sample with the color of the host.
     - submission
     - [X] Required statements
         - [X] eula
@@ -65,14 +68,19 @@
 - [ ] global log function to ease debugging and silencing
 - [ ] import from url
 - [ ] run automatic refresh
+    - [ ] add last update time to snip
+    - [ ] detect when snip is updated simply check every second or so and compare 1. current sample name 2. last update time on snip.
+    - [ ] redirect to own url to reload
 - [ ] samples
 - [ ] console component (not necessary since can use F12 tools)
 - [ ] library load files from unpkg shorthand
 - [ ] import yaml
+    - auto inject Office.onReady call that does nothing if office.js is loaded as part of JavaScript API
 - [ ] button - settings
-- [ ] settings - monaco editor
-- [ ] settings - typescript compiler
+    - [ ] settings - monaco editor
+    - [ ] settings - typescript compiler
 - [ ] button - run in editor
+    - Is there a point to this?
 
 ## Phase Document
 
