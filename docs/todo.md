@@ -15,7 +15,8 @@
 
 ## Phase - UI Polish
 
-- [ ] Resizable Editor that adjusts to screen size
+- [X] Resizable Editor that adjusts to screen size
+    - Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
 
 ## Phase - Multiple Files
 
@@ -33,7 +34,7 @@
 - [X] Manifest - Cross Application
 - [X] Manifest - Ribbon Tab - (Extension)
 - [ ] Store Publish
-    - [ ] Catch Name (Build?)
+    - [ ] Catchy Name (Build?)
     - [AppSource publishing](https://learn.microsoft.com/en-us/partner-center/marketplace/submit-to-appsource-via-partner-center)
         - [Offer Overview](https://partner.microsoft.com/en-us/dashboard/marketplace-offers/overview)
     - [X] Description Short
