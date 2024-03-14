@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Switch, Tooltip, makeStyles } from "@fluentui/react-components";
+import { Text, Switch, Tooltip } from "@fluentui/react-components";
 import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 
 export function BlockParameterBoolean({

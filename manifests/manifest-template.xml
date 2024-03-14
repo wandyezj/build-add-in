@@ -58,9 +58,9 @@
                     <Description resid="TaskpaneButtonEdit.Tooltip" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="Icon.16x16" />
-                    <bt:Image size="32" resid="Icon.32x32" />
-                    <bt:Image size="80" resid="Icon.80x80" />
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
@@ -74,9 +74,9 @@
                     <Description resid="TaskpaneButtonRun.Tooltip" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="Icon.16x16" />
-                    <bt:Image size="32" resid="Icon.32x32" />
-                    <bt:Image size="80" resid="Icon.80x80" />
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonIdRun</TaskpaneId>
@@ -98,6 +98,14 @@
         <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon-16.png" />
         <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png" />
         <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png" />
+
+        <bt:Image id="Icon.Run.16x16" DefaultValue="https://localhost:3000/assets/icon-play-16.png" />
+        <bt:Image id="Icon.Run.32x32" DefaultValue="https://localhost:3000/assets/icon-play-32.png" />
+        <bt:Image id="Icon.Run.80x80" DefaultValue="https://localhost:3000/assets/icon-play-80.png" />
+
+        <bt:Image id="Icon.Edit.16x16" DefaultValue="https://localhost:3000/assets/icon-edit-16.png" />
+        <bt:Image id="Icon.Edit.32x32" DefaultValue="https://localhost:3000/assets/icon-edit-32.png" />
+        <bt:Image id="Icon.Edit.80x80" DefaultValue="https://localhost:3000/assets/icon-edit-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://localhost:3000/edit.html" />
