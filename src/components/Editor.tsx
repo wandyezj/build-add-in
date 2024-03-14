@@ -2,10 +2,19 @@ import React, { useEffect, useRef } from "react";
 import * as monaco from "monaco-editor";
 import { Snip } from "../core/Snip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
+import { makeStyles } from "@fluentui/react-components";
+
+const useStyles = makeStyles({
+    editor: {
+        width: "100%",
+        height: "90vh",
+    },
+});
 
 let editor: monaco.editor.IStandaloneCodeEditor;
 
 export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Snip; updateSnip: (snip: Snip) => void }) {
+    const styles = useStyles();
     console.log(`editor ${fileId}`);
 
     /**
@@ -47,6 +56,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
             editor = monaco.editor.create(container.current, {
                 value: file.content,
                 language: file.language,
+                automaticLayout: true,
             });
             setupEditor();
         }
@@ -57,5 +67,5 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
 
     setupEditor();
 
-    return <div className="Editor" ref={container}></div>;
+    return <div className={styles.editor} ref={container}></div>;
 }
