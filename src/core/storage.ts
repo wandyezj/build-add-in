@@ -1,6 +1,9 @@
+import { LogTag, log } from "./log";
+
 const currentSnipId = "currentSnipId";
 
 export function saveCurrentSnipId(id: string) {
+    log(LogTag.LocalStorage, `saveCurrentSnipId ${id}`);
     window.localStorage.setItem(currentSnipId, id);
 }
 

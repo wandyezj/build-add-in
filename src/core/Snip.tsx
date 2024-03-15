@@ -1,5 +1,9 @@
 export interface Snip {
     id: string;
+    /**
+     * Timestamp of the last modification
+     */
+    modified: number;
     name: string;
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
 }
@@ -13,7 +17,9 @@ export interface SnipFile {
  * A Snip without the id.
  * Used for export.
  */
-export type PrunedSnip = Omit<Snip, "id">;
+export type PrunedSnip = Omit<Snip, "id" | "modified">;
+
+export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
 const requiredKeys = ["typescript", "html", "css", "libraries"];
 
@@ -92,6 +98,7 @@ export function getSnipFromJson(value: string): Snip | undefined {
 export function completeSnip(piece: PrunedSnip): Snip {
     const complete = {
         id: createNewSnipId(),
+        modified: Date.now(),
         ...piece,
     };
     return complete;
