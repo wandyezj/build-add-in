@@ -1,6 +1,7 @@
 // Indexed DB database
 
-import { Snip } from "./Snip";
+import { Snip, SnipMetadata } from "./Snip";
+import { newDefaultSnip } from "./newDefaultSnip";
 
 // Key, Name, SnipJson
 
@@ -51,15 +52,15 @@ async function openDatabase() {
                     unique: false, // allow duplicates of the name
                 });
 
-                // objectStore.transaction.oncomplete = () => {
-                //     // Store values in the newly created objectStore.
-                //     const snipsObjectStore = db
-                //         .transaction(databaseTableNameSnips, "readwrite")
-                //         .objectStore(databaseTableNameSnips);
+                objectStore.transaction.oncomplete = () => {
+                    // Store values in the newly created objectStore.
+                    const snipsObjectStore = db
+                        .transaction(databaseTableNameSnips, "readwrite")
+                        .objectStore(databaseTableNameSnips);
 
-                //     // default snip
-                //     snipsObjectStore.add(defaultSnip);
-                // };
+                    // default snip
+                    snipsObjectStore.add(newDefaultSnip());
+                };
             }
         };
 
@@ -78,19 +79,20 @@ function getTableSnips(db: IDBDatabase, mode: IDBTransactionMode) {
 /**
  * Gets all snip names.
  */
-export async function getAllSnipIdentifiers(): Promise<Pick<Snip, "id" | "name">[]> {
+export async function getAllSnipMetadata(): Promise<SnipMetadata[]> {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const objectStore = getTableSnips(db, "readonly");
         const request = objectStore.openCursor();
 
-        const items: Pick<Snip, "id" | "name">[] = [];
+        const items: SnipMetadata[] = [];
         request.onsuccess = (event) => {
             const target = event.target;
             if (target instanceof IDBRequest) {
                 const cursor = target.result;
                 if (cursor) {
-                    items.push({ id: cursor.value.id, name: cursor.value.name });
+                    const { id, name, modified } = cursor.value;
+                    items.push({ id, name, modified });
                     cursor.continue();
                 } else {
                     resolve(items);
@@ -99,6 +101,23 @@ export async function getAllSnipIdentifiers(): Promise<Pick<Snip, "id" | "name">
         };
         request.onerror = createErrorHandler(reject);
     });
+}
+
+/**
+ * @returns The id of the most recently modified snip, or undefined if there are no snips.
+ */
+export async function getMostRecentlyModifiedSnipId(): Promise<string | undefined> {
+    const allMetadata = await getAllSnipMetadata();
+
+    // Find most recently modified (largest date)
+    let mostRecent: SnipMetadata | undefined = undefined;
+    for (const metadata of allMetadata) {
+        if (mostRecent === undefined || mostRecent.modified < metadata.modified) {
+            mostRecent = metadata;
+        }
+    }
+
+    return mostRecent?.id;
 }
 
 export async function getSnipById(id: string | undefined): Promise<Snip | undefined> {

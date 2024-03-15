@@ -42,6 +42,8 @@ export function PageEditor() {
         if (currentLibrary !== newLibrary) {
             updateMonacoLibs(newLibrary);
         }
+        // update last modified
+        newSnip.modified = Date.now();
         saveSnip(newSnip);
         saveCurrentSnipId(newSnip.id);
         setSnip(newSnip);
