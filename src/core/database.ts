@@ -108,7 +108,8 @@ export async function getAllSnipMetadata(): Promise<SnipMetadata[]> {
  */
 export async function getMostRecentlyModifiedSnipId(): Promise<string | undefined> {
     const allMetadata = await getAllSnipMetadata();
-
+    console.log("allMetadata");
+    console.log(allMetadata);
     // Find most recently modified (largest date)
     let mostRecent: SnipMetadata | undefined = undefined;
     for (const metadata of allMetadata) {
@@ -117,7 +118,11 @@ export async function getMostRecentlyModifiedSnipId(): Promise<string | undefine
         }
     }
 
-    return mostRecent?.id;
+    if (mostRecent === undefined) {
+        return undefined;
+    }
+
+    return mostRecent.id;
 }
 
 export async function getSnipById(id: string | undefined): Promise<Snip | undefined> {

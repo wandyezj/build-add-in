@@ -13,10 +13,17 @@
 - [X] button import
 - [X] compile typescript
 
+## Phase - Fix
+
+- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
+    - [X] Workaround - use the command API
+
 ## Phase - UI Polish
 
 - [X] Resizable Editor that adjusts to screen size
     - Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
+
+
 
 ## Phase - Multiple Files
 
