@@ -13,18 +13,6 @@
 - [X] button import
 - [X] compile typescript
 
-## Phase - Fix
-
-- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
-    - [X] Workaround - use the command API
-
-## Phase - UI Polish
-
-- [X] Resizable Editor that adjusts to screen size
-    - Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
-
-
-
 ## Phase - Multiple Files
 
 - [ ] multiple local snip
@@ -65,6 +53,17 @@
 - [ ] display compile errors
     - typescript pre emit diagnostics require program construction
 
+## Phase - Fix
+
+- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
+    - [X] Workaround - use the command API
+
+## Phase - UI Polish
+
+- [X] Resizable Editor that adjusts to screen size
+    - [ ] Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
+
+
 ## Phase - test
 
 - [ ] always an open snip
@@ -89,7 +88,7 @@
 - [ ] button - run in editor
     - Is there a point to this?
 
-## Phase Document
+## Phase - Document
 
 - [X] dependencies.md
     - why each dependency
