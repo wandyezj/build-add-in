@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Caption1, Text, makeStyles, tokens } from "@fluentui/react-components";
 import { MoreHorizontal20Regular } from "@fluentui/react-icons";
-import { Card, CardHeader, CardPreview } from "@fluentui/react-components";
+import { Card, CardHeader } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
     card: {
@@ -15,13 +15,13 @@ const useStyles = makeStyles({
     },
 });
 
-export function SnipListCard() {
+export function SnipListCard({ title, modified }: { title: string; modified: number }) {
     const styles = useStyles();
     return (
         <Card className={styles.card} orientation="horizontal">
             <CardHeader
-                header={<Text weight="semibold">App Name</Text>}
-                description={<Caption1 className={styles.caption}>Developer</Caption1>}
+                header={<Text weight="semibold">{title}</Text>}
+                description={<Caption1 className={styles.caption}>{modified}</Caption1>}
                 action={
                     <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
                 }

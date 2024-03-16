@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
+import { getAllSnipMetadata } from "../core/database";
+import { SnipMetadata } from "../core/Snip";
 
 /**
  * Enable opening a snip from a list of available snips.
  */
 export function OpenButton() {
     const [isOpen, setIsOpen] = useState(false);
+
+    const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
+
+    useEffect(() => {
+        getAllSnipMetadata().then((snips) => {
+            setLocalSnips(snips);
+        });
+    }, [isOpen]);
 
     return (
         <div>
@@ -30,11 +40,9 @@ export function OpenButton() {
                 </DrawerHeader>
 
                 <DrawerBody>
-                    {
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-                            <SnipListCard key={index} />
-                        )) // [1]
-                    }
+                    {localSnips.map((item) => (
+                        <SnipListCard key={item.id} title={item.name} modified={item.modified} />
+                    ))}
                 </DrawerBody>
             </OverlayDrawer>
 
