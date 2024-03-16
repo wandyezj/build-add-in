@@ -96,14 +96,17 @@ export function getSnipFromJson(value: string): Snip | undefined {
 }
 
 export function completeSnip(piece: PrunedSnip): Snip {
+    const now = Date.now();
+
+    // Unique ID is the timestamp
+    const id = `${now}`;
+    // Modified is when it was created
+    const modified = now;
+
     const complete = {
-        id: createNewSnipId(),
-        modified: Date.now(),
+        id,
+        modified,
         ...piece,
     };
     return complete;
-}
-
-function createNewSnipId(): string {
-    return `${Date.now()}`;
 }

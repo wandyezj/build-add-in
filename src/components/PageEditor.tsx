@@ -20,6 +20,7 @@ import { ImportButton } from "./ImportButton";
 import { deleteSnipById, saveSnip } from "../core/database";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
+import { LogTag, log } from "../core/log";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -55,7 +56,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
      * Copy the current snip to the clipboard
      */
     function buttonCopySnipToClipboard() {
-        console.log("button - copy to clipboard");
+        log(LogTag.ButtonCopy, "button - copy to clipboard");
 
         const text = JSON.stringify(snip, null, 4);
         copyTextToClipboard(text);
@@ -65,7 +66,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
      * Delete the current snip, replace it with the default snip
      */
     function buttonDeleteSnip() {
-        console.log("button - delete");
+        log(LogTag.ButtonDelete, "button - delete");
         const previousId = snip.id;
         const newSnip = newDefaultSnip();
         updateSnip(newSnip);

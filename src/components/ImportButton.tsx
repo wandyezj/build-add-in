@@ -13,6 +13,7 @@ import { TooltipButton } from "./TooltipButton";
 import { ArrowDownloadRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
+import { LogTag, log } from "../core/log";
 
 const useStyles = makeStyles({
     base: {
@@ -30,7 +31,7 @@ export function ImportButton({ setImport }: { setImport: (value: string) => void
 
     function onClickImport(event: React.FormEvent) {
         event.preventDefault();
-        console.log("import");
+        log(LogTag.ButtonImport, "import");
         const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
         setImport(value);
     }
