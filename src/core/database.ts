@@ -1,6 +1,7 @@
 // Indexed DB database
 
 import { Snip, SnipMetadata } from "./Snip";
+import { LogTag, log } from "./log";
 import { newDefaultSnip } from "./newDefaultSnip";
 
 // Key, Name, SnipJson
@@ -108,8 +109,9 @@ export async function getAllSnipMetadata(): Promise<SnipMetadata[]> {
  */
 export async function getMostRecentlyModifiedSnipId(): Promise<string | undefined> {
     const allMetadata = await getAllSnipMetadata();
-    console.log("allMetadata");
-    console.log(allMetadata);
+    log(LogTag.MostRecentlyModifiedMetadata, "allMetadata");
+    log(LogTag.MostRecentlyModifiedMetadata, allMetadata);
+
     // Find most recently modified (largest date)
     let mostRecent: SnipMetadata | undefined = undefined;
     for (const metadata of allMetadata) {

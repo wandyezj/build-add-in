@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor";
 import { parseLibraries } from "./parseLibraries";
+import { LogTag, log } from "./log";
 
 // Update intellisense for monaco
 
@@ -35,7 +36,8 @@ function loadMonacoLibs(libs: string[]) {
 
     const readyLibs = loadedLibs
         .map(({ name, value }) => {
-            console.log(`${name} - ${value === undefined ? "?" : "loaded"}`);
+            // Display a log message for if the library is loaded.
+            log(LogTag.LoadMonacoLibs, `${name} - ${value === undefined ? "?" : "loaded"}`);
             return value || "";
         })
         .filter((value) => value !== "");
@@ -56,7 +58,7 @@ function loadCurrentLibraries() {
  * @param libraries text
  */
 export function updateMonacoLibs(libraries: string) {
-    console.log(`updateMonacoLibs\n${libraries}`);
+    log(LogTag.UpdateMonacoLibs, `updateMonacoLibs\n${libraries}`);
     const { dts } = parseLibraries(libraries);
 
     globalCurrentLibraries.sort();

@@ -50,7 +50,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
 
     // runs setup once
     useEffect(() => {
-        console.log("effect");
+        console.log("editor component effect");
         if (container.current) {
             const file = snip.files[fileId];
             editor = monaco.editor.create(container.current, {

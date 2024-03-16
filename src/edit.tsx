@@ -1,10 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./components/App";
-import { loadCurrentSnipId, saveCurrentSnipId } from "./core/storage";
+import { deleteCurrentSnipId, loadCurrentSnipId, saveCurrentSnipId } from "./core/storage";
 import { getMostRecentlyModifiedSnipId, getSnipById, saveSnip } from "./core/database";
 import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
+import { Snip } from "./core/Snip";
 
 async function initializeCurrentId(): Promise<string> {
     let currentId = loadCurrentSnipId();
@@ -23,16 +24,29 @@ async function initializeCurrentId(): Promise<string> {
     return currentId;
 }
 
-async function setup() {
-    log(LogTag.SetupStart);
+async function getInitialSnip(): Promise<Snip> {
     const currentId = await initializeCurrentId();
     log(LogTag.Setup, "currentId - complete");
     const initialSnip = await getSnipById(currentId);
     log(LogTag.Setup, "initialSnip - complete");
+
     if (initialSnip === undefined) {
-        // Should be impossible?
-        throw new Error("Failed to load initial snip");
+        // Reset the current id and try again.
+        deleteCurrentSnipId();
+        const currentId = await initializeCurrentId();
+        const initialSnip = await getSnipById(currentId);
+        if (initialSnip === undefined) {
+            // Should be impossible?
+            throw new Error("Failed to load initial snip");
+        }
+        return initialSnip;
     }
+    return initialSnip;
+}
+
+async function setup() {
+    log(LogTag.SetupStart);
+    const initialSnip = await getInitialSnip();
 
     // Start Render AFTER we have the current snip id
     const container = document.getElementById("container")!;
@@ -44,7 +58,7 @@ async function setup() {
 setup();
 
 Office.onReady(({ host, platform }) => {
-    console.log("Office is ready");
-    console.log("Host: ", host);
-    console.log("Platform: ", platform);
+    console.log(`Office is ready
+Host: ${host}
+Platform: ${platform}`);
 });
