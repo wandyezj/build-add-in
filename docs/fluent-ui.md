@@ -4,6 +4,7 @@
 - [Tablist](https://fluent2.microsoft.design/components/web/react/tablist/usage)
 
 - [icons](https://github.com/microsoft/fluentui-system-icons/tree/master/packages/react-icons)
+    - [Explore Icons](https://react.fluentui.dev/?path=/docs/icons-catalog--page)
 
 ## Editor Toolbar
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
+import { SnipListCard } from "./SnipListCard";
 
 /**
  * Enable opening a snip from a list of available snips.
@@ -24,12 +25,16 @@ export function OpenButton() {
                             />
                         }
                     >
-                        Overlay Drawer
+                        Local Snips
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <p>Drawer content</p>
+                    {
+                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
+                            <SnipListCard key={index} />
+                        )) // [1]
+                    }
                 </DrawerBody>
             </OverlayDrawer>
 
