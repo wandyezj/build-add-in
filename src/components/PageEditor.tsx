@@ -21,6 +21,7 @@ import { deleteSnipById, saveSnip } from "../core/database";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
+import { OpenButton } from "./OpenButton";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -76,6 +77,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     return (
         <>
             <Toolbar>
+                <OpenButton />
                 <Input
                     aria-label="Snip Name"
                     type="text"

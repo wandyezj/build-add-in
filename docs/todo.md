@@ -60,6 +60,7 @@
 
 ## Phase - UI Polish
 
+- [ ] Spinner when loading - [Spinner](https://fluent2.microsoft.design/components/web/react/spinner/usage)
 - [X] Resizable Editor that adjusts to screen size
     - [ ] Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
 
