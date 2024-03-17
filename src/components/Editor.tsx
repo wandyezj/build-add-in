@@ -39,7 +39,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
                         ["plaintext", "libraries"],
                     ]);
                     const fileId = idToFileId.get(id)!;
-                    console.log(`update snip file content ${id} ${fileId}`);
+                    console.log(`update snip file content ${snip.id} ${id} ${fileId}`);
                     snip.files[fileId].content = editor.getValue();
                     updateSnip(snip);
                 }
@@ -52,6 +52,9 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
     useEffect(() => {
         console.log("editor component effect");
         if (container.current) {
+            if (editor) {
+                editor.dispose();
+            }
             const file = snip.files[fileId];
             editor = monaco.editor.create(container.current, {
                 value: file.content,
@@ -63,7 +66,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
         return () => {
             editor.dispose();
         };
-    }, []);
+    }, [snip.id]);
 
     setupEditor();
 

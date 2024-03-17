@@ -16,10 +16,15 @@
 ## Phase - Multiple Files
 
 - [ ] multiple local snip
-    - [X] storage scheme
-    - [X] storage system
-        - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
-    - [ ] multi snip display and selection
+- [X] storage scheme
+- [X] storage system
+    - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
+- [X] multi snip display and selection
+    - [X] Style the snips to display (display name, in order of last modified.)
+        - [Card](https://react.fluentui.dev/?path=/docs/components-card-card--default)
+- [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
+- [ ] More graceful delete and new. After delete open library to selecting new snip to open.
+- [ ] remove ... from card or have dropdown to delete / pin
 
 ## Phase - Publish
 
@@ -60,6 +65,7 @@
 
 ## Phase - UI Polish
 
+- [ ] Spinner when loading - [Spinner](https://fluent2.microsoft.design/components/web/react/spinner/usage)
 - [X] Resizable Editor that adjusts to screen size
     - [ ] Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
 

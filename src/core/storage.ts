@@ -1,5 +1,10 @@
 import { LogTag, log } from "./log";
 
+/**
+ * The id of the snip that is currently being edited.
+ * - The snip to load when the page first loads.
+ * - Determines which snip to run.
+ */
 const currentSnipId = "currentSnipId";
 
 export function saveCurrentSnipId(id: string) {

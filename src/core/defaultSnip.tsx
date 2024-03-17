@@ -18,10 +18,10 @@ Office.onReady(({host, platform})=> {
     console.log("READY");
 
     const elementHost = document.getElementById('host');
-    elementHost.innerText = host.toString();
+    elementHost.innerText = \`\${host}\`;
     elementHost.style.color = getHostColor(host);
 
-    document.getElementById('platform').innerText = platform.toString();
+    document.getElementById('platform').innerText = \`\${platform}\`;
 });
 
 /**

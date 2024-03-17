@@ -24,6 +24,12 @@ async function initializeCurrentId(): Promise<string> {
     return currentId;
 }
 
+/**
+ * The initial snip to open is the first of:
+ * - The snip id from local storage
+ * - The most recently modified snip
+ * - A new default snip
+ */
 async function getInitialSnip(): Promise<Snip> {
     const currentId = await initializeCurrentId();
     log(LogTag.Setup, "currentId - complete");
@@ -48,7 +54,8 @@ async function setup() {
     log(LogTag.SetupStart);
     const initialSnip = await getInitialSnip();
 
-    // Start Render AFTER we have the current snip id
+    // Start Render AFTER we have the current snip id.
+    // This avoids a race condition.
     const container = document.getElementById("container")!;
     const root = createRoot(container);
     root.render(<App initialSnip={initialSnip} />);
@@ -57,6 +64,7 @@ async function setup() {
 
 setup();
 
+// Calling Office.onReady after setup loads the UI faster.
 Office.onReady(({ host, platform }) => {
     console.log(`Office is ready
 Host: ${host}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
 import {
-    // AddRegular,
+    AddRegular,
     // ArrowDownloadRegular,
     // PlayRegular,
     ClipboardRegular,
@@ -21,23 +21,35 @@ import { deleteSnipById, saveSnip } from "../core/database";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
+import { OpenButton } from "./OpenButton";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
-    const updateSnip = (newSnip: Snip) => {
-        const currentLibrary = snip.files.libraries.content;
-        const newLibrary = newSnip.files.libraries.content;
+    const updateSnip = (updatedSnip: Snip) => {
+        console.log(`Update snip\t${updatedSnip.id}\t${updatedSnip.name}`);
+        // update last modified
+        updatedSnip.modified = Date.now();
+        saveSnip(updatedSnip);
+        setupSnip(updatedSnip);
+    };
+
+    const openSnip = (openSnip: Snip) => {
+        console.log(`open snip\t${openSnip.id}\t${openSnip.name}`);
+        setupSnip(openSnip);
+    };
+
+    const setupSnip = (setupSnip: Snip) => {
+        saveCurrentSnipId(setupSnip.id);
+        // IntelliSense
+        const currentLibrary = setupSnip.files.libraries.content;
+        const newLibrary = setupSnip.files.libraries.content;
         if (currentLibrary !== newLibrary) {
             updateMonacoLibs(newLibrary);
         }
-        // update last modified
-        newSnip.modified = Date.now();
-        saveSnip(newSnip);
-        saveCurrentSnipId(newSnip.id);
-        setSnip(newSnip);
+        setSnip(setupSnip);
     };
 
     const setImport = (value: string) => {
@@ -50,6 +62,13 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         } else {
             console.error("import failed - invalid snip");
         }
+    };
+
+    const buttonNewSnip = () => {
+        log(LogTag.ButtonNew, "button - new snip");
+        const newSnip = newDefaultSnip();
+        // Open without saving, only save once there is an edit
+        openSnip(newSnip);
     };
 
     /**
@@ -69,19 +88,22 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         log(LogTag.ButtonDelete, "button - delete");
         const previousId = snip.id;
         const newSnip = newDefaultSnip();
-        updateSnip(newSnip);
+        // open the new snip but don't save it until it is edited.
+        // note: update saves, which makes it hard to delete snips since each would be replaced by an update
+        openSnip(newSnip);
         deleteSnipById(previousId);
     }
 
     return (
         <>
             <Toolbar>
+                <OpenButton openSnip={openSnip} />
                 <Input
                     aria-label="Snip Name"
                     type="text"
                     value={snip.name}
                     onChange={(_, { value }) => {
-                        console.log(`update snip name ${value}`);
+                        console.log(`update snip ${snip.id} name ${value}`);
                         updateSnip({ ...snip, name: value });
                     }}
                 />
@@ -94,9 +116,10 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
                 />
 
                 <ImportButton setImport={setImport} />
+                <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
-                <TooltipButton tip="New" icon={<AddRegular />} />
+                
                 <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
                 <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
