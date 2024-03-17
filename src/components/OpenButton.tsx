@@ -17,6 +17,8 @@ export function OpenButton() {
 
     useEffect(() => {
         getAllSnipMetadata().then((snips) => {
+            // display in last modified order
+            snips.sort((a, b) => b.modified - a.modified);
             setLocalSnips(snips);
         });
     }, [isOpen]);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
 import {
-    // AddRegular,
+    AddRegular,
     // ArrowDownloadRegular,
     // PlayRegular,
     ClipboardRegular,
@@ -53,6 +53,12 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         }
     };
 
+    const buttonNewSnip = () => {
+        log(LogTag.ButtonNew, "button - new snip");
+        const newSnip = newDefaultSnip();
+        updateSnip(newSnip);
+    };
+
     /**
      * Copy the current snip to the clipboard
      */
@@ -96,9 +102,10 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
                 />
 
                 <ImportButton setImport={setImport} />
+                <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
-                <TooltipButton tip="New" icon={<AddRegular />} />
+                
                 <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
                 <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
