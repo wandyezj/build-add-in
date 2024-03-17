@@ -65,7 +65,9 @@ function formatModified(modified: number): string {
         return `${seconds} ${seconds > 1 ? "seconds" : "second"} ago`;
     }
 
-    const date = new Date(modified);
+    return "Just Edited";
 
-    return date.toLocaleString();
+    // const date = new Date(modified);
+
+    // return date.toLocaleString();
 }

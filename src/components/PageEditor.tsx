@@ -67,7 +67,8 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const buttonNewSnip = () => {
         log(LogTag.ButtonNew, "button - new snip");
         const newSnip = newDefaultSnip();
-        updateSnip(newSnip);
+        // Open without saving, only save once there is an edit
+        openSnip(newSnip);
     };
 
     /**
@@ -87,7 +88,9 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         log(LogTag.ButtonDelete, "button - delete");
         const previousId = snip.id;
         const newSnip = newDefaultSnip();
-        updateSnip(newSnip);
+        // open the new snip but don't save it until it is edited.
+        // note: update saves, which makes it hard to delete snips since each would be replaced by an update
+        openSnip(newSnip);
         deleteSnipById(previousId);
     }
 

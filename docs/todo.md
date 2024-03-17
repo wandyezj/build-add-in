@@ -19,10 +19,12 @@
 - [X] storage scheme
 - [X] storage system
     - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
-- [ ] multi snip display and selection
-    - [ ] Style the snips to display (display name, in order of last modified.)
+- [X] multi snip display and selection
+    - [X] Style the snips to display (display name, in order of last modified.)
         - [Card](https://react.fluentui.dev/?path=/docs/components-card-card--default)
-    - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
+- [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
+- [ ] More graceful delete and new. After delete switch to selecting new snip to open.
+
 
 ## Phase - Publish
 
