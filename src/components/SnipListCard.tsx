@@ -15,10 +15,20 @@ const useStyles = makeStyles({
     },
 });
 
-export function SnipListCard({ title, modified }: { title: string; modified: number }) {
+export function SnipListCard({
+    title,
+    modified,
+    onClick,
+}: {
+    id: string;
+    title: string;
+    modified: number;
+    onClick: () => void;
+}) {
     const styles = useStyles();
+
     return (
-        <Card className={styles.card} orientation="horizontal">
+        <Card className={styles.card} orientation="horizontal" onClick={onClick}>
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
                 description={<Caption1 className={styles.caption}>{formatModified(modified)}</Caption1>}

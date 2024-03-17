@@ -28,17 +28,28 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [snip, setSnip] = useState(initialSnip);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
-    const updateSnip = (newSnip: Snip) => {
-        const currentLibrary = snip.files.libraries.content;
-        const newLibrary = newSnip.files.libraries.content;
+    const updateSnip = (updatedSnip: Snip) => {
+        console.log(`Update snip\t${updatedSnip.id}\t${updatedSnip.name}`);
+        // update last modified
+        updatedSnip.modified = Date.now();
+        saveSnip(updatedSnip);
+        setupSnip(updatedSnip);
+    };
+
+    const openSnip = (openSnip: Snip) => {
+        console.log(`open snip\t${openSnip.id}\t${openSnip.name}`);
+        setupSnip(openSnip);
+    };
+
+    const setupSnip = (setupSnip: Snip) => {
+        saveCurrentSnipId(setupSnip.id);
+        // IntelliSense
+        const currentLibrary = setupSnip.files.libraries.content;
+        const newLibrary = setupSnip.files.libraries.content;
         if (currentLibrary !== newLibrary) {
             updateMonacoLibs(newLibrary);
         }
-        // update last modified
-        newSnip.modified = Date.now();
-        saveSnip(newSnip);
-        saveCurrentSnipId(newSnip.id);
-        setSnip(newSnip);
+        setSnip(setupSnip);
     };
 
     const setImport = (value: string) => {
@@ -83,13 +94,13 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     return (
         <>
             <Toolbar>
-                <OpenButton />
+                <OpenButton openSnip={openSnip} />
                 <Input
                     aria-label="Snip Name"
                     type="text"
                     value={snip.name}
                     onChange={(_, { value }) => {
-                        console.log(`update snip name ${value}`);
+                        console.log(`update snip ${snip.id} name ${value}`);
                         updateSnip({ ...snip, name: value });
                     }}
                 />

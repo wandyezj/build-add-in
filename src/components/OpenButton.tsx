@@ -4,13 +4,13 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
-import { getAllSnipMetadata } from "../core/database";
-import { SnipMetadata } from "../core/Snip";
+import { getAllSnipMetadata, getSnipById } from "../core/database";
+import { Snip, SnipMetadata } from "../core/Snip";
 
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function OpenButton() {
+export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
@@ -22,6 +22,17 @@ export function OpenButton() {
             setLocalSnips(snips);
         });
     }, [isOpen]);
+
+    const clickCard = (id: string) => {
+        console.log(`clicked card ${id}`);
+        setIsOpen(false);
+        getSnipById(id).then((snip) => {
+            // TODO: what if snip is undefined?
+            if (snip) {
+                openSnip(snip);
+            }
+        });
+    };
 
     return (
         <div>
@@ -42,8 +53,16 @@ export function OpenButton() {
                 </DrawerHeader>
 
                 <DrawerBody>
-                    {localSnips.map((item) => (
-                        <SnipListCard key={item.id} title={item.name} modified={item.modified} />
+                    {localSnips.map(({ id, name, modified }) => (
+                        <SnipListCard
+                            key={id}
+                            id={id}
+                            title={name}
+                            modified={modified}
+                            onClick={() => {
+                                clickCard(id);
+                            }}
+                        />
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
