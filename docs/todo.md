@@ -23,8 +23,8 @@
     - [X] Style the snips to display (display name, in order of last modified.)
         - [Card](https://react.fluentui.dev/?path=/docs/components-card-card--default)
 - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
-- [ ] More graceful delete and new. After delete switch to selecting new snip to open.
-
+- [ ] More graceful delete and new. After delete open library to selecting new snip to open.
+- [ ] remove ... from card or have dropdown to delete / pin
 
 ## Phase - Publish
 
