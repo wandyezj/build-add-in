@@ -10,6 +10,7 @@ import {
     ClipboardRegular,
     ArrowDownloadRegular,
     ArrowUploadRegular,
+    AddRegular,
     //DatabaseArrowDownRegular,
     //DatabaseArrowUpRegular,
 } from "@fluentui/react-icons";
@@ -17,6 +18,7 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { downloadFileJson } from "../core/downloadFileJson";
 import { uploadFileJson } from "../core/uploadFileJson";
 import { objectToJson } from "../core/objectToJson";
+import { newDefaultSnip } from "../core/newDefaultSnip";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
@@ -48,6 +50,11 @@ async function uploadMultipleFromFile() {
         return saveSnip(fullSnip);
     });
     return Promise.all(promises);
+}
+
+async function addNewDefaultSnip() {
+    const newSnip = newDefaultSnip();
+    return saveSnip(newSnip);
 }
 
 async function getAllLocalSnips(): Promise<SnipMetadata[]> {
@@ -124,6 +131,15 @@ export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
                         icon={<ArrowUploadRegular />}
                         onClick={() => {
                             uploadMultipleFromFile().then(() => {
+                                refreshLocalSnips();
+                            });
+                        }}
+                    />
+                    <TooltipButton
+                        tip="New Snip"
+                        icon={<AddRegular />}
+                        onClick={() => {
+                            addNewDefaultSnip().then(() => {
                                 refreshLocalSnips();
                             });
                         }}
