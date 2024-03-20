@@ -25,6 +25,10 @@
 - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
 - [ ] More graceful delete and new. After delete open library to selecting new snip to open.
 - [ ] remove ... from card or have dropdown to delete / pin
+- [ ] new file button in flyout
+- [ ] bulk - export
+- [ ] bulk - import
+
 
 ## Phase - Publish
 
@@ -57,6 +61,8 @@
 - [ ] Warn before delete
 - [ ] display compile errors
     - typescript pre emit diagnostics require program construction
+    - create program
+    - UI element to display errors
 
 ## Phase - Fix
 
