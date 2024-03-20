@@ -78,6 +78,33 @@ function getTableSnips(db: IDBDatabase, mode: IDBTransactionMode) {
 }
 
 /**
+ * Get all snips
+ */
+export async function getAllSnips(): Promise<Snip[]> {
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const objectStore = getTableSnips(db, "readonly");
+        const request = objectStore.openCursor();
+
+        const items: Snip[] = [];
+        request.onsuccess = (event) => {
+            const target = event.target;
+            if (target instanceof IDBRequest) {
+                const cursor = target.result;
+                if (cursor) {
+                    const snip = cursor.value;
+                    items.push(snip);
+                    cursor.continue();
+                } else {
+                    resolve(items);
+                }
+            }
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+/**
  * Gets all snip names.
  */
 export async function getAllSnipMetadata(): Promise<SnipMetadata[]> {

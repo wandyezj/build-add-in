@@ -61,7 +61,7 @@ function isSnipJson(snip: Snip): boolean {
 /**
  * Make sure the snip is valid and only contains what is expected.
  */
-function pruneSnipJson(snip: Snip): PrunedSnip {
+export function pruneSnipJson(snip: Snip): PrunedSnip {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
@@ -95,11 +95,12 @@ export function getSnipFromJson(value: string): Snip | undefined {
     }
 }
 
-export function completeSnip(piece: PrunedSnip): Snip {
+export function completeSnip(piece: PrunedSnip, options?: { id?: string }): Snip {
     const now = Date.now();
 
+    const idPostfix = options?.id ?? "";
     // Unique ID is the timestamp
-    const id = `${now}`;
+    const id = `${now}${idPostfix}`;
     // Modified is when it was created
     const modified = now;
 
