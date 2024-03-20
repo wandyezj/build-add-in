@@ -14,7 +14,8 @@ import {
     //DatabaseArrowUpRegular,
 } from "@fluentui/react-icons";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
-import { downloadFileJson, uploadFileJson } from "../core/downloadFile";
+import { downloadFileJson } from "../core/downloadFileJson";
+import { uploadFileJson } from "../core/uploadFileJson";
 import { objectToJson } from "../core/objectToJson";
 
 async function getAllSnipJsonText(): Promise<string> {
