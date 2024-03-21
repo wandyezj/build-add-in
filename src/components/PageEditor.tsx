@@ -22,6 +22,7 @@ import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
+import { objectToJson } from "../core/objectToJson";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -76,8 +77,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
      */
     function buttonCopySnipToClipboard() {
         log(LogTag.ButtonCopy, "button - copy to clipboard");
-
-        const text = JSON.stringify(snip, null, 4);
+        const text = objectToJson(snip);
         copyTextToClipboard(text);
     }
 
