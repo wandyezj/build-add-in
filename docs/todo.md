@@ -101,6 +101,20 @@
     - how is each dependency used
 - [ ] deployment infrastructure
 
+## Phase - Accessibility
+
+## Phase - Localize
+
+i18n
+
+- [ ] localize dates and times [MDN Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+- [ ] Open Source Machine Translation Tool?
+- [ ] Copy Translations
+    - https://github.com/microsoft/vscode-loc
+
+    https://github.com/microsoft/vscode-l10n
+
+
 ## Phase - Blocks
 
 - [ ] Dynamic Blocks
@@ -109,3 +123,4 @@
     - [ ] Remove block from end
 - [ ] Block Library
 - [ ] Include block steps in a snip
+
