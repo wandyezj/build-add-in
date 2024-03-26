@@ -83,7 +83,7 @@ function createProgram(code: string) {
         target,
         lib,
         module: ts.ModuleKind.None,
-        strict: true,
+        //strict: true,
         //noEmit: true,
         inlineSourceMap: true,
         inlineSources: true,
@@ -94,12 +94,15 @@ function createProgram(code: string) {
     return program;
 }
 
+export interface Issue {
+    message: string;
+}
 /**
  * Compile TypeScript code to JavaScript
  * @param code
  * @returns text code
  */
-export function compileCode(code: string) {
+export function compileCode(code: string): { issues: Issue[]; js: string } {
     console.log("compileCode");
     console.log(code);
 
@@ -131,12 +134,14 @@ export function compileCode(code: string) {
     const { diagnostics } = result;
 
     if (diagnostics) {
-        issues = diagnostics.map((diagnostic) => {
-            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-            return {
-                message,
-            };
-        });
+        issues.push(
+            ...diagnostics.map((diagnostic) => {
+                const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+                return {
+                    message,
+                };
+            })
+        );
     }
 
     //const js = result.emittedFiles?.[0] || "";

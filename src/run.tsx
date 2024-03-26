@@ -1,7 +1,10 @@
 import { loadCurrentSnipId } from "./core/storage";
 import { getSnipById } from "./core/database";
 import { parseLibraries } from "./core/parseLibraries";
-import { compileCode } from "./core/compileCode";
+import { Issue, compileCode } from "./core/compileCode";
+import { createRoot } from "react-dom/client";
+import { DisplayIssues } from "./run/DisplayIssues";
+import React from "react";
 
 console.log("run");
 
@@ -64,6 +67,12 @@ function loadJs(js: string) {
     document.head.appendChild(script);
 }
 
+function displayIssues(issues: Issue[]) {
+    const container = document.getElementById("container")!;
+    const root = createRoot(container);
+    root.render(<DisplayIssues issues={issues} />);
+}
+
 async function runSnip() {
     const snip = await getCurrentSnip();
     console.log("snip", snip);
@@ -80,6 +89,10 @@ async function runSnip() {
     const { js, issues } = compileCode(ts);
     console.log("Issues");
     console.log(issues);
+    if (issues.length > 0) {
+        displayIssues(issues);
+        return;
+    }
 
     // Loading order matters
     await loadLibraries(libraries);

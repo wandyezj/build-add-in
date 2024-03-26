@@ -44,7 +44,7 @@ module.exports = async (env, options) => {
         },
         entry: {
             edit: "./src/edit.tsx",
-            run: "./src/run.ts",
+            run: "./src/run.tsx",
             blocks: "./src/blocks.tsx",
         },
         output: {
