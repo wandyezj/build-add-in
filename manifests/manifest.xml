@@ -10,7 +10,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Extension" />
+  <DisplayName DefaultValue="(local) Build" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-64.png" />

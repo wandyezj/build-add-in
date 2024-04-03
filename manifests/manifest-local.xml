@@ -10,7 +10,7 @@
   <Version>1.0.1.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="(local) Extension" />
+  <DisplayName DefaultValue="(local) Build" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-64.png" />
