@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp
-    xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-    xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
-    xsi:type="MailApp"
->
+    xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
     <Id>10000000-0000-0000-0000-000000007357</Id>
     <Version>1.0.1.0</Version>
     <ProviderName>wandyezj</ProviderName>
@@ -41,8 +38,7 @@
         <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
     </Rule>
     <DisableEntityHighlighting>false</DisableEntityHighlighting>
-    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"
-        xsi:type="VersionOverridesV1_0">
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
         <Requirements>
             <bt:Sets DefaultMinVersion="1.7">
                 <bt:Set Name="Mailbox" />
@@ -84,19 +80,13 @@
                 <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png" />
                 <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png" />
 
-                <bt:Image id="Icon.Run.16x16"
-                    DefaultValue="https://localhost:3000/assets/icon-play-16.png" />
-                <bt:Image id="Icon.Run.32x32"
-                    DefaultValue="https://localhost:3000/assets/icon-play-32.png" />
-                <bt:Image id="Icon.Run.80x80"
-                    DefaultValue="https://localhost:3000/assets/icon-play-80.png" />
+                <bt:Image id="Icon.Run.16x16" DefaultValue="https://localhost:3000/assets/icon-play-16.png" />
+                <bt:Image id="Icon.Run.32x32" DefaultValue="https://localhost:3000/assets/icon-play-32.png" />
+                <bt:Image id="Icon.Run.80x80" DefaultValue="https://localhost:3000/assets/icon-play-80.png" />
 
-                <bt:Image id="Icon.Edit.16x16"
-                    DefaultValue="https://localhost:3000/assets/icon-edit-16.png" />
-                <bt:Image id="Icon.Edit.32x32"
-                    DefaultValue="https://localhost:3000/assets/icon-edit-32.png" />
-                <bt:Image id="Icon.Edit.80x80"
-                    DefaultValue="https://localhost:3000/assets/icon-edit-80.png" />
+                <bt:Image id="Icon.Edit.16x16" DefaultValue="https://localhost:3000/assets/icon-edit-16.png" />
+                <bt:Image id="Icon.Edit.32x32" DefaultValue="https://localhost:3000/assets/icon-edit-32.png" />
+                <bt:Image id="Icon.Edit.80x80" DefaultValue="https://localhost:3000/assets/icon-edit-80.png" />
             </bt:Images>
             <bt:Urls>
                 <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://localhost:3000/edit.html" />
