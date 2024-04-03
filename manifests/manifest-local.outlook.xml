@@ -53,7 +53,7 @@
                         <OfficeTab id="TabDefault">
                             <Group id="CommandsGroup">
                                 <Label resid="CommandsGroup.Label" />
-                                <Control xsi:type="Button" id="TaskpaneButton">
+                                <Control xsi:type="Button" id="TaskpaneButtonEdit">
                                     <Label resid="TaskpaneButtonEdit.Label" />
                                     <Supertip>
                                         <Title resid="TaskpaneButtonEdit.Label" />
@@ -66,6 +66,21 @@
                                     </Icon>
                                     <Action xsi:type="ShowTaskpane">
                                         <SourceLocation resid="TaskpaneEdit.Url" />
+                                    </Action>
+                                </Control>
+                                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                                    <Label resid="TaskpaneButtonRun.Label" />
+                                    <Supertip>
+                                        <Title resid="TaskpaneButtonRun.Label" />
+                                        <Description resid="TaskpaneButtonRun.Tooltip" />
+                                    </Supertip>
+                                    <Icon>
+                                        <bt:Image size="16" resid="Icon.Run.16x16" />
+                                        <bt:Image size="32" resid="Icon.Run.32x32" />
+                                        <bt:Image size="80" resid="Icon.Run.80x80" />
+                                    </Icon>
+                                    <Action xsi:type="ShowTaskpane">
+                                        <SourceLocation resid="TaskpaneRun.Url" />
                                     </Action>
                                 </Control>
                             </Group>
