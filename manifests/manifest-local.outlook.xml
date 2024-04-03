@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
     xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
-    <Id>10000000-0000-0000-0000-000000007357</Id>
+    <Id>01000000-1000-0000-0000-000000007357</Id>
     <Version>1.0.1.0</Version>
     <ProviderName>wandyezj</ProviderName>
     <DefaultLocale>en-US</DefaultLocale>
