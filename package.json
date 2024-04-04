@@ -22,6 +22,7 @@
         "lint": "eslint --config ./config/eslint.json --no-eslintrc \"@(src|tests|scripts)/**/*.@(ts|tsx|js)\"",
         "lint-fix": "eslint --config ./config/eslint.json --no-eslintrc --fix \"@(src|tests|scripts)/**/*.@(ts|tsx|js)\"",
         "test": "npm run compile && npm run playwright-test",
+        "icons": "node ./scripts/get-icons.js",
         "manifest": "node ./scripts/make-manifest.js && npm run check-manifest-local && npm run check-manifest && npm run check-manifest-outlook-local && npm run check-manifest-outlook",
         "make-manifest": "node ./scripts/make-manifest.js",
         "check-manifest": "npx office-addin-manifest validate manifests/production.xml",
