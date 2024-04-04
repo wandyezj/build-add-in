@@ -10,7 +10,7 @@
   <Version>1.0.1.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="(local) Extension" />
+  <DisplayName DefaultValue="(local) Build" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-64.png" />
@@ -39,7 +39,7 @@
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
-      <!-- Word - Start -->
+      
       <Host xsi:type="Document">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -89,9 +89,107 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-      <!-- Word - End -->
-      <!-- Duplicate:(Word) Replace:(Document,Workbook) -->
-      <!-- Duplicate:(Word) Replace:(Document,Presentation) -->
+      
+      
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonEdit.Label" />
+                    <Description resid="TaskpaneButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="TaskpaneButtonRun">
+                  <Label resid="TaskpaneButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButtonRun.Label" />
+                    <Description resid="TaskpaneButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonIdRun</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="TabExtension.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
     </Hosts>
     <Resources>
       <bt:Images>
