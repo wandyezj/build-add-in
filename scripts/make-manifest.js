@@ -1,4 +1,6 @@
-// create the production manifest from the local manifest.
+// Create manifests from base files
+// Word, Excel, PowerPoint: template -> local -> production
+// Outlook: local -> production
 
 /**
  * clean data
@@ -51,7 +53,7 @@ function production(data) {
     data = data.replaceAll("https://localhost:3000", "https://wandyezj.github.io");
 
     // for production remove local prefix
-    data = data.replaceAll("(local) Extension", "Extension");
+    data = data.replaceAll("(local) Build", "Build");
 
     data = data.replaceAll(
         "<Id>01000000-0000-0000-0000-000000007357</Id>",
@@ -63,12 +65,15 @@ function production(data) {
     return clean(data);
 }
 
+const templateManifestPath = "./manifests/manifest-template.xml";
+const localManifestPath = "./manifests/manifest-local.xml";
+const productionManifestPath = "./manifests/manifest.xml";
+
+const outlookLocalManifestPath = "./manifests/manifest-local.outlook.xml";
+const outlookProductionManifestPath = "./manifests/manifest.outlook.xml";
+
 function main() {
     const fs = require("fs");
-
-    const templateManifestPath = "./manifests/manifest-template.xml";
-    const localManifestPath = "./manifests/manifest-local.xml";
-    const prodManifestPath = "./manifests/manifest.xml";
 
     const data = fs.readFileSync(templateManifestPath, { encoding: "utf-8" });
 
@@ -76,7 +81,12 @@ function main() {
     fs.writeFileSync(localManifestPath, localhostData);
 
     const productionData = production(localhostData);
-    fs.writeFileSync(prodManifestPath, productionData);
+    fs.writeFileSync(productionManifestPath, productionData);
+
+    // Outlook
+    const outlookLocalhostData = fs.readFileSync(outlookLocalManifestPath, { encoding: "utf-8" });
+    const outlookProductionData = production(outlookLocalhostData);
+    fs.writeFileSync(outlookProductionManifestPath, outlookProductionData);
 }
 
 main();

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+  xsi:type="TaskPaneApp"
+>
   <Id>01000000-0000-0000-1000-000000007357</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="(local) Build" />
+  <DisplayName DefaultValue="Build" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-64.png" />
@@ -33,9 +36,10 @@
     <SourceLocation DefaultValue="https://wandyezj.github.io/website-react-extension/edit.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
     <Hosts>
-
+      
       <Host xsi:type="Document">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -85,8 +89,8 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-
-
+      
+      
       <Host xsi:type="Workbook">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -136,7 +140,7 @@
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-
+      
       <Host xsi:type="Presentation">
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
@@ -206,8 +210,8 @@
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://wandyezj.github.io/website-react-extension/run.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="TabExtension.TabLabel" DefaultValue="Extension" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Extension" />
+        <bt:String id="TabExtension.TabLabel" DefaultValue="(local) Extension" />
+        <bt:String id="CommandsGroup.Label" DefaultValue="(local) Extension" />
         <bt:String id="TaskpaneButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneButtonRun.Label" DefaultValue="Run" />
       </bt:ShortStrings>
