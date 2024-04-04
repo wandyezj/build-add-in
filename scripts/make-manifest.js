@@ -1,3 +1,4 @@
+// local -> production
 // create the production manifest from the local manifest.
 
 /**

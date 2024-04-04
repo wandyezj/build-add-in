@@ -124,6 +124,10 @@ module.exports = async (env, options) => {
                             return mdToHtml(content, path.basename(absoluteFilename, ".md"));
                         },
                     },
+                    {
+                        from: "node_modules/typescript/lib/*.ts",
+                        to: "lib/[name].ts",
+                    },
                 ],
             }),
         ],

@@ -1,5 +1,20 @@
 import * as ts from "typescript";
 
+function AddSourceToMap(array: [string, string][]) {
+    // need to load up all lib files from src
+    array.push([
+        "lib.es2022.full.d.ts",
+        `/// <reference no-default-lib="true"/>
+
+    /// <reference lib="es2022" />
+    /// <reference lib="dom" />
+    /// <reference lib="webworker.importscripts" />
+    /// <reference lib="scripthost" />
+    /// <reference lib="dom.iterable" />
+    `,
+    ]);
+}
+
 /**
  * Create a single file TypeScript program that works in the browser.
  */
@@ -10,7 +25,7 @@ function createProgramFromFiles(
         options,
     }: {
         intellisense?: string[];
-        options?: ts.CompilerOptions;
+        options: ts.CompilerOptions;
     }
 ): ts.Program {
     const defaultLibFileName = "lib.d.ts";
@@ -19,6 +34,7 @@ function createProgramFromFiles(
     const fileNames = files.map((file) => file.name);
     const fileNameData: [string, string][] = files.map(({ name, data }) => [name, data]);
     fileNameData.push([defaultLibFileName, defaultLibData]);
+    AddSourceToMap(fileNameData);
     const fileMap = new Map<string, string>(fileNameData);
 
     const host: ts.CompilerHost = {
@@ -28,14 +44,41 @@ function createProgramFromFiles(
         ) => {
             const data = fileMap.get(fileName);
             if (data === undefined) {
-                console.log(`getSourceFile ${fileName} not found`);
+                console.log(`getSourceFile [not found] [${fileName}]`);
                 return undefined;
             }
 
             return ts.createSourceFile(fileName, data, languageVersion, true);
         },
         // Is this deprecated?
-        getDefaultLibFileName: (defaultLibOptions: ts.CompilerOptions) => ts.getDefaultLibFileName(defaultLibOptions),
+        getDefaultLibFileName: (defaultLibOptions: ts.CompilerOptions) => {
+            const defaultLibName = ts.getDefaultLibFileName(defaultLibOptions);
+            console.log(`getDefaultLibFileName ${defaultLibName}`);
+            return defaultLibName;
+        },
+
+        getDefaultLibLocation: () => {
+            console.log(`getDefaultLibLocation`);
+            return "lib"; // don't need to read files
+        },
+
+        // resolveModuleNameLiterals: (moduleNames, containingFile) => {
+        //     console.log("resolveModuleNameLiterals");
+        //     return [];
+        // },
+        // getSourceFileByPath: (fileName: string, path: ts.Path, languageVersion: ts.ScriptTarget) => {
+        //     console.log(`getSourceFileByPath ${fileName}`);
+        //     return undefined;
+        // },
+        // resolveTypeReferenceDirectives: (typeDirectiveNames, containingFile) => {
+        //     console.log("resolveTypeReferenceDirectives");
+        //     return [];
+        // },
+        // readDirectory: (/*rootDir: string, extensions, excludes, includes, depth*/) => {
+        //     console.log("readDirectory");
+        //     return []; // don't need to read files
+        // },
+
         writeFile: (fileName, text) => {
             console.log("writeFile");
             console.log(fileName);
@@ -46,7 +89,7 @@ function createProgramFromFiles(
         getDirectories: (/*path: string*/) => [],
         fileExists: (fileName: string) => {
             const exists = fileMap.has(fileName);
-            console.log(`fileExists ${fileName} ${exists}`);
+            console.log(`fileExists [${exists}] ${fileName} `);
             return exists;
         },
         readFile: (fileName: string) => {
@@ -59,11 +102,20 @@ function createProgramFromFiles(
         getEnvironmentVariable: () => "", // do nothing
     };
 
+    //const defaultLibName = ts.getDefaultLibFileName(options);
     const program = ts.createProgram({
-        rootNames: fileNames,
+        rootNames: [
+            ...fileNames,
+            // Apparently this needs to be supplied
+            //defaultLibName,
+            //"lib.es2022.full.d.ts"
+        ],
         options: {
             ...options,
-            lib: [defaultLibFileName],
+            lib: [
+                "es2022",
+                //defaultLibFileName
+            ],
         },
         host,
     });
@@ -77,7 +129,9 @@ function createProgram(code: string) {
     // https://www.npmjs.com/package/@typescript/vfs
     // add files as a JSON blob from typescript
     // https://github.com/microsoft/TypeScript-Website/tree/v2/packages/typescript-vfs
-    const lib = ["dom", "es2022"];
+    const lib: string[] = [
+        //"dom", "es2022"
+    ];
 
     const options: ts.CompilerOptions = {
         target,
@@ -148,47 +202,3 @@ export function compileCode(code: string): { issues: Issue[]; js: string } {
     console.log(js);
     return { issues, js };
 }
-
-// function simpleCompile(code: string): string {
-//     console.log("compileCode");
-//     console.log(code);
-//     const target = ts.ScriptTarget.ES2022;
-//     const lib = ["dom", "es2022"];
-
-//     const compilerOptions: ts.CompilerOptions = {
-//         target,
-//         lib,
-//         module: ts.ModuleKind.None,
-//         strict: true,
-//         noEmit: true,
-//         inlineSourceMap: true,
-//         inlineSources: true,
-//     };
-
-//     // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#a-minimal-compiler
-//     // TODO: get pre emit diagnostics
-//     // ts.getPreEmitDiagnostics(ts.createProgram(["file.ts"], compilerOptions));
-
-//     // only used to get the js
-//     const result = ts.transpileModule(code, {
-//         // doesn't actually get all errors
-//         reportDiagnostics: true,
-//         compilerOptions,
-//     });
-
-//     const { diagnostics } = result;
-
-//     let issues: { message: string }[] = [];
-//     if (diagnostics) {
-//         issues = diagnostics.map((diagnostic) => {
-//             const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-//             return {
-//                 message,
-//             };
-//         });
-//     }
-
-//     const js = result.outputText;
-//     console.log(js);
-//     return { issues, js };
-// }

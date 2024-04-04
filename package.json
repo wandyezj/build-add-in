@@ -26,6 +26,7 @@
         "make-manifest": "node ./scripts/make-manifest.js",
         "check-manifest": "npx office-addin-manifest validate manifests/manifest.xml",
         "check-manifest-local": "npx office-addin-manifest validate manifests/manifest-local.xml",
+        "libs": "node ./scripts/make-libs.js",
         "playwright-install": "playwright install --with-deps chromium",
         "playwright-test": "playwright test --config ./config/playwright.config.ts",
         "playwright-report": "playwright show-report"
