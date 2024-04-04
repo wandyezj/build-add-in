@@ -10,7 +10,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>wandyezj</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Extension" />
+  <DisplayName DefaultValue="Build" />
   <Description DefaultValue="Build Extensions" />
   <IconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/website-react-extension/assets/icon-64.png" />
@@ -210,8 +210,8 @@
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://wandyezj.github.io/website-react-extension/run.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="TabExtension.TabLabel" DefaultValue="Extension" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Extension" />
+        <bt:String id="TabExtension.TabLabel" DefaultValue="(local) Extension" />
+        <bt:String id="CommandsGroup.Label" DefaultValue="(local) Extension" />
         <bt:String id="TaskpaneButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneButtonRun.Label" DefaultValue="Run" />
       </bt:ShortStrings>
