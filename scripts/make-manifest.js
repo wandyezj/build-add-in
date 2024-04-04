@@ -65,12 +65,12 @@ function production(data) {
     return clean(data);
 }
 
-const templateManifestPath = "./manifests/manifest-template.xml";
-const localManifestPath = "./manifests/manifest-local.xml";
-const productionManifestPath = "./manifests/manifest.xml";
+const templateManifestPath = "./manifests/template.xml";
+const localManifestPath = "./manifests/local.xml";
+const productionManifestPath = "./manifests/production.xml";
 
-const outlookLocalManifestPath = "./manifests/manifest-local.outlook.xml";
-const outlookProductionManifestPath = "./manifests/manifest.outlook.xml";
+const outlookLocalManifestPath = "./manifests/local.outlook.xml";
+const outlookProductionManifestPath = "./manifests/production.outlook.xml";
 
 function main() {
     const fs = require("fs");
