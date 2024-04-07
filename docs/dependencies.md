@@ -51,3 +51,10 @@ Notable dependencies of this project.
 ## UI testing
 
 - `playwright`
+
+## Inkscape
+
+Inkscape transforms SVGs to PNGs for icons. This tool is only used on a developer machine to generate the PNGs.
+
+Many icon SVGs come from the [Microsoft fluentui-system-icons repository](https://github.com/microsoft/fluentui-system-icons)
+
