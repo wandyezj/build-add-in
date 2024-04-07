@@ -31,7 +31,7 @@ build develop wandyezj
 
 ### Marketplace icon
 
-![app icon](https://wandyezj.github.io/website-react-extension/assets/icon-300.png)
+![app icon](https://wandyezj.github.io/build-add-in/assets/icon-300.png)
 
 ### Screenshots
 

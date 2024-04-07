@@ -49,11 +49,12 @@ function localhost(data) {
  */
 function production(data) {
     // replace
-    data = data.replaceAll("https://localhost:3000/", "https://wandyezj.github.io/website-react-extension/");
+    data = data.replaceAll("https://localhost:3000/", "https://wandyezj.github.io/build-add-in/");
     data = data.replaceAll("https://localhost:3000", "https://wandyezj.github.io");
 
     // for production remove local prefix
     data = data.replaceAll("(local) Build", "Build");
+    data = data.replaceAll("(local) Extension", "Extension");
 
     data = data.replaceAll(
         "<Id>01000000-0000-0000-0000-000000007357</Id>",
