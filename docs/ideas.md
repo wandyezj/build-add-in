@@ -1,4 +1,9 @@
-# Improvements
+# Ideas
+
+A collection of ideas that might improve the Build Add-In experience.
+
+
+## Random
 
 - Github Issues Tab
     - Clear set of labels for issues with description of what they mean and how they should be used.
@@ -24,6 +29,7 @@
 - Explanation of libraries tab
     - Explain that it only loads js, css, and types files as is.
     - We do not do any complex logic like trying to load a npm package. If you want to do that build a full website with a build system.
+- Allow office.js and Office.d.ts to load from the localhost when there isn't internet.
 
 - copy manifests to standard C:\share for testing on native, and prefix with the add-in name.
 
