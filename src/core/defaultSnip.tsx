@@ -32,6 +32,7 @@ function getHostColor(host: Office.HostType): string {
         [Office.HostType.Excel, "green"],
         [Office.HostType.Word, "blue"],
         [Office.HostType.PowerPoint, "orange"],
+        [Office.HostType.Outlook, "deepskyblue"],
     ]);
     const color = hostToColor.get(host) || "purple";
     return color;
