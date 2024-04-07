@@ -1,3 +1,3 @@
 # Privacy Statement
 
-The Extension Add-In code does not collect any information.
+The Build Add-In code does not collect any information.

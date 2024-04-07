@@ -137,7 +137,7 @@ module.exports = async (env, options) => {
     if (options.mode === "development") {
         config.devServer = {
             ...config.devServer,
-            open: ["/edit.html", "/run.html", "/blocks.html"],
+            open: [], //["/edit.html", "/run.html", "/blocks.html"],
             port: 3000,
             server: {
                 type: "https",

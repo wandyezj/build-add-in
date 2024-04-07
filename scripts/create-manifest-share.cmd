@@ -5,3 +5,6 @@ set share=C:\manifests
 if not exist %share% md %share%
 
 net share manifests=%share%
+
+:: Open new folder
+start %share%
