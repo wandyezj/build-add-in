@@ -29,6 +29,21 @@
 
 - Can I allow custom buttons to active specific snips?
 
+- arbitrary snip import from URLs - show message if not successful
+- export as publish zip with:
+    - html file with {html, css, js} embedded or simply as separate files?
+    - manifest.xml
+    - default icon
+    - snip.json
+    - readme with instructions of how to publish on GitHub, clone simple repository put all files in, create site etc.., replace url in manifest etc, upload to store
+
+
+- Make sure to validate any imported data. - Should probably be extended to anything in indexedDB as well. Assume any data where ever it's from is evil.
+
+- Enable embedding snips in documents, possibly by adding custom xml tags and searching for them.
+- double check any library urls
+- provide firm guidance on what each piece does with an info box
+
 Tests
 
 - What happens with snips with really long names?
