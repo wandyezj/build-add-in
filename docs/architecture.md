@@ -12,7 +12,9 @@ The purpose of this Add-In is to:
 - Simplify building miniature Add-Ins.
 - Allow sharing of snips to testing and debugging.
 
-A [snip](#snip) is the unit of code that is editable and run.
+## Vocabulary
+
+A [snip](#snip) is the unit of code that is editable and runnable.
 
 There are two pages:
 
@@ -50,3 +52,5 @@ The edit page allows:
 ## Run Page
 
 The run page loads all resources before the snip code is allowed to run.
+
+The ts code is compiled to javascript using the typescript compiler.
