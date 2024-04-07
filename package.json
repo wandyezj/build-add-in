@@ -1,7 +1,7 @@
 {
-    "name": "website",
+    "name": "build",
     "version": "0.0.0",
-    "description": "Simple Website Template",
+    "description": "build-add-in",
     "private": true,
     "engines": {
         "node": ">=20.0",
@@ -23,6 +23,7 @@
         "lint-fix": "eslint --config ./config/eslint.json --no-eslintrc --fix \"@(src|tests|scripts)/**/*.@(ts|tsx|js)\"",
         "test": "npm run compile && npm run playwright-test",
         "icons": "node ./scripts/get-icons.js",
+        "share": "node ./scripts/manifests-to-share.js",
         "manifest": "node ./scripts/make-manifest.js && npm run check-manifest-local && npm run check-manifest && npm run check-manifest-outlook-local && npm run check-manifest-outlook",
         "make-manifest": "node ./scripts/make-manifest.js",
         "check-manifest": "npx office-addin-manifest validate manifests/production.xml",

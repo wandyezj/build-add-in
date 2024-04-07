@@ -210,7 +210,7 @@
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://localhost:3000/run.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="TabExtension.TabLabel" DefaultValue="(local) Extension" />
+        <bt:String id="TabExtension.TabLabel" DefaultValue="(local) Build" />
         <bt:String id="CommandsGroup.Label" DefaultValue="(local) Extension" />
         <bt:String id="TaskpaneButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneButtonRun.Label" DefaultValue="Run" />
