@@ -50,6 +50,9 @@ A collection of ideas that might improve the Build Add-In experience.
 - double check any library urls
 - provide firm guidance on what each piece does with an info box
 
+- hotkeys - allow creation of a limited number of custom hotkeys. Only allow JS to execute. Requires shared runtime?
+
+
 Tests
 
 - What happens with snips with really long names?

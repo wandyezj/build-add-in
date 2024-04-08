@@ -65,8 +65,7 @@ In the Local Snips drawer.
     - [ ] Allow delete of select Local Snips
 - [ ] More graceful delete and new.
     - After delete open Local Snips drawer to selecting new snip to open.
-- [ ] Allow pin of snips to the top.
-
+- [ ] Allow pin of snips to the top of the Local Snips drawer.
 
 ## Phase - UI Polish
 
