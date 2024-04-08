@@ -1,7 +1,7 @@
 import { PrunedSnip } from "./Snip";
 
 export const defaultSnip: PrunedSnip = {
-    name: "Default Snip",
+    name: "New Snip",
     files: {
         typescript: {
             language: "typescript",
@@ -21,7 +21,8 @@ Office.onReady(({host, platform})=> {
     elementHost.innerText = \`\${host}\`;
     elementHost.style.color = getHostColor(host);
 
-    document.getElementById('platform').innerText = \`\${platform}\`;
+    const elementPlatform = document.getElementById('platform');
+    elementPlatform.innerText = \`\${platform}\`;
 });
 
 /**
