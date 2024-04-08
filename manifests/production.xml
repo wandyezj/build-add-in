@@ -65,6 +65,7 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
                     <SourceLocation resid="TaskpaneEdit.Url" />
+                    <Title resid="TaskpaneEdit.Title" />
                   </Action>
                 </Control>
                 <Control xsi:type="Button" id="TaskpaneButtonRun">
@@ -81,10 +82,11 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonIdRun</TaskpaneId>
                     <SourceLocation resid="TaskpaneRun.Url" />
+                    <Title resid="TaskpaneRun.Title" />
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabExtension.TabLabel" />
+              <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
@@ -116,6 +118,7 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
                     <SourceLocation resid="TaskpaneEdit.Url" />
+                    <Title resid="TaskpaneEdit.Title" />
                   </Action>
                 </Control>
                 <Control xsi:type="Button" id="TaskpaneButtonRun">
@@ -132,10 +135,11 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonIdRun</TaskpaneId>
                     <SourceLocation resid="TaskpaneRun.Url" />
+                    <Title resid="TaskpaneRun.Title" />
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabExtension.TabLabel" />
+              <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
@@ -166,6 +170,7 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
                     <SourceLocation resid="TaskpaneEdit.Url" />
+                    <Title resid="TaskpaneEdit.Title" />
                   </Action>
                 </Control>
                 <Control xsi:type="Button" id="TaskpaneButtonRun">
@@ -182,10 +187,11 @@
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonIdRun</TaskpaneId>
                     <SourceLocation resid="TaskpaneRun.Url" />
+                    <Title resid="TaskpaneRun.Title" />
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabExtension.TabLabel" />
+              <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
@@ -210,10 +216,12 @@
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://wandyezj.github.io/build-add-in/run.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="TabExtension.TabLabel" DefaultValue="Build" />
+        <bt:String id="TabBuild.TabLabel" DefaultValue="Build" />
         <bt:String id="CommandsGroup.Label" DefaultValue="Extension" />
         <bt:String id="TaskpaneButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneButtonRun.Label" DefaultValue="Run" />
+        <bt:String id="TaskpaneEdit.Title" DefaultValue="Edit" />
+        <bt:String id="TaskpaneRun.Title" DefaultValue="Run" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButtonEdit.Tooltip" DefaultValue="Edit Snip" />
