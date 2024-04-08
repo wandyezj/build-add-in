@@ -15,16 +15,13 @@
 
 ## Phase - Multiple Files
 
-- [ ] multiple local snip
+- [X] multiple local snip
 - [X] storage scheme
 - [X] storage system
     - [indexedDB basic pattern](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB#basic_pattern)
 - [X] multi snip display and selection
     - [X] Style the snips to display (display name, in order of last modified.)
         - [Card](https://react.fluentui.dev/?path=/docs/components-card-card--default)
-- [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
-- [ ] More graceful delete and new. After delete open library to selecting new snip to open.
-- [ ] remove ... from card or have dropdown to delete / pin
 
 ## Phase - Publish
 
@@ -34,7 +31,7 @@
 - [X] Manifest - Cross Application
 - [X] Manifest - Ribbon Tab - (Extension)
 - [ ] Store Publish
-    - [ ] Catchy Name (Build?)
+    - [X] Catchy Name = `Build` Add-In
     - [AppSource publishing](https://learn.microsoft.com/en-us/partner-center/marketplace/submit-to-appsource-via-partner-center)
         - [Offer Overview](https://partner.microsoft.com/en-us/dashboard/marketplace-offers/overview)
     - [X] Description Short
@@ -54,14 +51,22 @@
 
 ## Phase - Important
 
-- [ ] Warn before delete
+- [ ] Confirmation dialog before delete
 - [ ] display compile errors
     - typescript pre emit diagnostics require program construction
 
-## Phase - Fix
+## Phase - Multiple Files - Advanced
 
-- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
-    - [X] Workaround - use the command API
+In the Local Snips drawer.
+
+- [ ] Select Multiple
+    - [ ] Allow download of select snips to a snips.json file.
+    - [ ] Allow import of select snips from a snip.json file.
+    - [ ] Allow delete of select Local Snips
+- [ ] More graceful delete and new.
+    - After delete open Local Snips drawer to selecting new snip to open.
+- [ ] Allow pin of snips to the top.
+
 
 ## Phase - UI Polish
 
@@ -69,11 +74,19 @@
 - [X] Resizable Editor that adjusts to screen size
     - [ ] Find a better way to do this. The current way works but is not ideal. using 100vh on the container CSS and 90vh on the editor CSS.
 
+## Phase - Samples
+
+- [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
 
 ## Phase - test
 
 - [ ] always an open snip
 - [ ] always something to run
+
+## Phase - Long Term Fix
+
+- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
+    - [X] Workaround - use the command API
 
 ## Phase - Nice
 
@@ -99,7 +112,10 @@
 - [X] dependencies.md
     - why each dependency
     - how is each dependency used
+- [X] vocabulary.md
+    - names and definition for every item
 - [ ] deployment infrastructure
+
 
 ## Phase - Accessibility
 
@@ -111,8 +127,7 @@ i18n
 - [ ] Open Source Machine Translation Tool?
 - [ ] Copy Translations
     - https://github.com/microsoft/vscode-loc
-
-    https://github.com/microsoft/vscode-l10n
+    - https://github.com/microsoft/vscode-l10n
 
 
 ## Phase - Blocks

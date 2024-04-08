@@ -15,8 +15,8 @@ Create, edit, and run your first snip.
     1. Click the `Edit` button.
     1. Wait for the _Edit taskpane_ to open on the right of the document.
 1. Create a new default snip, In the _Edit Taskpane_
-    1. Click the `Open Snip` Icon to open the `Local Snips` flyout and view all local snips. (There shouldn't be any yet)
-    1. In the `Local Snip` flyout, click `New Snip`.
+    1. Click the `Open Snip` Icon to open the `Local Snips` drawer and view all local snips. (There shouldn't be any yet)
+    1. In the `Local Snip` drawer, click `New Snip`.
     1. You should see a snip named `Default Snip` appear.
     1. Click the new Default Snip
 1. Edit the Snip
@@ -76,7 +76,7 @@ Snips are saved in local storage. You can backup and share your snips in the `Ed
 
 #### Backup
 
-In `Local Snips flyout` in the`Edit taskpane`.
+In `Local Snips drawer` in the `Edit taskpane`.
 
 - Click `Download All Snips` to download a snips.json file with a copy of all local snips.
 - Click `Upload Snips` to upload a new copy of all snips in a snips.json file.
