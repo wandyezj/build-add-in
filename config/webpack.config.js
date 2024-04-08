@@ -4,6 +4,16 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 //const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { Marked } = require("marked");
+
+
+// Options
+
+/**
+ * In Dev mode, when starting, open the edit, run, and blocks in the browser
+ */
+const optionDevOpenBrowserTabs = true;
+
+
 const marked = new Marked();
 marked.use({
     gfm: true,
@@ -137,7 +147,7 @@ module.exports = async (env, options) => {
     if (options.mode === "development") {
         config.devServer = {
             ...config.devServer,
-            open: [], //["/edit.html", "/run.html", "/blocks.html"],
+            open: optionDevOpenBrowserTabs ? ["/edit.html", "/run.html", "/blocks.html"] : [],
             port: 3000,
             server: {
                 type: "https",
