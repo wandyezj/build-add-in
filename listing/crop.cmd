@@ -23,7 +23,7 @@ set height=768
 
 call :crop excel
 call :crop powerpoint
-
+call :crop word
 
 goto :eof
 
