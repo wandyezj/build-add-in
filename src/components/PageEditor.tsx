@@ -11,7 +11,7 @@ import {
     // DocumentFolderRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, completeSnip, getSnipFromJson } from "../core/Snip";
+import { Snip, completeSnip, getSnipFromJson, pruneSnipJson } from "../core/Snip";
 import { saveCurrentSnipId } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
@@ -77,7 +77,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
      */
     function buttonCopySnipToClipboard() {
         log(LogTag.ButtonCopy, "button - copy to clipboard");
-        const text = objectToJson(snip);
+        const text = objectToJson(pruneSnipJson(snip));
         copyTextToClipboard(text);
     }
 
