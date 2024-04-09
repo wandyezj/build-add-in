@@ -44,7 +44,11 @@ async function uploadMultipleFromFile() {
     const text = await uploadFileJson();
 
     // put all snips into the database
-    const snips = JSON.parse(text) as PrunedSnip[];
+    // Allow an array of snips or a single snip
+    const o = JSON.parse(text) as PrunedSnip[] | PrunedSnip;
+
+    const snips = Array.isArray(o) ? o : [o];
+
     const promises = snips.map((snip, index) => {
         const fullSnip = completeSnip(snip, { id: `-${index}` });
         return saveSnip(fullSnip);
