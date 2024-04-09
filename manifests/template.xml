@@ -47,9 +47,9 @@
               <Group id="GroupExtensionId">
                 <Label resid="GroupExtension.Label" />
                 <Icon>
-                     <bt:Image size="16" resid="Icon.Edit.16x16" />
-                    <bt:Image size="32" resid="Icon.Edit.32x32" />
-                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  <bt:Image size="16" resid="Icon.Edit.16x16" />
+                  <bt:Image size="32" resid="Icon.Edit.32x32" />
+                  <bt:Image size="80" resid="Icon.Edit.80x80" />
                 </Icon>
                 <Control xsi:type="Button" id="ButtonEditId">
                   <Label resid="ButtonEdit.Label" />
@@ -89,9 +89,9 @@
               <Group id="GroupHelpId">
                 <Label resid="GroupHelp.Label" />
                 <Icon>
-                    <bt:Image size="16" resid="Icon.Help.16x16" />
-                    <bt:Image size="32" resid="Icon.Help.32x32" />
-                    <bt:Image size="80" resid="Icon.Help.80x80" />
+                  <bt:Image size="16" resid="Icon.Help.16x16" />
+                  <bt:Image size="32" resid="Icon.Help.32x32" />
+                  <bt:Image size="80" resid="Icon.Help.80x80" />
                 </Icon>
                 <Control xsi:type="Button" id="ButtonHelpId">
                   <Label resid="ButtonHelp.Label" />

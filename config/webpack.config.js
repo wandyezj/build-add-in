@@ -5,14 +5,12 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 //const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { Marked } = require("marked");
 
-
 // Options
 
 /**
  * In Dev mode, when starting, open the edit, run, and blocks in the browser
  */
 const optionDevOpenBrowserTabs = true;
-
 
 const marked = new Marked();
 marked.use({
@@ -55,6 +53,7 @@ module.exports = async (env, options) => {
         entry: {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
+            help: "./src/help.tsx",
             blocks: "./src/blocks.tsx",
         },
         output: {
@@ -101,6 +100,11 @@ module.exports = async (env, options) => {
                 filename: "run.html",
                 chunks: ["run"],
             }),
+            new HtmlWebpackPlugin({
+                template: "src/help.html",
+                filename: "help.html",
+                chunks: ["help"],
+            }),
             new MonacoWebpackPlugin({
                 languages: [
                     "typescript",
@@ -121,6 +125,10 @@ module.exports = async (env, options) => {
                     {
                         to: "edit.css",
                         from: "./src/edit.css",
+                    },
+                    {
+                        to: "help.css",
+                        from: "./src/help.css",
                     },
                     {
                         to: "robots.txt",
@@ -147,7 +155,7 @@ module.exports = async (env, options) => {
     if (options.mode === "development") {
         config.devServer = {
             ...config.devServer,
-            open: optionDevOpenBrowserTabs ? ["/edit.html", "/run.html", "/blocks.html"] : [],
+            open: optionDevOpenBrowserTabs ? ["/edit.html", "/run.html", "/blocks.html", "/help.html"] : [],
             port: 3000,
             server: {
                 type: "https",

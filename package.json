@@ -27,7 +27,7 @@
         "icon-copy": "node ./scripts/get-icons.js",
         "icon-generate": ".\\assets\\generate.cmd",
         "share": "node ./scripts/manifests-to-share.js",
-        "manifest": "node ./scripts/make-manifest.js && npm run check-manifest-local && npm run check-manifest && npm run check-manifest-outlook-local && npm run check-manifest-outlook",
+        "manifest": "node ./scripts/make-manifest.js && npm run share && npm run check-manifest-local && npm run check-manifest && npm run check-manifest-outlook-local && npm run check-manifest-outlook",
         "make-manifest": "node ./scripts/make-manifest.js",
         "check-manifest": "npx office-addin-manifest validate manifests/production.xml",
         "check-manifest-local": "npx office-addin-manifest validate manifests/local.xml",
