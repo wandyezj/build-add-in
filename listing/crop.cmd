@@ -20,8 +20,19 @@ set width=1366
 set height=768
 
 :: save over the original image and them crop.
-set image_name_in=excel-taskpane-%width%-%height%.png
-set image_name_out=excel-taskpane-%width%-%height%.png
+
+call :crop excel
+call :crop powerpoint
+call :crop word
+
+goto :eof
+
+:crop
+set name=%1
+echo.
+echo Crop %name%
+set image_name_in=%name%-taskpane-%width%-%height%.png
+set image_name_out=%name%-taskpane-%width%-%height%.png
 
 set image_in=%THISDIR%\%image_name_in%
 set image_out=%THISDIR%\%image_name_out%
@@ -29,3 +40,5 @@ set image_out=%THISDIR%\%image_name_out%
 set command=%magick% %image_in% -crop %width%x%height%+0+0 %image_out%
 echo %command%
 call %command%
+goto :eof
+
