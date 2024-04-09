@@ -1,0 +1,22 @@
+{
+    "modified": 1712674563963,
+    "name": "Demo",
+    "files": {
+        "typescript": {
+            "content": "//\n// Click \"Run\" to execute the code below.\n//\n\n//\n// The following program demos\n// writing and reading text\n// in Word, Excel, and PowerPoint.\n//\n\n\nfunction ready() {\n    console.log('Hello world!');\n}\n\nfunction updateData(text: string) {\n    const elementData = document.getElementById('data');\n    elementData.innerText = text;\n}\n\nfunction demoExcel() {\n    Excel.run(async (context) => {\n        // Add text to A1, and highlight.\n        const worksheet = context.workbook.worksheets.getActiveWorksheet();\n        const range = worksheet.getRange(\"A1\");\n        const n = Math.floor(Math.random() * 100);\n        range.values = [[`Hello Excel! ${n}`]];\n        range.format.fill.color = \"yellow\";\n\n        // Activate and select the range for visibility\n        worksheet.activate()\n        range.select()\n\n        // Load and display the value\n        const selection = context.workbook.getSelectedRange().getCell(0,0);\n        selection.load(\"values\");\n        await context.sync();\n        const text = selection.values[0][0];\n        updateData(text); \n    });\n}\n\nfunction demoWord() {\n    Word.run(async (context) => {\n        const selection = context.document.getSelection();\n        selection.load(\"text\");\n        await context.sync();\n        const text  = selection.text;\n        updateData(text);        \n    });\n}\n\nfunction demoPowerPoint() {\n    PowerPoint.run(async (context) => {\n        const selection = context.presentation.getSelectedTextRange();\n        selection.load(\"text\");\n        await context.sync();\n        const text = selection.text;\n        updateData(text);\n    });\n}\n\n\nOffice.onReady(({host, platform})=> {\n    console.log(\"READY\");\n\n    const elementHost = document.getElementById('host');\n    elementHost.innerText = `${host}`;\n    elementHost.style.color = getHostColor(host);\n\n    document.getElementById('platform').innerText = `${platform}`;\n\n    if (host === Office.HostType.Word) {\n        demoWord()\n    }\n\n    if (host === Office.HostType.PowerPoint) {\n        demoPowerPoint();\n    }\n\n    if (host === Office.HostType.Excel) {\n        demoExcel();\n    }\n});\n\n/**\n * Get a color associated with the host.\n */\nfunction getHostColor(host: Office.HostType): string {\n    const hostToColor = new Map<Office.HostType, string>([\n        [Office.HostType.Excel, \"green\"],\n        [Office.HostType.Word, \"blue\"],\n        [Office.HostType.PowerPoint, \"orange\"],\n        // note: Outlook requires a separate Add-In\n        [Office.HostType.Outlook, \"deepskyblue\"],\n    ]);\n    const color = hostToColor.get(host) || \"purple\";\n    return color;\n}\n",
+            "language": "typescript"
+        },
+        "html": {
+            "content": "\n<h1 onclick=\"ready\">Hello <span id=\"host\">?</span> on <span id=\"platform\">?</span>!</h1>\n<p>Select some text, then click run</p>\n<div id=\"data\"> </div>",
+            "language": "html"
+        },
+        "css": {
+            "content": "h1 { \n    color: black;\n}",
+            "language": "css"
+        },
+        "libraries": {
+            "content": "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
+            "language": "text"
+        }
+    }
+}
