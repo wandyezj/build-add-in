@@ -23,6 +23,7 @@
         "lint-fix": "eslint --config ./config/eslint.json --no-eslintrc --fix \"@(src|tests|scripts)/**/*.@(ts|tsx|js)\"",
         "test": "npm run compile && npm run playwright-test",
         "crop": ".\\listing\\crop.cmd",
+        "icon": "npm run icon-copy && npm run icon-generate",
         "icon-copy": "node ./scripts/get-icons.js",
         "icon-generate": ".\\assets\\generate.cmd",
         "share": "node ./scripts/manifests-to-share.js",

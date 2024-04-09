@@ -10,14 +10,21 @@
 
 const fs = require("fs");
 
-const icons = [
-    ["Play", "regular", [16, 32, 48]],
-    ["Edit", "regular", [16, 32, 48]],
-    ["Hexagon", "regular", [16, 32, 48]],
-];
+const iconNames = ["Play", "Edit", "Hexagon", "Question"];
+const icons = iconNames.map((name) => [name, "regular", [16, 32, 48]]);
 
 const iconDirectory = "../../fluentui-system-icons/assets";
 const iconDirectoryOut = "assets/fluent-svg";
+
+if (!fs.existsSync(iconDirectory)) {
+    console.error(`Directory not found: ${iconDirectory}`);
+    console.error(`
+Please clone the repository next to this one:
+
+git clone https://github.com/microsoft/fluentui-system-icons.git
+    `);
+    process.exit(1);
+}
 
 // Icon names follow a pattern:
 // Example: ic_fluent_edit_16_regular.svg
