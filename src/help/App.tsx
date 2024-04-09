@@ -1,5 +1,6 @@
-import React, { MouseEventHandler } from "react";
-import { FluentProvider, webLightTheme, Link } from "@fluentui/react-components";
+import React from "react";
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import { ButtonLink } from "./ButtonLink";
 
 const tutorialText = "Tutorial";
 const tutorialUrl = "https://github.com/wandyezj/build-add-in/blob/main/docs/tutorial.md";
@@ -28,17 +29,5 @@ export function App() {
                 <ButtonLink text={apiReferenceText} url={apiReferenceUrl} />
             </div>
         </FluentProvider>
-    );
-}
-
-function ButtonLink({ text, url }: { text: string; url: string }) {
-    function onClickTutorial() {
-        window.open(url, "_blank");
-    }
-
-    return (
-        <Link onClick={onClickTutorial} as="button">
-            {text}
-        </Link>
     );
 }
