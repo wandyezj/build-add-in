@@ -7,7 +7,10 @@ const hookName = "pre-push";
 const hookPath = `.git/hooks/${hookName}`;
 const hookScript = `#!/bin/sh
 
-# run style before commit
+#
+# ensure that style check passes before pushing
+#
+
 npm run style-check
 style_exit_code=$?
 
