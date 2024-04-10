@@ -30,13 +30,13 @@
     - [X] Edit
 - [X] Manifest - Cross Application
 - [X] Manifest - Ribbon Tab - (Extension)
-- [ ] Store Publish
+- [X] Store Publish
     - [X] Catchy Name = `Build` Add-In
     - [AppSource publishing](https://learn.microsoft.com/en-us/partner-center/marketplace/submit-to-appsource-via-partner-center)
         - [Offer Overview](https://partner.microsoft.com/en-us/dashboard/marketplace-offers/overview)
     - [X] Description Short
     - [X] Description Long
-    - Screen Shots
+    - [X] Screen Shots
         - Walk through and screen shots of how to use
         - (1) Go to Extension tab (2) Click Edit, edit your snip (3) click run button to run the current snip. (4) observe running.
         - Update sample with the color of the host.
@@ -79,8 +79,8 @@ In the Local Snips drawer.
 
 ## Phase - test
 
-- [ ] always an open snip
-- [ ] always something to run
+- [ ] document all individual features in features.md
+- [ ] create Playwright tests for every feature
 
 ## Phase - Long Term Fix
 
@@ -90,7 +90,8 @@ In the Local Snips drawer.
 ## Phase - Nice
 
 - [ ] global log function to ease debugging and silencing
-- [ ] import from url
+- [X] import from url
+- [ ] import multiple urls at once (one per line)
 - [ ] run automatic refresh
     - [ ] add last update time to snip
     - [ ] detect when snip is updated simply check every second or so and compare 1. current sample name 2. last update time on snip.
@@ -103,6 +104,8 @@ In the Local Snips drawer.
 - [ ] button - settings
     - [ ] settings - monaco editor
     - [ ] settings - typescript compiler
+    - [ ] settings - set github name to show gists from
+    - [ ] settings - turn debug logging on and off (turn off all in production)
 - [ ] button - run in editor
     - Is there a point to this?
 

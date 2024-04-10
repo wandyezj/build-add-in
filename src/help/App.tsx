@@ -39,7 +39,6 @@ export function App() {
                         <br></br>
                     </>
                 ))}
-                
             </div>
         </FluentProvider>
     );
