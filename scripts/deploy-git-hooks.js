@@ -20,13 +20,36 @@ echo "style exit code: $style_exit_code"
 
 case $style_exit_code in
     0)
-        echo "style check passed"
+        echo ""
+        echo "pass: style check"
+        echo ""
         ;;
     *)
         echo ""
-        echo "Failed: npm run style-check"
+        echo "FAIL: npm run style-check"
         echo "run:"
         echo "npm run style"
+        exit 1
+        ;;
+esac
+
+npm run spell-check
+spell_exit_code=$?
+
+echo "spell exit code: $spell_exit_code"
+
+case $spell_exit_code in
+    0)
+        echo ""
+        echo "pass: spell check"
+        echo ""
+        ;;
+    *)
+        echo ""
+        echo "FAIL: npm run spell-check"
+        echo "Fix the spelling issues."
+        echo "    To ignore specific words:"
+        echo "    // cspell:ignore wordToIgnore"
         exit 1
         ;;
 esac
