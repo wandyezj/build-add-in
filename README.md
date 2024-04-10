@@ -6,6 +6,10 @@
 Get the [Build Add-In](https://appsource.microsoft.com/en-us/product/office/WA200006798).
 
 
+
+![Logo](./assets/icon-80.png)
+
+
 ## Goals
 
 - Play with office.js APIs.
@@ -16,5 +20,3 @@ Get the [Build Add-In](https://appsource.microsoft.com/en-us/product/office/WA20
 
 - Open Source
 - Maintainable
-
-![Fan Art](./docs/Joe-Lab-fan-art.jpg)
