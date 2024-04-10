@@ -8,7 +8,7 @@ const tutorialUrl = "https://github.com/wandyezj/build-add-in/blob/main/docs/tut
 const apiReferenceText = "API Reference";
 const apiReferenceUrl = "https://learn.microsoft.com/en-us/javascript/api/overview?view=common-js-preview";
 
-const reportIssueText = "Report an issue";
+const reportIssueText = "Report issue";
 const reportIssueUrl = "https://github.com/wandyezj/build-add-in/issues";
 
 const links = [
