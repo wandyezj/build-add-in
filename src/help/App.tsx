@@ -34,7 +34,7 @@ export function App() {
             >
                 {links.map(({ text, url }, index) => (
                     <>
-        <ButtonLink key={index} text={text} url={url} />
+                        <ButtonLink key={index} text={text} url={url} />
                         <br></br>
                         <br></br>
                     </>

@@ -9,7 +9,24 @@ const hookScript = `#!/bin/sh
 
 # run style before commit
 npm run style-check
-exit $?
+style_exit_code=$?
+
+echo "style exit code: $style_exit_code"
+
+case $style_exit_code in
+    0)
+        echo "style check passed"
+        ;;
+    *)
+        echo ""
+        echo "Failed: npm run style-check"
+        echo "run:"
+        echo "npm run style"
+        exit 1
+        ;;
+esac
+
+exit 0
 `;
 
 fs.writeFileSync(hookPath, hookScript);
