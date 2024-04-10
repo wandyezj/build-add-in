@@ -46,9 +46,9 @@ async function loadGistText(url: string): Promise<string> {
     const gistApiUrl = `https://api.github.com/gists/${gistId}`;
     const request = await fetch(gistApiUrl);
     const gistJson = await request.json();
-    
+
     // Find the first files raw url
-    const files = gistJson["files"] as {raw_url: string}[];
+    const files = gistJson["files"] as { raw_url: string }[];
     const filesData = Object.values(files);
     if (filesData.length !== 1) {
         throw new Error("Gist must have a single file");
