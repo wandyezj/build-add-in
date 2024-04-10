@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import path from "path";
-import { getRootDirectory } from "./getRootDirectory";
+import { localDistPath } from "./distConstants";
 
 /**
  * Local generated page from build
  */
-const mainPageLocalDistDataPath = path.resolve(getRootDirectory(), "dist", "index.html");
+const mainPageLocalDistDataPath = path.resolve(localDistPath, "index.html");
 
 export function getLocalDistIndexData() {
     if (!fs.existsSync(mainPageLocalDistDataPath)) {
