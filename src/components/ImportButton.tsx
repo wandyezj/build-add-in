@@ -32,9 +32,32 @@ function isValidSnip(value: string) {
     return valid;
 }
 
-async function fetchUrlText(url: string): Promise<string> {
+async function loadUrlText(url: string): Promise<string> {
     const request = await fetch(url);
     const text = await request.text();
+    return text;
+}
+
+async function loadGistText(url: string): Promise<string> {
+    const gistId = url.split("/").pop();
+    if (!gistId) {
+        throw new Error("Invalid gist url");
+    }
+    const gistApiUrl = `https://api.github.com/gists/${gistId}`;
+    const request = await fetch(gistApiUrl);
+    const gistJson = await request.json();
+    
+    // Find the first files raw url
+    const files = gistJson["files"] as {raw_url: string}[];
+    const filesData = Object.values(files);
+    if (filesData.length !== 1) {
+        throw new Error("Gist must have a single file");
+    }
+    const file = filesData[0];
+    const rawUrl = file["raw_url"];
+
+    // load up the gist data
+    const text = await loadUrlText(rawUrl);
     return text;
 }
 
@@ -66,10 +89,11 @@ async function getImportSnip(value: string): Promise<string | undefined> {
         const url = value.trim();
         if (isPossibleGistUrl(value)) {
             // Import - gist
-            // TODO:
+            const text = await loadGistText(url);
+            content = text;
         } else if (isPossibleUrl(value)) {
             // Import - url
-            const text = await fetchUrlText(url);
+            const text = await loadUrlText(url);
             content = text;
         }
     } catch (e) {
@@ -110,7 +134,7 @@ export function ImportButton({ setImport }: { setImport: (value: string) => void
                         <DialogContent>
                             <div className={styles.base}>
                                 <Label className={styles.label} htmlFor={textareaId}>
-                                    Paste the JSON
+                                    Paste a JSON, gist, or url.
                                 </Label>
                                 <Textarea id={textareaId} />
                             </div>
