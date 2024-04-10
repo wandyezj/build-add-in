@@ -8,6 +8,16 @@ const tutorialUrl = "https://github.com/wandyezj/build-add-in/blob/main/docs/tut
 const apiReferenceText = "API Reference";
 const apiReferenceUrl = "https://learn.microsoft.com/en-us/javascript/api/overview?view=common-js-preview";
 
+const reportIssueText = "Report an issue";
+const reportIssueUrl = "https://github.com/wandyezj/build-add-in/issues";
+
+const links = [
+    { text: tutorialText, url: tutorialUrl },
+    { text: apiReferenceText, url: apiReferenceUrl },
+    { text: reportIssueText, url: reportIssueUrl },
+];
+
+
 /**
  * The top level application component.
  */
@@ -23,10 +33,19 @@ export function App() {
                     minHeight: "100vh",
                 }}
             >
-                <ButtonLink text={tutorialText} url={tutorialUrl} />
+                {
+                    links.map(({text, url}, index) => (
+                        <>
+                        <ButtonLink key={index} text={text} url={url} />
+                        <br></br>
+                        <br></br>
+                        </>
+                    ))
+                }
+                {/* <ButtonLink text={tutorialText} url={tutorialUrl} />
                 <br></br>
                 <br></br>
-                <ButtonLink text={apiReferenceText} url={apiReferenceUrl} />
+                <ButtonLink text={apiReferenceText} url={apiReferenceUrl} /> */}
             </div>
         </FluentProvider>
     );
