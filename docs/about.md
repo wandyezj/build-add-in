@@ -10,5 +10,5 @@
 - [Architecture](./architecture.md)
 - [Dependencies](./dependencies.md)
 - [GitHub Pages Setup](./pages-environment.md)
-
+- [Features](./features.md)
 
