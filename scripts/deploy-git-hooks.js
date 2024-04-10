@@ -3,7 +3,7 @@ const fs = require("fs");
 // Git Hooks
 // https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
 
-const hookName = "pre-push";
+const hookName = "pre-commit";
 const hookPath = `.git/hooks/${hookName}`;
 const hookScript = `#!/bin/sh
 
