@@ -17,7 +17,6 @@ const links = [
     { text: reportIssueText, url: reportIssueUrl },
 ];
 
-
 /**
  * The top level application component.
  */
@@ -33,19 +32,14 @@ export function App() {
                     minHeight: "100vh",
                 }}
             >
-                {
-                    links.map(({text, url}, index) => (
-                        <>
+                {links.map(({ text, url }, index) => (
+                    <>
                         <ButtonLink key={index} text={text} url={url} />
                         <br></br>
                         <br></br>
-                        </>
-                    ))
-                }
-                {/* <ButtonLink text={tutorialText} url={tutorialUrl} />
-                <br></br>
-                <br></br>
-                <ButtonLink text={apiReferenceText} url={apiReferenceUrl} /> */}
+                    </>
+                ))}
+                
             </div>
         </FluentProvider>
     );
