@@ -60,6 +60,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
                 value: file.content,
                 language: file.language,
                 automaticLayout: true,
+                minimap:{enabled:false}
             });
             setupEditor();
         }
