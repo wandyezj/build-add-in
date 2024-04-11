@@ -11,6 +11,10 @@ const { Marked } = require("marked");
  * In Dev mode, when starting, open the edit, run, and blocks in the browser
  */
 const optionDevOpenBrowserTabs = true;
+const optionOpenBrowserTabs = [
+    "/settings.html",
+    // "/edit.html", "/run.html", "/blocks.html", "/help.html"
+];
 
 const marked = new Marked();
 marked.use({
@@ -54,6 +58,7 @@ module.exports = async (env, options) => {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
             help: "./src/help.tsx",
+            settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
         },
         output: {
@@ -105,6 +110,11 @@ module.exports = async (env, options) => {
                 filename: "help.html",
                 chunks: ["help"],
             }),
+            new HtmlWebpackPlugin({
+                template: "src/settings.html",
+                filename: "settings.html",
+                chunks: ["settings"],
+            }),
             new MonacoWebpackPlugin({
                 languages: [
                     "typescript",
@@ -119,20 +129,16 @@ module.exports = async (env, options) => {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        to: "index.html",
                         from: "./src/index.html",
+                        to: "index.html",
                     },
                     {
-                        to: "edit.css",
-                        from: "./src/edit.css",
+                        from: "./src/*.css",
+                        to: "[name].css",
                     },
                     {
-                        to: "help.css",
-                        from: "./src/help.css",
-                    },
-                    {
-                        to: "robots.txt",
                         from: "./src/robots.txt",
+                        to: "robots.txt",
                     },
                     { from: "assets/*.png", to: "" },
                     {
@@ -155,7 +161,7 @@ module.exports = async (env, options) => {
     if (options.mode === "development") {
         config.devServer = {
             ...config.devServer,
-            open: optionDevOpenBrowserTabs ? ["/edit.html", "/run.html", "/blocks.html", "/help.html"] : [],
+            open: optionDevOpenBrowserTabs ? optionOpenBrowserTabs : [],
             port: 3000,
             server: {
                 type: "https",

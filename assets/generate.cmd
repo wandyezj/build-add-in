@@ -32,7 +32,7 @@ for %%s in (16 32 64 80 128 300) do (
 :: edit
 :: play
 
-for %%n in (edit play) do (
+for %%n in (edit play settings) do (
     set name=%%n
     set svg_name=!name!
     set png_name=icon-!name!
