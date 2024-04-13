@@ -7,10 +7,12 @@
 //
 // To:
 // assets/fluent-svg
-
+//
+// Icon Catalogue: https://react.fluentui.dev/?path=/docs/icons-catalog--page
+//
 const fs = require("fs");
 
-const iconNames = ["Play", "Edit", "Hexagon", "Question"];
+const iconNames = ["Play", "Edit", "Hexagon", "Question", "Settings"];
 const icons = iconNames.map((name) => [name, "regular", [16, 32, 48]]);
 
 const iconDirectory = "../../fluentui-system-icons/assets";
