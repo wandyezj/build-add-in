@@ -13,6 +13,22 @@ const useStyles = makeStyles({
 
 let editor: monaco.editor.IStandaloneCodeEditor;
 
+function ignoreCtrlS(element: HTMLElement) {
+    // Add a keyboard listener to intercept save key combo "ctrl+s"
+    // It's a habit to hit ctrl+s to save.
+    // Snips are automatically saved.
+    // We don't want to save the page.
+    element.addEventListener(
+        "keydown",
+        (event) => {
+            if (event.ctrlKey && event.code === "KeyS") {
+                event.preventDefault();
+            }
+        },
+        false
+    );
+}
+
 export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Snip; updateSnip: (snip: Snip) => void }) {
     const styles = useStyles();
     console.log(`editor ${fileId}`);
@@ -52,6 +68,10 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
     useEffect(() => {
         console.log("editor component effect");
         if (container.current) {
+            // Target the editor container element
+            // ignore the save key combo "ctrl+s"
+            ignoreCtrlS(container.current);
+
             if (editor) {
                 editor.dispose();
             }
