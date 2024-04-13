@@ -43,12 +43,20 @@ function getHostColor(host: Office.HostType): string {
         html: {
             language: "html",
             content: `
-<h1 onclick="ready">Hello <span id="host">?</span> on <span id="platform">?</span>!</h1>
+<h1 onclick="ready">Hello 
+<span id="host">?</span>
+on <span id="platform">?</span>
+!</h1>
 `,
         },
         css: {
             language: "css",
-            content: `h1 { 
+            content: `
+body {
+    background-color: white;
+}
+
+h1 { 
     color: black;
 }`,
         },
