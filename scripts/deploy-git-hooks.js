@@ -57,4 +57,13 @@ esac
 exit 0
 `;
 
-fs.writeFileSync(hookPath, hookScript);
+const parameters = process.argv.slice(2);
+
+if (parameters.includes("--remove")) {
+    console.log(`Remove: ${hookName}`);
+    fs.rmSync(hookPath);
+} else if (parameters.includes("--install")) {
+    fs.writeFileSync(hookPath, hookScript);
+} else {
+    console.log(`Usage: node deploy-git-hooks.js --install | --remove`);
+}
