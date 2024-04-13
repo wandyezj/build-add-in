@@ -67,21 +67,30 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
     // runs setup once
     useEffect(() => {
         console.log("editor component effect");
-        if (container.current) {
+        const element = container.current
+        if (element) {
             // Target the editor container element
             // ignore the save key combo "ctrl+s"
-            ignoreCtrlS(container.current);
+            ignoreCtrlS(element);
 
             if (editor) {
                 editor.dispose();
             }
             const file = snip.files[fileId];
-            editor = monaco.editor.create(container.current, {
+            editor = monaco.editor.create(element, {
                 value: file.content,
                 language: file.language,
                 automaticLayout: true,
+
+                // Options
                 minimap: { enabled: false },
+                renderWhitespace: "all",
+                lineNumbers: "on",
+
+                // Tab inserts spaces
+                insertSpaces: true,
             });
+
             setupEditor();
         }
         return () => {
