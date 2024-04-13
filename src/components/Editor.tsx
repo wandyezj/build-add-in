@@ -67,7 +67,7 @@ export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Sni
     // runs setup once
     useEffect(() => {
         console.log("editor component effect");
-        const element = container.current
+        const element = container.current;
         if (element) {
             // Target the editor container element
             // ignore the save key combo "ctrl+s"
