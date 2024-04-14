@@ -50,6 +50,21 @@ async function getInitialSnip(): Promise<Snip> {
     return initialSnip;
 }
 
+async function persistData() {
+    // Attempt to persist data.
+    // note: Any run writes to local storage data are also persisted.
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist
+    const persisted = await navigator.storage.persisted();
+    if (persisted) {
+        console.log("Storage persist [true]");
+        return;
+    }
+
+    const persist = await navigator.storage.persist();
+    console.log(`Storage persist [${persist ? "true" : "FALSE"}]`);
+}
+
 async function setup() {
     log(LogTag.SetupStart);
     const initialSnip = await getInitialSnip();
@@ -59,6 +74,9 @@ async function setup() {
     const container = document.getElementById("container")!;
     const root = createRoot(container);
     root.render(<App initialSnip={initialSnip} />);
+
+    // Persist is lower priority than rendering.
+    persistData();
     log(LogTag.SetupEnd);
 }
 
