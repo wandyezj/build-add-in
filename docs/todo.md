@@ -76,16 +76,29 @@ In the Local Snips drawer.
 ## Phase - Samples
 
 - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
+    - Alternative new menu
+- [] Sample Conversion from yaml
+    - https://gist.github.com/wandyezj/ce30cbfcc6df9f58ef0329481e62966b
+    - Use a yaml library or a custom parse?
+        - Would we ever want to save files as yaml? Probably not.
+    - yaml libraries
+        - Use this one? [js-yaml NPM](https://www.npmjs.com/package/js-yaml)
+        - [yaml NPM](https://www.npmjs.com/package/yaml)
+    - custom parser
+        - Seems easy enough to write a custom parser since files are consistent.
+    - There are some differences in run time environments
+        - Library Reference Conversion
+            - Remove Jquery
+                - if importing samples replace library reference with url reference
+            - Remove core-js
+            - Replace others with direct links to unpkg
+
+
 
 ## Phase - test
 
 - [ ] document all individual features in features.md
 - [ ] create Playwright tests for every feature
-
-## Phase - Long Term Fix
-
-- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
-    - [X] Workaround - use the command API
 
 ## Phase - Nice
 
@@ -96,7 +109,6 @@ In the Local Snips drawer.
     - [ ] add last update time to snip
     - [ ] detect when snip is updated simply check every second or so and compare 1. current sample name 2. last update time on snip.
     - [ ] redirect to own url to reload
-- [ ] samples
 - [ ] console component (not necessary since can use F12 tools)
 - [ ] library load files from unpkg shorthand
 - [ ] import yaml
@@ -108,6 +120,12 @@ In the Local Snips drawer.
     - [ ] settings - turn debug logging on and off (turn off all in production)
 - [ ] button - run in editor
     - Is there a point to this?
+
+## Phase - Long Term Fix
+
+- [ ] Copy to clipboard functionality is broken. It looks like the permissions were recently removed from the iframe policy? `<iframe src="index.html" allow="clipboard-read; clipboard-write"></iframe>`
+    - [X] Workaround - use the command API
+
 
 ## Phase - Document
 

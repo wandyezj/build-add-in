@@ -23,6 +23,7 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
 import { objectToJson } from "../core/objectToJson";
+import { SamplesButton } from "./SamplesButton";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -98,6 +99,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
+                <SamplesButton />
                 <Input
                     aria-label="Snip Name"
                     type="text"
@@ -117,6 +119,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
+
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 

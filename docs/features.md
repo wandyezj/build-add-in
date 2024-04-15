@@ -16,3 +16,12 @@ A full list of all features.
     - file
         - with snip Json
         - with array of snips Json
+
+- Copy to clipboard
+
+- Delete
+
+- Persist local data using navigation.storage.persist
+    - This works in browser.
+    - This does NOT work in native host.
+- Ignore `Ctrl + S` key combo in editor.
