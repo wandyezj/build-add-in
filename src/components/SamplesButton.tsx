@@ -72,19 +72,18 @@ export function SamplesButton() {
 
                 <DrawerBody>
                     <TooltipButton tip="Refresh Samples" icon={<ArrowSyncRegular />} onClick={reloadSamples} />
+                    {samples.map(({ id, name, description }) => (
+                        <SampleListCard
+                            key={id}
+                            id={id}
+                            title={name}
+                            description={description}
+                            onClick={() => {
+                                clickCard(id);
+                            }}
+                        />
+                    ))}
                 </DrawerBody>
-
-                {samples.map(({ id, name, description }) => (
-                    <SampleListCard
-                        key={id}
-                        id={id}
-                        title={name}
-                        description={description}
-                        onClick={() => {
-                            clickCard(id);
-                        }}
-                    />
-                ))}
             </OverlayDrawer>
 
             <TooltipButton tip="Sample Snips" icon={<BookDefault28Regular />} onClick={() => setIsOpen(true)} />

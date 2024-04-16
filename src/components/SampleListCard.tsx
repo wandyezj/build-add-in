@@ -28,13 +28,10 @@ export function SampleListCard({
     const styles = useStyles();
 
     return (
-        <Card className={styles.card} orientation="horizontal" onClick={onClick}>
+        <Card className={styles.card} orientation="vertical" onClick={onClick}>
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
-                description={<Caption1 className={styles.caption}>{""}</Caption1>}
-                action={
-                    <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
-                }
+                description={<Caption1 className={styles.caption}>{description}</Caption1>}
             />
         </Card>
     );
