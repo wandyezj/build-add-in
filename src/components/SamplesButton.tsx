@@ -5,8 +5,9 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, BookDefault28Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
-import { getAllSampleMetadata } from "../core/database";
+import { getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
+import { Snip, completeSnip } from "../core/Snip";
 
 async function getAllSamples(): Promise<SampleMetadata[]> {
     const snips = await getAllSampleMetadata();
@@ -20,7 +21,7 @@ async function getAllSamples(): Promise<SampleMetadata[]> {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function SamplesButton() {
+export function SamplesButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [samples, setSamples] = useState([] as SampleMetadata[]);
@@ -44,12 +45,17 @@ export function SamplesButton() {
     const clickCard = (id: string) => {
         console.log(`clicked card ${id}`);
         setIsOpen(false);
-        // getSnipById(id).then((snip) => {
-        //     // TODO: what if snip is undefined?
-        //     if (snip) {
-        //         openSnip(snip);
-        //     }
-        // });
+        getSampleById(id).then((sample) => {
+            // create copy of the sample and open
+
+            // TODO: what if sample is undefined?
+            if (sample) {
+                // Copy the sample and create a new snip
+                const snip = completeSnip({ ...sample, name: `(copy) ${sample.name}` });
+                saveSnip(snip);
+                openSnip(snip);
+            }
+        });
     };
 
     return (

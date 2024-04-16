@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
+import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     AddRegular,
     // ArrowDownloadRegular,
@@ -99,16 +99,18 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
-                <SamplesButton />
-                <Input
-                    aria-label="Snip Name"
-                    type="text"
-                    value={snip.name}
-                    onChange={(_, { value }) => {
-                        console.log(`update snip ${snip.id} name ${value}`);
-                        updateSnip({ ...snip, name: value });
-                    }}
-                />
+                <SamplesButton openSnip={openSnip} />
+                <Tooltip content={snip.name} relationship="label">
+                    <Input
+                        aria-label="Snip Name"
+                        type="text"
+                        value={snip.name}
+                        onChange={(_, { value }) => {
+                            console.log(`update snip ${snip.id} name ${value}`);
+                            updateSnip({ ...snip, name: value });
+                        }}
+                    />
+                </Tooltip>
 
                 {/* */}
                 <TooltipButton

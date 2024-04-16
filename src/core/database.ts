@@ -261,10 +261,6 @@ export async function saveSample(sample: Sample): Promise<void> {
         const request = snipsObjectStore.put(sample);
         request.onsuccess = () => {
             resolve();
-            // const target = event.target;
-            // if (target instanceof IDBRequest) {
-            //     resolve(target.result);
-            // }
         };
         request.onerror = createErrorHandler(reject);
     });
@@ -291,6 +287,25 @@ export async function getAllSampleMetadata(): Promise<SampleMetadata[]> {
                 } else {
                     resolve(items);
                 }
+            }
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+export async function getSampleById(id: string | undefined): Promise<Sample | undefined> {
+    if (id === undefined) {
+        return undefined;
+    }
+
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const objectStore = getTableSamples(db, "readonly");
+        const request = objectStore.get(id);
+        request.onsuccess = (event) => {
+            const target = event.target;
+            if (target instanceof IDBRequest) {
+                resolve(target.result);
             }
         };
         request.onerror = createErrorHandler(reject);
