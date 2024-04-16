@@ -8,6 +8,7 @@
     // prettier-ignore
     "words": [
         "CODEOWNERS",
+        "endregion",
         "eqeqeq",
         "fluentui",
         "Inkscape",
