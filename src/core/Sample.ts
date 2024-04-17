@@ -144,10 +144,57 @@ function transformLibraries(data: string): string {
     return cleanData;
 }
 
+function transformCss(data: string): string {
+    const body = `body {
+    background-color: white;
+}`;
+    const clean = `${body}
+
+${data}`;
+
+    return clean;
+}
+
+/**
+ * Transform TypeScript code.
+ * - remove JQuery handlers
+ * - Add Office on ready.
+ */
 function transformTypeScript(data: string): string {
-    // TODO: remove jquery
-    // / /g`$("#format-vertical-axis").on("click", () => tryCatch(formatVerticalAxis));`;
-    return data;
+    // remove jquery
+
+    // $("#id").on("click", () => tryCatch(handler));`;
+    const jqueryReg = /^\$\("#(?<id>.*)"\)\.on\("click", \(\) => tryCatch\((?<handler>.*)\)\);$/;
+    const cleanData = data
+        .split("\n")
+        .map((line) => {
+            const trimLine = line.trim();
+
+            if (trimLine.startsWith("$")) {
+                // JQuery
+                const match = jqueryReg.exec(trimLine);
+                if (match === null) {
+                    return line;
+                }
+                const groups = match?.groups;
+                if (groups) {
+                    const { id, handler } = groups;
+                    return `document.getElementById("${id}").addEventListener("click", () => tryCatch(${handler}));`;
+                }
+            }
+
+            return line;
+        })
+        .join("\n");
+
+    const ready = `Office.onReady(() => {
+    console.log("Office is ready");
+});`;
+    const code = `${ready}
+
+${cleanData}
+ `;
+    return code;
 }
 
 function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample | undefined {
@@ -157,16 +204,21 @@ function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample 
 
     const { name, description } = rawSample;
 
-    const typescriptContent = transformTypeScript(rawSample.script.content);
-    const htmlContent = rawSample.template?.content || "";
-    const cssContent = rawSample.style?.content || "";
-    const librariesContent = transformLibraries(rawSample.libraries);
+    const typescriptRaw = rawSample?.script?.content;
+    const htmlRaw = rawSample?.template?.content;
+    const cssRaw = rawSample?.style?.content;
+    const librariesRaw = rawSample?.libraries;
 
-    if ([typescriptContent, htmlContent, cssContent, librariesContent].some((content) => content === "")) {
+    if ([typescriptRaw, htmlRaw, cssRaw, librariesRaw].some((content) => content === undefined)) {
         console.log(`ERROR: Empty content [${rawSample.name}] ${id}`);
         // happens for custom functions
         return undefined;
     }
+
+    const typescriptContent = transformTypeScript(typescriptRaw);
+    const htmlContent = htmlRaw;
+    const cssContent = transformCss(cssRaw);
+    const librariesContent = transformLibraries(librariesRaw);
 
     const sample: PrunedSample = {
         name,
