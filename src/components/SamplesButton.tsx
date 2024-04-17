@@ -5,7 +5,7 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, BookDefault28Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
-import { getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
+import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
 import { Snip, completeSnip } from "../core/Snip";
 
@@ -36,10 +36,25 @@ export function SamplesButton({ openSnip }: { openSnip: (snip: Snip) => void }) 
         refreshSamples();
     }, [isOpen]);
 
+    /**
+     * Refresh samples from the source.
+     */
     async function reloadSamples() {
-        // Refresh button to reload samples
+        // Delete all samples from the database
+        await deleteAllSamples();
+
+        // Freshly load the samples
         await loadSamplesToDatabase();
         refreshSamples();
+    }
+
+    async function deleteAllSamples() {
+        // Delete all samples from the database
+        const allSamples = await getAllSamples();
+        const promises = allSamples.map((sample) => {
+            deleteSampleById(sample.id);
+        });
+        await Promise.all(promises);
     }
 
     const clickCard = (id: string) => {

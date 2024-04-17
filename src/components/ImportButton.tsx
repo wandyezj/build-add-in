@@ -48,6 +48,7 @@ async function loadGistText(url: string): Promise<string> {
     const gistJson = await request.json();
 
     // Find the first files raw url
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const files = gistJson["files"] as { raw_url: string }[];
     const filesData = Object.values(files);
     if (filesData.length !== 1) {

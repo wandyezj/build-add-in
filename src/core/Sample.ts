@@ -69,33 +69,88 @@ function parseRawSample(data: string): RawSample {
     return rawSample;
 }
 
-function getSampleListFromRawPlaylist(playlist: RawPlaylist): SampleList {
-    const sampleList = playlist.map((item) => {
-        const { name, description, rawUrl } = item;
-        const id = rawUrl;
-        return {
-            id,
-            name,
-            description,
-        };
-    });
-    return sampleList;
-}
+// function getSampleListFromRawPlaylist(playlist: RawPlaylist): SampleList {
+//     const sampleList = playlist.map((item) => {
+//         const { name, description, rawUrl } = item;
+//         const id = rawUrl;
+//         return {
+//             id,
+//             name,
+//             description,
+//         };
+//     });
+//     return sampleList;
+// }
 
+/**
+ * Transform library references.
+ * - Remove jquery & core-js
+ * - Reference CDN for office.js types
+ * - Directly reference unpkg for npm packages
+ * @returns transformed libraries
+ */
 function transformLibraries(data: string): string {
-    // TODO:
-    // remove jquery
-    // remove core-js
-    // transforms npm references to unpkg references
-    return data;
+    function getLinkFromPackageReference(packageReference: string): string | undefined {
+        const reg = /^(?<packageName>.*)@(?<packageVersion>\d+\.\d+\.\d+)\/(?<packageFile>.*)$/;
+        const groups = reg.exec(packageReference)?.groups;
+        if (groups === undefined) {
+            return packageReference;
+        }
+
+        const { packageName, packageVersion, packageFile } = groups;
+
+        return `https://unpkg.com/${packageName}@${packageVersion}/${packageFile}`;
+    }
+
+    const cleanLibraries = data
+        .split("\n")
+        .map((line) => {
+            line = line.trim();
+
+            // Empty line
+            if (line === "") {
+                return "";
+            }
+
+            // Comment
+            if (line.startsWith("//") || line.startsWith("#")) {
+                return line;
+            }
+
+            // direct reference
+            if (line.startsWith("https://") || line.startsWith("http://")) {
+                return line;
+            }
+
+            // office.js
+            if (line === "@types/office-js") {
+                return `https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts`;
+            }
+
+            // Remove packages
+            const packageNamesIgnore = ["jquery", "@types/jquery", "core-js", "@types/core-js"];
+            const isExcluded = packageNamesIgnore.some((packageName) => line.startsWith(packageName));
+            if (isExcluded) {
+                return undefined;
+            }
+
+            // npm reference
+            const link = getLinkFromPackageReference(line);
+            return link;
+        })
+        .filter((line) => line !== undefined) as string[];
+
+    const cleanData = cleanLibraries.join("\n");
+    return cleanData;
 }
 
 function transformTypeScript(data: string): string {
     // TODO: remove jquery
+    // / /g`$("#format-vertical-axis").on("click", () => tryCatch(formatVerticalAxis));`;
     return data;
 }
 
-function getSampleFromRawSample(rawSample: RawSample): PrunedSample {
+function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample | undefined {
     // TODO: transform the sample.
     // Update libraries
     // Update typescript
@@ -103,9 +158,15 @@ function getSampleFromRawSample(rawSample: RawSample): PrunedSample {
     const { name, description } = rawSample;
 
     const typescriptContent = transformTypeScript(rawSample.script.content);
-    const htmlContent = rawSample.template.content;
-    const cssContent = rawSample.style.content;
+    const htmlContent = rawSample.template?.content || "";
+    const cssContent = rawSample.style?.content || "";
     const librariesContent = transformLibraries(rawSample.libraries);
+
+    if ([typescriptContent, htmlContent, cssContent, librariesContent].some((content) => content === "")) {
+        console.log(`ERROR: Empty content [${rawSample.name}] ${id}`);
+        // happens for custom functions
+        return undefined;
+    }
 
     const sample: PrunedSample = {
         name,
@@ -140,11 +201,14 @@ async function readRawPlaylistData(application: "word" | "excel" | "powerpoint")
     return text;
 }
 
-async function getSampleFromUrl(url: string): Promise<Sample> {
+async function getSampleFromUrl(url: string): Promise<Sample | undefined> {
     const response = await fetch(url);
     const text = await response.text();
     const rawSample = parseRawSample(text);
-    const prunedSample = getSampleFromRawSample(rawSample);
+    const prunedSample = getSampleFromRawSample(rawSample, url);
+    if (prunedSample === undefined) {
+        return undefined;
+    }
 
     const sample = {
         ...prunedSample,
@@ -178,9 +242,11 @@ export async function loadSamplesToDatabase(): Promise<void> {
     const promises = rawPlaylist.map(async (item) => {
         const { rawUrl } = item;
         const sample = await getSampleFromUrl(rawUrl);
-        saveSample(sample);
-
         // Save the sample to the database
+        // Can be undefined if there is an issue with the sample
+        if (sample) {
+            saveSample(sample);
+        }
     });
     // What
 

@@ -223,9 +223,9 @@ export async function getSnipByName(name: string): Promise<Snip | undefined> {
 export async function saveSnip(snip: Snip): Promise<void> {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
-        const snipsObjectStore = getTableSnips(db, "readwrite");
+        const objectStore = getTableSnips(db, "readwrite");
 
-        const request = snipsObjectStore.put(snip);
+        const request = objectStore.put(snip);
         request.onsuccess = () => {
             resolve();
             // const target = event.target;
@@ -239,10 +239,10 @@ export async function saveSnip(snip: Snip): Promise<void> {
 
 export async function deleteSnipById(id: string): Promise<void> {
     const db = await openDatabase();
-    const snipsObjectStore = getTableSnips(db, "readwrite");
+    const objectStore = getTableSnips(db, "readwrite");
 
     return new Promise((resolve, reject) => {
-        const request = snipsObjectStore.delete(id);
+        const request = objectStore.delete(id);
         request.onsuccess = () => {
             resolve();
         };
@@ -256,9 +256,9 @@ export async function deleteSnipById(id: string): Promise<void> {
 export async function saveSample(sample: Sample): Promise<void> {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
-        const snipsObjectStore = getTableSamples(db, "readwrite");
+        const objectStore = getTableSamples(db, "readwrite");
 
-        const request = snipsObjectStore.put(sample);
+        const request = objectStore.put(sample);
         request.onsuccess = () => {
             resolve();
         };
@@ -307,6 +307,19 @@ export async function getSampleById(id: string | undefined): Promise<Sample | un
             if (target instanceof IDBRequest) {
                 resolve(target.result);
             }
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+export async function deleteSampleById(id: string): Promise<void> {
+    const db = await openDatabase();
+    const objectStore = getTableSamples(db, "readwrite");
+
+    return new Promise((resolve, reject) => {
+        const request = objectStore.delete(id);
+        request.onsuccess = () => {
+            resolve();
         };
         request.onerror = createErrorHandler(reject);
     });
