@@ -34,4 +34,21 @@ const exampleCodeBlockBooleanMultiple: CodeTemplateBlock = {
     `,
 };
 
-export const exampleCodeBlocks: CodeTemplateBlock[] = [exampleCodeBlockBoolean, exampleCodeBlockBooleanMultiple];
+const exampleCodeBlockString: CodeTemplateBlock = {
+    description: "log string value {{exampleString}} to the console",
+    parameters: {
+        exampleString: {
+            name: "exampleString",
+            description: "An example string parameter",
+            type: "string",
+            value: "",
+        },
+    },
+    template: `console.log({{exampleString}});`,
+};
+
+export const exampleCodeBlocks: CodeTemplateBlock[] = [
+    exampleCodeBlockBoolean,
+    exampleCodeBlockBooleanMultiple,
+    exampleCodeBlockString,
+];

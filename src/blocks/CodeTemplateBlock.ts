@@ -71,6 +71,11 @@ export function getFilledTemplate(
             replaceValue = value.toString();
         }
 
+        if (type === "string") {
+            // TODO: make sure this can't be escaped
+            replaceValue = `"${value.replaceAll('"', '\\"')}"`;
+        }
+
         // replace all keys with the value
         filledTemplate = filledTemplate.replaceAll(`{{${key}}}`, replaceValue);
     }
