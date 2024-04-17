@@ -77,7 +77,7 @@ In the Local Snips drawer.
 
 - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
     - Alternative new menu
-- [] Sample Conversion from yaml
+- [ ] Sample Conversion from yaml
     - https://gist.github.com/wandyezj/ce30cbfcc6df9f58ef0329481e62966b
     - Use a yaml library or a custom parse?
         - Would we ever want to save files as yaml? Probably not.
@@ -93,7 +93,11 @@ In the Local Snips drawer.
             - Remove core-js
             - Replace others with direct links to unpkg
 
-
+- [ ] import all hosts
+- [ ] limit samples shown by host
+- [ ] samples groups or tags
+- [ ] sample search
+- [ ] progress bar for refresh
 
 ## Phase - test
 
