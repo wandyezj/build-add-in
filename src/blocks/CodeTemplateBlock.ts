@@ -67,13 +67,17 @@ export function getFilledTemplate(
 
         let replaceValue = "/* unknown */";
         // determine how the value should be formatted for replacement
-        if (type === "boolean") {
-            replaceValue = value.toString();
-        }
-
-        if (type === "string") {
-            // TODO: make sure this can't be escaped
-            replaceValue = `"${value.replaceAll('"', '\\"')}"`;
+        switch (type) {
+            case "number":
+            case "boolean":
+                replaceValue = value.toString();
+                break;
+            case "string":
+                // TODO: make sure this can't be escaped
+                replaceValue = `"${value.replaceAll('"', '\\"')}"`;
+                break;
+            default:
+                break;
         }
 
         // replace all keys with the value
