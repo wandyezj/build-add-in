@@ -12,8 +12,11 @@ const { Marked } = require("marked");
  */
 const optionDevOpenBrowserTabs = true;
 const optionOpenBrowserTabs = [
-    "/settings.html",
-    // "/edit.html", "/run.html", "/blocks.html", "/help.html"
+    "/edit.html",
+    //"/run.html",
+    //"/settings.html",
+    //"/blocks.html",
+    //"/help.html"
 ];
 
 const marked = new Marked();

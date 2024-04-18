@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Input, Tab, TabList, Toolbar } from "@fluentui/react-components";
+import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     AddRegular,
     // ArrowDownloadRegular,
@@ -23,6 +23,7 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
 import { objectToJson } from "../core/objectToJson";
+import { SamplesButton } from "./SamplesButton";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -98,15 +99,18 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
-                <Input
-                    aria-label="Snip Name"
-                    type="text"
-                    value={snip.name}
-                    onChange={(_, { value }) => {
-                        console.log(`update snip ${snip.id} name ${value}`);
-                        updateSnip({ ...snip, name: value });
-                    }}
-                />
+                <SamplesButton openSnip={openSnip} />
+                <Tooltip content={snip.name} relationship="label">
+                    <Input
+                        aria-label="Snip Name"
+                        type="text"
+                        value={snip.name}
+                        onChange={(_, { value }) => {
+                            console.log(`update snip ${snip.id} name ${value}`);
+                            updateSnip({ ...snip, name: value });
+                        }}
+                    />
+                </Tooltip>
 
                 {/* */}
                 <TooltipButton
@@ -117,6 +121,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
+
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 

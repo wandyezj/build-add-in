@@ -1,5 +1,6 @@
 // Indexed DB database
-
+// For Extension
+import { Sample, SampleMetadata } from "./Sample";
 import { Snip, SnipMetadata } from "./Snip";
 import { LogTag, log } from "./log";
 import { newDefaultSnip } from "./newDefaultSnip";
@@ -7,10 +8,13 @@ import { newDefaultSnip } from "./newDefaultSnip";
 // Key, Name, SnipJson
 
 const databaseName = "extension";
-const databaseVersion = 1;
+const databaseVersion = 2;
 
 const databaseTableNameSnips = "snips";
 const databaseTableNameSnipsIndexName = "name";
+
+const databaseTableNameSamples = "samples";
+const databaseTableNameSamplesIndexName = "name";
 
 // Database Structure
 // The unique key is the id of the snip.
@@ -36,32 +40,53 @@ function createErrorHandler(callback?: (error: unknown) => void) {
     };
 }
 
+async function createSamplesTable(db: IDBDatabase) {
+    // Samples
+    const samplesObjectStore = db.createObjectStore(databaseTableNameSamples, {
+        keyPath: "id",
+    });
+    samplesObjectStore.createIndex(databaseTableNameSamplesIndexName, databaseTableNameSamplesIndexName, {
+        unique: false,
+    });
+}
+
 async function openDatabase() {
     return new Promise<IDBDatabase>((resolve, reject) => {
         const request = indexedDB.open(databaseName, databaseVersion);
 
-        request.onupgradeneeded = (event) => {
+        request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
             const target = event.target;
             if (target instanceof IDBOpenDBRequest) {
                 const db = target.result;
 
-                // id is the unique key, it is unique to the local storage
-                const objectStore = db.createObjectStore(databaseTableNameSnips, {
-                    keyPath: "id",
-                });
-                objectStore.createIndex(databaseTableNameSnipsIndexName, databaseTableNameSnipsIndexName, {
-                    unique: false, // allow duplicates of the name
-                });
+                if (event.oldVersion === 0) {
+                    // Snips
 
-                objectStore.transaction.oncomplete = () => {
-                    // Store values in the newly created objectStore.
-                    const snipsObjectStore = db
-                        .transaction(databaseTableNameSnips, "readwrite")
-                        .objectStore(databaseTableNameSnips);
+                    // id is the unique key, it is unique to the local storage
+                    const snipsObjectStore = db.createObjectStore(databaseTableNameSnips, {
+                        keyPath: "id",
+                    });
+                    snipsObjectStore.createIndex(databaseTableNameSnipsIndexName, databaseTableNameSnipsIndexName, {
+                        unique: false, // allow duplicates of the name
+                    });
 
-                    // default snip
-                    snipsObjectStore.add(newDefaultSnip());
-                };
+                    snipsObjectStore.transaction.oncomplete = () => {
+                        // Store values in the newly created objectStore.
+                        const snipsObjectStore = db
+                            .transaction(databaseTableNameSnips, "readwrite")
+                            .objectStore(databaseTableNameSnips);
+
+                        // default snip
+                        snipsObjectStore.add(newDefaultSnip());
+                    };
+
+                    // Samples
+                    createSamplesTable(db);
+                }
+                if (event.oldVersion === 1) {
+                    // Samples
+                    createSamplesTable(db);
+                }
             }
         };
 
@@ -76,6 +101,12 @@ async function openDatabase() {
 function getTableSnips(db: IDBDatabase, mode: IDBTransactionMode) {
     return db.transaction(databaseTableNameSnips, mode).objectStore(databaseTableNameSnips);
 }
+
+function getTableSamples(db: IDBDatabase, mode: IDBTransactionMode) {
+    return db.transaction(databaseTableNameSamples, mode).objectStore(databaseTableNameSamples);
+}
+
+// #region Snips
 
 /**
  * Get all snips
@@ -192,9 +223,9 @@ export async function getSnipByName(name: string): Promise<Snip | undefined> {
 export async function saveSnip(snip: Snip): Promise<void> {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
-        const snipsObjectStore = getTableSnips(db, "readwrite");
+        const objectStore = getTableSnips(db, "readwrite");
 
-        const request = snipsObjectStore.put(snip);
+        const request = objectStore.put(snip);
         request.onsuccess = () => {
             resolve();
             // const target = event.target;
@@ -208,13 +239,90 @@ export async function saveSnip(snip: Snip): Promise<void> {
 
 export async function deleteSnipById(id: string): Promise<void> {
     const db = await openDatabase();
-    const snipsObjectStore = getTableSnips(db, "readwrite");
+    const objectStore = getTableSnips(db, "readwrite");
 
     return new Promise((resolve, reject) => {
-        const request = snipsObjectStore.delete(id);
+        const request = objectStore.delete(id);
         request.onsuccess = () => {
             resolve();
         };
         request.onerror = createErrorHandler(reject);
     });
 }
+// #endregion Snips
+
+// #region Samples
+
+export async function saveSample(sample: Sample): Promise<void> {
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const objectStore = getTableSamples(db, "readwrite");
+
+        const request = objectStore.put(sample);
+        request.onsuccess = () => {
+            resolve();
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+/**
+ * Gets all snip names.
+ */
+export async function getAllSampleMetadata(): Promise<SampleMetadata[]> {
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const objectStore = getTableSamples(db, "readonly");
+        const request = objectStore.openCursor();
+
+        const items: SampleMetadata[] = [];
+        request.onsuccess = (event) => {
+            const target = event.target;
+            if (target instanceof IDBRequest) {
+                const cursor = target.result;
+                if (cursor) {
+                    const { id, name, description, tags } = cursor.value;
+                    items.push({ id, name, description, tags });
+                    cursor.continue();
+                } else {
+                    resolve(items);
+                }
+            }
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+export async function getSampleById(id: string | undefined): Promise<Sample | undefined> {
+    if (id === undefined) {
+        return undefined;
+    }
+
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const objectStore = getTableSamples(db, "readonly");
+        const request = objectStore.get(id);
+        request.onsuccess = (event) => {
+            const target = event.target;
+            if (target instanceof IDBRequest) {
+                resolve(target.result);
+            }
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+export async function deleteSampleById(id: string): Promise<void> {
+    const db = await openDatabase();
+    const objectStore = getTableSamples(db, "readwrite");
+
+    return new Promise((resolve, reject) => {
+        const request = objectStore.delete(id);
+        request.onsuccess = () => {
+            resolve();
+        };
+        request.onerror = createErrorHandler(reject);
+    });
+}
+
+// #endregion Samples
