@@ -8,14 +8,39 @@ import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
 import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
 import { Snip, completeSnip } from "../core/Snip";
+import { getHostName } from "../core/globals";
+
+function snipsWithTag(snips: SampleMetadata[], host: string) {
+    return snips.filter((snip) => {
+        const { tags } = snip;
+        return tags !== undefined && tags.includes(host);
+    });
+}
+
+function snipsForHost(snips: SampleMetadata[]) {
+    const host = getHostName();
+    const hostSnips = snipsWithTag(snips, host);
+    return hostSnips;
+}
 
 async function getAllSamples(): Promise<SampleMetadata[]> {
     const snips = await getAllSampleMetadata();
 
+    const hostSnips = snipsForHost(snips);
     // probably want to order this somehow.
     // display in last modified order
     //snips.sort((a, b) => b.modified - a.modified);
-    return snips;
+    return hostSnips;
+}
+
+async function deleteAllSamplesForHost() {
+    // Delete all samples from the database
+    const allSamples = await getAllSamples();
+    const targetSamples = snipsForHost(allSamples);
+    const promises = targetSamples.map((sample) => {
+        deleteSampleById(sample.id);
+    });
+    await Promise.all(promises);
 }
 
 /**
@@ -33,28 +58,28 @@ export function SamplesButton({ openSnip }: { openSnip: (snip: Snip) => void }) 
     }
 
     useEffect(() => {
-        refreshSamples();
+        getAllSamples().then((samples) => {
+            if (samples.length === 0) {
+                // If there are no initial samples then load them
+                reloadSamples();
+            } else {
+                setSamples(samples);
+            }
+        });
     }, [isOpen]);
 
     /**
      * Refresh samples from the source.
      */
     async function reloadSamples() {
+        setSamples([]);
         // Delete all samples from the database
-        await deleteAllSamples();
+        await deleteAllSamplesForHost();
 
         // Freshly load the samples
-        await loadSamplesToDatabase();
+        const host = getHostName();
+        await loadSamplesToDatabase(host);
         refreshSamples();
-    }
-
-    async function deleteAllSamples() {
-        // Delete all samples from the database
-        const allSamples = await getAllSamples();
-        const promises = allSamples.map((sample) => {
-            deleteSampleById(sample.id);
-        });
-        await Promise.all(promises);
     }
 
     const clickCard = (id: string) => {

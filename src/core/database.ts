@@ -281,8 +281,8 @@ export async function getAllSampleMetadata(): Promise<SampleMetadata[]> {
             if (target instanceof IDBRequest) {
                 const cursor = target.result;
                 if (cursor) {
-                    const { id, name, description } = cursor.value;
-                    items.push({ id, name, description });
+                    const { id, name, description, tags } = cursor.value;
+                    items.push({ id, name, description, tags });
                     cursor.continue();
                 } else {
                     resolve(items);

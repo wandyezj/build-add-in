@@ -1,6 +1,7 @@
 import { PrunedSnip, Snip } from "./Snip";
 import yaml from "yaml";
 import { saveSample } from "./database";
+import { SupportedHostName } from "./globals";
 
 type RawPlaylist = RawPlaylistItem[];
 
@@ -40,6 +41,7 @@ interface RawSample {
 export interface SampleMetadata {
     id: string;
     name: string;
+    tags: string[];
     description: string;
 
     // api_set
@@ -51,13 +53,14 @@ export interface SampleMetadata {
  */
 export type SampleList = SampleMetadata[];
 
-export interface PrunedSample extends PrunedSnip {
+export interface SampleBase {
     description: string;
+    tags: string[];
 }
 
-export interface Sample extends Snip {
-    description: string;
-}
+export interface PrunedSample extends SampleBase, PrunedSnip {}
+
+export interface Sample extends SampleBase, Snip {}
 
 function parseRawPlaylist(data: string): RawPlaylist {
     const items = yaml.parse(data) as RawPlaylist;
@@ -197,7 +200,7 @@ ${cleanData}
     return code;
 }
 
-function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample | undefined {
+function getSampleFromRawSample(rawSample: RawSample, id: string, tags: string[]): PrunedSample | undefined {
     // TODO: transform the sample.
     // Update libraries
     // Update typescript
@@ -223,6 +226,7 @@ function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample 
     const sample: PrunedSample = {
         name,
         description,
+        tags,
         files: {
             typescript: {
                 content: typescriptContent,
@@ -246,18 +250,18 @@ function getSampleFromRawSample(rawSample: RawSample, id: string): PrunedSample 
     return sample;
 }
 
-async function readRawPlaylistData(application: "word" | "excel" | "powerpoint"): Promise<string> {
+async function readRawPlaylistData(application: SupportedHostName): Promise<string> {
     const url = `https://raw.githubusercontent.com/OfficeDev/office-js-snippets/main/playlists-prod/${application}.yaml`;
     const response = await fetch(url);
     const text = await response.text();
     return text;
 }
 
-async function getSampleFromUrl(url: string): Promise<Sample | undefined> {
+async function getSampleFromUrl(url: string, tags: string[]): Promise<Sample | undefined> {
     const response = await fetch(url);
     const text = await response.text();
     const rawSample = parseRawSample(text);
-    const prunedSample = getSampleFromRawSample(rawSample, url);
+    const prunedSample = getSampleFromRawSample(rawSample, url, tags);
     if (prunedSample === undefined) {
         return undefined;
     }
@@ -281,11 +285,11 @@ async function getSampleFromUrl(url: string): Promise<Sample | undefined> {
 /**
  * Load samples into the database.
  */
-export async function loadSamplesToDatabase(): Promise<void> {
+export async function loadSamplesToDatabase(host: SupportedHostName): Promise<void> {
     console.log("Load Samples To Database - Start");
 
     // TODO: do for all applications
-    const rawPlaylistData = await readRawPlaylistData("excel");
+    const rawPlaylistData = await readRawPlaylistData(host);
     const rawPlaylist = parseRawPlaylist(rawPlaylistData);
     // what data is in the sample list? This should be built out of the database.
     // there is some extra metadata that is useful
@@ -293,7 +297,7 @@ export async function loadSamplesToDatabase(): Promise<void> {
 
     const promises = rawPlaylist.map(async (item) => {
         const { rawUrl } = item;
-        const sample = await getSampleFromUrl(rawUrl);
+        const sample = await getSampleFromUrl(rawUrl, [host]);
         // Save the sample to the database
         // Can be undefined if there is an issue with the sample
         if (sample) {

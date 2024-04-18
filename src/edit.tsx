@@ -6,6 +6,7 @@ import { getMostRecentlyModifiedSnipId, getSnipById, saveSnip } from "./core/dat
 import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
 import { Snip } from "./core/Snip";
+import { setHost, setPlatform } from "./core/globals";
 
 async function initializeCurrentId(): Promise<string> {
     let currentId = loadCurrentSnipId();
@@ -87,4 +88,6 @@ Office.onReady(({ host, platform }) => {
     console.log(`Office is ready
 Host: ${host}
 Platform: ${platform}`);
+    setHost(host);
+    setPlatform(platform);
 });
