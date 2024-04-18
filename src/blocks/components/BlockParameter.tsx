@@ -2,6 +2,8 @@ import React from "react";
 import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 import { BlockParameterBoolean } from "./BlockParameterBoolean";
 import { makeStyles } from "@fluentui/react-components";
+import { BlockParameterString } from "./BlockParameterString";
+import { BlockParameterNumber } from "./BlockParameterNumber";
 
 const useStyles = makeStyles({
     text: {
@@ -20,12 +22,26 @@ export function BlockParameter({
     const styles = useStyles();
     const { name, description, type } = parameter;
 
-    if (type === "boolean") {
-        return (
-            <div className={styles.text}>
-                <BlockParameterBoolean name={name} description={description} updateValue={updateValue} />
-            </div>
-        );
+    switch (type) {
+        case "number":
+            return (
+                <div className={styles.text}>
+                    <BlockParameterNumber name={name} description={description} updateValue={updateValue} />
+                </div>
+            );
+        case "boolean":
+            return (
+                <div className={styles.text}>
+                    <BlockParameterBoolean name={name} description={description} updateValue={updateValue} />
+                </div>
+            );
+        case "string":
+            return (
+                <div className={styles.text}>
+                    <BlockParameterString name={name} description={description} updateValue={updateValue} />
+                </div>
+            );
+        default:
+            return <div> Unknown Parameter</div>;
     }
-    return <div> Unknown Parameter</div>;
 }
