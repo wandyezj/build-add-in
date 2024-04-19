@@ -204,21 +204,21 @@ export async function getSnipById(id: string | undefined): Promise<Snip | undefi
     });
 }
 
-export async function getSnipByName(name: string): Promise<Snip | undefined> {
-    const db = await openDatabase();
-    return new Promise((resolve, reject) => {
-        const objectStore = getTableSnips(db, "readonly");
-        const index = objectStore.index(databaseTableNameSnipsIndexName);
-        const request = index.get(name);
-        request.onsuccess = (event) => {
-            const target = event.target;
-            if (target instanceof IDBRequest) {
-                resolve(target.result);
-            }
-        };
-        request.onerror = createErrorHandler(reject);
-    });
-}
+// export async function getSnipByName(name: string): Promise<Snip | undefined> {
+//     const db = await openDatabase();
+//     return new Promise((resolve, reject) => {
+//         const objectStore = getTableSnips(db, "readonly");
+//         const index = objectStore.index(databaseTableNameSnipsIndexName);
+//         const request = index.get(name);
+//         request.onsuccess = (event) => {
+//             const target = event.target;
+//             if (target instanceof IDBRequest) {
+//                 resolve(target.result);
+//             }
+//         };
+//         request.onerror = createErrorHandler(reject);
+//     });
+// }
 
 export async function saveSnip(snip: Snip): Promise<void> {
     const db = await openDatabase();

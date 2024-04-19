@@ -5,7 +5,7 @@ import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
 import { getAllSnipMetadata, getAllSnips, getSnipById, saveSnip } from "../core/database";
-import { PrunedSnip, Snip, SnipMetadata, completeSnip, pruneSnipJson } from "../core/Snip";
+import { PrunedSnip, Snip, SnipMetadata, completeSnip, pruneSnip } from "../core/Snip";
 import {
     ClipboardRegular,
     ArrowDownloadRegular,
@@ -22,7 +22,7 @@ import { newDefaultSnip } from "../core/newDefaultSnip";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
-    const prunedSnips = snips.map((snip) => pruneSnipJson(snip));
+    const prunedSnips = snips.map((snip) => pruneSnip(snip));
     const snipsJsonText = objectToJson(prunedSnips);
     return snipsJsonText;
 }

@@ -1,4 +1,4 @@
-import { PrunedSnip, Snip } from "./Snip";
+import { Snip } from "./Snip";
 import yaml from "yaml";
 import { saveSample } from "./database";
 import { SupportedHostName } from "./globals";
@@ -53,14 +53,10 @@ export interface SampleMetadata {
  */
 export type SampleList = SampleMetadata[];
 
-export interface SampleBase {
+export interface Sample extends Snip {
     description: string;
     tags: string[];
 }
-
-export interface PrunedSample extends SampleBase, PrunedSnip {}
-
-export interface Sample extends SampleBase, Snip {}
 
 function parseRawPlaylist(data: string): RawPlaylist {
     const items = yaml.parse(data) as RawPlaylist;
@@ -200,7 +196,7 @@ ${cleanData}
     return code;
 }
 
-function getSampleFromRawSample(rawSample: RawSample, id: string, tags: string[]): PrunedSample | undefined {
+function getSampleFromRawSample(rawSample: RawSample, url: string, tags: string[]): Sample | undefined {
     // TODO: transform the sample.
     // Update libraries
     // Update typescript
@@ -213,7 +209,7 @@ function getSampleFromRawSample(rawSample: RawSample, id: string, tags: string[]
     const librariesRaw = rawSample?.libraries;
 
     if ([typescriptRaw, htmlRaw, cssRaw, librariesRaw].some((content) => content === undefined)) {
-        console.log(`ERROR: Empty content [${rawSample.name}] ${id}`);
+        console.log(`ERROR: Empty content [${rawSample.name}] ${url}`);
         // happens for custom functions
         return undefined;
     }
@@ -223,7 +219,9 @@ function getSampleFromRawSample(rawSample: RawSample, id: string, tags: string[]
     const cssContent = transformCss(cssRaw);
     const librariesContent = transformLibraries(librariesRaw);
 
-    const sample: PrunedSample = {
+    const sample: Sample = {
+        id: url,
+        modified: Date.now(),
         name,
         description,
         tags,
@@ -268,8 +266,6 @@ async function getSampleFromUrl(url: string, tags: string[]): Promise<Sample | u
 
     const sample = {
         ...prunedSample,
-        id: url,
-        modified: Date.now(),
     };
     return sample;
 }

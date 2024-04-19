@@ -1,12 +1,31 @@
 // Only have a single version of snip.
+
+import { objectToJson } from "./objectToJson";
+
 // If need to update in a non-compatible way, create a transform function to update existing snips.
-export interface Snip {
+/**
+ * A Snip
+ */
+export interface Snip extends PrunedSnip {
+    /**
+     * Unique ID to identify the snip from others.
+     * ID is used to update the snip in storage.
+     */
     id: string;
+
     /**
      * Timestamp of the last modification
      */
     modified: number;
+
+    /**
+     * Name of the snip.
+     */
     name: string;
+
+    /**
+     * Files in the snip.
+     */
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
 }
 
@@ -16,10 +35,10 @@ export interface SnipFile {
 }
 
 /**
- * A Snip without the id.
+ * A Snip.
  * Used for export.
  */
-export type PrunedSnip = Omit<Snip, "id" | "modified">;
+export type PrunedSnip = Pick<Snip, "name" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
@@ -63,7 +82,7 @@ function isSnipJson(snip: Snip): boolean {
 /**
  * Make sure the snip is valid and only contains what is expected.
  */
-export function pruneSnipJson(snip: Snip): PrunedSnip {
+export function pruneSnip(snip: Snip): PrunedSnip {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
@@ -79,6 +98,15 @@ export function pruneSnipJson(snip: Snip): PrunedSnip {
 }
 
 /**
+ * Get save JSON string from a Snip.
+ */
+export function getSnipJson(snip: Snip): string {
+    const pruned = pruneSnip(snip);
+    const text = objectToJson(pruned);
+    return text;
+}
+
+/**
  * Gets a Snip from a JSON string
  * @param value Json string to parse
  * @returns pruned Snip if the value is valid, otherwise undefined
@@ -89,7 +117,7 @@ export function getSnipFromJson(value: string): Snip | undefined {
         if (!isSnipJson(snip)) {
             return undefined;
         }
-        const pruned = pruneSnipJson(snip);
+        const pruned = pruneSnip(snip);
         const complete = completeSnip(pruned);
         return complete;
     } catch (e) {
