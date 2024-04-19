@@ -12,7 +12,8 @@ const { Marked } = require("marked");
  */
 const optionDevOpenBrowserTabs = true;
 const optionOpenBrowserTabs = [
-    "/edit.html",
+    "/test.html",
+    //"/edit.html",
     //"/run.html",
     //"/settings.html",
     //"/blocks.html",
@@ -63,6 +64,7 @@ module.exports = async (env, options) => {
             help: "./src/help.tsx",
             settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
+            test: "./src/test.ts",
         },
         output: {
             // Add contenthash to cache bust on CDN
@@ -117,6 +119,11 @@ module.exports = async (env, options) => {
                 template: "src/settings.html",
                 filename: "settings.html",
                 chunks: ["settings"],
+            }),
+            new HtmlWebpackPlugin({
+                template: "src/test.html",
+                filename: "test.html",
+                chunks: ["test"],
             }),
             new MonacoWebpackPlugin({
                 languages: [
