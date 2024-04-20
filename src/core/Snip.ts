@@ -6,7 +6,7 @@ import { objectToJson } from "./objectToJson";
 /**
  * A Snip
  */
-export interface Snip extends PrunedSnip {
+export interface Snip {
     /**
      * Unique ID to identify the snip from others.
      * ID is used to update the snip in storage.
@@ -35,20 +35,37 @@ export interface SnipFile {
 }
 
 /**
- * A Snip.
- * Used for export.
+ * A Snip used for import / export.
  */
-export type PrunedSnip = Pick<Snip, "name" | "files">;
+export type ExportSnip = Pick<Snip, "name" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
 const requiredKeys = ["typescript", "html", "css", "libraries"];
 
-function isSnipJson(snip: Snip): boolean {
-    if (typeof snip.name !== "string") {
-        return false;
-    }
+type Maybe<T, K extends keyof T> = Partial<Pick<T, K>>;
 
+function validObject(snip: object): boolean {
+    const valid = typeof snip === "object";
+    return valid;
+}
+
+function validSnipId(snip: Maybe<Snip, "id">): boolean {
+    const valid = typeof snip.id === "string";
+    return valid;
+}
+
+function validSnipModified(snip: Maybe<Snip, "modified">): boolean {
+    const valid = typeof snip.modified === "number";
+    return valid;
+}
+
+function validSnipName(snip: Maybe<Snip, "name">): boolean {
+    const valid = typeof snip.name === "string";
+    return valid;
+}
+
+function validSnipFiles(snip: Partial<Snip>): boolean {
     if (typeof snip.files !== "object") {
         return false;
     }
@@ -79,10 +96,37 @@ function isSnipJson(snip: Snip): boolean {
     return true;
 }
 
+function getSnipValidProperties(snip: Snip): { [property in keyof Snip]: boolean } {
+    return {
+        id: validSnipId(snip),
+        modified: validSnipModified(snip),
+        name: validSnipName(snip),
+        files: validSnipFiles(snip),
+    };
+}
+
+export function isValidExportSnip(snip: ExportSnip): boolean {
+    if (!validObject(snip)) {
+        return false;
+    }
+    const valid = getSnipValidProperties(snip as Snip);
+    const isValid = valid.name && valid.files;
+    return isValid;
+}
+
+export function isValidSnip(snip: Snip): boolean {
+    if (!validObject(snip)) {
+        return false;
+    }
+    const valid = getSnipValidProperties(snip);
+    const isValid = valid.id && valid.modified && valid.name && valid.files;
+    return isValid;
+}
+
 /**
  * Make sure the snip is valid and only contains what is expected.
  */
-export function pruneSnip(snip: Snip): PrunedSnip {
+export function pruneSnip(snip: Snip): Snip {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
@@ -91,17 +135,44 @@ export function pruneSnip(snip: Snip): PrunedSnip {
         };
     }
 
+    const { id, name, modified } = snip;
     return {
-        name: snip.name,
+        id,
+        name,
+        modified,
+        files,
+    };
+}
+
+export function pruneSnipForExport(snip: Snip): ExportSnip {
+    const { name, files } = pruneSnip(snip);
+
+    return {
+        name,
         files,
     };
 }
 
 /**
+ * Is this JSON a valid export snip?
+ * Can this snip be imported?
+ * @param value - JSON string to parse
+ */
+export function isValidSnipExportJson(value: string): boolean {
+    try {
+        const snip = JSON.parse(value);
+        const valid = isValidExportSnip(snip);
+        return valid;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
  * Get save JSON string from a Snip.
  */
-export function getSnipJson(snip: Snip): string {
-    const pruned = pruneSnip(snip);
+export function getSnipExportJson(snip: Snip): string {
+    const pruned = pruneSnipForExport(snip);
     const text = objectToJson(pruned);
     return text;
 }
@@ -114,18 +185,35 @@ export function getSnipJson(snip: Snip): string {
 export function getSnipFromJson(value: string): Snip | undefined {
     try {
         const snip = JSON.parse(value);
-        if (!isSnipJson(snip)) {
+        if (!isValidSnip(snip)) {
             return undefined;
         }
         const pruned = pruneSnip(snip);
-        const complete = completeSnip(pruned);
-        return complete;
+        return pruned;
     } catch (e) {
         return undefined;
     }
 }
 
-export function completeSnip(piece: PrunedSnip, options?: { id?: string }): Snip {
+/**
+ * Gets a Snip from a JSON string
+ * @param value Json string to parse
+ * @returns pruned Snip if the value is valid, otherwise undefined
+ */
+export function getExportSnipFromExportJson(value: string): ExportSnip | undefined {
+    try {
+        const snip = JSON.parse(value);
+        if (!isValidExportSnip(snip)) {
+            return undefined;
+        }
+        const pruned = pruneSnipForExport(snip);
+        return pruned;
+    } catch (e) {
+        return undefined;
+    }
+}
+
+export function completeSnip(piece: ExportSnip, options?: { id?: string }): Snip {
     const now = Date.now();
 
     const idPostfix = options?.id ?? "";

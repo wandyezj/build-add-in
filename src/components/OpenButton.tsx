@@ -5,7 +5,7 @@ import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
 import { getAllSnipMetadata, getAllSnips, getSnipById, saveSnip } from "../core/database";
-import { PrunedSnip, Snip, SnipMetadata, completeSnip, pruneSnip } from "../core/Snip";
+import { ExportSnip, Snip, SnipMetadata, completeSnip, isValidExportSnip, pruneSnipForExport } from "../core/Snip";
 import {
     ClipboardRegular,
     ArrowDownloadRegular,
@@ -19,10 +19,11 @@ import { downloadFileJson } from "../core/downloadFileJson";
 import { uploadFileJson } from "../core/uploadFileJson";
 import { objectToJson } from "../core/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
+import { idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
-    const prunedSnips = snips.map((snip) => pruneSnip(snip));
+    const prunedSnips = snips.map((snip) => pruneSnipForExport(snip));
     const snipsJsonText = objectToJson(prunedSnips);
     return snipsJsonText;
 }
@@ -45,11 +46,16 @@ async function uploadMultipleFromFile() {
 
     // put all snips into the database
     // Allow an array of snips or a single snip
-    const o = JSON.parse(text) as PrunedSnip[] | PrunedSnip;
+    const o = JSON.parse(text) as ExportSnip[] | ExportSnip;
 
     const snips = Array.isArray(o) ? o : [o];
 
     const promises = snips.map((snip, index) => {
+        const valid = isValidExportSnip(snip);
+        if (!valid) {
+            console.error(`Invalid snip at index ${index}`);
+            return Promise.resolve();
+        }
         const fullSnip = completeSnip(snip, { id: `-${index}` });
         return saveSnip(fullSnip);
     });
@@ -140,6 +146,7 @@ export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
                         }}
                     />
                     <TooltipButton
+                        id={idEditOpenSnipButtonNewSnip}
                         tip="New Snip"
                         icon={<AddRegular />}
                         onClick={() => {
@@ -163,7 +170,12 @@ export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
                 </DrawerBody>
             </OverlayDrawer>
 
-            <TooltipButton tip="Open Snip" icon={<DocumentFolderRegular />} onClick={() => setIsOpen(true)} />
+            <TooltipButton
+                id={idEditButtonOpenSnip}
+                tip="Open Snip"
+                icon={<DocumentFolderRegular />}
+                onClick={() => setIsOpen(true)}
+            />
         </div>
     );
 }
