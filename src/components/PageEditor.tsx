@@ -25,6 +25,13 @@ import { OpenButton } from "./OpenButton";
 import { SamplesButton } from "./SamplesButton";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonEmbedList } from "./ButtonEmbedList";
+import { getHost } from "../core/globals";
+
+function embedEnabled(): boolean {
+    const host = getHost();
+    const enabled = host === Office.HostType.Excel || host === Office.HostType.Word;
+    return enabled;
+}
 
 export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -105,7 +112,7 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
-                <ButtonEmbedList openSnip={openSnip} />
+                {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
                 <SamplesButton openSnip={openSnip} />
                 <Tooltip content={snip.name} relationship="label">
                     <Input
