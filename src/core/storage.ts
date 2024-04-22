@@ -1,3 +1,4 @@
+import { SnipReference, getSnipSource } from "./Snip";
 import { LogTag, log } from "./log";
 
 /**
@@ -5,19 +6,28 @@ import { LogTag, log } from "./log";
  * - The snip to load when the page first loads.
  * - Determines which snip to run.
  */
-const currentSnipId = "currentSnipId";
+const currentSnipReference = "currentSnipId";
+const currentSnipSource = "currentSnipSource";
 
-export function saveCurrentSnipId(id: string) {
+export function saveCurrentSnipReference(reference: SnipReference) {
+    const { id, source } = reference;
     log(LogTag.LocalStorage, `saveCurrentSnipId ${id}`);
-    window.localStorage.setItem(currentSnipId, id);
+    window.localStorage.setItem(currentSnipReference, id);
+    window.localStorage.setItem(currentSnipSource, source);
 }
 
-export function loadCurrentSnipId(): string | undefined {
-    return window.localStorage.getItem(currentSnipId) || undefined;
+export function loadCurrentSnipReference(): SnipReference | undefined {
+    const id = window.localStorage.getItem(currentSnipReference) || undefined;
+    const source = getSnipSource(window.localStorage.getItem(currentSnipSource) || undefined);
+    if (id === undefined || source === undefined) {
+        return undefined;
+    }
+    return { id, source };
 }
 
-export function deleteCurrentSnipId() {
-    window.localStorage.removeItem(currentSnipId);
+export function deleteCurrentSnipReference() {
+    window.localStorage.removeItem(currentSnipReference);
+    window.localStorage.removeItem(currentSnipSource);
 }
 
 // export function saveSnip(snip: Snip) {

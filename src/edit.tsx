@@ -1,28 +1,34 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./components/App";
-import { deleteCurrentSnipId, loadCurrentSnipId, saveCurrentSnipId } from "./core/storage";
-import { getMostRecentlyModifiedSnipId, getSnipById, saveSnip } from "./core/database";
+import { deleteCurrentSnipReference, loadCurrentSnipReference, saveCurrentSnipReference } from "./core/storage";
+import { getMostRecentlyModifiedSnipId, saveSnip } from "./core/database";
+import { getSnipById } from "./core/snipStorage";
 import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
-import { Snip } from "./core/Snip";
-import { setHost, setPlatform } from "./core/globals";
+import { Snip, SnipReference, SnipSource } from "./core/Snip";
+import { officeSetup } from "./core/officeSetup";
 
-async function initializeCurrentId(): Promise<string> {
-    let currentId = loadCurrentSnipId();
-    if (currentId === undefined) {
-        currentId = await getMostRecentlyModifiedSnipId();
-        if (currentId === undefined) {
+async function initializeCurrentId(): Promise<SnipReference> {
+    let reference = loadCurrentSnipReference();
+
+    if (reference === undefined) {
+        let id = await getMostRecentlyModifiedSnipId();
+        const source = "local";
+
+        if (id === undefined) {
             // There should be something in the database.
             // If there isn't, create a new default snip.
 
             const newSnip = newDefaultSnip();
-            currentId = newSnip.id;
+            id = newSnip.id;
             await saveSnip(newSnip);
         }
-        saveCurrentSnipId(currentId);
+        reference = { id, source };
+        saveCurrentSnipReference(reference);
     }
-    return currentId;
+
+    return reference;
 }
 
 /**
@@ -39,7 +45,7 @@ async function getInitialSnip(): Promise<Snip> {
 
     if (initialSnip === undefined) {
         // Reset the current id and try again.
-        deleteCurrentSnipId();
+        deleteCurrentSnipReference();
         const currentId = await initializeCurrentId();
         const initialSnip = await getSnipById(currentId);
         if (initialSnip === undefined) {
@@ -68,6 +74,7 @@ async function persistData() {
 
 async function setup() {
     log(LogTag.SetupStart);
+    await officeSetup;
     const initialSnip = await getInitialSnip();
 
     // Start Render AFTER we have the current snip id.
@@ -82,12 +89,3 @@ async function setup() {
 }
 
 setup();
-
-// Calling Office.onReady after setup loads the UI faster.
-Office.onReady(({ host, platform }) => {
-    console.log(`Office is ready
-Host: ${host}
-Platform: ${platform}`);
-    setHost(host);
-    setPlatform(platform);
-});

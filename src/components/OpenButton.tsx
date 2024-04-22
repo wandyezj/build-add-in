@@ -5,7 +5,15 @@ import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
 import { getAllSnipMetadata, getAllSnips, getSnipById, saveSnip } from "../core/database";
-import { ExportSnip, Snip, SnipMetadata, completeSnip, isValidExportSnip, pruneSnipForExport } from "../core/Snip";
+import {
+    ExportSnip,
+    Snip,
+    SnipMetadata,
+    SnipWithSource,
+    completeSnip,
+    isValidExportSnip,
+    pruneSnipForExport,
+} from "../core/Snip";
 import {
     ClipboardRegular,
     ArrowDownloadRegular,
@@ -77,7 +85,7 @@ async function getAllLocalSnips(): Promise<SnipMetadata[]> {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
+export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
@@ -98,7 +106,7 @@ export function OpenButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
         getSnipById(id).then((snip) => {
             // TODO: what if snip is undefined?
             if (snip) {
-                openSnip(snip);
+                openSnip({ ...snip, source: "local" });
             }
         });
     };

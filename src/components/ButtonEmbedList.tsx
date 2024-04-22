@@ -5,7 +5,7 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, DocumentRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleListCard } from "./SampleListCard";
-import { Snip, SnipMetadata } from "../core/Snip";
+import { Snip, SnipMetadata, SnipWithSource } from "../core/Snip";
 import { getAllSnipMetadata, getSnipById } from "../core/embed";
 import { formatModified } from "../core/formatModified";
 
@@ -17,7 +17,7 @@ async function getAllEmbed() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function ButtonEmbedList({ openSnip }: { openSnip: (snip: Snip) => void }) {
+export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [snips, setSnips] = useState([] as SnipMetadata[]);
@@ -36,7 +36,7 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: Snip) => void }
 
             // TODO: what if sample is undefined?
             if (snip) {
-                openSnip(snip);
+                openSnip({ ...snip, source: "embed" });
             }
         });
     };
@@ -55,7 +55,7 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: Snip) => void }
                             />
                         }
                     >
-                        Sample Snips
+                        Embed Snips
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 

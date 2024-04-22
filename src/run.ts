@@ -1,12 +1,12 @@
-import { loadCurrentSnipId } from "./core/storage";
-import { getSnipById } from "./core/database";
+import { loadCurrentSnipReference } from "./core/storage";
+import { getSnipById } from "./core/snipStorage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
 
 console.log("run");
 
 async function getCurrentSnip() {
-    const id = loadCurrentSnipId();
+    const id = loadCurrentSnipReference();
     if (id === undefined) {
         return undefined;
     }

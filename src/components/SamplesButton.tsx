@@ -7,7 +7,7 @@ import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
 import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
-import { Snip, completeSnip } from "../core/Snip";
+import { Snip, SnipWithSource, completeSnip } from "../core/Snip";
 import { getHostName } from "../core/globals";
 
 function snipsWithTag(snips: SampleMetadata[], host: string) {
@@ -46,7 +46,7 @@ async function deleteAllSamplesForHost() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function SamplesButton({ openSnip }: { openSnip: (snip: Snip) => void }) {
+export function SamplesButton({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [samples, setSamples] = useState([] as SampleMetadata[]);
@@ -93,7 +93,7 @@ export function SamplesButton({ openSnip }: { openSnip: (snip: Snip) => void }) 
                 // Copy the sample and create a new snip
                 const snip = completeSnip({ ...sample, name: `(copy) ${sample.name}` });
                 saveSnip(snip);
-                openSnip(snip);
+                openSnip({ ...snip, source: "local" });
             }
         });
     };

@@ -41,6 +41,31 @@ export type ExportSnip = Pick<Snip, "name" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
+/**
+ * Where is the snips storage? Where is the source code of the snip?
+ * local - in the browser's local storage indexDb
+ * embed - in the documents html
+ */
+export type SnipSource = "local" | "embed";
+
+export function getSnipSource(source: string | undefined): SnipSource | undefined {
+    const valid = typeof source === "string" && ["local", "embed"].includes(source);
+    if (valid) {
+        return source as SnipSource;
+    }
+    return undefined;
+}
+
+export type SnipWithSource = Snip & { source: SnipSource };
+
+/**
+ * Reference to a snip.
+ * Used to refer to a snip without the content.
+ * source - where to look
+ * id - which snip to look for
+ */
+export type SnipReference = Pick<SnipWithSource, "id" | "source">;
+
 const requiredKeys = ["typescript", "html", "css", "libraries"];
 
 type Maybe<T, K extends keyof T> = Partial<Pick<T, K>>;

@@ -11,13 +11,13 @@ import {
     // DocumentFolderRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
-import { saveCurrentSnipId } from "../core/storage";
+import { Snip, SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { saveCurrentSnipReference } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
 import { ImportButton } from "./ImportButton";
-import { deleteSnipById, saveSnip } from "../core/database";
+import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
@@ -28,10 +28,10 @@ import { ButtonEmbedList } from "./ButtonEmbedList";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
-    const [snip, setSnip] = useState(initialSnip);
+    const [snip, setSnip] = useState({ ...initialSnip, source: "local" } as SnipWithSource);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
-    const updateSnip = (updatedSnip: Snip) => {
+    const updateSnip = (updatedSnip: SnipWithSource) => {
         console.log(`Update snip\t${updatedSnip.id}\t${updatedSnip.name}`);
         // update last modified
         updatedSnip.modified = Date.now();
@@ -39,13 +39,13 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         setupSnip(updatedSnip);
     };
 
-    const openSnip = (openSnip: Snip) => {
+    const openSnip = (openSnip: SnipWithSource) => {
         console.log(`open snip\t${openSnip.id}\t${openSnip.name}`);
         setupSnip(openSnip);
     };
 
-    const setupSnip = (setupSnip: Snip) => {
-        saveCurrentSnipId(setupSnip.id);
+    const setupSnip = (setupSnip: SnipWithSource) => {
+        saveCurrentSnipReference(setupSnip);
         // IntelliSense
         const currentLibrary = setupSnip.files.libraries.content;
         const newLibrary = setupSnip.files.libraries.content;
@@ -61,7 +61,9 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         const newSnip = getExportSnipFromExportJson(value);
         console.log(newSnip);
         if (newSnip) {
-            updateSnip(completeSnip(newSnip));
+            const complete = completeSnip(newSnip);
+            const source = "local";
+            updateSnip({ ...complete, source });
         } else {
             console.error("import failed - invalid snip");
         }
@@ -71,7 +73,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         log(LogTag.ButtonNew, "button - new snip");
         const newSnip = newDefaultSnip();
         // Open without saving, only save once there is an edit
-        openSnip(newSnip);
+        openSnip({ ...newSnip, source: "local" });
     };
 
     /**
@@ -89,11 +91,13 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     function buttonDeleteSnip() {
         log(LogTag.ButtonDelete, "button - delete");
         const previousId = snip.id;
+        const previousSource = snip.source;
+        const previousReference = { id: previousId, source: previousSource };
         const newSnip = newDefaultSnip();
         // open the new snip but don't save it until it is edited.
         // note: update saves, which makes it hard to delete snips since each would be replaced by an update
-        openSnip(newSnip);
-        deleteSnipById(previousId);
+        openSnip({ ...newSnip, source: "local" });
+        deleteSnipById(previousReference);
     }
 
     return (
