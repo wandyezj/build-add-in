@@ -29,7 +29,9 @@ import { getHost } from "../core/globals";
 
 function embedEnabled(): boolean {
     const host = getHost();
-    const enabled = host === Office.HostType.Excel || host === Office.HostType.Word;
+    const enabled = host === Office.HostType.Excel
+    // TODO: complete generics for Word.
+    // || host === Office.HostType.Word;
     return enabled;
 }
 
