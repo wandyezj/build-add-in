@@ -23,6 +23,7 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
 import { SamplesButton } from "./SamplesButton";
+import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -120,7 +121,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
-
+                <ButtonEmbedCopy snip={snip} />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 
