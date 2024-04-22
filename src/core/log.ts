@@ -45,4 +45,5 @@ export enum LogTag {
     ButtonDelete = "ButtonDelete",
     LoadMonacoLibs = "LoadMonacoLibs",
     ButtonNew = "ButtonNew",
+    Embed = "Embed",
 }

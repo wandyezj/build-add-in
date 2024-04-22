@@ -11,40 +11,51 @@ import {
     // DocumentFolderRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, completeSnip, getSnipFromJson, pruneSnipJson } from "../core/Snip";
-import { saveCurrentSnipId } from "../core/storage";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { saveCurrentSnipReference } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
 import { ImportButton } from "./ImportButton";
-import { deleteSnipById, saveSnip } from "../core/database";
+import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
-import { objectToJson } from "../core/objectToJson";
 import { SamplesButton } from "./SamplesButton";
+import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
+import { ButtonEmbedList } from "./ButtonEmbedList";
+import { getHost } from "../core/globals";
 
-export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
+function embedEnabled(): boolean {
+    const host = getHost();
+    const enabled = host === Office.HostType.Excel;
+    // TODO: complete generics for Word.
+    // || host === Office.HostType.Word;
+    return enabled;
+}
+
+export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
+    console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
-    const updateSnip = (updatedSnip: Snip) => {
-        console.log(`Update snip\t${updatedSnip.id}\t${updatedSnip.name}`);
+    const updateSnip = (updatedSnip: SnipWithSource) => {
+        console.log(`Update snip\t${updatedSnip.source}\t${updatedSnip.id}\t${updatedSnip.name}`);
         // update last modified
         updatedSnip.modified = Date.now();
         saveSnip(updatedSnip);
         setupSnip(updatedSnip);
     };
 
-    const openSnip = (openSnip: Snip) => {
+    const openSnip = (openSnip: SnipWithSource) => {
         console.log(`open snip\t${openSnip.id}\t${openSnip.name}`);
         setupSnip(openSnip);
     };
 
-    const setupSnip = (setupSnip: Snip) => {
-        saveCurrentSnipId(setupSnip.id);
+    const setupSnip = (setupSnip: SnipWithSource) => {
+        saveCurrentSnipReference(setupSnip);
         // IntelliSense
         const currentLibrary = setupSnip.files.libraries.content;
         const newLibrary = setupSnip.files.libraries.content;
@@ -57,10 +68,12 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const setImport = (value: string) => {
         console.log("Import snip");
         console.log(value);
-        const newSnip = getSnipFromJson(value);
+        const newSnip = getExportSnipFromExportJson(value);
         console.log(newSnip);
         if (newSnip) {
-            updateSnip(completeSnip(newSnip));
+            const complete = completeSnip(newSnip);
+            const source = "local";
+            updateSnip({ ...complete, source });
         } else {
             console.error("import failed - invalid snip");
         }
@@ -70,7 +83,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         log(LogTag.ButtonNew, "button - new snip");
         const newSnip = newDefaultSnip();
         // Open without saving, only save once there is an edit
-        openSnip(newSnip);
+        openSnip({ ...newSnip, source: "local" });
     };
 
     /**
@@ -78,7 +91,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
      */
     function buttonCopySnipToClipboard() {
         log(LogTag.ButtonCopy, "button - copy to clipboard");
-        const text = objectToJson(pruneSnipJson(snip));
+        const text = getSnipExportJson(snip);
         copyTextToClipboard(text);
     }
 
@@ -88,17 +101,20 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     function buttonDeleteSnip() {
         log(LogTag.ButtonDelete, "button - delete");
         const previousId = snip.id;
+        const previousSource = snip.source;
+        const previousReference = { id: previousId, source: previousSource };
         const newSnip = newDefaultSnip();
         // open the new snip but don't save it until it is edited.
         // note: update saves, which makes it hard to delete snips since each would be replaced by an update
-        openSnip(newSnip);
-        deleteSnipById(previousId);
+        openSnip({ ...newSnip, source: "local" });
+        deleteSnipById(previousReference);
     }
 
     return (
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
+                {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
                 <SamplesButton openSnip={openSnip} />
                 <Tooltip content={snip.name} relationship="label">
                     <Input
@@ -121,7 +137,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
-
+                <ButtonEmbedCopy snip={snip} />
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 

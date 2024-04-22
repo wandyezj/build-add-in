@@ -77,7 +77,7 @@ In the Local Snips drawer.
 
 - [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
     - Alternative new menu
-- [ ] Sample Conversion from yaml
+- [X] Sample Conversion from yaml
     - https://gist.github.com/wandyezj/ce30cbfcc6df9f58ef0329481e62966b
     - Use a yaml library or a custom parse?
         - Would we ever want to save files as yaml? Probably not.
@@ -93,11 +93,30 @@ In the Local Snips drawer.
             - Remove core-js
             - Replace others with direct links to unpkg
 
-- [ ] import all hosts
-- [ ] limit samples shown by host
+- [X] import all hosts
+- [X] limit samples shown by host
 - [ ] samples groups or tags
 - [ ] sample search
 - [ ] progress bar for refresh
+
+## Phase - embed
+
+Add a concept of storage location.
+    - each script has a single storage location.
+        - local, document, GitHub, OneDrive, etc...
+    - create a copy in a new location
+    - move to new location
+        - create a copy in a new location, _then_ delete in existing location
+
+- [ ] When viewing snips -  show all snips from all available storage locations
+- [ ] Snips need to indicate their storage location.
+- [ ] Storage metadata needs to be aggregated into a single list.
+
+- [ ] Enable embedding snips into a document
+    - [ ] a copy is created that is embedded in the document
+    - [ ] UI element to indicate that the script is embedded
+    - [ ] mark scripts as embedded
+    - [ ] read metadata, create, read, update, delete
 
 ## Phase - test
 

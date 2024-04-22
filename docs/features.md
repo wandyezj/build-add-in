@@ -25,3 +25,7 @@ A full list of all features.
     - This works in browser.
     - This does NOT work in native host.
 - Ignore `Ctrl + S` key combo in editor.
+
+- Samples
+    - All relevant samples load and run.
+    - Only samples relevant to current host are shown.

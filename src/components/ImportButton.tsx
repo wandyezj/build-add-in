@@ -14,7 +14,7 @@ import { ArrowDownloadRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import { getSnipFromJson } from "../core/Snip";
+import { isValidSnipExportJson } from "../core/Snip";
 
 const useStyles = makeStyles({
     base: {
@@ -25,12 +25,6 @@ const useStyles = makeStyles({
         marginBottom: tokens.spacingVerticalMNudge,
     },
 });
-
-function isValidSnip(value: string) {
-    const newSnip = getSnipFromJson(value);
-    const valid = newSnip !== undefined;
-    return valid;
-}
 
 async function loadUrlText(url: string): Promise<string> {
     const request = await fetch(url);
@@ -101,7 +95,8 @@ async function getImportSnip(value: string): Promise<string | undefined> {
         console.error(e);
     }
 
-    const valid = isValidSnip(content);
+    // Is this a valid import snip?
+    const valid = isValidSnipExportJson(content);
     if (valid) {
         return content;
     }

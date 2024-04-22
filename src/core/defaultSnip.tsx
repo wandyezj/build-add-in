@@ -1,6 +1,6 @@
-import { PrunedSnip } from "./Snip";
+import { ExportSnip } from "./Snip";
 
-export const defaultSnip: PrunedSnip = {
+export const defaultSnip: ExportSnip = {
     name: "New Snip",
     files: {
         typescript: {

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Blocks } from "./Blocks";
 import { exampleCodeBlocks } from "../exampleCodeBlocks";
 import { newDefaultSnip } from "../../core/newDefaultSnip";
-import { saveCurrentSnipId } from "../../core/storage";
+import { saveCurrentSnipReference } from "../../core/storage";
 import { saveSnip } from "../../core/database";
 import { CodeTemplateBlock, CodeTemplateBlockParameterValue, getFilledTemplate } from "../CodeTemplateBlock";
 import { objectClone } from "../../core/objectClone";
@@ -65,5 +65,5 @@ async function runBlocks(blocks: CodeTemplateBlock[], parameters: Record<string,
     snip.files["typescript"].content = code;
 
     await saveSnip(snip);
-    saveCurrentSnipId(snipBlockId);
+    saveCurrentSnipReference({ id: snipBlockId, source: "local" });
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as monaco from "monaco-editor";
-import { Snip } from "../core/Snip";
+import { SnipWithSource } from "../core/Snip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { makeStyles } from "@fluentui/react-components";
 
@@ -29,7 +29,15 @@ function ignoreCtrlS(element: HTMLElement) {
     );
 }
 
-export function Editor({ fileId, snip, updateSnip }: { fileId: string; snip: Snip; updateSnip: (snip: Snip) => void }) {
+export function Editor({
+    fileId,
+    snip,
+    updateSnip,
+}: {
+    fileId: string;
+    snip: SnipWithSource;
+    updateSnip: (snip: SnipWithSource) => void;
+}) {
     const styles = useStyles();
     console.log(`editor ${fileId}`);
 

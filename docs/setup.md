@@ -8,6 +8,7 @@
 
 1. Install
     - [Node LTS](https://nodejs.org/en/download)
+    - via [NVM](https://github.com/coreybutler/nvm-windows)
 
 1. Clone this repository
 
