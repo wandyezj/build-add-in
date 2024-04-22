@@ -24,6 +24,7 @@ import { LogTag, log } from "../core/log";
 import { OpenButton } from "./OpenButton";
 import { SamplesButton } from "./SamplesButton";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
+import { ButtonEmbedList } from "./ButtonEmbedList";
 
 export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
     const [fileId, setFileId] = useState("typescript");
@@ -99,6 +100,7 @@ export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
         <>
             <Toolbar>
                 <OpenButton openSnip={openSnip} />
+                <ButtonEmbedList openSnip={openSnip} />
                 <SamplesButton openSnip={openSnip} />
                 <Tooltip content={snip.name} relationship="label">
                     <Input

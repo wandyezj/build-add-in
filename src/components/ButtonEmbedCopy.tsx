@@ -15,6 +15,9 @@ import { Snip } from "../core/Snip";
 import { saveSnip } from "../core/embed";
 import { LogTag, log } from "../core/log";
 
+/**
+ * Button to embed a script in the document.
+ */
 export function ButtonEmbedCopy({ snip }: { snip: Snip }) {
     function onClickEmbed() {
         log(LogTag.Embed, `Embed  ${snip.id}`);
