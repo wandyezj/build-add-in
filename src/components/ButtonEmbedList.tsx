@@ -5,7 +5,7 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, DocumentRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleListCard } from "./SampleListCard";
-import { Snip, SnipMetadata, SnipWithSource } from "../core/Snip";
+import { SnipMetadata, SnipWithSource } from "../core/Snip";
 import { getAllSnipMetadata, getSnipById } from "../core/embed";
 import { formatModified } from "../core/formatModified";
 
@@ -22,10 +22,13 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource)
 
     const [snips, setSnips] = useState([] as SnipMetadata[]);
 
-    useEffect(() => {
+    function reload() {
         getAllEmbed().then((snips) => {
             setSnips(snips);
         });
+    }
+    useEffect(() => {
+        reload();
     }, [isOpen]);
 
     const clickCard = (id: string) => {

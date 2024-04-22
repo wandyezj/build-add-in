@@ -6,8 +6,8 @@ import { getMostRecentlyModifiedSnipId, saveSnip } from "./core/database";
 import { getSnipById } from "./core/snipStorage";
 import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
-import { Snip, SnipReference, SnipSource } from "./core/Snip";
-import { officeSetup } from "./core/officeSetup";
+import { SnipReference, SnipWithSource } from "./core/Snip";
+import { setupOffice } from "./core/setupOffice";
 
 async function initializeCurrentId(): Promise<SnipReference> {
     let reference = loadCurrentSnipReference();
@@ -37,7 +37,7 @@ async function initializeCurrentId(): Promise<SnipReference> {
  * - The most recently modified snip
  * - A new default snip
  */
-async function getInitialSnip(): Promise<Snip> {
+async function getInitialSnip(): Promise<SnipWithSource> {
     const currentId = await initializeCurrentId();
     log(LogTag.Setup, "currentId - complete");
     const initialSnip = await getSnipById(currentId);
@@ -74,7 +74,7 @@ async function persistData() {
 
 async function setup() {
     log(LogTag.SetupStart);
-    await officeSetup;
+    await setupOffice();
     const initialSnip = await getInitialSnip();
 
     // Start Render AFTER we have the current snip id.

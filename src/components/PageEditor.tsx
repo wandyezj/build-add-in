@@ -26,13 +26,14 @@ import { SamplesButton } from "./SamplesButton";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonEmbedList } from "./ButtonEmbedList";
 
-export function PageEditor({ initialSnip }: { initialSnip: Snip }) {
+export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
+    console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
-    const [snip, setSnip] = useState({ ...initialSnip, source: "local" } as SnipWithSource);
+    const [snip, setSnip] = useState(initialSnip);
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
     const updateSnip = (updatedSnip: SnipWithSource) => {
-        console.log(`Update snip\t${updatedSnip.id}\t${updatedSnip.name}`);
+        console.log(`Update snip\t${updatedSnip.source}\t${updatedSnip.id}\t${updatedSnip.name}`);
         // update last modified
         updatedSnip.modified = Date.now();
         saveSnip(updatedSnip);

@@ -56,18 +56,13 @@ export async function getSnipById(id: string): Promise<Snip | undefined> {
     return snip;
 }
 
-export async function saveSnip(snip: Snip): Promise<Snip> {
-    // TODO: should embed the id into the snip
-
-    const textInitial = getSnipJson(snip);
-    const xmlInitial = await createContentXml(embedSnipTag, embedSnipNamespace, textInitial);
-    const id = await embedAddXml(xmlInitial);
-    // re-save snip with new id
-    snip.id = id;
-    const text = getSnipJson(snip);
+export async function saveSnip(snip: Readonly<Snip>): Promise<Snip> {
+    const targetId = snip.id;
+    // Id is the id of the custom xml part.
+    const text = getSnipJson({ ...snip, id: "" });
     const xml = await createContentXml(embedSnipTag, embedSnipNamespace, text);
-    await embedUpdateXml(id, xml);
-    return snip;
+    const id = await embedSaveXml(xml, targetId);
+    return { ...snip, id };
 }
 
 export async function deleteSnipById(id: string): Promise<void> {
@@ -95,16 +90,21 @@ async function readId(id: string): Promise<Snip | undefined> {
     return snip;
 }
 
-/**
- * Add
- * @param data
- * @returns id
- */
-async function embedAddXml(xml: string): Promise<string> {
-    // Different on different hosts.
+async function embedSaveXml(xml: string, id: string): Promise<string> {
     return await Excel.run(async (context) => {
         const customXmlParts = context.workbook.customXmlParts;
-        const item = customXmlParts.add(xml);
+        let item;
+        if (id === undefined) {
+            item = customXmlParts.add(xml);
+        } else {
+            const collection = customXmlParts.getByNamespace(embedSnipNamespace);
+            item = collection.getItemOrNullObject(id);
+            item.setXml(xml);
+            await context.sync();
+            if (item.isNullObject) {
+                item = customXmlParts.add(xml);
+            }
+        }
         item.load("id");
         await context.sync();
         const itemId = item.id;
@@ -112,21 +112,38 @@ async function embedAddXml(xml: string): Promise<string> {
     });
 }
 
-/**
- * Add
- * @param data
- * @returns id
- */
-async function embedUpdateXml(id: string, xml: string): Promise<void> {
-    // Different on different hosts.
-    return await Excel.run(async (context) => {
-        const customXmlParts = context.workbook.customXmlParts;
-        const collection = customXmlParts.getByNamespace(embedSnipNamespace);
-        const item = collection.getItemOrNullObject(id);
-        item.setXml(xml);
-        await context.sync();
-    });
-}
+// /**
+//  * Add
+//  * @param data
+//  * @returns id
+//  */
+// async function embedAddXml(xml: string): Promise<string> {
+//     // Different on different hosts.
+//     return await Excel.run(async (context) => {
+//         const customXmlParts = context.workbook.customXmlParts;
+//         const item = customXmlParts.add(xml);
+//         item.load("id");
+//         await context.sync();
+//         const itemId = item.id;
+//         return itemId;
+//     });
+// }
+
+// /**
+//  * Add
+//  * @param data
+//  * @returns id
+//  */
+// async function embedUpdateXml(id: string, xml: string): Promise<void> {
+//     // Different on different hosts.
+//     return await Excel.run(async (context) => {
+//         const customXmlParts = context.workbook.customXmlParts;
+//         const collection = customXmlParts.getByNamespace(embedSnipNamespace);
+//         const item = collection.getItemOrNullObject(id);
+//         item.setXml(xml);
+//         await context.sync();
+//     });
+// }
 
 async function embedDeleteXml(id: string): Promise<void> {
     // Different on different hosts.
