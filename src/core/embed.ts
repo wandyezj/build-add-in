@@ -1,38 +1,29 @@
-/* eslint-disable */
+import { Snip, SnipMetadata, getSnipFromJson, getSnipJson, pruneSnipToSnipMetadata } from "./Snip";
+import { getHost } from "./globals";
+import { compress, decompress } from "./hexText";
+
 //
 // Manage snips embedded in the document.
 //
 
-import { Snip, SnipMetadata, getSnipFromJson, getSnipJson, pruneSnipToSnipMetadata } from "./Snip";
-import { compress, decompress } from "./hexText";
-
 /*
-read all metadata -> SnipMetadata[]
-    getAllSnipMetadata
+getAllSnipMetadata
+    read all metadata -> SnipMetadata[]
 
-create -> Snip
-update by id
-    saveSnip
+saveSnip
+    create -> Snip
+    update by id
     save can create an empty xml part, get the id, then apply the id to the snip and save it.
 
-read by id -> Snip
-    getSnipById
+getSnipById
+    read by id -> Snip
 
-delete by id
-    deleteSnipById
+deleteSnipById
+    delete by id
 
 TODO: underlying functions need to work on every host.
 https://learn.microsoft.com/en-us/javascript/api/office/office.customxmlpart?view=common-js-preview
 */
-
-// export async function embedSnip(snip: PrunedSnip): Promise<Snip> {
-// const text = getSnipJson(snip);
-
-// // want to overwrite id
-// // Different calls depending on the application
-// }
-
-// too difficult to deal with embedded html
 
 export async function getAllSnipMetadata(): Promise<SnipMetadata[]> {
     const ids = await embedReadAllId();
@@ -61,13 +52,13 @@ export async function saveSnip(snip: Readonly<Snip>): Promise<Snip> {
     // Id is the id of the custom xml part.
     const text = getSnipJson({ ...snip, id: "" });
     const xml = await createContentXml(embedSnipTag, embedSnipNamespace, text);
-    const id = await embedSaveXml(xml, targetId);
+    const id = await embedSave({ xml, id: targetId });
     return { ...snip, id };
 }
 
 export async function deleteSnipById(id: string): Promise<void> {
     // Different on different hosts.
-    await embedDeleteXml(id);
+    await embedDeleteById(id);
 }
 
 // const xml = await createContentXml(embedSnipTag, embedSnipNamespace, data);
@@ -76,7 +67,7 @@ const embedSnipNamespace = "build-add-in-snip";
 const embedSnipTag = "snip";
 
 async function readId(id: string): Promise<Snip | undefined> {
-    const xml = await embedReadIdXml(id);
+    const xml = await embedReadId(id);
     if (xml === undefined) {
         return undefined;
     }
@@ -90,7 +81,11 @@ async function readId(id: string): Promise<Snip | undefined> {
     return snip;
 }
 
-async function embedSaveXml(xml: string, id: string): Promise<string> {
+/**
+ *
+ * @returns id of the saved snip
+ */
+async function embedSave({ xml, id }: { xml: string; id: string }): Promise<string> {
     return await Excel.run(async (context) => {
         const customXmlParts = context.workbook.customXmlParts;
         let item;
@@ -111,6 +106,109 @@ async function embedSaveXml(xml: string, id: string): Promise<string> {
         return itemId;
     });
 }
+
+async function embedDeleteById(id: string): Promise<void> {
+    const callback = embedDeleteByIdGenericCallback(id);
+    await callGenericCallbackForHost(callback);
+}
+
+async function callGenericCallbackForHost<T>(callback: GenericCallback<T>): Promise<T> {
+    const host = getHost();
+    switch (host) {
+        case Office.HostType.Excel:
+            return await Excel.run(async (context) => {
+                const customXmlParts = context.workbook.customXmlParts;
+                return callback(context, customXmlParts);
+            });
+        case Office.HostType.Word:
+            return await Word.run(async (context) => {
+                const customXmlParts = context.document.customXmlParts;
+                return callback(context, customXmlParts);
+            });
+
+        default:
+            // PowerPoint does not yet support custom xml parts.
+            throw new Error("Host not supported");
+    }
+}
+
+interface GenericContext {
+    sync(): Promise<void>;
+}
+
+interface GenericCustomXmlPartCollection {
+    getByNamespace(namespace: string): GenericCustomXmlPartScopedCollection;
+}
+
+interface GenericCustomXmlPartScopedCollection {
+    getItemOrNullObject(id: string): GenericCustomXmlPart;
+}
+
+interface GenericCustomXmlPart {
+    id: string;
+    getXml(): { value: string };
+    setXml(xml: string): void;
+    delete(): void;
+}
+
+type GenericCallback<T> = (context: GenericContext, customXmlParts: GenericCustomXmlPartCollection) => Promise<T>;
+
+function embedDeleteByIdGenericCallback(id: string) {
+    return async function (context: GenericContext, customXmlParts: GenericCustomXmlPartCollection) {
+        const collection = customXmlParts.getByNamespace(embedSnipNamespace);
+        const item = collection.getItemOrNullObject(id);
+        item.delete();
+        return context.sync();
+    };
+}
+
+/**
+ * read all ids available to read
+ */
+async function embedReadAllId(): Promise<string[]> {
+    return await Excel.run(async (context) => {
+        const customXmlParts = context.workbook.customXmlParts;
+        const collection = customXmlParts.getByNamespace(embedSnipNamespace);
+        collection.load(["items", "items/id"]);
+        await context.sync();
+
+        const ids = collection.items.map((item) => {
+            const id = item.id;
+            return id;
+        });
+
+        return ids;
+    });
+}
+
+/**
+ * read the specific ids data or undefined if it does not exist.
+ * @param id
+ */
+async function embedReadId(id: string): Promise<string | undefined> {
+    return await Excel.run(async (context) => {
+        const customXmlParts = context.workbook.customXmlParts;
+        const item = customXmlParts.getItemOrNullObject(id);
+        const result = item.getXml();
+        await context.sync();
+        if (item.isNullObject) {
+            return undefined;
+        }
+        const data = result.value;
+        return data;
+    });
+}
+
+// async function embedDeleteById(id: string): Promise<void> {
+//     // Different on different hosts.
+//     return await Excel.run(async (context) => {
+//         const customXmlParts = context.workbook.customXmlParts;
+//         const collection = customXmlParts.getByNamespace(embedSnipNamespace);
+//         const item = collection.getItemOrNullObject(id);
+//         item.delete();
+//         await context.sync();
+//     });
+// }
 
 // /**
 //  * Add
@@ -145,54 +243,6 @@ async function embedSaveXml(xml: string, id: string): Promise<string> {
 //     });
 // }
 
-async function embedDeleteXml(id: string): Promise<void> {
-    // Different on different hosts.
-    return await Excel.run(async (context) => {
-        const customXmlParts = context.workbook.customXmlParts;
-        const collection = customXmlParts.getByNamespace(embedSnipNamespace);
-        const item = collection.getItemOrNullObject(id);
-        item.delete();
-        await context.sync();
-    });
-}
-
-/**
- * read all ids available to read
- */
-async function embedReadAllId(): Promise<string[]> {
-    return await Excel.run(async (context) => {
-        const customXmlParts = context.workbook.customXmlParts;
-        const collection = customXmlParts.getByNamespace(embedSnipNamespace);
-        collection.load(["items", "items/id"]);
-        await context.sync();
-
-        const ids = collection.items.map((item) => {
-            const id = item.id;
-            return id;
-        });
-
-        return ids;
-    });
-}
-
-/**
- * read the specific ids data or undefined if it does not exist.
- * @param id
- */
-async function embedReadIdXml(id: string): Promise<string | undefined> {
-    return await Excel.run(async (context) => {
-        const customXmlParts = context.workbook.customXmlParts;
-        const item = customXmlParts.getItemOrNullObject(id);
-        const result = item.getXml();
-        await context.sync();
-        if (item.isNullObject) {
-            return undefined;
-        }
-        const data = result.value;
-        return data;
-    });
-}
-
 // async function embedReadAll(): Promise<{ id: string; xml: string }[]> {
 //     return await Excel.run(async (context) => {
 //         const customXmlParts = context.workbook.customXmlParts;
@@ -217,10 +267,8 @@ async function embedReadIdXml(id: string): Promise<string | undefined> {
 //     });
 // }
 
-//const xml = `<?xml version="1.0"?><${embedSnipTag} xmlns="${embedSnipNamespace}">${text}</Embed>`;
-
 /*
- * text is compressed to a hexText string to avoid issues with
+ * text is compressed to a hexText string to avoid issues with xml tags.
  */
 async function createContentXml(tagName: string, namespaceName: string, text: string): Promise<string> {
     const content = await compress(text);
