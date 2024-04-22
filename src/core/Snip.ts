@@ -138,8 +138,8 @@ export function pruneSnip(snip: Snip): Snip {
     const { id, name, modified } = snip;
     return {
         id,
-        name,
         modified,
+        name,
         files,
     };
 }
@@ -150,6 +150,15 @@ export function pruneSnipForExport(snip: Snip): ExportSnip {
     return {
         name,
         files,
+    };
+}
+
+export function pruneSnipToSnipMetadata(snip: Snip): SnipMetadata {
+    const { id, name, modified } = snip;
+    return {
+        id,
+        modified,
+        name,
     };
 }
 
@@ -173,6 +182,12 @@ export function isValidSnipExportJson(value: string): boolean {
  */
 export function getSnipExportJson(snip: Snip): string {
     const pruned = pruneSnipForExport(snip);
+    const text = objectToJson(pruned);
+    return text;
+}
+
+export function getSnipJson(snip: Snip): string {
+    const pruned = pruneSnip(snip);
     const text = objectToJson(pruned);
     return text;
 }
