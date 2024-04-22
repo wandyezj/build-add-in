@@ -11,7 +11,7 @@ import {
     // DocumentFolderRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { Snip, SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
 import { saveCurrentSnipReference } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
@@ -29,7 +29,7 @@ import { getHost } from "../core/globals";
 
 function embedEnabled(): boolean {
     const host = getHost();
-    const enabled = host === Office.HostType.Excel
+    const enabled = host === Office.HostType.Excel;
     // TODO: complete generics for Word.
     // || host === Office.HostType.Word;
     return enabled;

@@ -7,7 +7,7 @@ import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
 import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
-import { Snip, SnipWithSource, completeSnip } from "../core/Snip";
+import { SnipWithSource, completeSnip } from "../core/Snip";
 import { getHostName } from "../core/globals";
 
 function snipsWithTag(snips: SampleMetadata[], host: string) {

@@ -7,7 +7,6 @@ import { SnipListCard } from "./SnipListCard";
 import { getAllSnipMetadata, getAllSnips, getSnipById, saveSnip } from "../core/database";
 import {
     ExportSnip,
-    Snip,
     SnipMetadata,
     SnipWithSource,
     completeSnip,

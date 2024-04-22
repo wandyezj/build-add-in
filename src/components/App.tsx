@@ -1,7 +1,7 @@
 import React from "react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { PageEditor } from "./PageEditor";
-import { Snip, SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/Snip";
 
 /**
  * The top level application component.
