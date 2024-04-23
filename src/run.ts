@@ -11,6 +11,9 @@ async function getCurrentSnip() {
         return undefined;
     }
 
+    // TODO: does not work when the snip is embedded.
+    // Embed requires office.js to be loaded.
+    // Work around with local storage for the embed case.
     return getSnipById(id);
 }
 
