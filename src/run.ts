@@ -1,20 +1,20 @@
-import { loadCurrentSnipReference } from "./core/storage";
-import { getSnipById } from "./core/snipStorage";
+import { loadCurrentSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
 
 console.log("run");
 
 async function getCurrentSnip() {
-    const id = loadCurrentSnipReference();
-    if (id === undefined) {
+    // Cannot simply use id.
+    // Embed requires office.js to be loaded.
+    // Office.js must be loaded _after_ the snip.
+    // Work around with local storage for the embed case.
+    const snip = loadCurrentSnipToRun();
+    if (snip === undefined) {
         return undefined;
     }
 
-    // TODO: does not work when the snip is embedded.
-    // Embed requires office.js to be loaded.
-    // Work around with local storage for the embed case.
-    return getSnipById(id);
+    return snip;
 }
 
 async function loadScript(lib: string) {
