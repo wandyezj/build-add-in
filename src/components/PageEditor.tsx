@@ -137,7 +137,7 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
-                <ButtonEmbedCopy snip={snip} />
+                {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 
