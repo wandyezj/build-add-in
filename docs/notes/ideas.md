@@ -67,6 +67,32 @@ A collection of ideas that might improve the Build Add-In experience.
 - Store things on OneDrive
     - [Nested App Auth](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/enable-nested-app-authentication-in-your-add-in)
 
+- Snip signing with certificate or private key
+    - Attempt to verify identity of a snip or only trust snips from specific entities.
+    - Use PKI
+    - Add a set of trusted signatures.
+    - Signature can declare who the script is from.
+    - Is there a list of public keys somewhere with with owners?
+    - Need to verify signature against trusted authority.
+    - [MDN Subtle Crypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto)
+    - GitHub can [list GPG keys for a user](https://docs.github.com/en/rest/users/gpg-keys?apiVersion=2022-11-28#list-gpg-keys-for-a-user)
+    - However reading the GPG key requires an authenticated user
+    - Script hash would be signed with the private key, this way could show the specific GitHub customer that is being trusted.
+
+- semi securely storing an auth token in local storage
+    - [Crypto 101](https://www.crypto101.io/)
+    - Place Big Warnings about PAT usage
+    - Generate [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+        - Set fine grain permissions
+        - Set expiration
+        - Token Name
+        - Description
+        - Gists = Read and write
+        - GPG Keys = Read-only
+    - encrypt the token when it is stored.
+    - salt the encryption with random salt and require a password to unlock or a file of random text that is the key when the GitHub access is needed.
+
+
 Tests
 
 - What happens with snips with really long names?
