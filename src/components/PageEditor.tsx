@@ -12,7 +12,7 @@ import {
     // SettingsRegular,
 } from "@fluentui/react-icons";
 import { SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
-import { saveCurrentSnipReference } from "../core/storage";
+import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
@@ -56,6 +56,8 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
 
     const setupSnip = (setupSnip: SnipWithSource) => {
         saveCurrentSnipReference(setupSnip);
+        saveCurrentSnipToRun(setupSnip);
+
         // IntelliSense
         const currentLibrary = setupSnip.files.libraries.content;
         const newLibrary = setupSnip.files.libraries.content;
@@ -137,7 +139,7 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 <ImportButton setImport={setImport} />
                 <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
-                <ButtonEmbedCopy snip={snip} />
+                {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
                 

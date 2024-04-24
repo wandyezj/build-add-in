@@ -1,4 +1,4 @@
-import { SnipReference, getSnipSource } from "./Snip";
+import { Snip, SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./Snip";
 import { LogTag, log } from "./log";
 
 /**
@@ -28,6 +28,29 @@ export function loadCurrentSnipReference(): SnipReference | undefined {
 export function deleteCurrentSnipReference() {
     window.localStorage.removeItem(currentSnipReference);
     window.localStorage.removeItem(currentSnipSource);
+}
+
+/**
+ * The content of the current snip to run.
+ */
+const currentSnipToRun = "currentSnipToRun";
+
+export function saveCurrentSnipToRun(snip: Snip) {
+    const text = getSnipJson(snip);
+    window.localStorage.setItem(currentSnipToRun, text);
+}
+
+export function loadCurrentSnipToRun(): Snip | undefined {
+    const text = window.localStorage.getItem(currentSnipToRun);
+    if (text === null) {
+        return undefined;
+    }
+    const snip = getSnipFromJson(text);
+    return snip;
+}
+
+export function deleteCurrentSnipToRun(): void {
+    window.localStorage.removeItem(currentSnipToRun);
 }
 
 // export function saveSnip(snip: Snip) {
