@@ -46,7 +46,7 @@ async function deleteAllSamplesForHost() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function SamplesButton({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
+export function ButtonSamples({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [samples, setSamples] = useState([] as SampleMetadata[]);
