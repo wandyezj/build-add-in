@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 
 import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
-    AddRegular,
     // ArrowDownloadRegular,
     // PlayRegular,
     ClipboardRegular,
@@ -21,19 +21,9 @@ import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
-import { ButtonOpen } from "./ButtonOpen";
-import { ButtonSamples } from "./ButtonSamples";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
-import { ButtonEmbedList } from "./ButtonEmbedList";
-import { getHost } from "../core/globals";
-
-function embedEnabled(): boolean {
-    const host = getHost();
-    const enabled = host === Office.HostType.Excel || host === Office.HostType.Word;
-    // TODO: complete generics for Word.
-    // || host === Office.HostType.Word;
-    return enabled;
-}
+import { ButtonOpenMenu } from "./ButtonOpenMenu";
+import { embedEnabled } from "../core/embedEnabled";
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -81,13 +71,6 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
         }
     };
 
-    const buttonNewSnip = () => {
-        log(LogTag.ButtonNew, "button - new snip");
-        const newSnip = newDefaultSnip();
-        // Open without saving, only save once there is an edit
-        openSnip({ ...newSnip, source: "local" });
-    };
-
     /**
      * Copy the current snip to the clipboard
      */
@@ -115,9 +98,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <Toolbar>
-                <ButtonOpen openSnip={openSnip} />
-                {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
-                <ButtonSamples openSnip={openSnip} />
+                <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"
@@ -138,13 +119,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 />
 
                 <ButtonImport setImport={setImport} />
-                <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
-                
-                <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
-                <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />

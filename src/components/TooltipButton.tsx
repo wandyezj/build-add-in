@@ -14,7 +14,7 @@ export function TooltipButton({
 }) {
     return (
         <Tooltip content={tip} relationship="label">
-            <ToolbarButton id={id} aria-label={tip} appearance="primary" icon={icon} onClick={onClick} />
+            <ToolbarButton id={id} aria-label={tip} icon={icon} onClick={onClick} />
         </Tooltip>
     );
 }
