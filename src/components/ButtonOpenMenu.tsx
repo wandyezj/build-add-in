@@ -11,7 +11,7 @@ import {
     AddRegular,
 } from "@fluentui/react-icons";
 import { DrawerSnips } from "./DrawerSnips";
-import { getId, idEditButtonOpenSnip } from "./id";
+import { getId, idEditButtonOpen, idEditButtonOpenSnip } from "./id";
 import { DrawerSamples } from "./DrawerSamples";
 import { DrawerEmbed } from "./DrawerEmbed";
 import { embedEnabled } from "../core/embedEnabled";
@@ -34,18 +34,18 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
         <>
             <Menu openOnHover={true} hoverDelay={0}>
                 <MenuTrigger>
-                    <ToolbarButton
-                        id={getId(idEditButtonOpenSnip)}
-                        aria-label="Open"
-                        icon={<FolderOpenVerticalRegular />}
-                    >
+                    <ToolbarButton id={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenVerticalRegular />}>
                         Open
                     </ToolbarButton>
                 </MenuTrigger>
 
                 <MenuPopover>
                     <MenuList>
-                        <MenuItem icon={<DocumentFolderRegular />} onClick={() => setIsOpenLocal(true)}>
+                        <MenuItem
+                            id={getId(idEditButtonOpenSnip)}
+                            icon={<DocumentFolderRegular />}
+                            onClick={() => setIsOpenLocal(true)}
+                        >
                             Local
                         </MenuItem>
                         {embedEnabled() ? (

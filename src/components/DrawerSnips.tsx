@@ -26,7 +26,7 @@ import { downloadFileJson } from "../core/downloadFileJson";
 import { uploadFileJson } from "../core/uploadFileJson";
 import { objectToJson } from "../core/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
-import { idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
+import { getId, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
@@ -175,7 +175,7 @@ export function DrawerSnips({
                         }}
                     />
                     <TooltipButton
-                        id={idEditOpenSnipButtonNewSnip}
+                        id={getId(idEditOpenSnipButtonNewSnip)}
                         tip="New Snip"
                         icon={<AddRegular />}
                         onClick={() => {
