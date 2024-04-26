@@ -1,12 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-    DrawerBody,
-    DrawerHeader,
-    DrawerHeaderTitle,
-    OverlayDrawer,
-    Button,
-} from "@fluentui/react-components";
+import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";

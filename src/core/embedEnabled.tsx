@@ -1,4 +1,4 @@
-import { getHost } from "../core/globals";
+import { getHost } from "./globals";
 
 export function embedEnabled(): boolean {
     const host = getHost();

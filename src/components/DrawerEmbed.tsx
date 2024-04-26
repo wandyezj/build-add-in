@@ -17,9 +17,15 @@ async function getAllEmbed() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
-    const [isOpen, setIsOpen] = useState(false);
-
+export function DrawerEmbed({
+    openSnip,
+    isOpen,
+    setIsOpen,
+}: {
+    openSnip: (snip: SnipWithSource) => void;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [snips, setSnips] = useState([] as SnipMetadata[]);
 
     function reload() {
@@ -45,7 +51,7 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource)
     };
 
     return (
-        <div>
+        <>
             <OverlayDrawer open={isOpen} onOpenChange={(_, { open }) => setIsOpen(open)}>
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -76,8 +82,6 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource)
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
-
-            <TooltipButton tip="Embed Snips" icon={<DocumentRegular />} onClick={() => setIsOpen(true)} />
-        </div>
+        </>
     );
 }

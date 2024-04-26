@@ -21,11 +21,11 @@ import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
-import { ButtonOpen } from "./ButtonOpen";
+import { ButtonOpen } from "./DrawerSnips";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
-import { ButtonEmbedList } from "./ButtonEmbedList";
+import { DrawerEmbed } from "./DrawerEmbed";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
-import { embedEnabled } from "./embedEnabled";
+import { embedEnabled } from "../core/embedEnabled";
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -107,9 +107,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <Toolbar>
-                <ButtonOpen openSnip={openSnip} />
                 <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
-                {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"
