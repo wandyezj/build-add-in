@@ -1,6 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
+import {
+    DrawerBody,
+    DrawerHeader,
+    DrawerHeaderTitle,
+    OverlayDrawer,
+    Button,
+} from "@fluentui/react-components";
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
@@ -81,12 +87,34 @@ async function getAllLocalSnips(): Promise<SnipMetadata[]> {
     return snips;
 }
 
-/**
- * Enable opening a snip from a list of available snips.
- */
 export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
+    return (
+        <>
+            <TooltipButton
+                id={idEditButtonOpenSnip}
+                tip="Local Snips"
+                icon={<DocumentFolderRegular />}
+                onClick={() => setIsOpen(true)}
+            />
+            <DrawerSnips openSnip={openSnip} isOpen={isOpen} setIsOpen={setIsOpen} />
+        </>
+    );
+}
+
+/**
+ * Enable opening a snip from a list of available snips.
+ */
+export function DrawerSnips({
+    openSnip,
+    isOpen,
+    setIsOpen,
+}: {
+    openSnip: (snip: SnipWithSource) => void;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
 
     function refreshLocalSnips() {
@@ -111,7 +139,7 @@ export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => v
     };
 
     return (
-        <div>
+        <>
             <OverlayDrawer open={isOpen} onOpenChange={(_, { open }) => setIsOpen(open)}>
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -176,13 +204,6 @@ export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => v
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
-
-            <TooltipButton
-                id={idEditButtonOpenSnip}
-                tip="Local Snips"
-                icon={<DocumentFolderRegular />}
-                onClick={() => setIsOpen(true)}
-            />
-        </div>
+        </>
     );
 }

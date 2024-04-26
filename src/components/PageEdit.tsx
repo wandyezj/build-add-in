@@ -22,18 +22,10 @@ import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { ButtonOpen } from "./ButtonOpen";
-import { ButtonSamples } from "./ButtonSamples";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonEmbedList } from "./ButtonEmbedList";
-import { getHost } from "../core/globals";
-
-function embedEnabled(): boolean {
-    const host = getHost();
-    const enabled = host === Office.HostType.Excel || host === Office.HostType.Word;
-    // TODO: complete generics for Word.
-    // || host === Office.HostType.Word;
-    return enabled;
-}
+import { ButtonOpenMenu } from "./ButtonOpenMenu";
+import { embedEnabled } from "./embedEnabled";
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -116,8 +108,8 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
         <>
             <Toolbar>
                 <ButtonOpen openSnip={openSnip} />
+                <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
                 {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
-                <ButtonSamples openSnip={openSnip} />
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"

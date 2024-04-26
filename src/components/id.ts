@@ -12,3 +12,9 @@ export const idEditButtonOpenSnip = "button-open-snip";
  * Button that creates a new snip.
  */
 export const idEditOpenSnipButtonNewSnip = "button-local-snips-new-snip";
+
+export type TestId = typeof idEditButtonOpenSnip | typeof idEditOpenSnipButtonNewSnip;
+
+export function getId(id: TestId) {
+    return id;
+}

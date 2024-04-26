@@ -46,9 +46,15 @@ async function deleteAllSamplesForHost() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function ButtonSamples({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
-    const [isOpen, setIsOpen] = useState(false);
-
+export function DrawerSamples({
+    openSnip,
+    isOpen,
+    setIsOpen,
+}: {
+    openSnip: (snip: SnipWithSource) => void;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [samples, setSamples] = useState([] as SampleMetadata[]);
 
     function refreshSamples() {
@@ -99,7 +105,7 @@ export function ButtonSamples({ openSnip }: { openSnip: (snip: SnipWithSource) =
     };
 
     return (
-        <div>
+        <>
             <OverlayDrawer open={isOpen} onOpenChange={(_, { open }) => setIsOpen(open)}>
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -131,8 +137,6 @@ export function ButtonSamples({ openSnip }: { openSnip: (snip: SnipWithSource) =
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
-
-            <TooltipButton tip="Sample Snips" icon={<BookDefault28Regular />} onClick={() => setIsOpen(true)} />
-        </div>
+        </>
     );
 }
