@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 
 import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
-    AddRegular,
     // ArrowDownloadRegular,
     // PlayRegular,
     ClipboardRegular,
@@ -21,9 +21,7 @@ import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
-import { ButtonOpen } from "./DrawerSnips";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
-import { DrawerEmbed } from "./DrawerEmbed";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
 import { embedEnabled } from "../core/embedEnabled";
 
@@ -71,13 +69,6 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
         } else {
             console.error("import failed - invalid snip");
         }
-    };
-
-    const buttonNewSnip = () => {
-        log(LogTag.ButtonNew, "button - new snip");
-        const newSnip = newDefaultSnip();
-        // Open without saving, only save once there is an edit
-        openSnip({ ...newSnip, source: "local" });
     };
 
     /**
@@ -128,13 +119,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 />
 
                 <ButtonImport setImport={setImport} />
-                <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
-                
-                <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
-                <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />

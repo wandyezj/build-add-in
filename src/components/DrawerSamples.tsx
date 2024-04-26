@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
-import { Dismiss24Regular, BookDefault28Regular, ArrowSyncRegular } from "@fluentui/react-icons";
+import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
 import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
