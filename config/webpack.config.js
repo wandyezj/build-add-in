@@ -12,8 +12,8 @@ const { Marked } = require("marked");
  */
 const optionDevOpenBrowserTabs = true;
 const optionOpenBrowserTabs = [
-    "/test.html",
-    //"/edit.html",
+    //"/test.html",
+    "/edit.html",
     //"/run.html",
     //"/settings.html",
     //"/blocks.html",
