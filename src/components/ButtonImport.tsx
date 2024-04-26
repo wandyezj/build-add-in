@@ -103,7 +103,7 @@ async function getImportSnip(value: string): Promise<string | undefined> {
     return undefined;
 }
 
-export function ImportButton({ setImport }: { setImport: (value: string) => void }) {
+export function ButtonImport({ setImport }: { setImport: (value: string) => void }) {
     const textareaId = useId("import-textarea");
     const styles = useStyles();
 

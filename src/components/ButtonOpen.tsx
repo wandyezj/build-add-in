@@ -84,7 +84,7 @@ async function getAllLocalSnips(): Promise<SnipMetadata[]> {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
+export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);

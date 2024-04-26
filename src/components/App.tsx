@@ -1,6 +1,6 @@
 import React from "react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
-import { PageEditor } from "./PageEditor";
+import { PageEdit } from "./PageEdit";
 import { SnipWithSource } from "../core/Snip";
 
 /**
@@ -9,7 +9,7 @@ import { SnipWithSource } from "../core/Snip";
 export function App({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <FluentProvider theme={webLightTheme}>
-            <PageEditor initialSnip={initialSnip} />
+            <PageEdit initialSnip={initialSnip} />
         </FluentProvider>
     );
 }
