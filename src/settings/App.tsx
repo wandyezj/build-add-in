@@ -1,8 +1,14 @@
 import React from "react";
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import { Settings } from "./Settings";
+
 export function App() {
     return (
-        <div>
-            <h1>Settings</h1>
-        </div>
+        <FluentProvider theme={webLightTheme}>
+            <div>
+                <h1>Settings</h1>
+                <Settings />
+            </div>
+        </FluentProvider>
     );
 }
