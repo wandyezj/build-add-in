@@ -1,6 +1,18 @@
 import { Snip, SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./Snip";
 import { LogTag, log } from "./log";
 
+function keyGet(key: string) {
+    return window.localStorage.getItem(key);
+}
+
+function keyRemove(key: string) {
+    return window.localStorage.remove(key);
+}
+
+function keySet(key: string, value: string) {
+    return window.localStorage.setItem(key, value);
+}
+
 /**
  * The id of the snip that is currently being edited.
  * - The snip to load when the page first loads.
