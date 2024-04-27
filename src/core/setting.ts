@@ -43,6 +43,8 @@ const settings = {
 
 type SettingKey = keyof typeof settings;
 
-export function getSetting(name: SettingKey): string {}
+export function getSettings(): string {
+    return "";
+}
 
-export function setSetting(name: string, value: string) {}
+export function setSetting() {}
