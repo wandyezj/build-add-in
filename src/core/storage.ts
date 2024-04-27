@@ -1,24 +1,44 @@
 import { Snip, SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./Snip";
 import { LogTag, log } from "./log";
+import { objectToJson } from "./objectToJson";
+import { Settings, parseSettingsJson } from "./setting";
+
+type Key =
+    | typeof keyCurrentSnipReference
+    | typeof keyCurrentSnipSource
+    | typeof keyCurrentSnipToRun
+    | typeof keySettings;
+
+function keyGet(key: Key) {
+    return window.localStorage.getItem(key);
+}
+
+function keyRemove(key: Key) {
+    return window.localStorage.remove(key);
+}
+
+function keySet(key: Key, value: string) {
+    return window.localStorage.setItem(key, value);
+}
 
 /**
  * The id of the snip that is currently being edited.
  * - The snip to load when the page first loads.
  * - Determines which snip to run.
  */
-const currentSnipReference = "currentSnipId";
-const currentSnipSource = "currentSnipSource";
+const keyCurrentSnipReference = "currentSnipId";
+const keyCurrentSnipSource = "currentSnipSource";
 
 export function saveCurrentSnipReference(reference: SnipReference) {
     const { id, source } = reference;
     log(LogTag.LocalStorage, `saveCurrentSnipId ${id}`);
-    window.localStorage.setItem(currentSnipReference, id);
-    window.localStorage.setItem(currentSnipSource, source);
+    keySet(keyCurrentSnipReference, id);
+    keySet(keyCurrentSnipSource, source);
 }
 
 export function loadCurrentSnipReference(): SnipReference | undefined {
-    const id = window.localStorage.getItem(currentSnipReference) || undefined;
-    const source = getSnipSource(window.localStorage.getItem(currentSnipSource) || undefined);
+    const id = keyGet(keyCurrentSnipReference) || undefined;
+    const source = getSnipSource(keyGet(keyCurrentSnipSource) || undefined);
     if (id === undefined || source === undefined) {
         return undefined;
     }
@@ -26,22 +46,22 @@ export function loadCurrentSnipReference(): SnipReference | undefined {
 }
 
 export function deleteCurrentSnipReference() {
-    window.localStorage.removeItem(currentSnipReference);
-    window.localStorage.removeItem(currentSnipSource);
+    keyRemove(keyCurrentSnipReference);
+    keyRemove(keyCurrentSnipSource);
 }
 
 /**
  * The content of the current snip to run.
  */
-const currentSnipToRun = "currentSnipToRun";
+const keyCurrentSnipToRun = "currentSnipToRun";
 
 export function saveCurrentSnipToRun(snip: Snip) {
     const text = getSnipJson(snip);
-    window.localStorage.setItem(currentSnipToRun, text);
+    keySet(keyCurrentSnipToRun, text);
 }
 
 export function loadCurrentSnipToRun(): Snip | undefined {
-    const text = window.localStorage.getItem(currentSnipToRun);
+    const text = keyGet(keyCurrentSnipToRun);
     if (text === null) {
         return undefined;
     }
@@ -50,7 +70,24 @@ export function loadCurrentSnipToRun(): Snip | undefined {
 }
 
 export function deleteCurrentSnipToRun(): void {
-    window.localStorage.removeItem(currentSnipToRun);
+    keyRemove(keyCurrentSnipToRun);
+}
+
+const keySettings = "settings";
+
+export function loadSettings(): Settings {
+    const settingsJson = keyGet(keySettings) || "";
+    const settings = parseSettingsJson(settingsJson);
+    return settings;
+}
+
+export function saveSettings(settings: Settings) {
+    const settingsJson = objectToJson(settings);
+    keySet(keySettings, settingsJson);
+}
+
+export function deleteSettings() {
+    keyRemove(keySettings);
 }
 
 // export function saveSnip(snip: Snip) {

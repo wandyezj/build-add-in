@@ -1,5 +1,4 @@
 import React from "react";
-import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 import { BlockParameterBoolean } from "./BlockParameterBoolean";
 import { makeStyles } from "@fluentui/react-components";
 import { BlockParameterString } from "./BlockParameterString";
@@ -16,7 +15,7 @@ export function BlockParameter({
     parameter,
     updateValue,
 }: {
-    parameter: CodeTemplateBlockParameter;
+    parameter: { name: string; description: string; type: "number" | "boolean" | "string" };
     updateValue: (value: unknown) => void;
 }) {
     const styles = useStyles();
