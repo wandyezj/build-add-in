@@ -9,7 +9,7 @@ import {
     saveSnip as saveSnipInEmbed,
     deleteSnipById as deleteSnipByIdInEmbed,
     getSnipById as getSnipByIdInEmbed,
-} from "./embed";
+} from "./embed/embedSnip";
 
 export async function saveSnip(snip: SnipWithSource): Promise<void> {
     switch (snip.source) {

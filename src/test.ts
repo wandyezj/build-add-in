@@ -1,4 +1,4 @@
-import { compress, decompress } from "./core/hexText";
+import { compress, decompress } from "./core/embed/hexText";
 
 function getButton(id: string) {
     return document.getElementById(id) as HTMLButtonElement;
