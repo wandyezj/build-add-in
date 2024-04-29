@@ -14,7 +14,7 @@ function keyGet(key: Key) {
 }
 
 function keyRemove(key: Key) {
-    return window.localStorage.remove(key);
+    return window.localStorage.removeItem(key);
 }
 
 function keySet(key: Key, value: string) {
