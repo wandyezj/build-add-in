@@ -5,7 +5,7 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular } from "@fluentui/react-icons";
 import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource } from "../core/Snip";
-import { getAllSnipMetadata, getSnipById } from "../core/embed";
+import { getAllSnipMetadata, getSnipById } from "../core/embed/embedSnip";
 import { formatModified } from "../core/formatModified";
 
 async function getAllEmbed() {

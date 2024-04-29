@@ -12,7 +12,7 @@ import {
 import { TooltipButton } from "./TooltipButton";
 import { DocumentAddRegular } from "@fluentui/react-icons";
 import { Snip } from "../core/Snip";
-import { saveSnip } from "../core/embed";
+import { saveSnip } from "../core/embed/embedSnip";
 import { LogTag, log } from "../core/log";
 
 /**
