@@ -12,7 +12,7 @@ export function getHost(): Office.HostType {
     return globalHost;
 }
 
-export type SupportedHostName = "excel" | "powerpoint" | "word";
+export type SupportedHostName = "excel" | "powerpoint" | "word" | "outlook";
 
 export function getHostName(): SupportedHostName {
     const host = getHost();
@@ -24,6 +24,8 @@ export function getHostName(): SupportedHostName {
             return "powerpoint";
         case Office.HostType.Word:
             return "word";
+        case Office.HostType.Outlook:
+            return "outlook";
         default:
             // Default to Excel for testing.
             return "excel";
