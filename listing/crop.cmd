@@ -21,6 +21,7 @@ set height=768
 
 :: save over the original image and them crop.
 
+call :crop outlook
 call :crop excel
 call :crop powerpoint
 call :crop word
