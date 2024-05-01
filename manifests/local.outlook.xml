@@ -10,7 +10,7 @@
     <DefaultLocale>en-US</DefaultLocale>
     <DisplayName DefaultValue="(local) Build" />
     <Description DefaultValue="Build Extensions" />
-    <IconUrl DefaultValue="https://localhost:3000/assets/icon-128.png" />
+    <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png" />
     <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png" />
     <SupportUrl DefaultValue="https://localhost:3000/statements/support.html" />
     <AppDomains>
