@@ -164,6 +164,13 @@ function transformTypeScript(data: string): string {
 
     // $("#id").on("click", () => tryCatch(handler));`;
     const jqueryReg = /^\$\("#(?<id>.*)"\)\.on\("click", \(\) => tryCatch\((?<handler>.*)\)\);$/;
+
+    // Outlook specific
+    // $("#id").on("click", handler);
+    const jqueryAlt = /^\$\("#(?<id>.*)"\)\.on\("click", (?<handler>.*)\);$/;
+    // $("#id").click(handler);
+    const jqueryAlt2 = /^\$\("#(?<id>.*)"\)\.click\((?<handler>.*)\);$/;
+
     const cleanData = data
         .split("\n")
         .map((line) => {
@@ -172,13 +179,21 @@ function transformTypeScript(data: string): string {
             if (trimLine.startsWith("$")) {
                 // JQuery
                 const match = jqueryReg.exec(trimLine);
-                if (match === null) {
-                    return line;
+                if (match !== null) {
+                    const groups = match?.groups;
+                    if (groups) {
+                        const { id, handler } = groups;
+                        return `document.getElementById("${id}").addEventListener("click", () => tryCatch(${handler}));`;
+                    }
                 }
-                const groups = match?.groups;
-                if (groups) {
-                    const { id, handler } = groups;
-                    return `document.getElementById("${id}").addEventListener("click", () => tryCatch(${handler}));`;
+
+                const matchAlt = jqueryAlt.exec(trimLine) || jqueryAlt2.exec(trimLine);
+                if (matchAlt !== null) {
+                    const groups = matchAlt?.groups;
+                    if (groups) {
+                        const { id, handler } = groups;
+                        return `document.getElementById("${id}").addEventListener("click", ${handler});`;
+                    }
                 }
             }
 
