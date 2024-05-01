@@ -12,7 +12,7 @@
     <Description DefaultValue="Build Extensions" />
     <IconUrl DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-128.png" />
     <HighResolutionIconUrl DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-128.png" />
-    <SupportUrl DefaultValue="https://wandyezj.github.io/build-add-in/statements/support.md" />
+    <SupportUrl DefaultValue="https://wandyezj.github.io/build-add-in/statements/support.html" />
     <AppDomains>
         <AppDomain>https://wandyezj.github.io</AppDomain>
     </AppDomains>
