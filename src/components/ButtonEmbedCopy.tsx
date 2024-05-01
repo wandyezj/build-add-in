@@ -28,7 +28,7 @@ export function ButtonEmbedCopy({ snip }: { snip: Snip }) {
     return (
         <Dialog>
             <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="embed snip" icon={<DocumentAddRegular />} />
+                <TooltipButton tip="Embed copy of snip" icon={<DocumentAddRegular />} />
             </DialogTrigger>
             <DialogSurface>
                 <DialogBody>

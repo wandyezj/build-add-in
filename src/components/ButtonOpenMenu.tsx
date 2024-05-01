@@ -4,7 +4,7 @@ import { Menu, MenuItem, MenuList, MenuPopover, MenuTrigger, ToolbarButton } fro
 
 import { SnipWithSource } from "../core/Snip";
 import {
-    FolderOpenVerticalRegular,
+    FolderOpenRegular,
     DocumentFolderRegular,
     BookDefault28Regular,
     DocumentRegular,
@@ -34,7 +34,7 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
         <>
             <Menu openOnHover={true} hoverDelay={0}>
                 <MenuTrigger>
-                    <ToolbarButton id={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenVerticalRegular />}>
+                    <ToolbarButton id={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenRegular />}>
                         Open
                     </ToolbarButton>
                 </MenuTrigger>

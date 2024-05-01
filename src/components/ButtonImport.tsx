@@ -10,7 +10,7 @@ import {
     Button,
 } from "@fluentui/react-components";
 import { TooltipButton } from "./TooltipButton";
-import { ArrowDownloadRegular } from "@fluentui/react-icons";
+import { ArrowImportRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
@@ -121,7 +121,7 @@ export function ButtonImport({ setImport }: { setImport: (value: string) => void
     return (
         <Dialog>
             <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="Import" icon={<ArrowDownloadRegular />} />
+                <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
             </DialogTrigger>
             <DialogSurface>
                 <form onSubmit={onClickImport}>
