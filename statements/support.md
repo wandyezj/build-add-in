@@ -4,4 +4,8 @@ The Build Add-In is provided as is with no guarantee of quality or support.
 
 ## Contact
 
-https://twitter.com/wandyezj 
+[Help Forum](https://www.reddit.com/r/wandyezj/)
+
+[Report Issues](https://github.com/wandyezj/build-add-in/issues)
+
+https://twitter.com/wandyezj
