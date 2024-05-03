@@ -12,7 +12,7 @@ import {
 import { TooltipButton } from "./TooltipButton";
 import { DocumentAddRegular } from "@fluentui/react-icons";
 import { Snip } from "../core/Snip";
-import { saveSnip } from "../core/embed";
+import { saveSnip } from "../core/embed/embedSnip";
 import { LogTag, log } from "../core/log";
 
 /**
@@ -28,7 +28,7 @@ export function ButtonEmbedCopy({ snip }: { snip: Snip }) {
     return (
         <Dialog>
             <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="embed snip" icon={<DocumentAddRegular />} />
+                <TooltipButton tip="Embed copy of snip" icon={<DocumentAddRegular />} />
             </DialogTrigger>
             <DialogSurface>
                 <DialogBody>

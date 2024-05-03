@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 
 import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
-    AddRegular,
     // ArrowDownloadRegular,
     // PlayRegular,
     ClipboardRegular,
@@ -16,26 +16,16 @@ import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage"
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
-import { ImportButton } from "./ImportButton";
+import { ButtonImport } from "./ButtonImport";
 import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
-import { OpenButton } from "./OpenButton";
-import { SamplesButton } from "./SamplesButton";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
-import { ButtonEmbedList } from "./ButtonEmbedList";
-import { getHost } from "../core/globals";
+import { ButtonOpenMenu } from "./ButtonOpenMenu";
+import { embedEnabled } from "../core/embedEnabled";
 
-function embedEnabled(): boolean {
-    const host = getHost();
-    const enabled = host === Office.HostType.Excel;
-    // TODO: complete generics for Word.
-    // || host === Office.HostType.Word;
-    return enabled;
-}
-
-export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
+export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
@@ -81,13 +71,6 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
         }
     };
 
-    const buttonNewSnip = () => {
-        log(LogTag.ButtonNew, "button - new snip");
-        const newSnip = newDefaultSnip();
-        // Open without saving, only save once there is an edit
-        openSnip({ ...newSnip, source: "local" });
-    };
-
     /**
      * Copy the current snip to the clipboard
      */
@@ -115,9 +98,7 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <Toolbar>
-                <OpenButton openSnip={openSnip} />
-                {embedEnabled() ? <ButtonEmbedList openSnip={openSnip} /> : <></>}
-                <SamplesButton openSnip={openSnip} />
+                <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"
@@ -137,14 +118,10 @@ export function PageEditor({ initialSnip }: { initialSnip: SnipWithSource }) {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <ImportButton setImport={setImport} />
-                <TooltipButton tip="New" icon={<AddRegular />} onClick={buttonNewSnip} />
+                <ButtonImport setImport={setImport} />
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Run" icon={<PlayRegular />} />
-                
-                <TooltipButton tip="Samples" icon={<BookDefault28Regular />} />
-                <TooltipButton tip="My Snips" icon={<DocumentFolderRegular />} /> 
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />

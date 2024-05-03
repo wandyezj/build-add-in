@@ -26,7 +26,7 @@ import { downloadFileJson } from "../core/downloadFileJson";
 import { uploadFileJson } from "../core/uploadFileJson";
 import { objectToJson } from "../core/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
-import { idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
+import { getId, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
@@ -81,12 +81,34 @@ async function getAllLocalSnips(): Promise<SnipMetadata[]> {
     return snips;
 }
 
+export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <TooltipButton
+                id={idEditButtonOpenSnip}
+                tip="Local Snips"
+                icon={<DocumentFolderRegular />}
+                onClick={() => setIsOpen(true)}
+            />
+            <DrawerSnips openSnip={openSnip} isOpen={isOpen} setIsOpen={setIsOpen} />
+        </>
+    );
+}
+
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
-    const [isOpen, setIsOpen] = useState(false);
-
+export function DrawerSnips({
+    openSnip,
+    isOpen,
+    setIsOpen,
+}: {
+    openSnip: (snip: SnipWithSource) => void;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
 
     function refreshLocalSnips() {
@@ -111,7 +133,7 @@ export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => v
     };
 
     return (
-        <div>
+        <>
             <OverlayDrawer open={isOpen} onOpenChange={(_, { open }) => setIsOpen(open)}>
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -153,7 +175,7 @@ export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => v
                         }}
                     />
                     <TooltipButton
-                        id={idEditOpenSnipButtonNewSnip}
+                        id={getId(idEditOpenSnipButtonNewSnip)}
                         tip="New Snip"
                         icon={<AddRegular />}
                         onClick={() => {
@@ -176,13 +198,6 @@ export function OpenButton({ openSnip }: { openSnip: (snip: SnipWithSource) => v
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
-
-            <TooltipButton
-                id={idEditButtonOpenSnip}
-                tip="Local Snips"
-                icon={<DocumentFolderRegular />}
-                onClick={() => setIsOpen(true)}
-            />
-        </div>
+        </>
     );
 }

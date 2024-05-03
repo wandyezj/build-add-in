@@ -17,6 +17,12 @@ A full list of all features.
         - with snip Json
         - with array of snips Json
 
+- Embed (in edit)
+    - Only supported in: Excel and Word (needs the Custom XML API)
+    - embed snip in document
+    - Run an embed script
+    - Delete an embed script
+
 - Copy to clipboard
 
 - Delete
@@ -24,6 +30,7 @@ A full list of all features.
 - Persist local data using navigation.storage.persist
     - This works in browser.
     - This does NOT work in native host.
+
 - Ignore `Ctrl + S` key combo in editor.
 
 - Samples

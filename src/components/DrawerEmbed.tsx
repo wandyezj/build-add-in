@@ -2,11 +2,10 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
-import { Dismiss24Regular, DocumentRegular } from "@fluentui/react-icons";
-import { TooltipButton } from "./TooltipButton";
+import { Dismiss24Regular } from "@fluentui/react-icons";
 import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource } from "../core/Snip";
-import { getAllSnipMetadata, getSnipById } from "../core/embed";
+import { getAllSnipMetadata, getSnipById } from "../core/embed/embedSnip";
 import { formatModified } from "../core/formatModified";
 
 async function getAllEmbed() {
@@ -17,9 +16,15 @@ async function getAllEmbed() {
 /**
  * Enable opening a snip from a list of available snips.
  */
-export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
-    const [isOpen, setIsOpen] = useState(false);
-
+export function DrawerEmbed({
+    openSnip,
+    isOpen,
+    setIsOpen,
+}: {
+    openSnip: (snip: SnipWithSource) => void;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [snips, setSnips] = useState([] as SnipMetadata[]);
 
     function reload() {
@@ -45,7 +50,7 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource)
     };
 
     return (
-        <div>
+        <>
             <OverlayDrawer open={isOpen} onOpenChange={(_, { open }) => setIsOpen(open)}>
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -76,8 +81,6 @@ export function ButtonEmbedList({ openSnip }: { openSnip: (snip: SnipWithSource)
                     ))}
                 </DrawerBody>
             </OverlayDrawer>
-
-            <TooltipButton tip="Embed Snips" icon={<DocumentRegular />} onClick={() => setIsOpen(true)} />
-        </div>
+        </>
     );
 }

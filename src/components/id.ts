@@ -5,6 +5,12 @@
  * Location: Edit page
  * Button that opens the local snips drawer.
  */
+export const idEditButtonOpen = "button-open";
+
+/**
+ * Location: Edit page
+ * Button that opens the local snips drawer.
+ */
 export const idEditButtonOpenSnip = "button-open-snip";
 
 /**
@@ -12,3 +18,9 @@ export const idEditButtonOpenSnip = "button-open-snip";
  * Button that creates a new snip.
  */
 export const idEditOpenSnipButtonNewSnip = "button-local-snips-new-snip";
+
+export type TestId = typeof idEditButtonOpen | typeof idEditButtonOpenSnip | typeof idEditOpenSnipButtonNewSnip;
+
+export function getId(id: TestId) {
+    return id;
+}
