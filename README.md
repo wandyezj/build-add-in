@@ -5,10 +5,13 @@
 
 Get the [Build Add-In](https://appsource.microsoft.com/en-us/product/office/WA200006798).
 
+Get the [Build for Outlook Add-In](https://appsource.microsoft.com/en-us/product/office/WA200006932).
 
 
 ![Logo](./assets/icon-80.png)
 
+
+[Tutorial](https://github.com/wandyezj/build-add-in/blob/main/docs/tutorial.md)
 
 ## Goals
 
