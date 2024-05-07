@@ -118,7 +118,7 @@ Technical
 
 - [Configure Shared Runtime](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/configure-your-add-in-to-use-a-shared-runtime)
 - [Keyboard Shortcuts](https://learn.microsoft.com/en-us/office/dev/add-ins/design/keyboard-shortcuts)
-
+- [Keyboard Shortcuts Sample](https://github.com/OfficeDev/Office-Add-in-samples/tree/main/Samples/excel-keyboard-shortcuts)
 
 - Run hotkey functions in an iframe. This is challenging since need a way to forward office.js calls. So will probably simply execute in context, try to make sure global state is not disrupted.
 
@@ -134,6 +134,16 @@ JSON Shortcuts file
     - Add a bunch of blank hotkeys that can be overridden.
     - Hotkey1 - HotkeyN
     - Control sequence + alt key + Use 0 - 9
+
+Key Sequence remap - not needed for prototype: Remap key sequence with: `Office.actions.associate`
+
+What about the UI?
+
+- Edit Script
+- Manage Script
+- Assign Hotkey Sequence to scripts
+
+- Need data storage - create a new database table
 
 ## Document Embed
 
