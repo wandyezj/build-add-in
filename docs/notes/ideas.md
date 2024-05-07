@@ -2,6 +2,8 @@
 
 A collection of ideas that might improve the Build Add-In experience.
 
+- [Hotkeys](#hotkeys)
+- [Document Embed](#document-embed)
 
 ## Random
 
@@ -46,11 +48,9 @@ A collection of ideas that might improve the Build Add-In experience.
 
 - Make sure to validate any imported data. - Should probably be extended to anything in indexedDB as well. Assume any data where ever it's from is evil.
 
-- Enable embedding snips in documents, possibly by adding custom xml tags and searching for them.
-- double check any library urls
-- provide firm guidance on what each piece does with an info box
 
-- hotkeys - allow creation of a limited number of custom hotkeys. Only allow JS to execute. Requires shared runtime?
+
+
 
 - GitHub gist importing
     - Fetch all of a users public gists
@@ -97,3 +97,53 @@ Tests
 
 - What happens with snips with really long names?
 - Capture tab key in monaco editor instead of moving around to buttons
+
+## Hotkeys
+
+Allow creation of a limited number of custom hotkeys. Only allow JS to execute. Requires shared runtime?
+
+Hotkeys are code only functions that run when a key combination is pressed.
+
+Only implement for document based hosts Word, Excel, PowerPoint.
+
+New Taskpane titled Hotkeys
+
+- allow creation of a script using TypeScript
+- allow assigning of a script to a hotkey
+
+Technical
+
+- Shared runtime
+- Hotkey assignment
+
+- [Configure Shared Runtime](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/configure-your-add-in-to-use-a-shared-runtime)
+- [Keyboard Shortcuts](https://learn.microsoft.com/en-us/office/dev/add-ins/design/keyboard-shortcuts)
+
+
+- Run hotkey functions in an iframe. This is challenging since need a way to forward office.js calls. So will probably simply execute in context, try to make sure global state is not disrupted.
+
+Instead of iframe can embed in text before evaluation and hide some things that shouldn't be accessed via shadowing.
+
+- Manifest changes
+- Requirement sets
+    - SharedRuntime 1.1
+    - KeyboardShortcuts 1.1
+
+
+JSON Shortcuts file
+    - Add a bunch of blank hotkeys that can be overridden.
+    - Hotkey1 - HotkeyN
+    - Control sequence + alt key + Use 0 - 9
+
+## Document Embed
+
+- Enable embedding snips in documents, possibly by adding custom xml tags and searching for them.
+- double check any library urls
+- provide firm guidance on what each piece does with an info box
+
+
+## Visual Studio Code Extensions
+
+Place an VS Code extension on the store that allows connection to the build extension and editing and running code.
+
+
