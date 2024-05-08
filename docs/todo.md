@@ -75,7 +75,7 @@ In the Local Snips drawer.
 
 ## Phase - Samples
 
-- [ ] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
+- [X] Second page for samples [Multi-Level Drawer](https://react.fluentui.dev/?path=/docs/components-drawer--default#multiple-levels)
     - Alternative new menu
 - [X] Sample Conversion from yaml
     - https://gist.github.com/wandyezj/ce30cbfcc6df9f58ef0329481e62966b
@@ -112,11 +112,26 @@ Add a concept of storage location.
 - [ ] Snips need to indicate their storage location.
 - [ ] Storage metadata needs to be aggregated into a single list.
 
-- [ ] Enable embedding snips into a document
-    - [ ] a copy is created that is embedded in the document
-    - [ ] UI element to indicate that the script is embedded
-    - [ ] mark scripts as embedded
-    - [ ] read metadata, create, read, update, delete
+- [X] Enable embedding snips into a document
+    - [X] a copy is created that is embedded in the document
+    - [X] UI element to indicate that the script is embedded
+    - [X] mark scripts as embedded
+    - [X] read metadata, create, read, update, delete
+
+## Phase - Hotkeys
+
+- [ ] Ribbon Button
+    - [ ] Icon
+- [ ] IndexedDb Table for Script
+- [ ] Shared Runtime
+- [ ] Script Manager
+    - [ ] Edit
+    - [ ] assign hotkey
+- [ ] Hotkey registration file
+    - [ ] ctrl + shift + e = open edit
+    - [ ] ctrl + shift + r = open run
+    - [ ] ctrl + alt + 0..9 = run script
+- [ ] Upload new manifest
 
 ## Phase - test
 
@@ -134,7 +149,7 @@ Add a concept of storage location.
     - [ ] redirect to own url to reload
 - [ ] console component (not necessary since can use F12 tools)
 - [ ] library load files from unpkg shorthand
-- [ ] import yaml
+- [X] import yaml
     - auto inject Office.onReady call that does nothing if office.js is loaded as part of JavaScript API
 - [ ] button - settings
     - [ ] settings - monaco editor
@@ -159,6 +174,11 @@ Add a concept of storage location.
     - names and definition for every item
 - [ ] deployment infrastructure
 
+## Phase - Explain
+
+- [ ] Explain Edit and Run
+- [ ] Explain where snips are stored
+- [ ] Explain Embed
 
 ## Phase - Accessibility
 
