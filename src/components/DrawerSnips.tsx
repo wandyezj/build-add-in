@@ -87,7 +87,7 @@ export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => v
     return (
         <>
             <TooltipButton
-                id={idEditButtonOpenSnip}
+                testId={idEditButtonOpenSnip}
                 tip="Local Snips"
                 icon={<DocumentFolderRegular />}
                 onClick={() => setIsOpen(true)}
@@ -175,7 +175,7 @@ export function DrawerSnips({
                         }}
                     />
                     <TooltipButton
-                        id={getId(idEditOpenSnipButtonNewSnip)}
+                        testId={getId(idEditOpenSnipButtonNewSnip)}
                         tip="New Snip"
                         icon={<AddRegular />}
                         onClick={() => {

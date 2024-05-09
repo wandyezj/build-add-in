@@ -24,6 +24,7 @@ import { LogTag, log } from "../core/log";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
 import { embedEnabled } from "../core/embedEnabled";
+import { idEditButtonCopyToClipboard } from "./id";
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -113,6 +114,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 {/* */}
                 <TooltipButton
+                    testId={idEditButtonCopyToClipboard}
                     tip="Copy to clipboard"
                     icon={<ClipboardRegular />}
                     onClick={buttonCopySnipToClipboard}

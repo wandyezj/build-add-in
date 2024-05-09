@@ -1,12 +1,15 @@
 import React from "react";
 import { ToolbarButton, Tooltip } from "@fluentui/react-components";
+import { TestId } from "./id";
 
 export function TooltipButton({
+    testId,
     id,
     tip,
     icon,
     onClick,
 }: {
+    testId?: TestId;
     id?: string;
     tip: string;
     icon: React.JSX.Element;
@@ -14,7 +17,7 @@ export function TooltipButton({
 }) {
     return (
         <Tooltip content={tip} relationship="label">
-            <ToolbarButton id={id} aria-label={tip} icon={icon} onClick={onClick} />
+            <ToolbarButton data-testid={testId} id={id} aria-label={tip} icon={icon} onClick={onClick} />
         </Tooltip>
     );
 }

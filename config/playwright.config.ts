@@ -56,6 +56,9 @@ const config: PlaywrightTestConfig = {
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "on-first-retry",
+
+        // allow reading from clipboard
+        permissions: ["clipboard-read"],
     },
 
     /* Configure projects for major browsers */
