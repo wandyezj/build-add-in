@@ -34,7 +34,7 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
         <>
             <Menu openOnHover={true} hoverDelay={0}>
                 <MenuTrigger>
-                    <ToolbarButton id={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenRegular />}>
+                    <ToolbarButton data-testid={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenRegular />}>
                         Open
                     </ToolbarButton>
                 </MenuTrigger>
@@ -42,7 +42,7 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
                 <MenuPopover>
                     <MenuList>
                         <MenuItem
-                            id={getId(idEditButtonOpenSnip)}
+                            data-testid={getId(idEditButtonOpenSnip)}
                             icon={<DocumentFolderRegular />}
                             onClick={() => setIsOpenLocal(true)}
                         >

@@ -1,4 +1,4 @@
-import { test, expect, selectors, Page } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import { navigateToPage } from "./navigateToPage";
 import { getId, idEditButtonOpen, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "../src/components/id";
 import { Snip } from "../src/core/Snip";
@@ -6,9 +6,8 @@ import { Snip } from "../src/core/Snip";
 const editPageUrl = "edit.html";
 const editPageTitle = "Edit";
 
-test("navigates to correct page title", async ({ browser }) => {
+test("edit page basic", async ({ browser }) => {
     // Use id attribute for test selectors
-    selectors.setTestIdAttribute("id");
 
     const page = await navigateToPage(browser, editPageUrl, editPageTitle);
     await expect(page).toHaveTitle(editPageTitle);
