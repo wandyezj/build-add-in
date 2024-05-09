@@ -1,6 +1,12 @@
 import { test, expect, Page } from "@playwright/test";
 import { navigateToPage } from "./navigateToPage";
-import { getId, idEditButtonOpen, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "../src/components/id";
+import {
+    getId,
+    idEditButtonCopyToClipboard,
+    idEditButtonOpen,
+    idEditButtonOpenSnip,
+    idEditOpenSnipButtonNewSnip,
+} from "../src/components/id";
 import { Snip } from "../src/core/Snip";
 
 const editPageUrl = "edit.html";
@@ -21,6 +27,14 @@ test("edit page basic", async ({ browser }) => {
     await page.getByText("New Snip").first().click();
     const currentSnip = await getCurrentSnipToRun(page);
     expect(currentSnip.name).toBe("New Snip");
+
+    // Copy to clipboard
+    await page.getByTestId(getId(idEditButtonCopyToClipboard)).click();
+    const clipboardText = await page.evaluate(() => {
+        return navigator.clipboard.readText();
+    });
+    const clipboardSnip = JSON.parse(clipboardText) as Snip;
+    expect(clipboardSnip.name).toBe(currentSnip.name);
 });
 
 async function getCurrentSnipToRun(page: Page) {
