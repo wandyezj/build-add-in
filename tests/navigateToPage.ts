@@ -1,22 +1,20 @@
 import { expect, Page, Browser } from "@playwright/test";
 import { getLocalDistData } from "./getLocalDistData";
+import { getSource, Source } from "./getSource";
 
-/**
- * true - uses local dist for testing
- * false - point to production url
- */
-const useLocalDist = true;
-
-const rootUrl = "https://wandyezj.github.io/build-add-in";
+const rootUrlLocal = "https://localhost:3000";
+const rootUrlProduction = "https://wandyezj.github.io/build-add-in";
 
 export async function navigateToPage(browser: Browser, subpath: string, title: string): Promise<Page> {
     // Create a separate browser context for each test
     const context = await browser.newContext();
     const page = await context.newPage();
-
+    const useSource = getSource();
+    const rootUrl = useSource === Source.Localhost ? rootUrlLocal : rootUrlProduction;
     const pageUrl = rootUrl + "/" + subpath;
+
     // redirect to local data
-    if (useLocalDist) {
+    if (useSource === Source.Dist) {
         // interceptor to replace content of the page
         page.route(`${rootUrl}/*`, (route, request) => {
             const url = request.url();
