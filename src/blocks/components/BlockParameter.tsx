@@ -3,6 +3,7 @@ import { BlockParameterBoolean } from "./BlockParameterBoolean";
 import { makeStyles } from "@fluentui/react-components";
 import { BlockParameterString } from "./BlockParameterString";
 import { BlockParameterNumber } from "./BlockParameterNumber";
+import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 
 const useStyles = makeStyles({
     text: {
@@ -15,11 +16,11 @@ export function BlockParameter({
     parameter,
     updateValue,
 }: {
-    parameter: { name: string; description: string; type: "number" | "boolean" | "string" };
+    parameter: CodeTemplateBlockParameter;
     updateValue: (value: unknown) => void;
 }) {
     const styles = useStyles();
-    const { name, description, type } = parameter;
+    const { name, description, type, value } = parameter;
 
     switch (type) {
         case "number":
@@ -31,7 +32,12 @@ export function BlockParameter({
         case "boolean":
             return (
                 <div className={styles.text}>
-                    <BlockParameterBoolean name={name} description={description} updateValue={updateValue} />
+                    <BlockParameterBoolean
+                        name={name}
+                        description={description}
+                        initialValue={value}
+                        updateValue={updateValue}
+                    />
                 </div>
             );
         case "string":

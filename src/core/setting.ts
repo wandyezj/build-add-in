@@ -11,6 +11,15 @@ export const settingsMetadata = {
         defaultValue: true,
     } as SettingBoolean,
 
+    /**
+     * Show the run button on the edit page.
+     */
+    enableEditRun: {
+        name: "Enable Edit Run",
+        type: "boolean",
+        defaultValue: true,
+    } as SettingBoolean,
+
     test: {
         name: "test",
         type: "string",
@@ -89,4 +98,9 @@ export function getSettings(): Settings {
 
 export function setSetting(settings: Settings) {
     saveSettings(settings);
+}
+
+export function getSetting<T extends SettingsKey>(name: T): Settings[T] {
+    const settings = getSettings();
+    return settings[name];
 }

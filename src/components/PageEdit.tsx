@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     // ArrowDownloadRegular,
-    // PlayRegular,
+    PlayRegular,
     ClipboardRegular,
     DeleteRegular,
     // BookDefault28Regular,
@@ -25,6 +25,11 @@ import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
 import { embedEnabled } from "../core/embedEnabled";
 import { idEditButtonCopyToClipboard } from "./id";
+import { getSetting } from "../core/setting";
+
+function buttonRun() {
+    window.location.href = "/run.html#back";
+}
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
@@ -112,7 +117,12 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     />
                 </Tooltip>
 
-                {/* */}
+                {getSetting("enableEditRun") ? (
+                    <TooltipButton tip="Run" icon={<PlayRegular />} onClick={buttonRun} />
+                ) : (
+                    <></>
+                )}
+
                 <TooltipButton
                     testId={idEditButtonCopyToClipboard}
                     tip="Copy to clipboard"
@@ -123,7 +133,6 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 <ButtonImport setImport={setImport} />
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
-                <TooltipButton tip="Run" icon={<PlayRegular />} />
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
