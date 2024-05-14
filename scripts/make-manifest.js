@@ -19,6 +19,34 @@ function clean(data) {
     return data;
 }
 
+function getSectionDelimiters(section) {
+    const delimiterStart = `<!-- Section:(${section}) - Start -->`;
+    const delimiterEnd = `<!-- Section:(${section}) - End -->`;
+    return { delimiterStart, delimiterEnd };
+}
+
+/**
+ * Replace data section
+ * @param {string} section
+ * @param {string} data
+ * @param {string} replace
+ */
+function replaceSection(section, data, replace) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const sectionDataBefore = data.split(delimiterStart)[0];
+    const sectionDataAfter = data.split(delimiterEnd)[1];
+    return `${sectionDataBefore}
+${replace}
+${sectionDataAfter}`;
+}
+
+function removeSectionDelimiters(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    data = data.replaceAll(delimiterStart, "");
+    data = data.replaceAll(delimiterEnd, "");
+    return data;
+}
+
 /**
  * make manifest for localhost from template
  * @param {string} data
@@ -30,15 +58,21 @@ function localhost(data) {
     data = data.replaceAll(delimiterStart, "");
     data = data.replaceAll(delimiterEnd, "");
 
+    const sectionRuntime = "Runtimes only Excel";
+    // Remove runtime sections for Word
+    data = replaceSection(sectionRuntime, data, "");
+
     // Place place template duplicates on Excel and PowerPoint
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Workbook) -->",
-        duplicate.replaceAll("Document", "Workbook")
-    );
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Presentation) -->",
-        duplicate.replaceAll("Document", "Presentation")
-    );
+
+    // Excel
+    let hostExcel = duplicate.replaceAll("Document", "Workbook");
+    hostExcel = removeSectionDelimiters(sectionRuntime, hostExcel);
+    data = data.replaceAll("<!-- Duplicate:(Word) Replace:(Document,Workbook) -->", hostExcel);
+
+    // PowerPoint
+    let hostPowerPoint = duplicate.replaceAll("Document", "Presentation");
+    hostPowerPoint = replaceSection(sectionRuntime, hostPowerPoint, "");
+    data = data.replaceAll("<!-- Duplicate:(Word) Replace:(Document,Presentation) -->", hostPowerPoint);
 
     return clean(data);
 }

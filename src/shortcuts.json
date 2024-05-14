@@ -1,0 +1,28 @@
+{
+    "actions": [
+        {
+            "id": "SHOWTASKPANE",
+            "type": "ExecuteFunction",
+            "name": "Show task pane for add-in"
+        },
+        {
+            "id": "HIDETASKPANE",
+            "type": "ExecuteFunction",
+            "name": "Hide task pane for add-in"
+        }
+    ],
+    "shortcuts": [
+        {
+            "action": "SHOWTASKPANE",
+            "key": {
+                "default": "Ctrl+Alt+Up"
+            }
+        },
+        {
+            "action": "HIDETASKPANE",
+            "key": {
+                "default": "Ctrl+Alt+Down"
+            }
+        }
+    ]
+}

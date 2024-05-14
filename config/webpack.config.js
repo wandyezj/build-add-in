@@ -62,6 +62,7 @@ module.exports = async (env, options) => {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
             help: "./src/help.tsx",
+            shortcuts: "./src/shortcuts.ts",
             settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
             test: "./src/test.ts",
@@ -116,6 +117,11 @@ module.exports = async (env, options) => {
                 chunks: ["help"],
             }),
             new HtmlWebpackPlugin({
+                template: "src/shortcuts.html",
+                filename: "shortcuts.html",
+                chunks: ["shortcuts"],
+            }),
+            new HtmlWebpackPlugin({
                 template: "src/settings.html",
                 filename: "settings.html",
                 chunks: ["settings"],
@@ -151,6 +157,10 @@ module.exports = async (env, options) => {
                         to: "robots.txt",
                     },
                     { from: "assets/*.png", to: "" },
+                    {
+                        from: "./src/shortcuts.json",
+                        to: "shortcuts.json",
+                    },
                     {
                         from: "statements/*.md",
                         to: "statements/[name].html",

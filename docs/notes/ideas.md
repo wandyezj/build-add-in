@@ -120,6 +120,9 @@ Technical
 - [Keyboard Shortcuts](https://learn.microsoft.com/en-us/office/dev/add-ins/design/keyboard-shortcuts)
 - [Keyboard Shortcuts Sample](https://github.com/OfficeDev/Office-Add-in-samples/tree/main/Samples/excel-keyboard-shortcuts)
 
+- Shortcuts are Only Supported in Excel?
+- Shared Runtime is only Excel and PowerPoint?
+
 - Run hotkey functions in an iframe. This is challenging since need a way to forward office.js calls. So will probably simply execute in context, try to make sure global state is not disrupted.
 
 Instead of iframe can embed in text before evaluation and hide some things that shouldn't be accessed via shadowing.

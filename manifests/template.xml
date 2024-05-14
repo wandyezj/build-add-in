@@ -41,6 +41,11 @@
     <Hosts>
       <!-- Word - Start -->
       <Host xsi:type="Document">
+        <!-- Section:(Runtimes only Excel) - Start -->
+        <Runtimes>
+          <Runtime resid="Taskpane.Url" lifetime="long" />
+        </Runtimes>
+        <!-- Section:(Runtimes only Excel) - End -->
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
