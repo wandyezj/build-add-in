@@ -7,19 +7,23 @@
     // words - list of words to be always considered correct
     // prettier-ignore
     "words": [
+        "appsforoffice",
         "CODEOWNERS",
         "endregion",
         "eqeqeq",
+        "firstpartyapps",
         "fluentui",
         "Inkscape",
         "linebreak",
         "markdownlint",
         "minifier",
+        "oaspapps",
         "prettierrc",
         "Sideload",
         "Sideloading",
         "taskpane",
         "Taskpanes",
+        "telemetryservice",
         "testid"
     ],
     // flagWords - list of words to be always considered incorrect
