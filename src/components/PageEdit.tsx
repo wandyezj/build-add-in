@@ -28,7 +28,7 @@ import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
 
 function buttonRun() {
-    window.location.href = "/run.html#back";
+    window.location.href = "./run.html#back";
 }
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
