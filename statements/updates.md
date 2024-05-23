@@ -1,5 +1,9 @@
 # Updates
 
+## 2023-05-22
+
+- Fix run button on edit page. [#52](https://github.com/wandyezj/build-add-in/pull/52)
+
 ## 2024-05-13
 
 - Add run button to Edit Page.

@@ -23,6 +23,8 @@ Office.onReady(({host, platform})=> {
 
     const elementPlatform = document.getElementById('platform');
     elementPlatform.innerText = \`\${platform}\`;
+
+    ready();
 });
 
 /**
