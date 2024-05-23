@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
@@ -35,6 +35,10 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
+
+    useEffect(() => {
+        setupSnip(snip);
+    });
 
     // TODO: make this more precise in terms of what is updated instead of the entire snip
     const updateSnip = (updatedSnip: SnipWithSource) => {
