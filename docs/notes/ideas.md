@@ -65,7 +65,7 @@ A collection of ideas that might improve the Build Add-In experience.
         - load the raw urls content
 
 - Store things on OneDrive
-    - [Nested App Auth](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/enable-nested-app-authentication-in-your-add-in)
+    - [Graph](./graph.md)
 
 - Snip signing with certificate or private key
     - Attempt to verify identity of a snip or only trust snips from specific entities.
