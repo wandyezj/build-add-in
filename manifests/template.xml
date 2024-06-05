@@ -43,7 +43,7 @@
       <Host xsi:type="Document">
         <!-- Section:(Runtimes only Excel) - Start -->
         <Runtimes>
-          <Runtime resid="Taskpane.Url" lifetime="long" />
+          <Runtime resid="TaskpaneShortcuts.Url" lifetime="long" />
         </Runtimes>
         <!-- Section:(Runtimes only Excel) - End -->
         <DesktopFormFactor>
@@ -180,6 +180,7 @@
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://localhost:3000/run.html" />
         <bt:Url id="TaskpaneHelp.Url" DefaultValue="https://localhost:3000/help.html" />
         <bt:Url id="TaskpaneSettings.Url" DefaultValue="https://localhost:3000/settings.html" />
+        <bt:Url id="TaskpaneShortcuts.Url" DefaultValue="https://localhost:3000/shortcuts.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="TabBuild.TabLabel" DefaultValue="(local) Build" />
