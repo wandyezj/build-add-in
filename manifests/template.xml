@@ -248,4 +248,5 @@
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
+  <ExtendedOverrides Url="https://localhost:3000/shortcuts.json"></ExtendedOverrides>
 </OfficeApp>

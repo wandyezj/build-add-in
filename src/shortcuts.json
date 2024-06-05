@@ -9,19 +9,30 @@
             "id": "HIDETASKPANE",
             "type": "ExecuteFunction",
             "name": "Hide task pane for add-in"
+        },
+        {
+            "id": "SETCOLOR",
+            "type": "ExecuteFunction",
+            "name": "Cycle through cell colors"
         }
     ],
     "shortcuts": [
         {
             "action": "SHOWTASKPANE",
             "key": {
-                "default": "Ctrl+Alt+Up"
+                "default": "Ctrl+Alt+1"
             }
         },
         {
             "action": "HIDETASKPANE",
             "key": {
-                "default": "Ctrl+Alt+Down"
+                "default": "Ctrl+Alt+2"
+            }
+        },
+        {
+            "action": "SETCOLOR",
+            "key": {
+                "default": "Ctrl+Alt+4"
             }
         }
     ]

@@ -33,6 +33,7 @@
   </Requirements>
 
   <DefaultSettings>
+    <!-- The SourceLocation must be the shared runtime -->
     <SourceLocation DefaultValue="https://wandyezj.github.io/build-add-in/actions.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
@@ -452,4 +453,5 @@
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
+  <ExtendedOverrides Url="https://wandyezj.github.io/build-add-in/shortcuts.json"></ExtendedOverrides>
 </OfficeApp>
