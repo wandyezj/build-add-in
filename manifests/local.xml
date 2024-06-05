@@ -33,123 +33,18 @@
   </Requirements>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3000/edit.html" />
+    <SourceLocation DefaultValue="https://localhost:3000/actions.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
-      
-      <Host xsi:type="Document">
-        
 
 
-        <DesktopFormFactor>
-          <ExtensionPoint xsi:type="PrimaryCommandSurface">
-            <CustomTab id="TabExtension">
-              <Group id="GroupExtensionId">
-                <Label resid="GroupExtension.Label" />
-                <Icon>
-                  <bt:Image size="16" resid="Icon.Edit.16x16" />
-                  <bt:Image size="32" resid="Icon.Edit.32x32" />
-                  <bt:Image size="80" resid="Icon.Edit.80x80" />
-                </Icon>
-                <Control xsi:type="Button" id="ButtonEditId">
-                  <Label resid="ButtonEdit.Label" />
-                  <Supertip>
-                    <Title resid="ButtonEdit.Label" />
-                    <Description resid="ButtonEdit.Tooltip" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="Icon.Edit.16x16" />
-                    <bt:Image size="32" resid="Icon.Edit.32x32" />
-                    <bt:Image size="80" resid="Icon.Edit.80x80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <TaskpaneId>TaskpaneEditId</TaskpaneId>
-                    <SourceLocation resid="TaskpaneEdit.Url" />
-                    <Title resid="TaskpaneEdit.Title" />
-                  </Action>
-                </Control>
-                <Control xsi:type="Button" id="ButtonRunId">
-                  <Label resid="ButtonRun.Label" />
-                  <Supertip>
-                    <Title resid="ButtonRun.Label" />
-                    <Description resid="ButtonRun.Tooltip" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="Icon.Run.16x16" />
-                    <bt:Image size="32" resid="Icon.Run.32x32" />
-                    <bt:Image size="80" resid="Icon.Run.80x80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <TaskpaneId>TaskpaneRunId</TaskpaneId>
-                    <SourceLocation resid="TaskpaneRun.Url" />
-                    <Title resid="TaskpaneRun.Title" />
-                  </Action>
-                </Control>
-              </Group>
-              <Group id="GroupHelpId">
-                <Label resid="GroupHelp.Label" />
-                <Icon>
-                  <bt:Image size="16" resid="Icon.Help.16x16" />
-                  <bt:Image size="32" resid="Icon.Help.32x32" />
-                  <bt:Image size="80" resid="Icon.Help.80x80" />
-                </Icon>
-                <Control xsi:type="Button" id="ButtonHelpId">
-                  <Label resid="ButtonHelp.Label" />
-                  <Supertip>
-                    <Title resid="ButtonHelp.Label" />
-                    <Description resid="ButtonHelp.Tooltip" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="Icon.Help.16x16" />
-                    <bt:Image size="32" resid="Icon.Help.32x32" />
-                    <bt:Image size="80" resid="Icon.Help.80x80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <TaskpaneId>TaskpaneHelpId</TaskpaneId>
-                    <SourceLocation resid="TaskpaneHelp.Url" />
-                    <Title resid="TaskpaneHelp.Title" />
-                  </Action>
-                </Control>
-              </Group>
-              <Group  id="GroupSettingsId">
-                <Label resid="GroupSettings.Label" />
-                <Icon>
-                  <bt:Image size="16" resid="Icon.settings.16x16" />
-                  <bt:Image size="32" resid="Icon.settings.32x32" />
-                  <bt:Image size="80" resid="Icon.settings.80x80" />
-                </Icon>
-                <Control xsi:type="Button" id="ButtonSettingsId">
-                  <Label resid="ButtonSettings.Label" />
-                  <Supertip>
-                    <Title resid="ButtonSettings.Label" />
-                    <Description resid="ButtonSettings.Tooltip" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="Icon.settings.16x16" />
-                    <bt:Image size="32" resid="Icon.settings.32x32" />
-                    <bt:Image size="80" resid="Icon.settings.80x80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <TaskpaneId>TaskpaneSettingsId</TaskpaneId>
-                    <SourceLocation resid="TaskpaneSettings.Url" />
-                    <Title resid="TaskpaneSettings.Title" />
-                  </Action>
-                </Control>
-              </Group>
-              <Label resid="TabBuild.TabLabel" />
-            </CustomTab>
-          </ExtensionPoint>
-        </DesktopFormFactor>
-      </Host>
-      
-      
       <Host xsi:type="Workbook">
         
         <Runtimes>
-          <Runtime resid="TaskpaneShortcuts.Url" lifetime="long" />
+          <Runtime resid="TaskpaneActions.Url" lifetime="long" />
         </Runtimes>
         
         <DesktopFormFactor>
@@ -222,7 +117,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -247,17 +142,42 @@
                   </Action>
                 </Control>
               </Group>
+              
+              <Group id="GroupActionsId">
+                <Label resid="GroupActions.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.actions.16x16" />
+                  <bt:Image size="32" resid="Icon.actions.32x32" />
+                  <bt:Image size="80" resid="Icon.actions.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonActionsId">
+                  <Label resid="ButtonActions.Label" />
+                  <Supertip>
+                    <Title resid="ButtonActions.Label" />
+                    <Description resid="ButtonActions.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.actions.16x16" />
+                    <bt:Image size="32" resid="Icon.actions.32x32" />
+                    <bt:Image size="80" resid="Icon.actions.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneActionsId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneActions.Url" />
+                    <Title resid="TaskpaneActions.Title" />
+                  </Action>
+                </Control>
+              </Group>
+              
               <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
       
-      <Host xsi:type="Presentation">
-        
+      <Host xsi:type="Document">
 
-
-        <DesktopFormFactor>
+<DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
               <Group id="GroupExtensionId">
@@ -327,7 +247,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -352,7 +272,112 @@
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabBuild.TabLabel" />
+
+<Label resid="TabBuild.TabLabel" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+      
+      <Host xsi:type="Presentation">
+
+<DesktopFormFactor>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="TabExtension">
+              <Group id="GroupExtensionId">
+                <Label resid="GroupExtension.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.Edit.16x16" />
+                  <bt:Image size="32" resid="Icon.Edit.32x32" />
+                  <bt:Image size="80" resid="Icon.Edit.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonEditId">
+                  <Label resid="ButtonEdit.Label" />
+                  <Supertip>
+                    <Title resid="ButtonEdit.Label" />
+                    <Description resid="ButtonEdit.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Edit.16x16" />
+                    <bt:Image size="32" resid="Icon.Edit.32x32" />
+                    <bt:Image size="80" resid="Icon.Edit.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneEditId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneEdit.Url" />
+                    <Title resid="TaskpaneEdit.Title" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="ButtonRunId">
+                  <Label resid="ButtonRun.Label" />
+                  <Supertip>
+                    <Title resid="ButtonRun.Label" />
+                    <Description resid="ButtonRun.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Run.16x16" />
+                    <bt:Image size="32" resid="Icon.Run.32x32" />
+                    <bt:Image size="80" resid="Icon.Run.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneRunId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneRun.Url" />
+                    <Title resid="TaskpaneRun.Title" />
+                  </Action>
+                </Control>
+              </Group>
+              <Group id="GroupHelpId">
+                <Label resid="GroupHelp.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.Help.16x16" />
+                  <bt:Image size="32" resid="Icon.Help.32x32" />
+                  <bt:Image size="80" resid="Icon.Help.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonHelpId">
+                  <Label resid="ButtonHelp.Label" />
+                  <Supertip>
+                    <Title resid="ButtonHelp.Label" />
+                    <Description resid="ButtonHelp.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Help.16x16" />
+                    <bt:Image size="32" resid="Icon.Help.32x32" />
+                    <bt:Image size="80" resid="Icon.Help.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneHelpId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneHelp.Url" />
+                    <Title resid="TaskpaneHelp.Title" />
+                  </Action>
+                </Control>
+              </Group>
+              <Group id="GroupSettingsId">
+                <Label resid="GroupSettings.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.settings.16x16" />
+                  <bt:Image size="32" resid="Icon.settings.32x32" />
+                  <bt:Image size="80" resid="Icon.settings.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonSettingsId">
+                  <Label resid="ButtonSettings.Label" />
+                  <Supertip>
+                    <Title resid="ButtonSettings.Label" />
+                    <Description resid="ButtonSettings.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.settings.16x16" />
+                    <bt:Image size="32" resid="Icon.settings.32x32" />
+                    <bt:Image size="80" resid="Icon.settings.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneSettingsId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneSettings.Url" />
+                    <Title resid="TaskpaneSettings.Title" />
+                  </Action>
+                </Control>
+              </Group>
+
+<Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
@@ -375,40 +400,55 @@
         <bt:Image id="Icon.Help.16x16" DefaultValue="https://localhost:3000/assets/icon-help-16.png" />
         <bt:Image id="Icon.Help.32x32" DefaultValue="https://localhost:3000/assets/icon-help-32.png" />
         <bt:Image id="Icon.Help.80x80" DefaultValue="https://localhost:3000/assets/icon-help-80.png" />
-      
+
         <bt:Image id="Icon.settings.16x16"
-        DefaultValue="https://localhost:3000/assets/icon-settings-16.png" />
-      <bt:Image id="Icon.settings.32x32"
-        DefaultValue="https://localhost:3000/assets/icon-settings-32.png" />
-      <bt:Image id="Icon.settings.80x80"
-        DefaultValue="https://localhost:3000/assets/icon-settings-80.png" />
+          DefaultValue="https://localhost:3000/assets/icon-settings-16.png" />
+        <bt:Image id="Icon.settings.32x32"
+          DefaultValue="https://localhost:3000/assets/icon-settings-32.png" />
+        <bt:Image id="Icon.settings.80x80"
+          DefaultValue="https://localhost:3000/assets/icon-settings-80.png" />
+
+        <bt:Image id="Icon.actions.16x16"
+          DefaultValue="https://localhost:3000/assets/icon-actions-16.png" />
+        <bt:Image id="Icon.actions.32x32"
+          DefaultValue="https://localhost:3000/assets/icon-actions-32.png" />
+        <bt:Image id="Icon.actions.80x80"
+          DefaultValue="https://localhost:3000/assets/icon-actions-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://localhost:3000/edit.html" />
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://localhost:3000/run.html" />
         <bt:Url id="TaskpaneHelp.Url" DefaultValue="https://localhost:3000/help.html" />
         <bt:Url id="TaskpaneSettings.Url" DefaultValue="https://localhost:3000/settings.html" />
-        <bt:Url id="TaskpaneShortcuts.Url" DefaultValue="https://localhost:3000/shortcuts.html" />
+        <bt:Url id="TaskpaneActions.Url" DefaultValue="https://localhost:3000/actions.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="TabBuild.TabLabel" DefaultValue="(local) Build" />
+
         <bt:String id="GroupExtension.Label" DefaultValue="(local) Extension" />
         <bt:String id="ButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneEdit.Title" DefaultValue="Edit" />
         <bt:String id="ButtonRun.Label" DefaultValue="Run" />
         <bt:String id="TaskpaneRun.Title" DefaultValue="Run" />
+
         <bt:String id="GroupHelp.Label" DefaultValue="Help" />
         <bt:String id="ButtonHelp.Label" DefaultValue="Help" />
         <bt:String id="TaskpaneHelp.Title" DefaultValue="Help" />
+
         <bt:String id="GroupSettings.Label" DefaultValue="Settings" />
         <bt:String id="ButtonSettings.Label" DefaultValue="Settings" />
         <bt:String id="TaskpaneSettings.Title" DefaultValue="Settings" />
+
+        <bt:String id="GroupActions.Label" DefaultValue="Actions" />
+        <bt:String id="ButtonActions.Label" DefaultValue="Actions" />
+        <bt:String id="TaskpaneActions.Title" DefaultValue="Actions" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="ButtonEdit.Tooltip" DefaultValue="Edit Snip" />
         <bt:String id="ButtonRun.Tooltip" DefaultValue="Run Snip" />
         <bt:String id="ButtonHelp.Tooltip" DefaultValue="Get Help" />
         <bt:String id="ButtonSettings.Tooltip" DefaultValue="Change Settings" />
+        <bt:String id="ButtonActions.Tooltip" DefaultValue="Edit Actions" />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

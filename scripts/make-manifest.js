@@ -25,6 +25,12 @@ function getSectionDelimiters(section) {
     return { delimiterStart, delimiterEnd };
 }
 
+function getSectionContents(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const contents = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
+    return contents;
+}
+
 /**
  * Replace data section
  * @param {string} section
@@ -33,11 +39,20 @@ function getSectionDelimiters(section) {
  */
 function replaceSection(section, data, replace) {
     const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
-    const sectionDataBefore = data.split(delimiterStart)[0];
-    const sectionDataAfter = data.split(delimiterEnd)[1];
+    const sectionDataBefore = data.split(delimiterStart)[0].trimEnd();
+    const sectionDataAfter = data.split(delimiterEnd)[1].trimStart();
     return `${sectionDataBefore}
 ${replace}
 ${sectionDataAfter}`;
+}
+
+/**
+ * Replace data section with empty string
+ * @param {string} section
+ * @param {string} data
+ */
+function removeSection(section, data) {
+    return replaceSection(section, data, "");
 }
 
 function removeSectionDelimiters(section, data) {
@@ -52,27 +67,34 @@ function removeSectionDelimiters(section, data) {
  * @param {string} data
  */
 function localhost(data) {
-    const delimiterStart = "<!-- Word - Start -->";
-    const delimiterEnd = "<!-- Word - End -->";
-    const duplicate = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
-    data = data.replaceAll(delimiterStart, "");
-    data = data.replaceAll(delimiterEnd, "");
+    const sectionHost = "Host";
 
+    const duplicate = getSectionContents(sectionHost, data);
+    data = removeSection("Host", data);
+
+    // Remove these from the Word and PowerPoint hosts
     const sectionRuntime = "Runtimes only Excel";
-    // Remove runtime sections for Word
-    data = replaceSection(sectionRuntime, data, "");
+    const sectionActionsGroup = "Actions only Excel";
 
-    // Place place template duplicates on Excel and PowerPoint
+    // Create Host for Word, Excel and PowerPoint
+
+    // Word
+    let hostWord = duplicate.replaceAll("Document", "Document");
+    hostWord = removeSection(sectionRuntime, hostWord);
+    hostWord = removeSection(sectionActionsGroup, hostWord);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Document) -->", hostWord);
 
     // Excel
     let hostExcel = duplicate.replaceAll("Document", "Workbook");
     hostExcel = removeSectionDelimiters(sectionRuntime, hostExcel);
-    data = data.replaceAll("<!-- Duplicate:(Word) Replace:(Document,Workbook) -->", hostExcel);
+    hostExcel = removeSectionDelimiters(sectionActionsGroup, hostExcel);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Workbook) -->", hostExcel);
 
     // PowerPoint
     let hostPowerPoint = duplicate.replaceAll("Document", "Presentation");
-    hostPowerPoint = replaceSection(sectionRuntime, hostPowerPoint, "");
-    data = data.replaceAll("<!-- Duplicate:(Word) Replace:(Document,Presentation) -->", hostPowerPoint);
+    hostPowerPoint = removeSection(sectionRuntime, hostPowerPoint);
+    hostPowerPoint = removeSection(sectionActionsGroup, hostPowerPoint);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Presentation) -->", hostPowerPoint);
 
     return clean(data);
 }
