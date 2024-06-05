@@ -68,6 +68,8 @@ function loadJs(js: string) {
 }
 
 async function runSnip() {
+    const goBack = window.location.hash === "#back";
+
     const snip = await getCurrentSnip();
     console.log("snip", snip);
     if (snip === undefined) {
@@ -77,7 +79,11 @@ async function runSnip() {
     // Content
     const libraries = snip.files["libraries"].content;
     const css = snip.files["css"].content;
-    const html = snip.files["html"].content;
+    let html = snip.files["html"].content;
+    // Add back button to top of html
+    if (goBack) {
+        html = `<button onclick="window.location.href='./edit.html';">Back</button>${html}`;
+    }
     // TODO: will need to compile TypeScript, where should this be done?
     const ts = snip.files["typescript"].content;
     const { js, issues } = compileCode(ts);

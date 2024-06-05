@@ -5,9 +5,13 @@ import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 export function BlockParameterBoolean({
     name,
     description,
+    initialValue,
     updateValue,
-}: Pick<CodeTemplateBlockParameter, "name" | "description"> & { updateValue: (value: boolean) => void }) {
-    const [checked, setChecked] = React.useState(true);
+}: Pick<CodeTemplateBlockParameter, "name" | "description"> & {
+    initialValue: boolean;
+    updateValue: (value: boolean) => void;
+}) {
+    const [checked, setChecked] = React.useState(initialValue);
     const onChange = React.useCallback(
         (ev: React.ChangeEvent<HTMLInputElement>) => {
             const value = ev.currentTarget.checked;
