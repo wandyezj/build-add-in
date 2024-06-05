@@ -1,4 +1,10 @@
-import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAction";
+import {
+    Action,
+    ActionType,
+    TriggerAction,
+    TriggerExcelNamedRangeEdit,
+    TriggerType,
+} from "./core/actions/TriggerAction";
 
 // cspell:ignore SHOWTASKPANE HIDETASKPANE addin
 console.log("actions load");
@@ -61,7 +67,87 @@ const triggerActionExcelNamedRangeTest: TriggerAction = {
     },
 };
 
+/**
+ * action registry
+ */
 const triggerActions: TriggerAction[] = [triggerActionLoadLog, triggerActionExcelNamedRangeTest];
+
+function runActionLogId(triggerAction: TriggerAction) {
+    console.log(triggerAction.id);
+}
+
+/**
+ * Actions types to runs.
+ */
+const actionMap = new Map<string, (triggerAction: TriggerAction) => void>([[ActionType.LogId, runActionLogId]]);
+
+function runAction(triggerAction: TriggerAction) {
+    const actionType = triggerAction.action.type;
+    const handler = actionMap.get(actionType);
+
+    if (handler === undefined) {
+        console.log(`Handler for actionType ${actionType}`);
+    } else {
+        handler(triggerAction);
+    }
+}
+
+function getTriggerTypes(triggerActions: TriggerAction[], triggerType: TriggerType) {
+    const triggers = triggerActions.filter((triggerAction) => triggerAction.trigger.type === triggerType);
+    return triggers;
+}
+
+function runTriggersActions(triggers: TriggerAction[]) {
+    triggers.forEach((trigger) => {
+        runAction(trigger);
+    });
+}
+
+/**
+ * Trigger all load triggers
+ */
+function triggerLoad() {
+    const triggers = getTriggerTypes(triggerActions, TriggerType.Load);
+    runTriggersActions(triggers);
+}
+
+/**
+ * Trigger all Excel Named Range Edit triggers relevant to the event.
+ * @param event
+ */
+async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAddress: string }) {
+    const triggers = getTriggerTypes(triggerActions, TriggerType.ExcelNamedRangeEdit) as {
+        id: string;
+        trigger: TriggerExcelNamedRangeEdit;
+        action: Action;
+    }[];
+
+    // Check if the Range edit action matches a trigger
+    const matching = await Excel.run(async (context) => {
+        const workbook = context.workbook;
+
+        const intersects = triggers.map((trigger, index) => {
+            const namedItemName = trigger.trigger.parameters.namedRangeName;
+            const namedItem = workbook.names.getItemOrNullObject(namedItemName);
+            const range = namedItem.getRangeOrNullObject();
+
+            const eventRange = workbook.worksheets.getItemOrNullObject(event.worksheetId).getRange(event.rangeAddress);
+            const intersection = range.getIntersectionOrNullObject(eventRange);
+            return { intersection, index };
+        });
+
+        await context.sync();
+
+        const match = intersects
+            .filter(({ intersection }) => !intersection.isNullObject)
+            .map(({ index }) => triggers[index]);
+        return match;
+    });
+
+    runTriggersActions(matching);
+}
+
+//async function registerTriggerExcelNamedRangeEdit() {}
 
 async function registerTriggerActions() {
     console.log("Register Triggers");
@@ -87,6 +173,8 @@ async function registerTriggerActions() {
 
                 const eventWorksheetId = event.worksheetId;
                 const eventAddress = event.address;
+
+                triggerExcelNamedRangeEdit({ worksheetId: eventWorksheetId, rangeAddress: eventAddress });
 
                 console.log(eventWorksheetId);
                 console.log(eventAddress);
@@ -119,5 +207,8 @@ Office.onReady(() => {
     console.log("ready");
     // Requires trigger of the runtime before it will automatically start up.
     Office.addin.setStartupBehavior(Office.StartupBehavior.load);
+
+    triggerLoad();
+
     registerTriggerActions();
 });
