@@ -12,7 +12,7 @@
 //
 const fs = require("fs");
 
-const iconNames = ["Play", "Edit", "Hexagon", "Question", "Settings"];
+const iconNames = ["Play", "Edit", "Hexagon", "Question", "Settings", "Script"];
 const icons = iconNames.map((name) => [name, "regular", [16, 32, 48]]);
 
 const iconDirectory = "../../fluentui-system-icons/assets";
@@ -39,7 +39,10 @@ icons.forEach(([iconName, iconStyle, iconSizes]) => {
         const name = `ic_fluent_${iconName.toLowerCase()}_${size}_${iconStyle}.svg`;
         const source = `${path}/${name}`;
         const destination = `${iconDirectoryOut}/${name}`;
-        console.log(`${name}${fs.existsSync(source) ? "" : ` - NOT FOUND ${source}`}`);
-        fs.copyFileSync(source, destination);
+        const exists = fs.existsSync(source);
+        console.log(`${name}${exists ? "" : ` - NOT FOUND ${source}`}`);
+        if (exists) {
+            fs.copyFileSync(source, destination);
+        }
     });
 });

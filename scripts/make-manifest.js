@@ -19,26 +19,82 @@ function clean(data) {
     return data;
 }
 
+function getSectionDelimiters(section) {
+    const delimiterStart = `<!-- Section:(${section}) - Start -->`;
+    const delimiterEnd = `<!-- Section:(${section}) - End -->`;
+    return { delimiterStart, delimiterEnd };
+}
+
+function getSectionContents(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const contents = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
+    return contents;
+}
+
+/**
+ * Replace data section
+ * @param {string} section
+ * @param {string} data
+ * @param {string} replace
+ */
+function replaceSection(section, data, replace) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const sectionDataBefore = data.split(delimiterStart)[0].trimEnd();
+    const sectionDataAfter = data.split(delimiterEnd)[1].trimStart();
+    return `${sectionDataBefore}
+${replace}
+${sectionDataAfter}`;
+}
+
+/**
+ * Replace data section with empty string
+ * @param {string} section
+ * @param {string} data
+ */
+function removeSection(section, data) {
+    return replaceSection(section, data, "");
+}
+
+function removeSectionDelimiters(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    data = data.replaceAll(delimiterStart, "");
+    data = data.replaceAll(delimiterEnd, "");
+    return data;
+}
+
 /**
  * make manifest for localhost from template
  * @param {string} data
  */
 function localhost(data) {
-    const delimiterStart = "<!-- Word - Start -->";
-    const delimiterEnd = "<!-- Word - End -->";
-    const duplicate = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
-    data = data.replaceAll(delimiterStart, "");
-    data = data.replaceAll(delimiterEnd, "");
+    const sectionHost = "Host";
 
-    // Place place template duplicates on Excel and PowerPoint
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Workbook) -->",
-        duplicate.replaceAll("Document", "Workbook")
-    );
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Presentation) -->",
-        duplicate.replaceAll("Document", "Presentation")
-    );
+    const duplicate = getSectionContents(sectionHost, data);
+    data = removeSection("Host", data);
+
+    // Remove these from the Word and PowerPoint hosts
+    const sectionRuntime = "Runtimes only Excel";
+    const sectionActionsGroup = "Actions only Excel";
+
+    // Create Host for Word, Excel and PowerPoint
+
+    // Word
+    let hostWord = duplicate.replaceAll("Document", "Document");
+    hostWord = removeSection(sectionRuntime, hostWord);
+    hostWord = removeSection(sectionActionsGroup, hostWord);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Document) -->", hostWord);
+
+    // Excel
+    let hostExcel = duplicate.replaceAll("Document", "Workbook");
+    hostExcel = removeSectionDelimiters(sectionRuntime, hostExcel);
+    hostExcel = removeSectionDelimiters(sectionActionsGroup, hostExcel);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Workbook) -->", hostExcel);
+
+    // PowerPoint
+    let hostPowerPoint = duplicate.replaceAll("Document", "Presentation");
+    hostPowerPoint = removeSection(sectionRuntime, hostPowerPoint);
+    hostPowerPoint = removeSection(sectionActionsGroup, hostPowerPoint);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Presentation) -->", hostPowerPoint);
 
     return clean(data);
 }

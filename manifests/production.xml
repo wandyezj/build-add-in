@@ -33,14 +33,21 @@
   </Requirements>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://wandyezj.github.io/build-add-in/edit.html" />
+    <!-- The SourceLocation must be the shared runtime -->
+    <SourceLocation DefaultValue="https://wandyezj.github.io/build-add-in/actions.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
-      
-      <Host xsi:type="Document">
+
+
+      <Host xsi:type="Workbook">
+        
+        <Runtimes>
+          <Runtime resid="TaskpaneActions.Url" lifetime="long" />
+        </Runtimes>
+        
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
@@ -111,7 +118,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -136,15 +143,42 @@
                   </Action>
                 </Control>
               </Group>
+              
+              <Group id="GroupActionsId">
+                <Label resid="GroupActions.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.actions.16x16" />
+                  <bt:Image size="32" resid="Icon.actions.32x32" />
+                  <bt:Image size="80" resid="Icon.actions.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonActionsId">
+                  <Label resid="ButtonActions.Label" />
+                  <Supertip>
+                    <Title resid="ButtonActions.Label" />
+                    <Description resid="ButtonActions.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.actions.16x16" />
+                    <bt:Image size="32" resid="Icon.actions.32x32" />
+                    <bt:Image size="80" resid="Icon.actions.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneActionsId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneActions.Url" />
+                    <Title resid="TaskpaneActions.Title" />
+                  </Action>
+                </Control>
+              </Group>
+              
               <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
       
-      
-      <Host xsi:type="Workbook">
-        <DesktopFormFactor>
+      <Host xsi:type="Document">
+
+<DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
               <Group id="GroupExtensionId">
@@ -214,7 +248,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -239,14 +273,16 @@
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabBuild.TabLabel" />
+
+<Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
       
       <Host xsi:type="Presentation">
-        <DesktopFormFactor>
+
+<DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
               <Group id="GroupExtensionId">
@@ -316,7 +352,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -341,7 +377,8 @@
                   </Action>
                 </Control>
               </Group>
-              <Label resid="TabBuild.TabLabel" />
+
+<Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
@@ -364,40 +401,57 @@
         <bt:Image id="Icon.Help.16x16" DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-help-16.png" />
         <bt:Image id="Icon.Help.32x32" DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-help-32.png" />
         <bt:Image id="Icon.Help.80x80" DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-help-80.png" />
-      
+
         <bt:Image id="Icon.settings.16x16"
-        DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-16.png" />
-      <bt:Image id="Icon.settings.32x32"
-        DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-32.png" />
-      <bt:Image id="Icon.settings.80x80"
-        DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-80.png" />
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-16.png" />
+        <bt:Image id="Icon.settings.32x32"
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-32.png" />
+        <bt:Image id="Icon.settings.80x80"
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-settings-80.png" />
+
+        <bt:Image id="Icon.actions.16x16"
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-actions-16.png" />
+        <bt:Image id="Icon.actions.32x32"
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-actions-32.png" />
+        <bt:Image id="Icon.actions.80x80"
+          DefaultValue="https://wandyezj.github.io/build-add-in/assets/icon-actions-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://wandyezj.github.io/build-add-in/edit.html" />
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://wandyezj.github.io/build-add-in/run.html" />
         <bt:Url id="TaskpaneHelp.Url" DefaultValue="https://wandyezj.github.io/build-add-in/help.html" />
         <bt:Url id="TaskpaneSettings.Url" DefaultValue="https://wandyezj.github.io/build-add-in/settings.html" />
+        <bt:Url id="TaskpaneActions.Url" DefaultValue="https://wandyezj.github.io/build-add-in/actions.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="TabBuild.TabLabel" DefaultValue="Build" />
+
         <bt:String id="GroupExtension.Label" DefaultValue="Extension" />
         <bt:String id="ButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneEdit.Title" DefaultValue="Edit" />
         <bt:String id="ButtonRun.Label" DefaultValue="Run" />
         <bt:String id="TaskpaneRun.Title" DefaultValue="Run" />
+
         <bt:String id="GroupHelp.Label" DefaultValue="Help" />
         <bt:String id="ButtonHelp.Label" DefaultValue="Help" />
         <bt:String id="TaskpaneHelp.Title" DefaultValue="Help" />
+
         <bt:String id="GroupSettings.Label" DefaultValue="Settings" />
         <bt:String id="ButtonSettings.Label" DefaultValue="Settings" />
         <bt:String id="TaskpaneSettings.Title" DefaultValue="Settings" />
+
+        <bt:String id="GroupActions.Label" DefaultValue="Actions" />
+        <bt:String id="ButtonActions.Label" DefaultValue="Actions" />
+        <bt:String id="TaskpaneActions.Title" DefaultValue="Actions" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="ButtonEdit.Tooltip" DefaultValue="Edit Snip" />
         <bt:String id="ButtonRun.Tooltip" DefaultValue="Run Snip" />
         <bt:String id="ButtonHelp.Tooltip" DefaultValue="Get Help" />
         <bt:String id="ButtonSettings.Tooltip" DefaultValue="Change Settings" />
+        <bt:String id="ButtonActions.Tooltip" DefaultValue="Edit Actions" />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
+  <ExtendedOverrides Url="https://wandyezj.github.io/build-add-in/shortcuts.json"></ExtendedOverrides>
 </OfficeApp>
