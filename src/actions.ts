@@ -14,7 +14,6 @@ Office.actions.associate("SHOWTASKPANE", function () {
 });
 
 Office.actions.associate("HIDETASKPANE", async function () {
-    debugger;
     console.log("shortcut - Hide");
     try {
         await Office.addin.hide();
@@ -31,15 +30,7 @@ Office.actions.associate("SETCOLOR", function () {
 
         await context.sync();
         const colors = ["#FFFFFF", "#C7CC7A", "#7560BA", "#9DD9D2", "#FFE1A8", "#E26D5C"];
-        let colorIndex = colors.indexOf(range.format.fill.color);
-
-        if (colorIndex == -1) {
-            colorIndex = 0;
-        } else if (colorIndex == colors.length - 1) {
-            colorIndex = 0;
-        } else {
-            colorIndex++;
-        }
+        const colorIndex = (colors.indexOf(range.format.fill.color) + 1) % colors.length;
         range.format.fill.color = colors[colorIndex];
         await context.sync();
     });
