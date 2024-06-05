@@ -62,7 +62,7 @@ module.exports = async (env, options) => {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
             help: "./src/help.tsx",
-            shortcuts: "./src/shortcuts.ts",
+            actions: "./src/actions.ts",
             settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
             test: "./src/test.ts",
@@ -117,9 +117,9 @@ module.exports = async (env, options) => {
                 chunks: ["help"],
             }),
             new HtmlWebpackPlugin({
-                template: "src/shortcuts.html",
-                filename: "shortcuts.html",
-                chunks: ["shortcuts"],
+                template: "src/actions.html",
+                filename: "actions.html",
+                chunks: ["actions"],
             }),
             new HtmlWebpackPlugin({
                 template: "src/settings.html",
