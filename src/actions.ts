@@ -73,7 +73,8 @@ const triggerActionExcelNamedRangeTest: TriggerAction = {
 const triggerActions: TriggerAction[] = [triggerActionLoadLog, triggerActionExcelNamedRangeTest];
 
 function runActionLogId(triggerAction: TriggerAction) {
-    console.log(triggerAction.id);
+    const { id } = triggerAction;
+    console.log(`Trigger: [${id}]`);
 }
 
 /**
@@ -95,6 +96,11 @@ function runAction(triggerAction: TriggerAction) {
 function getTriggerTypes(triggerActions: TriggerAction[], triggerType: TriggerType) {
     const triggers = triggerActions.filter((triggerAction) => triggerAction.trigger.type === triggerType);
     return triggers;
+}
+
+function hasTriggerType(triggerActions: TriggerAction[], triggerType: TriggerType) {
+    const triggers = getTriggerTypes(triggerActions, triggerType);
+    return triggers.length > 0;
 }
 
 function runTriggersActions(triggers: TriggerAction[]) {
@@ -147,61 +153,64 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
     runTriggersActions(matching);
 }
 
+async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
+    // Filter for local range edits not made by the Add-In
+    if (
+        event.source === Excel.EventSource.local &&
+        event.triggerSource !== Excel.EventTriggerSource.thisLocalAddin &&
+        event.changeType === Excel.DataChangeType.rangeEdited
+    ) {
+        console.log("Trigger");
+
+        const eventWorksheetId = event.worksheetId;
+        const eventAddress = event.address;
+        triggerExcelNamedRangeEdit({ worksheetId: eventWorksheetId, rangeAddress: eventAddress });
+    }
+}
+
 //async function registerTriggerExcelNamedRangeEdit() {}
 
 async function registerTriggerActions() {
-    console.log("Register Triggers");
-
     // Trigger on an edit to a named range.
 
-    // target range
-    const namedRange = "test";
+    const hasTriggerExcelNamedRangeEdit = hasTriggerType(triggerActions, TriggerType.ExcelNamedRangeEdit);
 
     // Register an event that triggers when a worksheet is changed from a user local edit.
     await Excel.run(async (context) => {
         const workbook = context.workbook;
         const worksheets = workbook.worksheets;
 
-        worksheets.onChanged.add(async (event) => {
-            // Filter for local range edits not made by the Add-In
-            if (
-                event.source === Excel.EventSource.local &&
-                event.triggerSource !== Excel.EventTriggerSource.thisLocalAddin &&
-                event.changeType === Excel.DataChangeType.rangeEdited
-            ) {
-                console.log("Trigger");
-
-                const eventWorksheetId = event.worksheetId;
-                const eventAddress = event.address;
-
-                triggerExcelNamedRangeEdit({ worksheetId: eventWorksheetId, rangeAddress: eventAddress });
-
-                console.log(eventWorksheetId);
-                console.log(eventAddress);
-                // details only useful for single cell edits
-                console.log(event.details);
-
-                // will need to check for intersection with target range address
-                const intersect = await Excel.run(async (context) => {
-                    const workbook = context.workbook;
-                    const worksheets = workbook.worksheets;
-                    const sheet = worksheets.getActiveWorksheet();
-                    sheet.load("id");
-                    const namedItem = sheet.names.getItem(namedRange);
-                    const range = namedItem.getRangeOrNullObject();
-
-                    const intersection = range.getIntersectionOrNullObject(eventAddress);
-                    await context.sync();
-
-                    const intersects = !intersection.isNullObject && sheet.id === eventWorksheetId;
-                    return intersects;
-                });
-
-                console.log(`Intersects ${intersect ? "true" : "FALSE"}`);
-            }
-        });
+        if (hasTriggerExcelNamedRangeEdit) {
+            worksheets.onChanged.add(handleWorksheetsChanged);
+        }
     });
 }
+
+// target range
+// const namedRange = "test";
+
+// console.log(eventWorksheetId);
+// console.log(eventAddress);
+// // details only useful for single cell edits
+// console.log(event.details);
+
+// // will need to check for intersection with target range address
+// const intersect = await Excel.run(async (context) => {
+//     const workbook = context.workbook;
+//     const worksheets = workbook.worksheets;
+//     const sheet = worksheets.getActiveWorksheet();
+//     sheet.load("id");
+//     const namedItem = sheet.names.getItem(namedRange);
+//     const range = namedItem.getRangeOrNullObject();
+
+//     const intersection = range.getIntersectionOrNullObject(eventAddress);
+//     await context.sync();
+
+//     const intersects = !intersection.isNullObject && sheet.id === eventWorksheetId;
+//     return intersects;
+// });
+
+// console.log(`Intersects ${intersect ? "true" : "FALSE"}`);
 
 Office.onReady(() => {
     console.log("ready");
