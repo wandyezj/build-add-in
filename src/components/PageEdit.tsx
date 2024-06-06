@@ -1,17 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
+import { Badge, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     // ArrowDownloadRegular,
     PlayRegular,
     ClipboardRegular,
     DeleteRegular,
     // BookDefault28Regular,
-    // DocumentFolderRegular,
+    DocumentRegular,
+    DocumentFolderRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { SnipSource, SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
@@ -140,6 +141,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
                 */}
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
+
+                {/** Label */}
+                {getSourceBadge(snip)}
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"
@@ -156,5 +160,30 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
             <Editor snip={snip} updateSnip={updateSnip} fileId={fileId} />
         </>
+    );
+}
+
+function getSourceBadge(snip: SnipWithSource) {
+    const iconLocal = <DocumentFolderRegular />;
+    const iconEmbed = <DocumentRegular />;
+
+    function getIconForSource(source: SnipSource) {
+        switch (source) {
+            case "local":
+                return iconLocal;
+            case "embed":
+                return iconEmbed;
+            default:
+                console.log("Unknown Source");
+                return iconLocal;
+        }
+    }
+    const source = snip.source;
+    return (
+        <Tooltip content="Snip source" relationship="description">
+            <Badge size="large" color="informative" icon={getIconForSource(source)}>
+                {source}
+            </Badge>
+        </Tooltip>
     );
 }
