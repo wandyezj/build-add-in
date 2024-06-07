@@ -12,7 +12,7 @@ interface Source<Item extends { id: string }, ItemMetadata> {
     /**
      * read all metadata -> ItemMetadata[]
      */
-    getAllItemMetadata<T>(): Promise<ItemMetadata[]>;
+    getAllItemMetadata(): Promise<ItemMetadata[]>;
 
     /**
      *

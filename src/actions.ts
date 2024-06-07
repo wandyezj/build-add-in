@@ -2,7 +2,6 @@ import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAc
 import { registerTriggerActionsInitial, setTriggerActions } from "./core/actions/triggerActionHandlers";
 import { getSourceEmbed } from "./core/embed/getSourceEmbed";
 import { setHost } from "./core/globals";
-import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
 
 console.log("actions load");
 
@@ -120,26 +119,53 @@ function removeUndefined<T>(array: (T | undefined)[]): T[] {
     return array.filter((x) => x !== undefined) as T[];
 }
 
+// import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
 // async function removeAllEmbedTriggers() {
 //     const ids = await embedReadAllId({ embedNamespace });
 //     await Promise.all(ids.map((id) => embedDeleteById({ id, embedNamespace })));
 // }
 
+class StopWatch {
+    constructor(private name: string) {}
+    lastStart = 0;
+    start() {
+        this.lastStart = Date.now();
+    }
+
+    read(header: string = "") {
+        const current = Date.now();
+        const delta = current - this.lastStart;
+        const milliseconds = delta;
+        console.log(`[${this.name}] ${header} = ${milliseconds} ms`);
+    }
+}
+
+function getWatch(name: string) {
+    return new StopWatch(name);
+}
+
 Office.onReady(async ({ host }) => {
     console.log("ready");
     setHost(host);
 
+    const watch = getWatch("boot");
+    watch.start();
+
     // read triggers
     let metadata = await storage.getAllItemMetadata();
+    watch.read("read trigger metadata");
 
     if (metadata.length === 0) {
         console.log("save default triggers - start");
         // embed some triggers
+        watch.start();
         await Promise.all(triggerActionsDefault.map((item) => storage.saveItem(item)));
         metadata = await storage.getAllItemMetadata();
+        watch.read("save triggers");
         console.log("save default triggers - complete");
     }
 
+    watch.start();
     const triggerActions = removeUndefined(
         await Promise.all(
             metadata.map(({ id }) => {
@@ -147,7 +173,10 @@ Office.onReady(async ({ host }) => {
             })
         )
     );
+    watch.read("read triggers");
 
+    watch.start();
     setTriggerActions(triggerActions);
+    watch.read("setTriggerActions");
     registerTriggerActionsInitial();
 });
