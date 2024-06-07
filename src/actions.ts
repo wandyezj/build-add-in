@@ -1,5 +1,5 @@
 import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAction";
-import { logTriggerId, registerTriggerActions, setTriggerActions } from "./core/actions/triggerActionHandlers";
+import { logTriggerId, registerTriggerActionsInitial, setTriggerActions } from "./core/actions/triggerActionHandlers";
 
 console.log("actions load");
 
@@ -81,5 +81,5 @@ Office.onReady(() => {
     Office.addin.setStartupBehavior(Office.StartupBehavior.load);
 
     setTriggerActions(triggerActions);
-    registerTriggerActions();
+    registerTriggerActionsInitial();
 });

@@ -138,6 +138,9 @@ async function triggerExcelWorksheetNameRangeAddressEdit(event: { worksheetId: s
     runTriggersActions(matching);
 }
 
+/**
+ * handler for workbook.worksheets.onChanged.
+ */
 async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
     // Filter for local range edits not made by the Add-In
     if (
@@ -146,6 +149,7 @@ async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
         event.changeType === Excel.DataChangeType.rangeEdited
     ) {
         console.log("Trigger");
+        console.log(`${event.address} ${event.details.valueBefore} ${event.details.valueAfter}`);
 
         const eventWorksheetId = event.worksheetId;
         const eventAddress = event.address;
@@ -156,7 +160,7 @@ async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
 
 // #endregion Trigger
 
-// #region TriggerRegister
+// #region GlobalTriggerActions
 
 /**
  * All current trigger actions that are ready to execute.
@@ -165,6 +169,10 @@ let globalTriggerActions: TriggerAction[] = [];
 
 export function setTriggerActions(triggerActions: TriggerAction[]) {
     globalTriggerActions = triggerActions;
+
+    // register triggers if required
+    // unregister triggers if they are no longer relevant.
+    updateRegisterTriggerActions();
 }
 
 function getTriggerTypes(triggerType: TriggerType) {
@@ -177,22 +185,53 @@ function hasTriggerType(triggerType: TriggerType) {
     return triggers.length > 0;
 }
 
-export async function registerTriggerActions() {
-    triggerLoad();
+// #endregion GlobalTriggerActions
 
+// #region TriggerRegister
+
+/**
+ * Track if worksheet change handler is active.
+ */
+let globalHasRegisteredWorksheetChange = false;
+
+/**
+ * Update handlers for the currently active trigger actions.
+ */
+async function updateRegisterTriggerActions() {
     // Trigger on an edit to a named range.
     const hasTriggerExcelNamedRangeEdit = hasTriggerType(TriggerType.ExcelNamedRangeEdit);
     const hasTriggerExcelSheetNameRangeAddressEdit = hasTriggerType(TriggerType.ExcelWorksheetNameRangeAddressEdit);
+
+    // Register if there is a trigger that needs it and is not already registered.
+    const registerWorksheetChange =
+        (hasTriggerExcelNamedRangeEdit || hasTriggerExcelSheetNameRangeAddressEdit) &&
+        !globalHasRegisteredWorksheetChange;
+
+    if (registerWorksheetChange) {
+        // Must set this outside of the async Excel.run to avoid race condition and double register.
+        globalHasRegisteredWorksheetChange = true;
+    }
 
     // Register an event that triggers when a worksheet is changed from a user local edit.
     await Excel.run(async (context) => {
         const workbook = context.workbook;
         const worksheets = workbook.worksheets;
 
-        if (hasTriggerExcelNamedRangeEdit || hasTriggerExcelSheetNameRangeAddressEdit) {
+        if (registerWorksheetChange) {
             worksheets.onChanged.add(handleWorksheetsChanged);
+            console.log("Register  worksheets.onChanged");
         }
+        // TODO: figure out how to unregister
+        // TODO: what if this fails?
+        await context.sync();
     });
+}
+
+export async function registerTriggerActionsInitial() {
+    // Load is triggered automatically.
+    triggerLoad();
+
+    updateRegisterTriggerActions();
 }
 
 // #endregion TriggerRegister
