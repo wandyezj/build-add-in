@@ -8,11 +8,18 @@ export async function createContentXml(tagName: string, namespaceName: string, t
     const xml = `<?xml version="1.0"?><${tagName} xmlns="${namespaceName}">${content}</${tagName}>`;
     return xml;
 }
-export async function parseContentXml(tagName: string, xml: string): Promise<string> {
+export async function parseContentXml(tagName: string, xml: string): Promise<string | undefined> {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xml, "text/xml");
     const element = xmlDoc.getElementsByTagName(tagName);
-    const content = element[0].innerHTML;
+
+    const firstElement = element[0];
+    if (firstElement === null) {
+        // There is no tag that matches the requested tag.
+        return undefined;
+    }
+
+    const content = firstElement.innerHTML;
 
     const text = await decompress(content);
     return text;
