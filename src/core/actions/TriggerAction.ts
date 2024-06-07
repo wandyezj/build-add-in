@@ -56,6 +56,12 @@ export enum ActionType {
      * note: this is an incredibly powerful action and shouldn't be serialized, but ok to use internally.
      */
     Callback = "Callback",
+
+    /**
+     * eval the code and execute main function
+     * !!!WARNING!!! incredibly not secure only for proof of concept
+     */
+    EvalCallback = "EvalCallback",
 }
 
 export interface ActionLogId {
@@ -74,7 +80,18 @@ export interface ActionCallback {
     };
 }
 
-export type Action = ActionLogId | ActionCallback;
+export interface ActionEvalCallback {
+    type: ActionType.EvalCallback;
+    parameters: {
+        /**
+         * Hardcoded string callback to call. eval and call main function with TriggerAction/
+         * @returns
+         */
+        callback: string;
+    };
+}
+
+export type Action = ActionLogId | ActionCallback | ActionEvalCallback;
 
 export interface TriggerAction {
     /**

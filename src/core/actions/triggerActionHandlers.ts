@@ -22,11 +22,35 @@ function runActionLogId(triggerAction: TriggerAction) {
         logTriggerId(triggerAction);
     }
 }
+
 function runActionCallback(triggerAction: TriggerAction) {
     const { action } = triggerAction;
     if (action.type === ActionType.Callback) {
         const { callback } = action.parameters;
+        logTriggerId(triggerAction);
         callback(triggerAction);
+    }
+}
+
+function runActionEvalCallback(triggerAction: TriggerAction) {
+    const { action } = triggerAction;
+    if (action.type === ActionType.EvalCallback) {
+        logTriggerId(triggerAction);
+        const { callback } = action.parameters;
+        const wrap = `(async function wrap(triggerAction){
+            ${callback}
+
+            main(triggerAction);
+        })
+        `;
+
+        try {
+            const f = eval(wrap);
+            f(triggerAction);
+        } catch (e) {
+            console.log(`failed to execute ${triggerAction.name}`);
+            console.error(e);
+        }
     }
 }
 
@@ -36,6 +60,7 @@ function runActionCallback(triggerAction: TriggerAction) {
 const actionMap = new Map<string, (triggerAction: TriggerAction) => void>([
     [ActionType.LogId, runActionLogId],
     [ActionType.Callback, runActionCallback],
+    [ActionType.EvalCallback, runActionEvalCallback],
 ]);
 
 function runAction(triggerAction: TriggerAction) {

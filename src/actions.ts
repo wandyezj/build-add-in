@@ -41,7 +41,34 @@ const triggerActionExcelWorksheetNameRangeAddressTest: TriggerAction = {
         },
     },
     action: {
-        type: ActionType.LogId,
+        type: ActionType.EvalCallback,
+        parameters: {
+            callback: `
+            async function main(triggerAction) {
+                console.log(triggerAction.id)
+                await Excel.run(async (context) => {
+                    const sheet = context.workbook.worksheets.getItemOrNullObject("Sheet1");
+                    const range = sheet.getRange("B1");
+                    range.load("values");
+                    await context.sync();
+                    if (range.isNullObject) {
+                        return;
+                    }
+
+                    const value = range.values[0][0];
+                    let newValue = 0;
+                    if (typeof value === "number") {
+                        newValue = value + 1;
+                    }
+
+                    range.values = [[newValue]];
+                    await context.sync();
+                    console.log("Incremented Value");
+                });
+            }
+            `,
+        },
+
         // type: ActionType.Callback,
         // parameters: {
         //     callback: async (triggerAction: Readonly<TriggerAction>) => {
@@ -119,11 +146,11 @@ function removeUndefined<T>(array: (T | undefined)[]): T[] {
     return array.filter((x) => x !== undefined) as T[];
 }
 
-// import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
-// async function removeAllEmbedTriggers() {
-//     const ids = await embedReadAllId({ embedNamespace });
-//     await Promise.all(ids.map((id) => embedDeleteById({ id, embedNamespace })));
-// }
+import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
+async function removeAllEmbedTriggers() {
+    const ids = await embedReadAllId({ embedNamespace });
+    await Promise.all(ids.map((id) => embedDeleteById({ id, embedNamespace })));
+}
 
 class StopWatch {
     constructor(private name: string) {}
@@ -150,6 +177,8 @@ Office.onReady(async ({ host }) => {
 
     const watch = getWatch("boot");
     watch.start();
+
+    removeAllEmbedTriggers();
 
     // read triggers
     let metadata = await storage.getAllItemMetadata();
