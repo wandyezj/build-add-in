@@ -1,10 +1,20 @@
-import { Action, ActionType, TriggerAction, TriggerExcelNamedRangeEdit, TriggerType } from "./TriggerAction";
-import { triggerActions } from "../../actions";
+import {
+    Action,
+    ActionType,
+    TriggerAction,
+    TriggerExcelNamedRangeEdit,
+    TriggerExcelWorksheetNameRangeAddressEdit,
+    TriggerType,
+} from "./TriggerAction";
+
+// Trigger registration and Action handling.
 
 export function logTriggerId(triggerAction: TriggerAction) {
     const { id } = triggerAction;
     console.log(`Trigger: [${id}]`);
 }
+
+// #region runAction
 
 function runActionLogId(triggerAction: TriggerAction) {
     const { action } = triggerAction;
@@ -19,6 +29,7 @@ function runActionCallback(triggerAction: TriggerAction) {
         callback(triggerAction);
     }
 }
+
 /**
  * Actions types to runs.
  */
@@ -26,6 +37,7 @@ const actionMap = new Map<string, (triggerAction: TriggerAction) => void>([
     [ActionType.LogId, runActionLogId],
     [ActionType.Callback, runActionCallback],
 ]);
+
 function runAction(triggerAction: TriggerAction) {
     const actionType = triggerAction.action.type;
     const handler = actionMap.get(actionType);
@@ -36,24 +48,22 @@ function runAction(triggerAction: TriggerAction) {
         handler(triggerAction);
     }
 }
-function getTriggerTypes(triggerActions: TriggerAction[], triggerType: TriggerType) {
-    const triggers = triggerActions.filter((triggerAction) => triggerAction.trigger.type === triggerType);
-    return triggers;
-}
-function hasTriggerType(triggerActions: TriggerAction[], triggerType: TriggerType) {
-    const triggers = getTriggerTypes(triggerActions, triggerType);
-    return triggers.length > 0;
-}
+
 function runTriggersActions(triggers: TriggerAction[]) {
     triggers.forEach((trigger) => {
         runAction(trigger);
     });
 }
+
+// #endregion runAction
+
+// #region Trigger
+
 /**
  * Trigger all load triggers
  */
 function triggerLoad() {
-    const triggers = getTriggerTypes(triggerActions, TriggerType.Load);
+    const triggers = getTriggerTypes(TriggerType.Load);
     runTriggersActions(triggers);
 }
 /**
@@ -62,7 +72,7 @@ function triggerLoad() {
  */
 
 async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAddress: string }) {
-    const triggers = getTriggerTypes(triggerActions, TriggerType.ExcelNamedRangeEdit) as {
+    const triggerActions = getTriggerTypes(TriggerType.ExcelNamedRangeEdit) as {
         id: string;
         trigger: TriggerExcelNamedRangeEdit;
         action: Action;
@@ -72,7 +82,7 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
     const matching = await Excel.run(async (context) => {
         const workbook = context.workbook;
 
-        const intersects = triggers.map((trigger, index) => {
+        const intersects = triggerActions.map((trigger, index) => {
             const namedItemName = trigger.trigger.parameters.namedRangeName;
             const namedItem = workbook.names.getItemOrNullObject(namedItemName);
             const range = namedItem.getRangeOrNullObject();
@@ -86,21 +96,21 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
 
         const match = intersects
             .filter(({ intersection }) => !intersection.isNullObject)
-            .map(({ index }) => triggers[index]);
+            .map(({ index }) => triggerActions[index]);
         return match;
     });
     //console.log(`matching [triggerExcelNamedRangeEdit] [${matching.length}]`);
     runTriggersActions(matching);
 }
+
 /**
  * Trigger all Excel Named Range Edit triggers relevant to the event.
  * @param event
  */
-
 async function triggerExcelWorksheetNameRangeAddressEdit(event: { worksheetId: string; rangeAddress: string }) {
-    const triggers = getTriggerTypes(triggerActions, TriggerType.ExcelNamedRangeEdit) as {
+    const triggerActions = getTriggerTypes(TriggerType.ExcelWorksheetNameRangeAddressEdit) as {
         id: string;
-        trigger: TriggerExcelNamedRangeEdit;
+        trigger: TriggerExcelWorksheetNameRangeAddressEdit;
         action: Action;
     }[];
 
@@ -108,10 +118,9 @@ async function triggerExcelWorksheetNameRangeAddressEdit(event: { worksheetId: s
     const matching = await Excel.run(async (context) => {
         const workbook = context.workbook;
 
-        const intersects = triggers.map((trigger, index) => {
-            const namedItemName = trigger.trigger.parameters.namedRangeName;
-            const namedItem = workbook.names.getItemOrNullObject(namedItemName);
-            const range = namedItem.getRangeOrNullObject();
+        const intersects = triggerActions.map((triggerAction, index) => {
+            const { worksheetName, rangeAddress } = triggerAction.trigger.parameters;
+            const range = workbook.worksheets.getItemOrNullObject(worksheetName).getRange(rangeAddress);
 
             const eventRange = workbook.worksheets.getItemOrNullObject(event.worksheetId).getRange(event.rangeAddress);
             const intersection = range.getIntersectionOrNullObject(eventRange);
@@ -122,7 +131,7 @@ async function triggerExcelWorksheetNameRangeAddressEdit(event: { worksheetId: s
 
         const match = intersects
             .filter(({ intersection }) => !intersection.isNullObject)
-            .map(({ index }) => triggers[index]);
+            .map(({ index }) => triggerActions[index]);
         return match;
     });
 
@@ -144,20 +153,46 @@ async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
         triggerExcelWorksheetNameRangeAddressEdit({ worksheetId: eventWorksheetId, rangeAddress: eventAddress });
     }
 }
-//async function registerTriggerExcelNamedRangeEdit() {}
+
+// #endregion Trigger
+
+// #region TriggerRegister
+
+/**
+ * All current trigger actions that are ready to execute.
+ */
+let globalTriggerActions: TriggerAction[] = [];
+
+export function setTriggerActions(triggerActions: TriggerAction[]) {
+    globalTriggerActions = triggerActions;
+}
+
+function getTriggerTypes(triggerType: TriggerType) {
+    const triggers = globalTriggerActions.filter((triggerAction) => triggerAction.trigger.type === triggerType);
+    return triggers;
+}
+
+function hasTriggerType(triggerType: TriggerType) {
+    const triggers = getTriggerTypes(triggerType);
+    return triggers.length > 0;
+}
+
 export async function registerTriggerActions() {
     triggerLoad();
 
     // Trigger on an edit to a named range.
-    const hasTriggerExcelNamedRangeEdit = hasTriggerType(triggerActions, TriggerType.ExcelNamedRangeEdit);
+    const hasTriggerExcelNamedRangeEdit = hasTriggerType(TriggerType.ExcelNamedRangeEdit);
+    const hasTriggerExcelSheetNameRangeAddressEdit = hasTriggerType(TriggerType.ExcelWorksheetNameRangeAddressEdit);
 
     // Register an event that triggers when a worksheet is changed from a user local edit.
     await Excel.run(async (context) => {
         const workbook = context.workbook;
         const worksheets = workbook.worksheets;
 
-        if (hasTriggerExcelNamedRangeEdit) {
+        if (hasTriggerExcelNamedRangeEdit || hasTriggerExcelSheetNameRangeAddressEdit) {
             worksheets.onChanged.add(handleWorksheetsChanged);
         }
     });
 }
+
+// #endregion TriggerRegister

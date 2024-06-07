@@ -1,5 +1,5 @@
 import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAction";
-import { logTriggerId, registerTriggerActions } from "./core/actions/triggerActionHandlers";
+import { logTriggerId, registerTriggerActions, setTriggerActions } from "./core/actions/triggerActionHandlers";
 
 console.log("actions load");
 
@@ -44,7 +44,7 @@ const triggerActionExcelWorksheetNameRangeAddressTest: TriggerAction = {
 
                 await Excel.run(async (context) => {
                     const sheet = context.workbook.worksheets.getItemOrNullObject("Sheet1");
-                    const range = sheet.getRange("A2");
+                    const range = sheet.getRange("B1");
                     range.load("values");
                     await context.sync();
                     if (range.isNullObject) {
@@ -75,36 +75,11 @@ export const triggerActions: TriggerAction[] = [
     triggerActionExcelWorksheetNameRangeAddressTest,
 ];
 
-// target range
-// const namedRange = "test";
-
-// console.log(eventWorksheetId);
-// console.log(eventAddress);
-// // details only useful for single cell edits
-// console.log(event.details);
-
-// // will need to check for intersection with target range address
-// const intersect = await Excel.run(async (context) => {
-//     const workbook = context.workbook;
-//     const worksheets = workbook.worksheets;
-//     const sheet = worksheets.getActiveWorksheet();
-//     sheet.load("id");
-//     const namedItem = sheet.names.getItem(namedRange);
-//     const range = namedItem.getRangeOrNullObject();
-
-//     const intersection = range.getIntersectionOrNullObject(eventAddress);
-//     await context.sync();
-
-//     const intersects = !intersection.isNullObject && sheet.id === eventWorksheetId;
-//     return intersects;
-// });
-
-// console.log(`Intersects ${intersect ? "true" : "FALSE"}`);
-
 Office.onReady(() => {
     console.log("ready");
     // Requires trigger of the runtime before it will automatically start up.
     Office.addin.setStartupBehavior(Office.StartupBehavior.load);
 
+    setTriggerActions(triggerActions);
     registerTriggerActions();
 });
