@@ -62,6 +62,25 @@ export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parame
 }): Source<Item, ItemMetadata> {
     const { embedNamespace, embedTag, pruneItemToItemMetadata, getItemJson, getItemFromJson } = parameters;
 
+    async function readId({ id, embedTag }: { id: string; embedTag: string }): Promise<Item | undefined> {
+        const xml = await embedReadId(id);
+        if (xml === undefined) {
+            return undefined;
+        }
+
+        const snipJson = await parseContentXml(embedTag, xml);
+        if (snipJson === undefined) {
+            return undefined;
+        }
+
+        const snip = getItemFromJson(snipJson);
+        if (snip === undefined) {
+            return undefined;
+        }
+        snip.id = id;
+        return snip;
+    }
+
     async function getAllItemMetadata(): Promise<ItemMetadata[]> {
         const ids = await embedReadAllId({ embedNamespace });
         const promises = ids.map(async (id) => {
@@ -96,21 +115,6 @@ export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parame
     async function deleteItemById(id: string): Promise<void> {
         // Different on different hosts.
         await embedDeleteById({ id, embedNamespace });
-    }
-
-    async function readId({ id, embedTag }: { id: string; embedTag: string }): Promise<Item | undefined> {
-        const xml = await embedReadId(id);
-        if (xml === undefined) {
-            return undefined;
-        }
-
-        const snipJson = await parseContentXml(embedTag, xml);
-        const snip = getItemFromJson(snipJson);
-        if (snip === undefined) {
-            return undefined;
-        }
-        snip.id = id;
-        return snip;
     }
 
     return {

@@ -68,6 +68,9 @@ async function readId({ id, embedTag }: { id: string; embedTag: string }): Promi
     }
 
     const snipJson = await parseContentXml(embedTag, xml);
+    if (snipJson === undefined) {
+        return undefined;
+    }
     const snip = getSnipFromJson(snipJson);
     if (snip === undefined) {
         return undefined;

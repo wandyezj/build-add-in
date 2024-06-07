@@ -10,8 +10,8 @@ import {
 // Trigger registration and Action handling.
 
 export function logTriggerId(triggerAction: TriggerAction) {
-    const { id } = triggerAction;
-    console.log(`Trigger: [${id}]`);
+    const { id, name } = triggerAction;
+    console.log(`Trigger: [${id}] [${name}]`);
 }
 
 // #region runAction
@@ -74,6 +74,7 @@ function triggerLoad() {
 async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAddress: string }) {
     const triggerActions = getTriggerTypes(TriggerType.ExcelNamedRangeEdit) as {
         id: string;
+        name: string;
         trigger: TriggerExcelNamedRangeEdit;
         action: Action;
     }[];
@@ -110,6 +111,7 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
 async function triggerExcelWorksheetNameRangeAddressEdit(event: { worksheetId: string; rangeAddress: string }) {
     const triggerActions = getTriggerTypes(TriggerType.ExcelWorksheetNameRangeAddressEdit) as {
         id: string;
+        name: string;
         trigger: TriggerExcelWorksheetNameRangeAddressEdit;
         action: Action;
     }[];
@@ -169,6 +171,11 @@ let globalTriggerActions: TriggerAction[] = [];
 
 export function setTriggerActions(triggerActions: TriggerAction[]) {
     globalTriggerActions = triggerActions;
+
+    // Requires trigger of the runtime before it will automatically start up. i.e. runtime must be loaded.
+    const hasTriggers = globalTriggerActions.length > 0;
+    const startupBehavior = hasTriggers ? Office.StartupBehavior.load : Office.StartupBehavior.none;
+    Office.addin.setStartupBehavior(startupBehavior);
 
     // register triggers if required
     // unregister triggers if they are no longer relevant.

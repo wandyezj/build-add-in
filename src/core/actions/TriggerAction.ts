@@ -82,6 +82,11 @@ export interface TriggerAction {
      */
     id: string;
 
+    /**
+     * Easily readable identifier.
+     */
+    name: string;
+
     trigger: Trigger;
     action: Action;
 }
