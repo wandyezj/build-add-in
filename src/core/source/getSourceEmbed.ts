@@ -1,6 +1,6 @@
 import { GenericItemSource } from "./GenericItemSource";
-import { createContentXml, parseContentXml } from "./contentXml";
-import { embedReadAllId, embedSave, embedDeleteById, embedReadId } from "./embed";
+import { createContentXml, parseContentXml } from "../embed/contentXml";
+import { embedReadAllId, embedSave, embedDeleteById, embedReadId } from "../embed/embed";
 
 /*
 getAllItemMetadata
@@ -68,8 +68,8 @@ export function getSourceEmbed<Item extends { id: string }, ItemMetadata extends
     }
 
     async function getItemById(id: string): Promise<Item | undefined> {
-        const snip = await readId({ id, embedTag });
-        return snip;
+        const item = await readId({ id, embedTag });
+        return item;
     }
 
     async function saveItem(item: Readonly<Item>): Promise<Item> {

@@ -17,10 +17,10 @@ export interface GenericItemSource<Item extends { id: string }, ItemMetadata ext
     /**
      * Create or Update an item.
      * Save an item to the source.
-     * @param item - Item to save.
+     * @param item - Item to save. If the item has an id, the item with that id is updated. If the id is not already present a new id is generated.
      * @returns The stored item including an source id property to reference the item.
      */
-    saveItem(item: Readonly<Omit<Item, "id">>): Promise<Item>;
+    saveItem(item: Readonly<Item>): Promise<Item>;
 
     /**
      * Read an item.

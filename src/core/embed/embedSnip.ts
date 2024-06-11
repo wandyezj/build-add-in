@@ -1,5 +1,5 @@
 import { Snip, SnipMetadata, getSnipFromJson, getSnipJson, pruneSnipToSnipMetadata } from "../Snip";
-import { getSourceEmbed } from "./getSourceEmbed";
+import { getSourceEmbed } from "../source/getSourceEmbed";
 
 //
 // Manage snips embedded in the document.

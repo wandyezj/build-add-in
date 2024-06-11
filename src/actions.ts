@@ -1,6 +1,6 @@
 import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAction";
 import { registerTriggerActionsInitial, setTriggerActions } from "./core/actions/triggerActionHandlers";
-import { getSourceEmbed } from "./core/embed/getSourceEmbed";
+import { getSourceEmbed } from "./core/source/getSourceEmbed";
 import { setHost } from "./core/globals";
 
 console.log("actions load");
