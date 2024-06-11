@@ -2,11 +2,19 @@
  * Interface to describe a generic source of items.
  */
 
+export interface GenericItem {
+    id: string;
+}
+
+export interface GenericItemMetadata {
+    id: string;
+}
+
 /**
  * Generic source of items.
  * Each stored item has a unique id to reference the item in the source.
  */
-export interface GenericItemSource<Item extends { id: string }, ItemMetadata extends { id: string }> {
+export interface GenericItemSource<Item extends GenericItem, ItemMetadata extends GenericItemMetadata> {
     /**
      * Get metadata of all items in the source.
      * The metadata includes the source id property to reference the item.

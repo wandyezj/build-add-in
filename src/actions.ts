@@ -1,7 +1,16 @@
-import { ActionType, TriggerAction, TriggerType } from "./core/actions/TriggerAction";
+import {
+    ActionType,
+    TriggerAction,
+    TriggerType,
+    getTriggerActionFromJson,
+    getTriggerActionJson,
+    pruneTriggerActionToTriggerActionMetadata,
+} from "./core/actions/TriggerAction";
 import { registerTriggerActionsInitial, setTriggerActions } from "./core/actions/triggerActionHandlers";
 import { getSourceEmbed } from "./core/source/getSourceEmbed";
 import { setHost } from "./core/globals";
+import { clearGenericItemSourceStorage } from "./core/source/clearGenericItemSourceStorage";
+import { source } from "./core/embed/embedSnip";
 
 console.log("actions load");
 
@@ -110,27 +119,6 @@ export const triggerActionsDefault: TriggerAction[] = [
 
 // Store triggers in custom XML
 
-type TriggerActionMetadata = Pick<TriggerAction, "id">;
-
-function pruneTriggerActionToTriggerActionMetadata(triggerAction: TriggerAction): TriggerActionMetadata {
-    const { id } = triggerAction;
-    return {
-        id,
-    };
-}
-
-function getTriggerActionJson(triggerAction: TriggerAction): string {
-    // TODO: prune if needed before storage
-    const s = JSON.stringify(triggerAction, undefined, 4);
-    return s;
-}
-
-function getTriggerActionFromJson(json: string): TriggerAction {
-    // TODO: validate the thing read
-    const triggerAction = JSON.parse(json) as TriggerAction;
-    return triggerAction;
-}
-
 const embedNamespace = "build-add-in-trigger-action";
 const embedTag = "TriggerAction";
 
@@ -146,11 +134,11 @@ function removeUndefined<T>(array: (T | undefined)[]): T[] {
     return array.filter((x) => x !== undefined) as T[];
 }
 
-import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
-async function removeAllEmbedTriggers() {
-    const ids = await embedReadAllId({ embedNamespace });
-    await Promise.all(ids.map((id) => embedDeleteById({ id, embedNamespace })));
-}
+// import { embedDeleteById, embedReadAllId } from "./core/embed/embed";
+// async function removeAllEmbedTriggers() {
+//     const ids = await embedReadAllId({ embedNamespace });
+//     await Promise.all(ids.map((id) => embedDeleteById({ id, embedNamespace })));
+// }
 
 class StopWatch {
     constructor(private name: string) {}
@@ -178,7 +166,8 @@ Office.onReady(async ({ host }) => {
     const watch = getWatch("boot");
     watch.start();
 
-    removeAllEmbedTriggers();
+    clearGenericItemSourceStorage(source);
+    //removeAllEmbedTriggers();
 
     // read triggers
     let metadata = await storage.getAllItemMetadata();

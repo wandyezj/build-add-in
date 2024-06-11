@@ -107,3 +107,26 @@ export interface TriggerAction {
     trigger: Trigger;
     action: Action;
 }
+
+// Functions required for storage of TriggerAction
+
+export type TriggerActionMetadata = Pick<TriggerAction, "id">;
+
+export function pruneTriggerActionToTriggerActionMetadata(triggerAction: TriggerAction): TriggerActionMetadata {
+    const { id } = triggerAction;
+    return {
+        id,
+    };
+}
+
+export function getTriggerActionJson(triggerAction: TriggerAction): string {
+    // TODO: prune if needed before storage
+    const s = JSON.stringify(triggerAction, undefined, 4);
+    return s;
+}
+
+export function getTriggerActionFromJson(json: string): TriggerAction {
+    // TODO: validate the thing read
+    const triggerAction = JSON.parse(json) as TriggerAction;
+    return triggerAction;
+}
