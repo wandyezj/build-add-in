@@ -1,37 +1,6 @@
+import { GenericItemSource } from "./GenericItemSource";
 import { createContentXml, parseContentXml } from "./contentXml";
 import { embedReadAllId, embedSave, embedDeleteById, embedReadId } from "./embed";
-
-/**
- * Source of data from embed snips in a document.
- */
-
-/**
- * Generic Source of items.
- */
-interface Source<Item extends { id: string }, ItemMetadata> {
-    /**
-     * read all metadata -> ItemMetadata[]
-     */
-    getAllItemMetadata(): Promise<ItemMetadata[]>;
-
-    /**
-     *
-     * @param item
-     */
-    saveItem(item: Readonly<Item>): Promise<Item>;
-
-    /**
-     *
-     * @param id
-     */
-    getItemById(id: string): Promise<Item | undefined>;
-
-    /**
-     *
-     * @param id
-     */
-    deleteItemById(id: string): Promise<void>;
-}
 
 /*
 getAllItemMetadata
@@ -58,8 +27,8 @@ export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parame
     embedTag: string;
     pruneItemToItemMetadata: (item: Item) => ItemMetadata;
     getItemJson: (item: Item) => string;
-    getItemFromJson: (data: string) => Item;
-}): Source<Item, ItemMetadata> {
+    getItemFromJson: (data: string) => Item | undefined;
+}): GenericItemSource<Item, ItemMetadata> {
     const { embedNamespace, embedTag, pruneItemToItemMetadata, getItemJson, getItemFromJson } = parameters;
 
     async function readId({ id, embedTag }: { id: string; embedTag: string }): Promise<Item | undefined> {
