@@ -7,11 +7,19 @@ import {
     TriggerType,
 } from "./TriggerAction";
 
+function log(message: string) {
+    console.log(message);
+}
+
+function logError(e: any) {
+    console.error(e);
+}
+
 // Trigger registration and Action handling.
 
 export function logTriggerId(triggerAction: TriggerAction) {
     const { id, name } = triggerAction;
-    console.log(`Trigger: [${id}] [${name}]`);
+    log(`Trigger: [${id}] [${name}]`);
 }
 
 // #region runAction
@@ -48,8 +56,8 @@ function runActionEvalCallback(triggerAction: TriggerAction) {
             const f = eval(wrap);
             f(triggerAction);
         } catch (e) {
-            console.log(`failed to execute ${triggerAction.name}`);
-            console.error(e);
+            log(`failed to execute ${triggerAction.name}`);
+            logError(e);
         }
     }
 }
@@ -68,7 +76,7 @@ function runAction(triggerAction: TriggerAction) {
     const handler = actionMap.get(actionType);
 
     if (handler === undefined) {
-        console.log(`Handler for actionType ${actionType}`);
+        log(`Handler for actionType ${actionType}`);
     } else {
         handler(triggerAction);
     }
@@ -125,7 +133,7 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
             .map(({ index }) => triggerActions[index]);
         return match;
     });
-    //console.log(`matching [triggerExcelNamedRangeEdit] [${matching.length}]`);
+    //log(`matching [triggerExcelNamedRangeEdit] [${matching.length}]`);
     runTriggersActions(matching);
 }
 
@@ -175,8 +183,8 @@ async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
         event.triggerSource !== Excel.EventTriggerSource.thisLocalAddin &&
         event.changeType === Excel.DataChangeType.rangeEdited
     ) {
-        console.log("Trigger");
-        console.log(`${event.address} ${event.details.valueBefore} ${event.details.valueAfter}`);
+        log("Trigger");
+        log(`${event.address} ${event.details.valueBefore} ${event.details.valueAfter}`);
 
         const eventWorksheetId = event.worksheetId;
         const eventAddress = event.address;
@@ -251,7 +259,7 @@ async function updateRegisterTriggerActions() {
 
         if (registerWorksheetChange) {
             worksheets.onChanged.add(handleWorksheetsChanged);
-            console.log("Register  worksheets.onChanged");
+            log("Register  worksheets.onChanged");
         }
         // TODO: figure out how to unregister
         // TODO: what if this fails?

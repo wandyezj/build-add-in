@@ -22,7 +22,7 @@ deleteItemById
  * Get an embed source.
  * Get a source to manage a collection of items embedded in the document.
  */
-export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parameters: {
+export function getSourceEmbed<Item extends { id: string }, ItemMetadata extends { id: string }>(parameters: {
     embedNamespace: string;
     embedTag: string;
     pruneItemToItemMetadata: (item: Item) => ItemMetadata;
