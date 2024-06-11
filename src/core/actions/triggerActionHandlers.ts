@@ -7,11 +7,15 @@ import {
     TriggerType,
 } from "./TriggerAction";
 
+// Set active trigger actions.
+// Register the triggers if not already registered.
+// `setTriggerActions`
+
 function log(message: string) {
     console.log(message);
 }
 
-function logError(e: any) {
+function logError(e: unknown) {
     console.error(e);
 }
 
@@ -230,6 +234,11 @@ function hasTriggerType(triggerType: TriggerType) {
 // #region TriggerRegister
 
 /**
+ * Track initial register for load events.
+ */
+let globalHasRegisteredInitial = false;
+
+/**
  * Track if worksheet change handler is active.
  */
 let globalHasRegisteredWorksheetChange = false;
@@ -238,6 +247,11 @@ let globalHasRegisteredWorksheetChange = false;
  * Update handlers for the currently active trigger actions.
  */
 async function updateRegisterTriggerActions() {
+    if (!globalHasRegisteredInitial) {
+        triggerLoad();
+        globalHasRegisteredInitial = true;
+    }
+
     // Trigger on an edit to a named range.
     const hasTriggerExcelNamedRangeEdit = hasTriggerType(TriggerType.ExcelNamedRangeEdit);
     const hasTriggerExcelSheetNameRangeAddressEdit = hasTriggerType(TriggerType.ExcelWorksheetNameRangeAddressEdit);
@@ -265,13 +279,6 @@ async function updateRegisterTriggerActions() {
         // TODO: what if this fails?
         await context.sync();
     });
-}
-
-export async function registerTriggerActionsInitial() {
-    // Load is triggered automatically.
-    triggerLoad();
-
-    updateRegisterTriggerActions();
 }
 
 // #endregion TriggerRegister
