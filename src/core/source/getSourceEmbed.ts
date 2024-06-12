@@ -1,6 +1,6 @@
 import { GenericItemSource } from "./GenericItemSource";
-import { createContentXml, parseContentXml } from "./contentXml";
-import { embedReadAllId, embedSave, embedDeleteById, embedReadId } from "./embed";
+import { createContentXml, parseContentXml } from "../embed/contentXml";
+import { embedReadAllId, embedSave, embedDeleteById, embedReadId } from "../embed/embed";
 
 /*
 getAllItemMetadata
@@ -22,7 +22,7 @@ deleteItemById
  * Get an embed source.
  * Get a source to manage a collection of items embedded in the document.
  */
-export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parameters: {
+export function getSourceEmbed<Item extends { id: string }, ItemMetadata extends { id: string }>(parameters: {
     embedNamespace: string;
     embedTag: string;
     pruneItemToItemMetadata: (item: Item) => ItemMetadata;
@@ -68,8 +68,8 @@ export function getSourceEmbed<Item extends { id: string }, ItemMetadata>(parame
     }
 
     async function getItemById(id: string): Promise<Item | undefined> {
-        const snip = await readId({ id, embedTag });
-        return snip;
+        const item = await readId({ id, embedTag });
+        return item;
     }
 
     async function saveItem(item: Readonly<Item>): Promise<Item> {

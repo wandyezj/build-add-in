@@ -7,11 +7,23 @@ import {
     TriggerType,
 } from "./TriggerAction";
 
+// Set active trigger actions.
+// Register the triggers if not already registered.
+// `setTriggerActions`
+
+function log(message: string) {
+    console.log(message);
+}
+
+function logError(e: unknown) {
+    console.error(e);
+}
+
 // Trigger registration and Action handling.
 
 export function logTriggerId(triggerAction: TriggerAction) {
     const { id, name } = triggerAction;
-    console.log(`Trigger: [${id}] [${name}]`);
+    log(`Trigger: [${id}] [${name}]`);
 }
 
 // #region runAction
@@ -48,8 +60,8 @@ function runActionEvalCallback(triggerAction: TriggerAction) {
             const f = eval(wrap);
             f(triggerAction);
         } catch (e) {
-            console.log(`failed to execute ${triggerAction.name}`);
-            console.error(e);
+            log(`failed to execute ${triggerAction.name}`);
+            logError(e);
         }
     }
 }
@@ -68,7 +80,7 @@ function runAction(triggerAction: TriggerAction) {
     const handler = actionMap.get(actionType);
 
     if (handler === undefined) {
-        console.log(`Handler for actionType ${actionType}`);
+        log(`Handler for actionType ${actionType}`);
     } else {
         handler(triggerAction);
     }
@@ -125,7 +137,7 @@ async function triggerExcelNamedRangeEdit(event: { worksheetId: string; rangeAdd
             .map(({ index }) => triggerActions[index]);
         return match;
     });
-    //console.log(`matching [triggerExcelNamedRangeEdit] [${matching.length}]`);
+    //log(`matching [triggerExcelNamedRangeEdit] [${matching.length}]`);
     runTriggersActions(matching);
 }
 
@@ -175,8 +187,8 @@ async function handleWorksheetsChanged(event: Excel.WorksheetChangedEventArgs) {
         event.triggerSource !== Excel.EventTriggerSource.thisLocalAddin &&
         event.changeType === Excel.DataChangeType.rangeEdited
     ) {
-        console.log("Trigger");
-        console.log(`${event.address} ${event.details.valueBefore} ${event.details.valueAfter}`);
+        log("Trigger");
+        log(`${event.address} ${event.details.valueBefore} ${event.details.valueAfter}`);
 
         const eventWorksheetId = event.worksheetId;
         const eventAddress = event.address;
@@ -222,6 +234,11 @@ function hasTriggerType(triggerType: TriggerType) {
 // #region TriggerRegister
 
 /**
+ * Track initial register for load events.
+ */
+let globalHasRegisteredInitial = false;
+
+/**
  * Track if worksheet change handler is active.
  */
 let globalHasRegisteredWorksheetChange = false;
@@ -230,6 +247,11 @@ let globalHasRegisteredWorksheetChange = false;
  * Update handlers for the currently active trigger actions.
  */
 async function updateRegisterTriggerActions() {
+    if (!globalHasRegisteredInitial) {
+        triggerLoad();
+        globalHasRegisteredInitial = true;
+    }
+
     // Trigger on an edit to a named range.
     const hasTriggerExcelNamedRangeEdit = hasTriggerType(TriggerType.ExcelNamedRangeEdit);
     const hasTriggerExcelSheetNameRangeAddressEdit = hasTriggerType(TriggerType.ExcelWorksheetNameRangeAddressEdit);
@@ -251,19 +273,12 @@ async function updateRegisterTriggerActions() {
 
         if (registerWorksheetChange) {
             worksheets.onChanged.add(handleWorksheetsChanged);
-            console.log("Register  worksheets.onChanged");
+            log("Register  worksheets.onChanged");
         }
         // TODO: figure out how to unregister
         // TODO: what if this fails?
         await context.sync();
     });
-}
-
-export async function registerTriggerActionsInitial() {
-    // Load is triggered automatically.
-    triggerLoad();
-
-    updateRegisterTriggerActions();
 }
 
 // #endregion TriggerRegister
