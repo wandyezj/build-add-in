@@ -3,6 +3,7 @@ import {
     saveItemForDatabase,
     getAllItemMetadataForDatabase,
     getItemByIdForDatabase,
+    DatabaseSpec,
 } from "../database/database";
 import { GenericItem, GenericItemMetadata, GenericItemSource } from "./GenericItemSource";
 
@@ -16,16 +17,15 @@ export function getSourceIndexedDb<Item extends GenericItem, ItemMetadata extend
     databaseTableName: string;
     databaseVersion: number;
     pruneItemToItemMetadata: (item: Item) => ItemMetadata;
-    getItemJson: (item: Item) => string;
-    getItemFromJson: (data: string) => Item | undefined;
+    upgradeLogic?: (db: IDBDatabase, oldVersion: number) => void;
 }): GenericItemSource<Item, ItemMetadata> {
-    const { databaseName, databaseTableName, databaseVersion, pruneItemToItemMetadata, getItemJson, getItemFromJson } =
-        parameters;
+    const { databaseName, databaseTableName, databaseVersion, upgradeLogic, pruneItemToItemMetadata } = parameters;
 
-    const databaseSpec = {
+    const databaseSpec: DatabaseSpec = {
         databaseName,
         databaseTableName,
         databaseVersion,
+        upgradeLogic,
     };
 
     async function getAllItemMetadata() {

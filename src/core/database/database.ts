@@ -40,7 +40,7 @@ async function createTable(db: IDBDatabase, tableName: string) {
 /**
  * Spec for a database that contains a table of items with unique ids.
  */
-interface DatabaseSpec {
+export interface DatabaseSpec {
     databaseName: string;
     databaseVersion: number;
     databaseTableName: string;
