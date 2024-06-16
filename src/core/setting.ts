@@ -20,8 +20,11 @@ export const settingsMetadata = {
         defaultValue: true,
     } as SettingBoolean,
 
-    test: {
-        name: "test",
+    githubPersonalAccessToken: {
+        name: "GitHub Personal Access Token",
+        tooltip: `Settings -> Developer settings -> Personal access tokens -> Fine-grained tokens -> Generate new token
+        Account Permissions:
+        Gists Read and Write`,
         type: "string",
         defaultValue: "",
     } as SettingString,
@@ -71,6 +74,7 @@ export function parseSettingsJson(value: string): Settings {
 
 interface Setting {
     name: string;
+    tooltip?: string;
 }
 
 type SettingBoolean = Readonly<Setting & SettingValueBoolean>;

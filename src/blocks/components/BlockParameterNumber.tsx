@@ -5,9 +5,13 @@ import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 export function BlockParameterNumber({
     name,
     description,
+    initialValue,
     updateValue,
-}: Pick<CodeTemplateBlockParameter, "name" | "description"> & { updateValue: (value: number) => void }) {
-    const [current, setCurrent] = React.useState(0);
+}: Pick<CodeTemplateBlockParameter, "name" | "description"> & {
+    initialValue: number;
+    updateValue: (value: number) => void;
+}) {
+    const [current, setCurrent] = React.useState(initialValue);
     const onChange = React.useCallback(
         (ev: React.ChangeEvent<HTMLInputElement>) => {
             const value = ev.currentTarget.value;
