@@ -2,6 +2,7 @@
 
 ## 2023-05-22
 
+- Allow default snip to initially run [#53](https://github.com/wandyezj/build-add-in/pull/53)
 - Fix run button on edit page. [#52](https://github.com/wandyezj/build-add-in/pull/52)
 
 ## 2024-05-13
