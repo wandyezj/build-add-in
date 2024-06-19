@@ -68,14 +68,22 @@ export function getSourceLocalStorage<Item extends { id: string }, ItemMetadata 
     }
 
     async function saveItem(item: Readonly<Item>): Promise<Item> {
-        const { id } = item;
+        let { id } = item;
 
         const text = getItemJson({ ...item, id });
         const items = getAllItems();
+
+        // Generate a new unused id if not present
+        if (items[id] === undefined) {
+            do {
+                id = Math.round(Math.random() * 1000000).toString();
+            } while (items[id] !== undefined);
+        }
+
         items[id] = text;
         saveAllItems(items);
 
-        return item;
+        return { ...item, id };
     }
 
     async function deleteItemById(id: string): Promise<void> {
