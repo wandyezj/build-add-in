@@ -4,6 +4,8 @@ import { SnipWithSource } from "../core/Snip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { makeStyles } from "@fluentui/react-components";
 
+// cspell:ignore tabster
+
 const useStyles = makeStyles({
     editor: {
         width: "100%",
@@ -108,5 +110,6 @@ export function Editor({
 
     setupEditor();
 
-    return <div className={styles.editor} ref={container}></div>;
+    // This allows the editor to capture tabs: data-tabster='{"uncontrolled":{}}'
+    return <div data-tabster='{"uncontrolled":{}}' className={styles.editor} ref={container}></div>;
 }
