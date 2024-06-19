@@ -41,6 +41,8 @@ export type ExportSnip = Pick<Snip, "name" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
+export type SnipMetadataWithSource = SnipMetadata & { source: SnipSource };
+
 /**
  * Where is the snips storage? Where is the source code of the snip?
  * local - in the browser's local storage indexDb
