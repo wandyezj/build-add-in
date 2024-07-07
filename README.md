@@ -5,9 +5,12 @@
 
 ![Logo](./assets/icon-80.png)
 
-Get the [Build Add-In](https://appsource.microsoft.com/en-us/product/office/WA200006798).
+Get the Build Add-In from Microsoft AppSource:
 
-Get the [Build for Outlook Add-In](https://appsource.microsoft.com/en-us/product/office/WA200006932).
+- Get for [Word, Excel, and PowerPoint](https://appsource.microsoft.com/en-us/product/office/WA200006798).
+- Get for [Outlook](https://appsource.microsoft.com/en-us/product/office/WA200006932).
+
+Alternatively, [sideload the manifests](https://github.com/wandyezj/build-add-in/blob/main/docs/sideload.md).
 
 [Tutorial](https://github.com/wandyezj/build-add-in/blob/main/docs/tutorial.md)
 
