@@ -13,7 +13,11 @@ async function callGenericCallbackForHost<T>(callback: GenericCallback<T>): Prom
     const host = getHost();
     switch (host) {
         case Office.HostType.Excel:
-            return await Excel.run(async (context) => {
+            // delayForCellEdit
+            // https://learn.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-delay-in-cell-edit
+            // Delay for cell edit so the call does not fail due to cell edit mode.
+            // In practice this should only be called when already in the editor so it should be rare.
+            return await Excel.run({ delayForCellEdit: true }, async (context) => {
                 const customXmlParts = context.workbook.customXmlParts;
                 return callback(context, customXmlParts);
             });
