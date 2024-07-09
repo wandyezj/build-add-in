@@ -10,6 +10,7 @@ import {
     // BookDefault28Regular,
     DocumentRegular,
     DocumentFolderRegular,
+    ArrowImportRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
 import { SnipSource, SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
@@ -68,20 +69,6 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
         setSnip(setupSnip);
     };
 
-    const setImport = (value: string) => {
-        console.log("Import snip");
-        console.log(value);
-        const newSnip = getExportSnipFromExportJson(value);
-        console.log(newSnip);
-        if (newSnip) {
-            const complete = completeSnip(newSnip);
-            const source = "local";
-            updateSnip({ ...complete, source });
-        } else {
-            console.error("import failed - invalid snip");
-        }
-    };
-
     /**
      * Copy the current snip to the clipboard
      */
@@ -135,7 +122,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <ButtonImport setImport={setImport} />
+                <ButtonImport openSnip={openSnip}>
+                    <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
+                </ButtonImport>
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />
