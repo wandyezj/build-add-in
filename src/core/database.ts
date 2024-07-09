@@ -220,14 +220,14 @@ export async function getSnipById(id: string | undefined): Promise<Snip | undefi
 //     });
 // }
 
-export async function saveSnip(snip: Snip): Promise<void> {
+export async function saveSnip(snip: Snip): Promise<Snip> {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const objectStore = getTableSnips(db, "readwrite");
 
         const request = objectStore.put(snip);
         request.onsuccess = () => {
-            resolve();
+            resolve(snip);
             // const target = event.target;
             // if (target instanceof IDBRequest) {
             //     resolve(target.result);

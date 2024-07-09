@@ -9,12 +9,11 @@ import {
     DialogContent,
     Button,
 } from "@fluentui/react-components";
-import { TooltipButton } from "./TooltipButton";
-import { ArrowImportRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import { isValidSnipExportJson } from "../core/Snip";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson, isValidSnipExportJson } from "../core/Snip";
+import { saveSnip } from "../core/snipStorage";
 
 const useStyles = makeStyles({
     base: {
@@ -103,9 +102,42 @@ async function getImportSnip(value: string): Promise<string | undefined> {
     return undefined;
 }
 
-export function ButtonImport({ setImport }: { setImport: (value: string) => void }) {
+async function importSnip(value: string): Promise<SnipWithSource | undefined> {
+    console.log("Import snip");
+    console.log(value);
+    const newSnip = getExportSnipFromExportJson(value);
+    console.log(newSnip);
+    if (newSnip) {
+        // create a new snip with the imported snip
+        const complete = completeSnip(newSnip);
+        const source = "local";
+        complete.modified = Date.now();
+        const importSnip: SnipWithSource = { ...complete, source };
+
+        const saved = await saveSnip(importSnip);
+        return saved;
+    } else {
+        console.error("import failed - invalid snip");
+    }
+    return undefined;
+}
+
+export function ButtonImport({
+    openSnip,
+    children,
+}: {
+    openSnip: (openSnip: SnipWithSource) => void;
+    children: JSX.Element;
+}) {
     const textareaId = useId("import-textarea");
     const styles = useStyles();
+
+    async function doImport(value: string) {
+        const snip = await importSnip(value);
+        if (snip) {
+            openSnip(snip);
+        }
+    }
 
     async function onClickImport(event: React.FormEvent) {
         event.preventDefault();
@@ -113,20 +145,18 @@ export function ButtonImport({ setImport }: { setImport: (value: string) => void
         const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
         const snipText = await getImportSnip(value);
         if (snipText) {
-            setImport(snipText);
+            doImport(snipText);
         }
         // otherwise invalid.
     }
 
     return (
         <Dialog>
-            <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
-            </DialogTrigger>
+            <DialogTrigger disableButtonEnhancement>{children}</DialogTrigger>
             <DialogSurface>
                 <form onSubmit={onClickImport}>
                     <DialogBody>
-                        <DialogTitle>Import Snip Json</DialogTitle>
+                        <DialogTitle>Import Snip</DialogTitle>
                         <DialogContent>
                             <div className={styles.base}>
                                 <Label className={styles.label} htmlFor={textareaId}>
