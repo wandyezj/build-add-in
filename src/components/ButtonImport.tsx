@@ -9,8 +9,6 @@ import {
     DialogContent,
     Button,
 } from "@fluentui/react-components";
-import { TooltipButton } from "./TooltipButton";
-import { ArrowImportRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";

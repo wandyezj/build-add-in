@@ -13,7 +13,7 @@ import {
     ArrowImportRegular,
     // SettingsRegular,
 } from "@fluentui/react-icons";
-import { SnipSource, SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { SnipSource, SnipWithSource, getSnipExportJson } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
