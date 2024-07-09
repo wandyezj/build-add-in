@@ -40,7 +40,7 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
                 </MenuTrigger>
 
                 <MenuPopover>
-                    <MenuList>
+                    <MenuList hasIcons={true}>
                         <MenuItem
                             data-testid={getId(idEditButtonOpenSnip)}
                             icon={<DocumentFolderRegular />}

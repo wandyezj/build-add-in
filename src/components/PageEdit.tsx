@@ -108,7 +108,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
     return (
         <>
-            <Toolbar>
+            <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
