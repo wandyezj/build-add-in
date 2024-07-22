@@ -31,14 +31,17 @@ export async function getAllSnipMetadata(source: SnipSource): Promise<SnipMetada
     return metadataWithSource;
 }
 
-export async function saveSnip(snip: SnipWithSource): Promise<void> {
+export async function saveSnip(snip: SnipWithSource): Promise<SnipWithSource> {
+    const saved = await saveSnipToSource(snip);
+    return { ...saved, source: snip.source };
+}
+
+async function saveSnipToSource(snip: SnipWithSource): Promise<Snip> {
     switch (snip.source) {
         case "local":
-            await saveSnipInDatabase(snip);
-            break;
+            return saveSnipInDatabase(snip);
         case "embed":
-            await saveSnipInEmbed(snip);
-            break;
+            return saveSnipInEmbed(snip);
     }
 }
 

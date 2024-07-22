@@ -70,11 +70,11 @@ jobs:
         path: dist/
 
     ## end to end tests
-    - name: Install Playwright Browsers
+    - name: Playwright Install
       if: inputs.test
       run: npm run playwright-install
 
-    - name: Run Playwright tests
+    - name: Playwright Test
       if: inputs.test
       run: npm run playwright-test
       env:

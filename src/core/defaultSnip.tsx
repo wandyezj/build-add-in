@@ -12,7 +12,42 @@ export const defaultSnip: ExportSnip = {
 
 function ready() {
     console.log('Hello world!');
+
+    // runExcel();
+    // runWord();
+    // runPowerPoint();
 }
+
+async function runExcel() {
+    await Excel.run({ delayForCellEdit: true }, async (context) => {
+        const range = context.workbook.getSelectedRange();
+        range.format.fill.color = "yellow";
+        range.load("value");
+        await context.sync();
+        console.log(\`The range address was "\${range.value}".\`);
+    });
+}
+
+async function runWord() {
+    await Word.run(async (context) => {
+        const range: Word.Range = context.document.getSelection();
+        range.font.color = "yellow";
+        range.load("text");
+        await context.sync();
+        console.log(\`The selected text was "\${range.text}".\`);
+    });
+}
+
+async function runPowerPoint() {
+    await PowerPoint.run(async (context) => {
+        const range = context.presentation.getSelection();
+        range.font.color = "yellow";
+        range.load("text");
+        await context.sync();
+        console.log(\`The selected text was "\${range.text}".\`);
+    });
+}
+
 
 Office.onReady(({host, platform})=> {
     console.log("READY");
@@ -40,6 +75,7 @@ function getHostColor(host: Office.HostType): string {
     const color = hostToColor.get(host) || "purple";
     return color;
 }
+
 `,
         },
         html: {
