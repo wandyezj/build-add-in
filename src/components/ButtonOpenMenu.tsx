@@ -9,6 +9,7 @@ import {
     BookDefault28Regular,
     DocumentRegular,
     AddRegular,
+    CodeBlockRegular,
 } from "@fluentui/react-icons";
 import { DrawerSnips } from "./DrawerSnips";
 import { getId, idEditButtonOpen, idEditButtonOpenSnip } from "./id";
@@ -17,11 +18,14 @@ import { DrawerEmbed } from "./DrawerEmbed";
 import { embedEnabled } from "../core/embedEnabled";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { LogTag, log } from "../core/log";
+import { DrawerGists } from "./DrawerGists";
+import { enableGists } from "../core/enableGists";
 
 export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) => void }) {
     const [isOpenLocal, setIsOpenLocal] = useState(false);
     const [isOpenDrawerSamples, setIsOpenDrawerSamples] = useState(false);
     const [isOpenDrawerEmbed, setIsOpenDrawerEmbed] = useState(false);
+    const [isOpenDrawerGists, setIsOpenDrawerGists] = useState(false);
 
     const buttonNewSnip = () => {
         log(LogTag.ButtonNew, "button - new snip");
@@ -55,9 +59,17 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
                         ) : (
                             <></>
                         )}
+                        {enableGists() ? (
+                            <MenuItem icon={<CodeBlockRegular />} onClick={() => setIsOpenDrawerGists(true)}>
+                                Gist
+                            </MenuItem>
+                        ) : (
+                            <></>
+                        )}
                         <MenuItem icon={<BookDefault28Regular />} onClick={() => setIsOpenDrawerSamples(true)}>
                             Sample
                         </MenuItem>
+
                         <MenuItem icon={<AddRegular />} onClick={buttonNewSnip}>
                             New
                         </MenuItem>
@@ -68,6 +80,11 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
             <DrawerSamples openSnip={openSnip} isOpen={isOpenDrawerSamples} setIsOpen={setIsOpenDrawerSamples} />
             {embedEnabled() ? (
                 <DrawerEmbed openSnip={openSnip} isOpen={isOpenDrawerEmbed} setIsOpen={setIsOpenDrawerEmbed} />
+            ) : (
+                <></>
+            )}
+            {enableGists() || true ? (
+                <DrawerGists openSnip={openSnip} isOpen={isOpenDrawerGists} setIsOpen={setIsOpenDrawerGists} />
             ) : (
                 <></>
             )}
