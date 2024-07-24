@@ -1,7 +1,13 @@
 import { GenericItemSource } from "./GenericItemSource";
 import { getSetting } from "../setting";
-import { getSnipFromJson, getSnipJson, isValidSnipExportJson, pruneSnipToSnipMetadata } from "../Snip";
-
+import {
+    getExportSnipFromExportJson,
+    getSnipFromJson,
+    getSnipJson,
+    isValidSnipExportJson,
+    pruneSnipToSnipMetadata,
+} from "../Snip";
+import { getGists, GitHubGist } from "./github/github";
 /**
  * Use specific GitHub accounts gist storage to store snips.
  * Get a source to manage a collection of github gists.
@@ -88,12 +94,15 @@ export const sourceSnipGitHub = getSourceGithubGists({
             return undefined;
         }
 
-        const snip = getSnipFromJson(text);
+        const snip = getExportSnipFromExportJson(text);
         if (snip === undefined) {
             return undefined;
         }
-        snip.id = item.id;
-        const metadata = pruneSnipToSnipMetadata(snip);
+
+        const id = item.id;
+        const modified = new Date(item.updated_at).getTime();
+        //snip.id = item.id;
+        const metadata = pruneSnipToSnipMetadata({ ...snip, id, modified });
         return metadata;
     },
     getItemJson: getSnipJson,

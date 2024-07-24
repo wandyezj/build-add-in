@@ -15,7 +15,7 @@ function getHeaders(pat: string) {
     };
 }
 
-interface GitHubGist {
+export interface GitHubGist {
     id: string;
     description: string;
     created_at: string;
@@ -27,7 +27,7 @@ interface GitHubGist {
 
 // will need to page
 // https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28
-async function getGists(personalAccessToken: string) {
+export async function getGists(personalAccessToken: string) {
     const perPage = 100;
     const url = `https://api.github.com/gists?per_page=${perPage}`;
     const headers = getHeaders(personalAccessToken);
@@ -48,7 +48,7 @@ async function getGists(personalAccessToken: string) {
     return gists;
 }
 
-async function getGist(personalAccessToken: string, gistId: string) {
+export async function getGist(personalAccessToken: string, gistId: string) {
     const url = `https://api.github.com/gists/${gistId}`;
     const headers = getHeaders(personalAccessToken);
 
@@ -58,7 +58,7 @@ async function getGist(personalAccessToken: string, gistId: string) {
     return o;
 }
 
-async function createGist(
+export async function createGist(
     personalAccessToken: string,
     body: { public: boolean; description: string; files: { [key: string]: { content: string } } }
 ) {

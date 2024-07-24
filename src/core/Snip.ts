@@ -180,7 +180,7 @@ export function pruneSnipForExport(snip: Snip): ExportSnip {
     };
 }
 
-export function pruneSnipToSnipMetadata(snip: Snip): SnipMetadata {
+export function pruneSnipToSnipMetadata(snip: Pick<Snip, "id" | "modified" | "name">): SnipMetadata {
     const { id, name, modified } = snip;
     return {
         id,

@@ -7,14 +7,16 @@ import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata } from "../core/Sample";
 import { getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
-import { SnipWithSource, completeSnip } from "../core/Snip";
+import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
+import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
 
 // Should be gist metadata
-async function getAllSamples(): Promise<SampleMetadata[]> {
+async function getAllSamples(): Promise<SnipMetadata[]> {
+    const metadata = await sourceSnipGitHub.getAllItemMetadata();
     // probably want to order this somehow.
     // display in last modified order
     //snips.sort((a, b) => b.modified - a.modified);
-    return [];
+    return metadata;
 }
 
 /**
@@ -29,7 +31,7 @@ export function DrawerGists({
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const [samples, setSamples] = useState([] as SampleMetadata[]);
+    const [samples, setSamples] = useState([] as SnipMetadata[]);
 
     function refreshGists() {
         getAllSamples().then((samples) => {
@@ -93,12 +95,12 @@ export function DrawerGists({
 
                 <DrawerBody>
                     <TooltipButton tip="Refresh Gists" icon={<ArrowSyncRegular />} onClick={reloadSamples} />
-                    {samples.map(({ id, name, description }) => (
+                    {samples.map(({ id, name }) => (
                         <SampleListCard
                             key={id}
                             id={id}
                             title={name}
-                            description={description}
+                            description={""}
                             onClick={() => {
                                 clickCard(id);
                             }}
