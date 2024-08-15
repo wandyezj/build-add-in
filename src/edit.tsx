@@ -34,7 +34,8 @@ async function initializeCurrentId(): Promise<SnipReference> {
 async function getSnipByReference(reference: SnipReference): Promise<SnipWithSource | undefined> {
     // if loading the snip fails
     // non-local embed reference - will fail
-    return getSnipById(reference).catch((error) => undefined);
+    // Happens when an embed reference is not present in the document.
+    return getSnipById(reference).catch(() => undefined);
 }
 
 /**
