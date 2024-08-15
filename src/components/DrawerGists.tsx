@@ -4,14 +4,19 @@ import { useState } from "react";
 import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
 import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
-import { SampleMetadata } from "../core/Sample";
-import { getSampleById, saveSnip } from "../core/database";
+import { saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
 import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
 
+
+async function getItemById(id: string) {
+    const item = sourceSnipGitHub.getItemById(id);
+    return item;
+}
+
 // Should be gist metadata
-async function getAllSamples(): Promise<SnipMetadata[]> {
+async function getAllMetadata(): Promise<SnipMetadata[]> {
     const metadata = await sourceSnipGitHub.getAllItemMetadata();
     // probably want to order this somehow.
     // display in last modified order
@@ -34,13 +39,13 @@ export function DrawerGists({
     const [samples, setSamples] = useState([] as SnipMetadata[]);
 
     function refreshGists() {
-        getAllSamples().then((samples) => {
+        getAllMetadata().then((samples) => {
             setSamples(samples);
         });
     }
 
     useEffect(() => {
-        getAllSamples().then((samples) => {
+        getAllMetadata().then((samples) => {
             if (samples.length === 0) {
                 // If there are no initial samples then load them
                 reloadSamples();
@@ -62,13 +67,13 @@ export function DrawerGists({
     const clickCard = (id: string) => {
         console.log(`clicked card ${id}`);
         setIsOpen(false);
-        getSampleById(id).then((sample) => {
+        getItemById(id).then((item) => {
             // create copy of the sample and open
 
             // TODO: what if sample is undefined?
-            if (sample) {
+            if (item) {
                 // Copy the sample and create a new snip
-                const snip = completeSnip({ ...sample, name: `(copy) ${sample.name}` });
+                const snip = completeSnip({ ...item, name: `(copy) ${item.name}` });
                 saveSnip(snip);
                 openSnip({ ...snip, source: "local" });
             }

@@ -7,7 +7,7 @@ import {
     isValidSnipExportJson,
     pruneSnipToSnipMetadata,
 } from "../Snip";
-import { getGists, GitHubGist } from "./github/github";
+import { getGist, getGists, GitHubGist } from "./github/github";
 /**
  * Use specific GitHub accounts gist storage to store snips.
  * Get a source to manage a collection of github gists.
@@ -45,8 +45,8 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
     }
 
     async function getItemById(id: string) {
-        //const gist = getGist(personalAccessToken, id);
-        return undefined;
+        const gist = getGist(personalAccessToken, id);
+        return gist;
     }
 
     async function deleteItemById(id: string) {
