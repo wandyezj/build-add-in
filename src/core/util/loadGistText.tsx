@@ -18,6 +18,7 @@ export async function loadGistText(url: string): Promise<string> {
     return text;
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function getSingleGistFileUrl(gistJson: { files: { [key: string]: { raw_url: string } } }): string {
     const files = gistJson["files"];
     const filesData = Object.values(files);
@@ -25,6 +26,7 @@ export function getSingleGistFileUrl(gistJson: { files: { [key: string]: { raw_u
         throw new Error("Gist must have a single file");
     }
     const file = filesData[0];
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const rawUrl = file["raw_url"];
     return rawUrl;
 }

@@ -83,7 +83,7 @@ export function ButtonOpenMenu({ openSnip }: { openSnip: (snip: SnipWithSource) 
             ) : (
                 <></>
             )}
-            {enableGists() || true ? (
+            {enableGists() ? (
                 <DrawerGists openSnip={openSnip} isOpen={isOpenDrawerGists} setIsOpen={setIsOpenDrawerGists} />
             ) : (
                 <></>

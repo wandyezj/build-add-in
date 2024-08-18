@@ -6,11 +6,14 @@
 // read
 // update
 // delete
-
+// eslint-disable-next-line @typescript-eslint/naming-convention
 function getHeaders(pat: string) {
     return {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Accept: "application/vnd.github+json",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Authorization: `Bearer ${pat}`,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "X-GitHub-Api-Version": "2022-11-28",
     };
 }
@@ -18,10 +21,14 @@ function getHeaders(pat: string) {
 export interface GitHubGist {
     id: string;
     description: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     created_at: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     updated_at: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     files: { [key: string]: { raw_url: string; type: "application/json" | string; language: "JSON" | string } };
     public: boolean;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     owner: { login: string; avatar_url: string };
 }
 

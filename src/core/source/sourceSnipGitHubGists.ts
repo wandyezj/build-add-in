@@ -1,13 +1,6 @@
 import { GenericItemSource } from "./GenericItemSource";
 import { getSetting } from "../setting";
-import {
-    //completeSnip,
-    getExportSnipFromExportJson,
-    getSnipFromJson,
-    //getSnipJson,
-    isValidSnipExportJson,
-    pruneSnipToSnipMetadata,
-} from "../Snip";
+import { getExportSnipFromExportJson, isValidSnipExportJson, pruneSnipToSnipMetadata } from "../Snip";
 import { getGist, getGists, GitHubGist } from "./github/github";
 import { getSingleGistFileUrl } from "../util/loadGistText";
 import { loadUrlText } from "../util/loadUrlText";
@@ -41,23 +34,23 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
 
     async function saveItem(item: Item) {
         // need to determine if this is an update or create.
-
-        throw new Error("Not implemented");
-        return undefined as unknown as Item;
+        console.error(`Saving item ${item.id}`);
+        return item;
+        //throw new Error("Not implemented");
     }
 
     async function getItemById(id: string) {
-        console.log(`Getting item by id ${personalAccessToken} ${id}`);
         const gist = await getGist(personalAccessToken, id);
         const rawUrl = getSingleGistFileUrl(gist);
         const text = await loadUrlText(rawUrl);
         const item = getItemFromGist(id, gist, text);
-        console.log(`Got item by id ${item}`);
         return item;
     }
 
     async function deleteItemById(id: string) {
         // Delete gist
+        console.log(`Deleting item by id ${id}`);
+        throw new Error("Not implemented");
     }
 
     return {
@@ -72,10 +65,6 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
 
 const githubSnipStorageFileName = "snip.json";
 const personalAccessToken = getSetting("githubPersonalAccessToken");
-
-async function getItemFromId(id: string) {
-    return undefined;
-}
 
 export const sourceSnipGitHub = getSourceGithubGists({
     personalAccessToken,
@@ -125,5 +114,4 @@ export const sourceSnipGitHub = getSourceGithubGists({
         };
         return item;
     },
-    //getItemFromJson: getSnipFromJson,
 });
