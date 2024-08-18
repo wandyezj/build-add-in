@@ -11,7 +11,7 @@ import {
     DocumentRegular,
     DocumentFolderRegular,
     ArrowImportRegular,
-    // SettingsRegular,
+    SettingsRegular,
 } from "@fluentui/react-icons";
 import { SnipSource, SnipWithSource, getSnipExportJson } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
@@ -31,6 +31,10 @@ import { getSetting } from "../core/setting";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
+}
+
+function buttonSettings() {
+    window.location.href = "./settings.html#back";
 }
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
@@ -133,6 +137,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 {/** Label */}
                 {getSourceBadge(snip)}
+
+                {/** Settings */}
+                <TooltipButton tip="Settings" icon={<SettingsRegular />} onClick={buttonSettings} />
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"

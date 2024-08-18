@@ -16,7 +16,10 @@ async function getItemById(id: string) {
 
 // Should be gist metadata
 async function getAllMetadata(): Promise<SnipMetadata[]> {
-    const metadata = await sourceSnipGitHub.getAllItemMetadata();
+    const metadata = await sourceSnipGitHub.getAllItemMetadata().catch((error) => {
+        console.error(`Error getting metadata: ${error}`);
+        return [];
+    });
     // probably want to order this somehow.
     // display in last modified order
     //snips.sort((a, b) => b.modified - a.modified);
