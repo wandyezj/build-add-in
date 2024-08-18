@@ -26,7 +26,12 @@ export function BlockParameter({
         case "number":
             return (
                 <div className={styles.text}>
-                    <BlockParameterNumber name={name} description={description} updateValue={updateValue} />
+                    <BlockParameterNumber
+                        name={name}
+                        description={description}
+                        initialValue={value}
+                        updateValue={updateValue}
+                    />
                 </div>
             );
         case "boolean":
@@ -43,7 +48,12 @@ export function BlockParameter({
         case "string":
             return (
                 <div className={styles.text}>
-                    <BlockParameterString name={name} description={description} updateValue={updateValue} />
+                    <BlockParameterString
+                        name={name}
+                        description={description}
+                        initialValue={value}
+                        updateValue={updateValue}
+                    />
                 </div>
             );
         default:

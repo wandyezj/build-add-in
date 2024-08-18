@@ -1,15 +1,35 @@
-import { Snip, SnipReference, SnipWithSource } from "./Snip";
+import { Snip, SnipMetadata, SnipMetadataWithSource, SnipReference, SnipSource, SnipWithSource } from "./Snip";
 
 import {
+    getAllSnipMetadata as getAllSnipMetadataInDatabase,
     saveSnip as saveSnipInDatabase,
     deleteSnipById as deleteSnipByIdInDatabase,
     getSnipById as getSnipByIdInDatabase,
 } from "./database";
 import {
+    getAllSnipMetadata as getAllSnipMetadataInEmbed,
     saveSnip as saveSnipInEmbed,
     deleteSnipById as deleteSnipByIdInEmbed,
     getSnipById as getSnipByIdInEmbed,
 } from "./source/embedSnip";
+
+//
+// Deal with storage based on the snip source.
+//
+
+export async function getAllSnipMetadata(source: SnipSource): Promise<SnipMetadataWithSource[]> {
+    let metadata: SnipMetadata[] = [];
+    switch (source) {
+        case "local":
+            metadata = await getAllSnipMetadataInDatabase();
+            break;
+        case "embed":
+            metadata = await getAllSnipMetadataInEmbed();
+            break;
+    }
+    const metadataWithSource = metadata.map((m) => ({ ...m, source }));
+    return metadataWithSource;
+}
 
 export async function saveSnip(snip: SnipWithSource): Promise<SnipWithSource> {
     const saved = await saveSnipToSource(snip);
