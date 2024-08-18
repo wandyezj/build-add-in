@@ -14,6 +14,8 @@ import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-comp
 import { LogTag, log } from "../core/log";
 import { SnipWithSource, completeSnip, getExportSnipFromExportJson, isValidSnipExportJson } from "../core/Snip";
 import { saveSnip } from "../core/snipStorage";
+import { loadUrlText } from "../core/util/loadUrlText";
+import { loadGistText } from "../core/util/loadGistText";
 
 const useStyles = makeStyles({
     base: {
@@ -24,36 +26,6 @@ const useStyles = makeStyles({
         marginBottom: tokens.spacingVerticalMNudge,
     },
 });
-
-async function loadUrlText(url: string): Promise<string> {
-    const request = await fetch(url);
-    const text = await request.text();
-    return text;
-}
-
-async function loadGistText(url: string): Promise<string> {
-    const gistId = url.split("/").pop();
-    if (!gistId) {
-        throw new Error("Invalid gist url");
-    }
-    const gistApiUrl = `https://api.github.com/gists/${gistId}`;
-    const request = await fetch(gistApiUrl);
-    const gistJson = await request.json();
-
-    // Find the first files raw url
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const files = gistJson["files"] as { raw_url: string }[];
-    const filesData = Object.values(files);
-    if (filesData.length !== 1) {
-        throw new Error("Gist must have a single file");
-    }
-    const file = filesData[0];
-    const rawUrl = file["raw_url"];
-
-    // load up the gist data
-    const text = await loadUrlText(rawUrl);
-    return text;
-}
 
 function isPossibleUrl(value: string) {
     const text = value.trim();

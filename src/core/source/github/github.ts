@@ -33,6 +33,9 @@ export async function getGists(personalAccessToken: string) {
     const headers = getHeaders(personalAccessToken);
 
     const response = await fetch(url, { headers });
+    if (!response.ok) {
+        throw new Error(`Failed to get gists: ${response.statusText}`);
+    }
     const gists = (await response.json()) as GitHubGist[];
 
     // array of gists
@@ -54,6 +57,7 @@ export async function getGist(personalAccessToken: string, gistId: string) {
 
     const response = await fetch(url, { headers });
     const o = (await response.json()) as GitHubGist;
+    // TODO: verify
     // TODO: Handle error if not found
     return o;
 }

@@ -9,7 +9,6 @@ import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
 import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
 
-
 async function getItemById(id: string) {
     const item = sourceSnipGitHub.getItemById(id);
     return item;

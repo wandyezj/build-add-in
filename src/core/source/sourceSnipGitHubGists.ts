@@ -1,13 +1,16 @@
 import { GenericItemSource } from "./GenericItemSource";
 import { getSetting } from "../setting";
 import {
+    //completeSnip,
     getExportSnipFromExportJson,
     getSnipFromJson,
-    getSnipJson,
+    //getSnipJson,
     isValidSnipExportJson,
     pruneSnipToSnipMetadata,
 } from "../Snip";
 import { getGist, getGists, GitHubGist } from "./github/github";
+import { getSingleGistFileUrl } from "../util/loadGistText";
+import { loadUrlText } from "../util/loadUrlText";
 /**
  * Use specific GitHub accounts gist storage to store snips.
  * Get a source to manage a collection of github gists.
@@ -22,10 +25,9 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
      * Prune a GitHub gist to only the required metadata.
      */
     pruneGitHubGistToItemMetadata: (item: GitHubGist) => Promise<ItemMetadata | undefined>;
-    getItemJson: (item: Item) => string;
-    getItemFromJson: (data: string) => Item | undefined;
+    getItemFromGist: (id: string, gist: GitHubGist, data: string) => Item | undefined;
 }): GenericItemSource<Item, ItemMetadata> {
-    const { personalAccessToken, pruneGitHubGistToItemMetadata, getItemJson, getItemFromJson } = parameters;
+    const { personalAccessToken, pruneGitHubGistToItemMetadata, getItemFromGist } = parameters;
 
     async function getAllItemMetadata() {
         // Get all gists for user
@@ -45,8 +47,13 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
     }
 
     async function getItemById(id: string) {
-        const gist = getGist(personalAccessToken, id);
-        return gist;
+        console.log(`Getting item by id ${personalAccessToken} ${id}`);
+        const gist = await getGist(personalAccessToken, id);
+        const rawUrl = getSingleGistFileUrl(gist);
+        const text = await loadUrlText(rawUrl);
+        const item = getItemFromGist(id, gist, text);
+        console.log(`Got item by id ${item}`);
+        return item;
     }
 
     async function deleteItemById(id: string) {
@@ -69,6 +76,7 @@ const personalAccessToken = getSetting("githubPersonalAccessToken");
 async function getItemFromId(id: string) {
     return undefined;
 }
+
 export const sourceSnipGitHub = getSourceGithubGists({
     personalAccessToken,
     pruneGitHubGistToItemMetadata: async (item) => {
@@ -105,6 +113,17 @@ export const sourceSnipGitHub = getSourceGithubGists({
         const metadata = pruneSnipToSnipMetadata({ ...snip, id, modified });
         return metadata;
     },
-    getItemJson: getSnipJson,
-    getItemFromJson: getSnipFromJson,
+    getItemFromGist: (id, gist: GitHubGist, data: string) => {
+        const exportItem = getExportSnipFromExportJson(data);
+        if (exportItem === undefined) {
+            return undefined;
+        }
+        const item = {
+            id,
+            modified: Date.parse(gist.updated_at),
+            ...exportItem,
+        };
+        return item;
+    },
+    //getItemFromJson: getSnipFromJson,
 });
