@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Button, Caption1, Text, makeStyles, tokens } from "@fluentui/react-components";
-import { MoreHorizontal20Regular } from "@fluentui/react-icons";
+import { Caption1, Text, makeStyles, tokens } from "@fluentui/react-components";
 import { Card, CardHeader } from "@fluentui/react-components";
 import { formatModified } from "../core/formatModified";
 
@@ -34,9 +33,9 @@ export function SnipListCard({
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
                 description={<Caption1 className={styles.caption}>{formatModified(modified)}</Caption1>}
-                action={
-                    <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
-                }
+                // action={
+                //     <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
+                // }
             />
         </Card>
     );
