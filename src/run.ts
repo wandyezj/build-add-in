@@ -82,7 +82,7 @@ async function runSnip() {
     let html = snip.files["html"].content;
     // Add back button to top of html
     if (goBack) {
-        html = `<button onclick="window.location.href='./edit.html';">Back</button>${html}`;
+        html = `<button onclick="window.location.href='./edit.html';">< Back</button><br/><br/>${html}`;
     }
     // TODO: will need to compile TypeScript, where should this be done?
     const ts = snip.files["typescript"].content;
