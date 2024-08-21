@@ -25,9 +25,10 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
-import { embedEnabled } from "../core/embedEnabled";
+import { enableEmbed } from "../core/enableEmbed";
 import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
+import { enableEditImport } from "../core/enableEditImport";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -129,14 +130,18 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <TooltipButton tip="Import" icon={<ArrowImportRegular />} onClick={() => setDialogImportOpen(true)} />
-                {/* <ButtonImport openSnip={openSnip}>
-                    <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
-                </ButtonImport> */}
-                {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
-                {/*
-                <TooltipButton tip="Settings" icon={<SettingsRegular />} />
-                */}
+                {enableEditImport() ? (
+                    <TooltipButton
+                        tip="Import"
+                        icon={<ArrowImportRegular />}
+                        onClick={() => setDialogImportOpen(true)}
+                    />
+                ) : (
+                    <></>
+                )}
+
+                {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
+
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 
                 {/** Label */}

@@ -24,7 +24,7 @@ import { DrawerSnips } from "./DrawerSnips";
 import { getId, idEditButtonOpen, idEditButtonOpenSnip } from "./id";
 import { DrawerSamples } from "./DrawerSamples";
 import { DrawerEmbed } from "./DrawerEmbed";
-import { embedEnabled } from "../core/embedEnabled";
+import { enableEmbed } from "../core/enableEmbed";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { LogTag, log } from "../core/log";
 import { DrawerGists } from "./DrawerGists";
@@ -74,7 +74,7 @@ export function ButtonOpenMenu({
                             New
                         </MenuItem>
 
-                        {embedEnabled() ? (
+                        {enableEmbed() ? (
                             <MenuItem icon={<DocumentRegular />} onClick={() => setIsOpenDrawerEmbed(true)}>
                                 Embed
                             </MenuItem>
@@ -103,7 +103,7 @@ export function ButtonOpenMenu({
             </Menu>
             <DrawerSnips openSnip={openSnip} isOpen={isOpenLocal} setIsOpen={setIsOpenLocal} />
             <DrawerSamples openSnip={openSnip} isOpen={isOpenDrawerSamples} setIsOpen={setIsOpenDrawerSamples} />
-            {embedEnabled() ? (
+            {enableEmbed() ? (
                 <DrawerEmbed openSnip={openSnip} isOpen={isOpenDrawerEmbed} setIsOpen={setIsOpenDrawerEmbed} />
             ) : (
                 <></>

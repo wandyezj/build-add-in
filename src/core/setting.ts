@@ -5,6 +5,21 @@ import { loadSettings, saveSettings } from "./storage";
  * All of the settings.
  */
 export const settingsMetadata = {
+    /**
+     * Show the GitHub button in the open menu.
+     */
+    githubPersonalAccessToken: {
+        name: "GitHub Personal Access Token",
+        tooltip: `Settings -> Developer settings -> Personal access tokens -> Fine-grained tokens -> Generate new token
+        Account Permissions:
+        Gists Read and Write`,
+        type: "string",
+        defaultValue: "",
+    } as SettingString,
+
+    /**
+     * Show the embed button on the edit page and in the open menu.
+     */
     enableEmbed: {
         name: "Enable Embed",
         type: "boolean",
@@ -20,14 +35,14 @@ export const settingsMetadata = {
         defaultValue: true,
     } as SettingBoolean,
 
-    githubPersonalAccessToken: {
-        name: "GitHub Personal Access Token",
-        tooltip: `Settings -> Developer settings -> Personal access tokens -> Fine-grained tokens -> Generate new token
-        Account Permissions:
-        Gists Read and Write`,
-        type: "string",
-        defaultValue: "",
-    } as SettingString,
+    /**
+     * Show the import button on the edit page.
+     */
+    enableEditImport: {
+        name: "Enable Edit Import",
+        type: "boolean",
+        defaultValue: false,
+    } as SettingBoolean,
 };
 Object.freeze(settingsMetadata);
 
