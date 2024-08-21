@@ -18,7 +18,7 @@ import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage"
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
-import { ButtonImport } from "./ButtonImport";
+import { DialogImport } from "./DialogImport";
 import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
@@ -41,6 +41,8 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
+
+    const [dialogImportOpen, setDialogImportOpen] = useState(false);
 
     useEffect(() => {
         setupSnip(snip);
@@ -99,8 +101,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
     return (
         <>
+            <DialogImport openSnip={openSnip} open={dialogImportOpen} setOpen={setDialogImportOpen} />
             <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-                <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
+                <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"
@@ -126,9 +129,10 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <ButtonImport openSnip={openSnip}>
+                <TooltipButton tip="Import" icon={<ArrowImportRegular />} onClick={() => setDialogImportOpen(true)} />
+                {/* <ButtonImport openSnip={openSnip}>
                     <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
-                </ButtonImport>
+                </ButtonImport> */}
                 {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
                 {/*
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} />

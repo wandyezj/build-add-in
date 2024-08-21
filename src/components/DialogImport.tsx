@@ -94,13 +94,16 @@ async function importSnip(value: string): Promise<SnipWithSource | undefined> {
     return undefined;
 }
 
-export function ButtonImport({
+export function DialogImport({
+    open,
+    setOpen,
     openSnip,
-    children,
 }: {
+    open: boolean;
+    setOpen: (open: boolean) => void;
     openSnip: (openSnip: SnipWithSource) => void;
-    children: JSX.Element;
 }) {
+    //const [open, setOpen] = React.useState(open);
     const textareaId = useId("import-textarea");
     const styles = useStyles();
 
@@ -123,8 +126,14 @@ export function ButtonImport({
     }
 
     return (
-        <Dialog>
-            <DialogTrigger disableButtonEnhancement>{children}</DialogTrigger>
+        <Dialog
+            // this controls the dialog open state
+            open={open}
+            onOpenChange={(event, data) => {
+                // it is the users responsibility to react accordingly to the open state change
+                setOpen(data.open);
+            }}
+        >
             <DialogSurface>
                 <form onSubmit={onClickImport}>
                     <DialogBody>
