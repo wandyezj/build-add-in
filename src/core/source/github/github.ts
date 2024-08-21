@@ -84,3 +84,21 @@ export async function createGist(
 
     return (await response.json()) as GitHubGist;
 }
+
+/**
+ * For Fine Grained Permissions:
+ * Can use 'Profile' Read and Write.
+ * No current fine grain permissions for read-only access.
+ * https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#user-permissions-for-profile
+ */
+export async function getUser(personalAccessToken: string) {
+    const url = "https://api.github.com/user";
+    const headers = getHeaders(personalAccessToken);
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers,
+    });
+
+    return (await response.json()) as GitHubGist;
+}

@@ -5,7 +5,7 @@ import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } fr
 import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { saveSnip } from "../core/database";
-import { SampleListCard } from "./SampleListCard";
+import { GistListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
 import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
 
@@ -103,11 +103,12 @@ export function DrawerGists({
                 <DrawerBody>
                     <TooltipButton tip="Refresh Gists" icon={<ArrowSyncRegular />} onClick={reloadSamples} />
                     {samples.map(({ id, name }) => (
-                        <SampleListCard
+                        <GistListCard
                             key={id}
                             id={id}
                             title={name}
-                            description={""}
+                            description={id}
+                            link={`https://gist.github.com/${id}`}
                             onClick={() => {
                                 clickCard(id);
                             }}
