@@ -34,9 +34,9 @@ export function SnipListCard({
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
                 description={<Caption1 className={styles.caption}>{formatModified(modified)}</Caption1>}
-                action={
-                    <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
-                }
+                // action={
+                //     <Button appearance="transparent" icon={<MoreHorizontal20Regular />} aria-label="More options" />
+                // }
             />
         </Card>
     );
