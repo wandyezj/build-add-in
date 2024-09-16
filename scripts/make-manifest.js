@@ -110,21 +110,38 @@ function localhost(data) {
 function localhostOutlook(data) {
     const sectionExtensionPoint = "ExtensionPoint";
     const duplicate = getSectionContents(sectionExtensionPoint, data);
+    data = removeSection(sectionExtensionPoint, data);
+
+    // Create new section and update ids
+    function createSection(extensionPointName, prefixId) {
+        let extensionPointSection = duplicate.replace("MessageComposeCommandSurface", extensionPointName);
+        // Replace Ids with unique equivalent
+
+        const findId = / id="(?<value>.*Id)"/;
+        const findIdsGlobal = / id="(?<value>.*Id)"/g;
+        let matches = extensionPointSection.match(findIdsGlobal);
+
+        matches.forEach((value) => {
+            //console.log(value);
+            const id = value.match(findId).groups["value"];
+            //console.log(id);
+            extensionPointSection = extensionPointSection.replace(id, `${prefixId}.${id}`);
+        });
+
+        return extensionPointSection;
+    }
+
+    // Compose
+    const extensionPointCompose = createSection("MessageComposeCommandSurface", "Compose");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageComposeCommandSurface) -->",
+        extensionPointCompose
+    );
 
     // Read
-    let extensionPointRead = duplicate.replace("MessageComposeCommandSurface", "MessageReadCommandSurface");
-    // Replace Ids with unique equivalent
-
-    const findIds = / id="(?<value>.*Id)"/g;
-    let matches = extensionPointRead.match(findIds);
-    matches.forEach((value) => {
-        console.log(value);
-    });
-
-    [`id="TabDefault"`, `id="GroupExtensionId"`, `id="ButtonEditId"`, `id="ButtonRunId"`, `id="ButtonHelpId"`];
-
+    const extensionPointRead = createSection("MessageReadCommandSurface", "Read");
     data = data.replaceAll(
-        " <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->",
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->",
         extensionPointRead
     );
 
@@ -150,6 +167,7 @@ function production(data) {
     );
 
     data = data.replaceAll("<Version>1.0.1.0</Version>", "<Version>1.0.0.0</Version>");
+    data = data.replaceAll("<Version>2.0.1.0</Version>", "<Version>2.0.0.0</Version>");
 
     return clean(data);
 }

@@ -5,7 +5,7 @@
     xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
     xsi:type="MailApp">
     <Id>01000000-1000-0000-0000-000000007357</Id>
-    <Version>1.0.1.0</Version>
+    <Version>2.0.1.0</Version>
     <ProviderName>wandyezj</ProviderName>
     <DefaultLocale>en-US</DefaultLocale>
     <DisplayName DefaultValue="(local) Build" />
@@ -51,11 +51,13 @@
                 <DesktopFormFactor>
                     <!-- MessageReadCommandSurface  when reading an email,
          Compose is when replying to an email -->
+
+
                     <ExtensionPoint xsi:type="MessageComposeCommandSurface">
-                        <OfficeTab id="TabDefault">
-                            <Group id="GroupExtensionId">
+                        <OfficeTab id="Compose.TabDefaultId">
+                            <Group id="Compose.GroupExtensionId">
                                 <Label resid="GroupExtension.Label" />
-                                <Control xsi:type="Button" id="ButtonEditId">
+                                <Control xsi:type="Button" id="Compose.ButtonEditId">
                                     <Label resid="ButtonEdit.Label" />
                                     <Supertip>
                                         <Title resid="ButtonEdit.Label" />
@@ -70,7 +72,7 @@
                                         <SourceLocation resid="TaskpaneEdit.Url" />
                                     </Action>
                                 </Control>
-                                <Control xsi:type="Button" id="ButtonRunId">
+                                <Control xsi:type="Button" id="Compose.ButtonRunId">
                                     <Label resid="ButtonRun.Label" />
                                     <Supertip>
                                         <Title resid="ButtonRun.Label" />
@@ -86,9 +88,65 @@
                                     </Action>
                                 </Control>
                             </Group>
-                            <Group id="GroupHelpId">
+                            <Group id="Compose.GroupHelpId">
                                 <Label resid="GroupHelp.Label" />
-                                <Control xsi:type="Button" id="ButtonHelpId">
+                                <Control xsi:type="Button" id="Compose.ButtonHelpId">
+                                    <Label resid="ButtonHelp.Label" />
+                                    <Supertip>
+                                        <Title resid="ButtonHelp.Label" />
+                                        <Description resid="ButtonHelp.Tooltip" />
+                                    </Supertip>
+                                    <Icon>
+                                        <bt:Image size="16" resid="Icon.Help.16x16" />
+                                        <bt:Image size="32" resid="Icon.Help.32x32" />
+                                        <bt:Image size="80" resid="Icon.Help.80x80" />
+                                    </Icon>
+                                    <Action xsi:type="ShowTaskpane">
+                                        <SourceLocation resid="TaskpaneHelp.Url" />
+                                    </Action>
+                                </Control>
+                            </Group>
+                        </OfficeTab>
+                    </ExtensionPoint>
+                    
+                    <ExtensionPoint xsi:type="MessageReadCommandSurface">
+                        <OfficeTab id="Read.TabDefaultId">
+                            <Group id="Read.GroupExtensionId">
+                                <Label resid="GroupExtension.Label" />
+                                <Control xsi:type="Button" id="Read.ButtonEditId">
+                                    <Label resid="ButtonEdit.Label" />
+                                    <Supertip>
+                                        <Title resid="ButtonEdit.Label" />
+                                        <Description resid="ButtonEdit.Tooltip" />
+                                    </Supertip>
+                                    <Icon>
+                                        <bt:Image size="16" resid="Icon.Edit.16x16" />
+                                        <bt:Image size="32" resid="Icon.Edit.32x32" />
+                                        <bt:Image size="80" resid="Icon.Edit.80x80" />
+                                    </Icon>
+                                    <Action xsi:type="ShowTaskpane">
+                                        <SourceLocation resid="TaskpaneEdit.Url" />
+                                    </Action>
+                                </Control>
+                                <Control xsi:type="Button" id="Read.ButtonRunId">
+                                    <Label resid="ButtonRun.Label" />
+                                    <Supertip>
+                                        <Title resid="ButtonRun.Label" />
+                                        <Description resid="ButtonRun.Tooltip" />
+                                    </Supertip>
+                                    <Icon>
+                                        <bt:Image size="16" resid="Icon.Run.16x16" />
+                                        <bt:Image size="32" resid="Icon.Run.32x32" />
+                                        <bt:Image size="80" resid="Icon.Run.80x80" />
+                                    </Icon>
+                                    <Action xsi:type="ShowTaskpane">
+                                        <SourceLocation resid="TaskpaneRun.Url" />
+                                    </Action>
+                                </Control>
+                            </Group>
+                            <Group id="Read.GroupHelpId">
+                                <Label resid="GroupHelp.Label" />
+                                <Control xsi:type="Button" id="Read.ButtonHelpId">
                                     <Label resid="ButtonHelp.Label" />
                                     <Supertip>
                                         <Title resid="ButtonHelp.Label" />
