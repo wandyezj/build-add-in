@@ -51,6 +51,7 @@
                 <DesktopFormFactor>
                     <!-- MessageReadCommandSurface  when reading an email,
          Compose is when replying to an email -->
+                    <!-- Section:(ExtensionPoint) - Start -->
                     <ExtensionPoint xsi:type="MessageComposeCommandSurface">
                         <OfficeTab id="TabDefault">
                             <Group id="GroupExtensionId">
@@ -106,6 +107,8 @@
                             </Group>
                         </OfficeTab>
                     </ExtensionPoint>
+                    <!-- Section:(ExtensionPoint) - End -->
+                    <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->
                 </DesktopFormFactor>
             </Host>
         </Hosts>

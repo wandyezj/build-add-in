@@ -25,6 +25,11 @@ function getSectionDelimiters(section) {
     return { delimiterStart, delimiterEnd };
 }
 
+/**
+ * @param {string} section
+ * @param {string} data
+ * @returns {string}
+ */
 function getSectionContents(section, data) {
     const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
     const contents = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
@@ -36,6 +41,7 @@ function getSectionContents(section, data) {
  * @param {string} section
  * @param {string} data
  * @param {string} replace
+ * @returns {string}
  */
 function replaceSection(section, data, replace) {
     const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
@@ -50,6 +56,7 @@ ${sectionDataAfter}`;
  * Replace data section with empty string
  * @param {string} section
  * @param {string} data
+ * @returns {string}
  */
 function removeSection(section, data) {
     return replaceSection(section, data, "");
@@ -65,6 +72,7 @@ function removeSectionDelimiters(section, data) {
 /**
  * make manifest for localhost from template
  * @param {string} data
+ * @returns {string}
  */
 function localhost(data) {
     const sectionHost = "Host";
@@ -100,6 +108,26 @@ function localhost(data) {
 }
 
 function localhostOutlook(data) {
+    const sectionExtensionPoint = "ExtensionPoint";
+    const duplicate = getSectionContents(sectionExtensionPoint, data);
+
+    // Read
+    let extensionPointRead = duplicate.replace("MessageComposeCommandSurface", "MessageReadCommandSurface");
+    // Replace Ids with unique equivalent
+
+    const findIds = / id="(?<value>.*Id)"/g;
+    let matches = extensionPointRead.match(findIds);
+    matches.forEach((value) => {
+        console.log(value);
+    });
+
+    [`id="TabDefault"`, `id="GroupExtensionId"`, `id="ButtonEditId"`, `id="ButtonRunId"`, `id="ButtonHelpId"`];
+
+    data = data.replaceAll(
+        " <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->",
+        extensionPointRead
+    );
+
     return data;
 }
 
