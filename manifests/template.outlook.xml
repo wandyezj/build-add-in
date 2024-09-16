@@ -110,6 +110,8 @@
                     <!-- Section:(ExtensionPoint) - End -->
                     <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageComposeCommandSurface) -->
                     <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->
+                    <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentOrganizerCommandSurface) -->
+                    <!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentAttendeeCommandSurface) -->
                 </DesktopFormFactor>
             </Host>
         </Hosts>

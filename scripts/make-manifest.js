@@ -145,6 +145,20 @@ function localhostOutlook(data) {
         extensionPointRead
     );
 
+    // Organizer
+    const extensionPointAppointmentOrganizer = createSection("AppointmentOrganizerCommandSurface", "Organizer");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentOrganizerCommandSurface) -->",
+        extensionPointAppointmentOrganizer
+    );
+
+    // Attendee
+    const extensionPointAppointmentAttendee = createSection("AppointmentAttendeeCommandSurface", "Attendee");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentAttendeeCommandSurface) -->",
+        extensionPointAppointmentAttendee
+    );
+
     return data;
 }
 
