@@ -99,6 +99,10 @@ function localhost(data) {
     return clean(data);
 }
 
+function localhostOutlook(data) {
+    return data;
+}
+
 /**
  * make manifest for production from localhost
  * @param {string} manifest
@@ -126,6 +130,7 @@ const templateManifestPath = "./manifests/template.xml";
 const localManifestPath = "./manifests/local.xml";
 const productionManifestPath = "./manifests/production.xml";
 
+const outlookTemplateManifestPath = "./manifests/template.outlook.xml";
 const outlookLocalManifestPath = "./manifests/local.outlook.xml";
 const outlookProductionManifestPath = "./manifests/production.outlook.xml";
 
@@ -141,7 +146,11 @@ function main() {
     fs.writeFileSync(productionManifestPath, productionData);
 
     // Outlook
-    const outlookLocalhostData = fs.readFileSync(outlookLocalManifestPath, { encoding: "utf-8" });
+
+    const outlookData = fs.readFileSync(outlookTemplateManifestPath, { encoding: "utf-8" });
+    const outlookLocalhostData = localhostOutlook(outlookData);
+    fs.writeFileSync(outlookLocalManifestPath, outlookLocalhostData);
+
     const outlookProductionData = production(outlookLocalhostData);
     fs.writeFileSync(outlookProductionManifestPath, outlookProductionData);
 }
