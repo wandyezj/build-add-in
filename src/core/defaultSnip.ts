@@ -10,12 +10,18 @@ export const defaultSnip: ExportSnip = {
 // Click "Run" to execute the code below.
 //
 
-function ready() {
-    console.log('Hello world!');
+function run() {
+    console.log("run");
 
     // runExcel();
     // runWord();
     // runPowerPoint();
+    // runOutlook();
+}
+
+function ready() {
+    console.log('Hello world!');
+    document.getElementById("button-run").hidden = false;
 }
 
 async function runExcel() {
@@ -46,6 +52,18 @@ async function runPowerPoint() {
         await context.sync();
         console.log(\`The selected text was "\${range.text}".\`);
     });
+}
+
+async function runOutlook() {
+    Office.context.mailbox.item.getSelectedDataAsync(Office.CoercionType.Text, function(asyncResult) {
+        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+            const text = asyncResult.value.data;
+            const prop = asyncResult.value.sourceProperty;
+            console.log(\`The selected text in "\${prop}" was "\${text}".\`);
+        } else {
+            console.error(asyncResult.error);
+        }
+  });
 }
 
 
@@ -85,6 +103,7 @@ function getHostColor(host: Office.HostType): string {
 <span id="host">?</span>
 on <span id="platform">?</span>
 !</h1>
+<button id="button-run" onclick="run()" hidden>Run</button>
 `,
         },
         css: {
@@ -96,7 +115,35 @@ body {
 
 h1 { 
     color: black;
-}`,
+}
+
+#button-run {
+    margin: 0;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    min-width: 80px;
+    background-color: #f4f4f4;
+    border: 1px solid #f4f4f4;
+    padding: 4px 20px 6px;
+}
+
+#button-run:hover {
+    background-color: #eaeaea;
+}
+
+#button-run:focus {
+    background-color: #eaeaea;
+    border-color: #0078d7;
+}
+
+#button-run:active {
+    background-color: #0078d7;
+    border-color: #0078d7;
+    color: #fff;
+}
+
+
+`,
         },
         libraries: {
             language: "text",

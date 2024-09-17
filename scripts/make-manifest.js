@@ -25,6 +25,11 @@ function getSectionDelimiters(section) {
     return { delimiterStart, delimiterEnd };
 }
 
+/**
+ * @param {string} section
+ * @param {string} data
+ * @returns {string}
+ */
 function getSectionContents(section, data) {
     const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
     const contents = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
@@ -36,6 +41,7 @@ function getSectionContents(section, data) {
  * @param {string} section
  * @param {string} data
  * @param {string} replace
+ * @returns {string}
  */
 function replaceSection(section, data, replace) {
     const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
@@ -50,6 +56,7 @@ ${sectionDataAfter}`;
  * Replace data section with empty string
  * @param {string} section
  * @param {string} data
+ * @returns {string}
  */
 function removeSection(section, data) {
     return replaceSection(section, data, "");
@@ -65,6 +72,7 @@ function removeSectionDelimiters(section, data) {
 /**
  * make manifest for localhost from template
  * @param {string} data
+ * @returns {string}
  */
 function localhost(data) {
     const sectionHost = "Host";
@@ -99,6 +107,61 @@ function localhost(data) {
     return clean(data);
 }
 
+function localhostOutlook(data) {
+    const sectionExtensionPoint = "ExtensionPoint";
+    const duplicate = getSectionContents(sectionExtensionPoint, data);
+    data = removeSection(sectionExtensionPoint, data);
+
+    // Create new section and update ids
+    function createSection(extensionPointName, prefixId) {
+        let extensionPointSection = duplicate.replace("MessageComposeCommandSurface", extensionPointName);
+        // Replace Ids with unique equivalent
+
+        const findId = / id="(?<value>.*Id)"/;
+        const findIdsGlobal = / id="(?<value>.*Id)"/g;
+        let matches = extensionPointSection.match(findIdsGlobal);
+
+        matches.forEach((value) => {
+            //console.log(value);
+            const id = value.match(findId).groups["value"];
+            //console.log(id);
+            extensionPointSection = extensionPointSection.replace(id, `${prefixId}.${id}`);
+        });
+
+        return extensionPointSection;
+    }
+
+    // Compose
+    const extensionPointCompose = createSection("MessageComposeCommandSurface", "Compose");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageComposeCommandSurface) -->",
+        extensionPointCompose
+    );
+
+    // Read
+    const extensionPointRead = createSection("MessageReadCommandSurface", "Read");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->",
+        extensionPointRead
+    );
+
+    // Organizer
+    const extensionPointAppointmentOrganizer = createSection("AppointmentOrganizerCommandSurface", "Organizer");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentOrganizerCommandSurface) -->",
+        extensionPointAppointmentOrganizer
+    );
+
+    // Attendee
+    const extensionPointAppointmentAttendee = createSection("AppointmentAttendeeCommandSurface", "Attendee");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentAttendeeCommandSurface) -->",
+        extensionPointAppointmentAttendee
+    );
+
+    return data;
+}
+
 /**
  * make manifest for production from localhost
  * @param {string} manifest
@@ -118,6 +181,7 @@ function production(data) {
     );
 
     data = data.replaceAll("<Version>1.0.1.0</Version>", "<Version>1.0.0.0</Version>");
+    data = data.replaceAll("<Version>2.0.1.0</Version>", "<Version>2.0.0.0</Version>");
 
     return clean(data);
 }
@@ -126,6 +190,7 @@ const templateManifestPath = "./manifests/template.xml";
 const localManifestPath = "./manifests/local.xml";
 const productionManifestPath = "./manifests/production.xml";
 
+const outlookTemplateManifestPath = "./manifests/template.outlook.xml";
 const outlookLocalManifestPath = "./manifests/local.outlook.xml";
 const outlookProductionManifestPath = "./manifests/production.outlook.xml";
 
@@ -141,7 +206,11 @@ function main() {
     fs.writeFileSync(productionManifestPath, productionData);
 
     // Outlook
-    const outlookLocalhostData = fs.readFileSync(outlookLocalManifestPath, { encoding: "utf-8" });
+
+    const outlookData = fs.readFileSync(outlookTemplateManifestPath, { encoding: "utf-8" });
+    const outlookLocalhostData = localhostOutlook(outlookData);
+    fs.writeFileSync(outlookLocalManifestPath, outlookLocalhostData);
+
     const outlookProductionData = production(outlookLocalhostData);
     fs.writeFileSync(outlookProductionManifestPath, outlookProductionData);
 }
