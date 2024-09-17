@@ -15,7 +15,7 @@ export async function copyTextToClipboard(text: string) {
  */
 function copyTextToClipboardWithCommand(text: string) {
     log(LogTag.CopyToClipboard, "copyTextToClipboardWithCommand");
-    const element = document.createElement("input");
+    const element = document.createElement("textarea");
 
     // Hide temp element
     //element.hidden = true;

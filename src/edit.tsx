@@ -31,6 +31,13 @@ async function initializeCurrentId(): Promise<SnipReference> {
     return reference;
 }
 
+async function getSnipByReference(reference: SnipReference): Promise<SnipWithSource | undefined> {
+    // if loading the snip fails
+    // non-local embed reference - will fail
+    // Happens when an embed reference is not present in the document.
+    return getSnipById(reference).catch(() => undefined);
+}
+
 /**
  * The initial snip to open is the first of:
  * - The snip id from local storage
@@ -40,7 +47,7 @@ async function initializeCurrentId(): Promise<SnipReference> {
 async function getInitialSnip(): Promise<SnipWithSource> {
     const currentId = await initializeCurrentId();
     log(LogTag.Setup, "currentId - complete");
-    const initialSnip = await getSnipById(currentId);
+    const initialSnip = await getSnipByReference(currentId);
     log(LogTag.Setup, "initialSnip - complete");
 
     if (initialSnip === undefined) {

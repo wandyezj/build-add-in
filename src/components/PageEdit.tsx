@@ -1,40 +1,49 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
+import { Badge, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     // ArrowDownloadRegular,
     PlayRegular,
     ClipboardRegular,
     DeleteRegular,
     // BookDefault28Regular,
-    // DocumentFolderRegular,
-    // SettingsRegular,
+    DocumentRegular,
+    DocumentFolderRegular,
+    ArrowImportRegular,
+    SettingsRegular,
 } from "@fluentui/react-icons";
-import { SnipWithSource, completeSnip, getExportSnipFromExportJson, getSnipExportJson } from "../core/Snip";
+import { SnipSource, SnipWithSource, getSnipExportJson } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { Editor } from "./Editor";
-import { ButtonImport } from "./ButtonImport";
+import { DialogImport } from "./DialogImport";
 import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
-import { embedEnabled } from "../core/embedEnabled";
+import { enableEmbed } from "../core/enableEmbed";
 import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
+import { enableEditImport } from "../core/enableEditImport";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
+}
+
+function buttonSettings() {
+    window.location.href = "./settings.html#back";
 }
 
 export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     console.log("render PageEditor ");
     const [fileId, setFileId] = useState("typescript");
     const [snip, setSnip] = useState(initialSnip);
+
+    const [dialogImportOpen, setDialogImportOpen] = useState(false);
 
     useEffect(() => {
         setupSnip(snip);
@@ -67,20 +76,6 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
         setSnip(setupSnip);
     };
 
-    const setImport = (value: string) => {
-        console.log("Import snip");
-        console.log(value);
-        const newSnip = getExportSnipFromExportJson(value);
-        console.log(newSnip);
-        if (newSnip) {
-            const complete = completeSnip(newSnip);
-            const source = "local";
-            updateSnip({ ...complete, source });
-        } else {
-            console.error("import failed - invalid snip");
-        }
-    };
-
     /**
      * Copy the current snip to the clipboard
      */
@@ -107,8 +102,9 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
     return (
         <>
-            <Toolbar>
-                <ButtonOpenMenu openSnip={openSnip}></ButtonOpenMenu>
+            <DialogImport openSnip={openSnip} open={dialogImportOpen} setOpen={setDialogImportOpen} />
+            <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+                <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
                         aria-label="Snip Name"
@@ -134,12 +130,25 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     onClick={buttonCopySnipToClipboard}
                 />
 
-                <ButtonImport setImport={setImport} />
-                {embedEnabled() ? <ButtonEmbedCopy snip={snip} /> : <></>}
-                {/*
-                <TooltipButton tip="Settings" icon={<SettingsRegular />} />
-                */}
+                {enableEditImport() ? (
+                    <TooltipButton
+                        tip="Import"
+                        icon={<ArrowImportRegular />}
+                        onClick={() => setDialogImportOpen(true)}
+                    />
+                ) : (
+                    <></>
+                )}
+
+                {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
+
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
+
+                {/** Label */}
+                {getSourceBadge(snip)}
+
+                {/** Settings */}
+                <TooltipButton tip="Settings" icon={<SettingsRegular />} onClick={buttonSettings} />
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"
@@ -156,5 +165,30 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
             <Editor snip={snip} updateSnip={updateSnip} fileId={fileId} />
         </>
+    );
+}
+
+function getSourceBadge(snip: SnipWithSource) {
+    const iconLocal = <DocumentFolderRegular />;
+    const iconEmbed = <DocumentRegular />;
+
+    function getIconForSource(source: SnipSource) {
+        switch (source) {
+            case "local":
+                return iconLocal;
+            case "embed":
+                return iconEmbed;
+            default:
+                console.log("Unknown Source");
+                return iconLocal;
+        }
+    }
+    const source = snip.source;
+    return (
+        <Tooltip content="Snip source" relationship="description">
+            <Badge size="large" color="informative" icon={getIconForSource(source)}>
+                {source}
+            </Badge>
+        </Tooltip>
     );
 }

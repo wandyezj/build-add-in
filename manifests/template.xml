@@ -33,14 +33,20 @@
   </Requirements>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3000/edit.html" />
+    <!-- The SourceLocation must be the shared runtime -->
+    <SourceLocation DefaultValue="https://localhost:3000/actions.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
     xsi:type="VersionOverridesV1_0">
     <Hosts>
-      <!-- Word - Start -->
+      <!-- Section:(Host) - Start -->
       <Host xsi:type="Document">
+        <!-- Section:(Runtimes only Excel) - Start -->
+        <Runtimes>
+          <Runtime resid="TaskpaneActions.Url" lifetime="long" />
+        </Runtimes>
+        <!-- Section:(Runtimes only Excel) - End -->
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabExtension">
@@ -111,7 +117,7 @@
                   </Action>
                 </Control>
               </Group>
-              <Group  id="GroupSettingsId">
+              <Group id="GroupSettingsId">
                 <Label resid="GroupSettings.Label" />
                 <Icon>
                   <bt:Image size="16" resid="Icon.settings.16x16" />
@@ -136,14 +142,42 @@
                   </Action>
                 </Control>
               </Group>
+              <!-- Section:(Actions only Excel) - Start -->
+              <Group id="GroupActionsId">
+                <Label resid="GroupActions.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.actions.16x16" />
+                  <bt:Image size="32" resid="Icon.actions.32x32" />
+                  <bt:Image size="80" resid="Icon.actions.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ButtonActionsId">
+                  <Label resid="ButtonActions.Label" />
+                  <Supertip>
+                    <Title resid="ButtonActions.Label" />
+                    <Description resid="ButtonActions.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.actions.16x16" />
+                    <bt:Image size="32" resid="Icon.actions.32x32" />
+                    <bt:Image size="80" resid="Icon.actions.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>TaskpaneActionsId</TaskpaneId>
+                    <SourceLocation resid="TaskpaneActions.Url" />
+                    <Title resid="TaskpaneActions.Title" />
+                  </Action>
+                </Control>
+              </Group>
+              <!-- Section:(Actions only Excel) - End -->
               <Label resid="TabBuild.TabLabel" />
             </CustomTab>
           </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
-      <!-- Word - End -->
-      <!-- Duplicate:(Word) Replace:(Document,Workbook) -->
-      <!-- Duplicate:(Word) Replace:(Document,Presentation) -->
+      <!-- Section:(Host) - End -->
+      <!-- Duplicate:(Host) Replace:(Document,Workbook) -->
+      <!-- Duplicate:(Host) Replace:(Document,Document) -->
+      <!-- Duplicate:(Host) Replace:(Document,Presentation) -->
     </Hosts>
     <Resources>
       <bt:Images>
@@ -162,40 +196,57 @@
         <bt:Image id="Icon.Help.16x16" DefaultValue="https://localhost:3000/assets/icon-help-16.png" />
         <bt:Image id="Icon.Help.32x32" DefaultValue="https://localhost:3000/assets/icon-help-32.png" />
         <bt:Image id="Icon.Help.80x80" DefaultValue="https://localhost:3000/assets/icon-help-80.png" />
-      
+
         <bt:Image id="Icon.settings.16x16"
-        DefaultValue="https://localhost:3000/assets/icon-settings-16.png" />
-      <bt:Image id="Icon.settings.32x32"
-        DefaultValue="https://localhost:3000/assets/icon-settings-32.png" />
-      <bt:Image id="Icon.settings.80x80"
-        DefaultValue="https://localhost:3000/assets/icon-settings-80.png" />
+          DefaultValue="https://localhost:3000/assets/icon-settings-16.png" />
+        <bt:Image id="Icon.settings.32x32"
+          DefaultValue="https://localhost:3000/assets/icon-settings-32.png" />
+        <bt:Image id="Icon.settings.80x80"
+          DefaultValue="https://localhost:3000/assets/icon-settings-80.png" />
+
+        <bt:Image id="Icon.actions.16x16"
+          DefaultValue="https://localhost:3000/assets/icon-actions-16.png" />
+        <bt:Image id="Icon.actions.32x32"
+          DefaultValue="https://localhost:3000/assets/icon-actions-32.png" />
+        <bt:Image id="Icon.actions.80x80"
+          DefaultValue="https://localhost:3000/assets/icon-actions-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="TaskpaneEdit.Url" DefaultValue="https://localhost:3000/edit.html" />
         <bt:Url id="TaskpaneRun.Url" DefaultValue="https://localhost:3000/run.html" />
         <bt:Url id="TaskpaneHelp.Url" DefaultValue="https://localhost:3000/help.html" />
         <bt:Url id="TaskpaneSettings.Url" DefaultValue="https://localhost:3000/settings.html" />
+        <bt:Url id="TaskpaneActions.Url" DefaultValue="https://localhost:3000/actions.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="TabBuild.TabLabel" DefaultValue="(local) Build" />
+
         <bt:String id="GroupExtension.Label" DefaultValue="(local) Extension" />
         <bt:String id="ButtonEdit.Label" DefaultValue="Edit" />
         <bt:String id="TaskpaneEdit.Title" DefaultValue="Edit" />
         <bt:String id="ButtonRun.Label" DefaultValue="Run" />
         <bt:String id="TaskpaneRun.Title" DefaultValue="Run" />
+
         <bt:String id="GroupHelp.Label" DefaultValue="Help" />
         <bt:String id="ButtonHelp.Label" DefaultValue="Help" />
         <bt:String id="TaskpaneHelp.Title" DefaultValue="Help" />
+
         <bt:String id="GroupSettings.Label" DefaultValue="Settings" />
         <bt:String id="ButtonSettings.Label" DefaultValue="Settings" />
         <bt:String id="TaskpaneSettings.Title" DefaultValue="Settings" />
+
+        <bt:String id="GroupActions.Label" DefaultValue="Actions" />
+        <bt:String id="ButtonActions.Label" DefaultValue="Actions" />
+        <bt:String id="TaskpaneActions.Title" DefaultValue="Actions" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="ButtonEdit.Tooltip" DefaultValue="Edit Snip" />
         <bt:String id="ButtonRun.Tooltip" DefaultValue="Run Snip" />
         <bt:String id="ButtonHelp.Tooltip" DefaultValue="Get Help" />
         <bt:String id="ButtonSettings.Tooltip" DefaultValue="Change Settings" />
+        <bt:String id="ButtonActions.Tooltip" DefaultValue="Edit Actions" />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
+  <ExtendedOverrides Url="https://localhost:3000/shortcuts.json"></ExtendedOverrides>
 </OfficeApp>

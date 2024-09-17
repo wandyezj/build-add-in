@@ -9,12 +9,13 @@ import {
     DialogContent,
     Button,
 } from "@fluentui/react-components";
-import { TooltipButton } from "./TooltipButton";
-import { ArrowImportRegular } from "@fluentui/react-icons";
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import { isValidSnipExportJson } from "../core/Snip";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson, isValidSnipExportJson } from "../core/Snip";
+import { saveSnip } from "../core/snipStorage";
+import { loadUrlText } from "../core/util/loadUrlText";
+import { loadGistText } from "../core/util/loadGistText";
 
 const useStyles = makeStyles({
     base: {
@@ -25,36 +26,6 @@ const useStyles = makeStyles({
         marginBottom: tokens.spacingVerticalMNudge,
     },
 });
-
-async function loadUrlText(url: string): Promise<string> {
-    const request = await fetch(url);
-    const text = await request.text();
-    return text;
-}
-
-async function loadGistText(url: string): Promise<string> {
-    const gistId = url.split("/").pop();
-    if (!gistId) {
-        throw new Error("Invalid gist url");
-    }
-    const gistApiUrl = `https://api.github.com/gists/${gistId}`;
-    const request = await fetch(gistApiUrl);
-    const gistJson = await request.json();
-
-    // Find the first files raw url
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const files = gistJson["files"] as { raw_url: string }[];
-    const filesData = Object.values(files);
-    if (filesData.length !== 1) {
-        throw new Error("Gist must have a single file");
-    }
-    const file = filesData[0];
-    const rawUrl = file["raw_url"];
-
-    // load up the gist data
-    const text = await loadUrlText(rawUrl);
-    return text;
-}
 
 function isPossibleUrl(value: string) {
     const text = value.trim();
@@ -103,9 +74,45 @@ async function getImportSnip(value: string): Promise<string | undefined> {
     return undefined;
 }
 
-export function ButtonImport({ setImport }: { setImport: (value: string) => void }) {
+async function importSnip(value: string): Promise<SnipWithSource | undefined> {
+    console.log("Import snip");
+    console.log(value);
+    const newSnip = getExportSnipFromExportJson(value);
+    console.log(newSnip);
+    if (newSnip) {
+        // create a new snip with the imported snip
+        const complete = completeSnip(newSnip);
+        const source = "local";
+        complete.modified = Date.now();
+        const importSnip: SnipWithSource = { ...complete, source };
+
+        const saved = await saveSnip(importSnip);
+        return saved;
+    } else {
+        console.error("import failed - invalid snip");
+    }
+    return undefined;
+}
+
+export function DialogImport({
+    open,
+    setOpen,
+    openSnip,
+}: {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    openSnip: (openSnip: SnipWithSource) => void;
+}) {
+    //const [open, setOpen] = React.useState(open);
     const textareaId = useId("import-textarea");
     const styles = useStyles();
+
+    async function doImport(value: string) {
+        const snip = await importSnip(value);
+        if (snip) {
+            openSnip(snip);
+        }
+    }
 
     async function onClickImport(event: React.FormEvent) {
         event.preventDefault();
@@ -113,20 +120,24 @@ export function ButtonImport({ setImport }: { setImport: (value: string) => void
         const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
         const snipText = await getImportSnip(value);
         if (snipText) {
-            setImport(snipText);
+            doImport(snipText);
         }
         // otherwise invalid.
     }
 
     return (
-        <Dialog>
-            <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="Import" icon={<ArrowImportRegular />} />
-            </DialogTrigger>
+        <Dialog
+            // this controls the dialog open state
+            open={open}
+            onOpenChange={(event, data) => {
+                // it is the users responsibility to react accordingly to the open state change
+                setOpen(data.open);
+            }}
+        >
             <DialogSurface>
                 <form onSubmit={onClickImport}>
                     <DialogBody>
-                        <DialogTitle>Import Snip Json</DialogTitle>
+                        <DialogTitle>Import Snip</DialogTitle>
                         <DialogContent>
                             <div className={styles.base}>
                                 <Label className={styles.label} htmlFor={textareaId}>

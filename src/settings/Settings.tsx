@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SettingsKey, getSettings, getSettingsMetadata } from "../core/setting";
+import { SettingsKey, getSetting, getSettings, getSettingsMetadata } from "../core/setting";
 import { BlockParameter } from "../blocks/components/BlockParameter";
 import { saveSettings } from "../core/storage";
 import { CodeTemplateBlockParameter } from "../blocks/CodeTemplateBlock";
@@ -24,15 +24,18 @@ export function Settings() {
         .map((property) => {
             const key = property as SettingsKey;
             const setting = metadata[key];
+
+            const value = getSetting(key);
+
             const parameter = {
                 name: setting.name,
                 type: setting.type,
-                value: settings[key],
-                description: "",
+                value,
+                description: setting.tooltip || "",
             } as CodeTemplateBlockParameter;
             return { key, parameter };
         })
-        .filter((setting) => setting.parameter.type === "boolean");
+        .filter((setting) => ["boolean", "string"].includes(setting.parameter.type));
 
     return settingParameters.map(({ parameter, key }) => (
         <BlockParameter

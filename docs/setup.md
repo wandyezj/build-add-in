@@ -37,7 +37,7 @@ Other manifest files are generated from the base files using:
 
 > npm run manifest
 
-Once you have updates the manifests, test them via [sideloading](./sideloading.md).
+Once you have updates the manifests, test them via [sideloading](./sideload.md).
 
 
 ## Test

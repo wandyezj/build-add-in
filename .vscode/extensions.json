@@ -7,7 +7,6 @@
         "ms-playwright.playwright",
         "bierner.github-markdown-preview",
         "streetsidesoftware.code-spell-checker",
-        "vscode-icons-team.vscode-icons",
-        "redhat.vscode-xml"
+        "vscode-icons-team.vscode-icons"
     ]
 }

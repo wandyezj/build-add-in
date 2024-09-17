@@ -42,6 +42,9 @@ for %%n in (edit play settings) do (
 :: help
 call :make_icon question icon-help
 
+:: actions
+call :make_icon script icon-actions
+
 
 goto :eof
 
@@ -59,6 +62,11 @@ for %%s in (16 32 80) do (
     if !svg_size! GEQ 48 set svg_size=48
 
     set source_svg="%THISDIR%/fluent-svg/ic_fluent_!svg_name!_!svg_size!_regular.svg"
+    if not exist !source_svg! (
+        set svg_size=32
+        set source_svg="%THISDIR%/fluent-svg/ic_fluent_!svg_name!_!svg_size!_regular.svg"
+    )
+
     set destination_png="%THISDIR%/!png_name!-!png_size!.png"
 
     echo !png_name! !png_size!

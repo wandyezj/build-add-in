@@ -19,28 +19,147 @@ function clean(data) {
     return data;
 }
 
+function getSectionDelimiters(section) {
+    const delimiterStart = `<!-- Section:(${section}) - Start -->`;
+    const delimiterEnd = `<!-- Section:(${section}) - End -->`;
+    return { delimiterStart, delimiterEnd };
+}
+
+/**
+ * @param {string} section
+ * @param {string} data
+ * @returns {string}
+ */
+function getSectionContents(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const contents = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
+    return contents;
+}
+
+/**
+ * Replace data section
+ * @param {string} section
+ * @param {string} data
+ * @param {string} replace
+ * @returns {string}
+ */
+function replaceSection(section, data, replace) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    const sectionDataBefore = data.split(delimiterStart)[0].trimEnd();
+    const sectionDataAfter = data.split(delimiterEnd)[1].trimStart();
+    return `${sectionDataBefore}
+${replace}
+${sectionDataAfter}`;
+}
+
+/**
+ * Replace data section with empty string
+ * @param {string} section
+ * @param {string} data
+ * @returns {string}
+ */
+function removeSection(section, data) {
+    return replaceSection(section, data, "");
+}
+
+function removeSectionDelimiters(section, data) {
+    const { delimiterStart, delimiterEnd } = getSectionDelimiters(section);
+    data = data.replaceAll(delimiterStart, "");
+    data = data.replaceAll(delimiterEnd, "");
+    return data;
+}
+
 /**
  * make manifest for localhost from template
  * @param {string} data
+ * @returns {string}
  */
 function localhost(data) {
-    const delimiterStart = "<!-- Word - Start -->";
-    const delimiterEnd = "<!-- Word - End -->";
-    const duplicate = data.split(delimiterStart)[1].split(delimiterEnd)[0].trimEnd();
-    data = data.replaceAll(delimiterStart, "");
-    data = data.replaceAll(delimiterEnd, "");
+    const sectionHost = "Host";
 
-    // Place place template duplicates on Excel and PowerPoint
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Workbook) -->",
-        duplicate.replaceAll("Document", "Workbook")
-    );
-    data = data.replaceAll(
-        "<!-- Duplicate:(Word) Replace:(Document,Presentation) -->",
-        duplicate.replaceAll("Document", "Presentation")
-    );
+    const duplicate = getSectionContents(sectionHost, data);
+    data = removeSection("Host", data);
+
+    // Remove these from the Word and PowerPoint hosts
+    const sectionRuntime = "Runtimes only Excel";
+    const sectionActionsGroup = "Actions only Excel";
+
+    // Create Host for Word, Excel and PowerPoint
+
+    // Word
+    let hostWord = duplicate.replaceAll("Document", "Document");
+    hostWord = removeSection(sectionRuntime, hostWord);
+    hostWord = removeSection(sectionActionsGroup, hostWord);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Document) -->", hostWord);
+
+    // Excel
+    let hostExcel = duplicate.replaceAll("Document", "Workbook");
+    hostExcel = removeSectionDelimiters(sectionRuntime, hostExcel);
+    hostExcel = removeSectionDelimiters(sectionActionsGroup, hostExcel);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Workbook) -->", hostExcel);
+
+    // PowerPoint
+    let hostPowerPoint = duplicate.replaceAll("Document", "Presentation");
+    hostPowerPoint = removeSection(sectionRuntime, hostPowerPoint);
+    hostPowerPoint = removeSection(sectionActionsGroup, hostPowerPoint);
+    data = data.replaceAll("<!-- Duplicate:(Host) Replace:(Document,Presentation) -->", hostPowerPoint);
 
     return clean(data);
+}
+
+function localhostOutlook(data) {
+    const sectionExtensionPoint = "ExtensionPoint";
+    const duplicate = getSectionContents(sectionExtensionPoint, data);
+    data = removeSection(sectionExtensionPoint, data);
+
+    // Create new section and update ids
+    function createSection(extensionPointName, prefixId) {
+        let extensionPointSection = duplicate.replace("MessageComposeCommandSurface", extensionPointName);
+        // Replace Ids with unique equivalent
+
+        const findId = / id="(?<value>.*Id)"/;
+        const findIdsGlobal = / id="(?<value>.*Id)"/g;
+        let matches = extensionPointSection.match(findIdsGlobal);
+
+        matches.forEach((value) => {
+            //console.log(value);
+            const id = value.match(findId).groups["value"];
+            //console.log(id);
+            extensionPointSection = extensionPointSection.replace(id, `${prefixId}.${id}`);
+        });
+
+        return extensionPointSection;
+    }
+
+    // Compose
+    const extensionPointCompose = createSection("MessageComposeCommandSurface", "Compose");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageComposeCommandSurface) -->",
+        extensionPointCompose
+    );
+
+    // Read
+    const extensionPointRead = createSection("MessageReadCommandSurface", "Read");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,MessageReadCommandSurface) -->",
+        extensionPointRead
+    );
+
+    // Organizer
+    const extensionPointAppointmentOrganizer = createSection("AppointmentOrganizerCommandSurface", "Organizer");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentOrganizerCommandSurface) -->",
+        extensionPointAppointmentOrganizer
+    );
+
+    // Attendee
+    const extensionPointAppointmentAttendee = createSection("AppointmentAttendeeCommandSurface", "Attendee");
+    data = data.replaceAll(
+        "<!-- Duplicate:(ExtensionPoint) Replace:(MessageComposeCommandSurface,AppointmentAttendeeCommandSurface) -->",
+        extensionPointAppointmentAttendee
+    );
+
+    return data;
 }
 
 /**
@@ -62,6 +181,7 @@ function production(data) {
     );
 
     data = data.replaceAll("<Version>1.0.1.0</Version>", "<Version>1.0.0.0</Version>");
+    data = data.replaceAll("<Version>2.0.1.0</Version>", "<Version>2.0.0.0</Version>");
 
     return clean(data);
 }
@@ -70,6 +190,7 @@ const templateManifestPath = "./manifests/template.xml";
 const localManifestPath = "./manifests/local.xml";
 const productionManifestPath = "./manifests/production.xml";
 
+const outlookTemplateManifestPath = "./manifests/template.outlook.xml";
 const outlookLocalManifestPath = "./manifests/local.outlook.xml";
 const outlookProductionManifestPath = "./manifests/production.outlook.xml";
 
@@ -85,7 +206,11 @@ function main() {
     fs.writeFileSync(productionManifestPath, productionData);
 
     // Outlook
-    const outlookLocalhostData = fs.readFileSync(outlookLocalManifestPath, { encoding: "utf-8" });
+
+    const outlookData = fs.readFileSync(outlookTemplateManifestPath, { encoding: "utf-8" });
+    const outlookLocalhostData = localhostOutlook(outlookData);
+    fs.writeFileSync(outlookLocalManifestPath, outlookLocalhostData);
+
     const outlookProductionData = production(outlookLocalhostData);
     fs.writeFileSync(outlookProductionManifestPath, outlookProductionData);
 }
