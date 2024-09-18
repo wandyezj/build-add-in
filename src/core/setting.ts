@@ -18,12 +18,21 @@ export const settingsMetadata = {
     } as SettingString,
 
     /**
+     * Show the samples in the open menu.
+     */
+    enableSamples: {
+        name: "Enable Samples",
+        type: "boolean",
+        defaultValue: false,
+    } as SettingBoolean,
+
+    /**
      * Show the embed button on the edit page and in the open menu.
      */
     enableEmbed: {
         name: "Enable Embed",
         type: "boolean",
-        defaultValue: true,
+        defaultValue: false,
     } as SettingBoolean,
 
     /**

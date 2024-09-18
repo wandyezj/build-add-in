@@ -1,4 +1,4 @@
-import { getSetting } from "./setting";
+import { getSetting } from "../setting";
 
 /**
  * Enable the import button on the edit page

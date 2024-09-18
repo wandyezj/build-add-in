@@ -24,11 +24,12 @@ import { DrawerSnips } from "./DrawerSnips";
 import { getId, idEditButtonOpen, idEditButtonOpenSnip } from "./id";
 import { DrawerSamples } from "./DrawerSamples";
 import { DrawerEmbed } from "./DrawerEmbed";
-import { enableEmbed } from "../core/enableEmbed";
+import { enableEmbed } from "../core/settings/enableEmbed";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { LogTag, log } from "../core/log";
 import { DrawerGists } from "./DrawerGists";
-import { enableGists } from "../core/enableGists";
+import { enableGists } from "../core/settings/enableGists";
+import { enableSamples } from "../core/settings/enableSamples";
 
 export function ButtonOpenMenu({
     openSnip,
@@ -89,9 +90,14 @@ export function ButtonOpenMenu({
                         ) : (
                             <></>
                         )}
-                        <MenuItem icon={<BookDefault28Regular />} onClick={() => setIsOpenDrawerSamples(true)}>
-                            Sample
-                        </MenuItem>
+
+                        {enableSamples() ? (
+                            <MenuItem icon={<BookDefault28Regular />} onClick={() => setIsOpenDrawerSamples(true)}>
+                                Sample
+                            </MenuItem>
+                        ) : (
+                            <></>
+                        )}
 
                         <MenuDivider />
 

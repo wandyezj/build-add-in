@@ -25,10 +25,10 @@ import { copyTextToClipboard } from "../core/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";
-import { enableEmbed } from "../core/enableEmbed";
+import { enableEmbed } from "../core/settings/enableEmbed";
 import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
-import { enableEditImport } from "../core/enableEditImport";
+import { enableEditImport } from "../core/settings/enableEditImport";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -145,7 +145,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 
                 {/** Label */}
-                {getSourceBadge(snip)}
+                {enableEmbed() ? getSourceBadge(snip) : <></>}
 
                 {/** Settings */}
                 <TooltipButton tip="Settings" icon={<SettingsRegular />} onClick={buttonSettings} />
