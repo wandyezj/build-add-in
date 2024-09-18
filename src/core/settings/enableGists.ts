@@ -1,4 +1,4 @@
-import { getSetting } from "./setting";
+import { getSetting } from "../setting";
 
 /**
  * Enable creating a local copy of a gist.

@@ -1,5 +1,5 @@
-import { getHost } from "./globals";
-import { getSetting } from "./setting";
+import { getHost } from "../globals";
+import { getSetting } from "../setting";
 
 export function enableEmbed(): boolean {
     const host = getHost();
