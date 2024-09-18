@@ -66,6 +66,7 @@ module.exports = async (env, options) => {
             settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
             test: "./src/test.ts",
+            shared: "./src/shared.ts",
         },
         output: {
             // Add contenthash to cache bust on CDN
@@ -130,6 +131,11 @@ module.exports = async (env, options) => {
                 template: "src/test.html",
                 filename: "test.html",
                 chunks: ["test"],
+            }),
+            new HtmlWebpackPlugin({
+                template: "src/shared.html",
+                filename: "shared.html",
+                chunks: ["shared"],
             }),
             new MonacoWebpackPlugin({
                 languages: [
