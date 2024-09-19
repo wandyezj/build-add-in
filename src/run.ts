@@ -69,6 +69,7 @@ function loadJs(js: string) {
 
 async function runSnip() {
     const goBack = window.location.hash === "#back";
+    const goBackSharedReset = window.location.hash === "#reset";
 
     const snip = await getCurrentSnip();
     console.log("snip", snip);
@@ -80,12 +81,18 @@ async function runSnip() {
     const libraries = snip.files["libraries"].content;
     const css = snip.files["css"].content;
     let html = snip.files["html"].content;
+
     // Add back button to top of html
     if (goBack) {
         // window.location.href='./edit.html';
         const backButtonHtml = `<button onclick="window.history.back();"> Back</button>`;
         const refreshButtonHtml = `<button onclick="window.location.reload();">Refresh</button>`;
         html = `${backButtonHtml} ${refreshButtonHtml}<br/><br/>${html}`;
+    }
+
+    if (goBackSharedReset) {
+        const backButtonHtml = `<button onclick="window.location.href='./shared.html#reset'">Reset</button>`;
+        html = `${backButtonHtml}<br/><br/>${html}`;
     }
 
     // compile TypeScript

@@ -66,7 +66,7 @@ module.exports = async (env, options) => {
             settings: "./src/settings.tsx",
             blocks: "./src/blocks.tsx",
             test: "./src/test.ts",
-            shared: "./src/shared.ts",
+            shared: "./src/shared.tsx",
         },
         output: {
             // Add contenthash to cache bust on CDN
