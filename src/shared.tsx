@@ -4,7 +4,7 @@ import { setupOffice } from "./core/setupOffice";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./shared/App";
-import { run } from "./shared/run";
+import { isStartupSnip, run } from "./shared/run";
 
 // Some rules for snips to run in the background
 // must
@@ -14,13 +14,18 @@ import { run } from "./shared/run";
 // Want a button to go back from currently loaded
 // Want a button to load a new one.
 
+// Selection of embedded scripts
+
 async function setup() {
     await setupOffice();
+    console.log("boot shared");
 
     // After the first time the add in is opened it will automatically load
     Office.addin.setStartupBehavior(Office.StartupBehavior.load);
 
-    if (window.location.hash === "#reset") {
+    // if reset or no startup snip
+
+    if (window.location.hash === "#reset" || ! await isStartupSnip()) {
         const container = document.getElementById("container")!;
         const root = createRoot(container);
         root.render(<App />);

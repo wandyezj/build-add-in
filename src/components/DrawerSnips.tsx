@@ -21,10 +21,10 @@ import {
     //DatabaseArrowDownRegular,
     //DatabaseArrowUpRegular,
 } from "@fluentui/react-icons";
-import { copyTextToClipboard } from "../core/copyTextToClipboard";
-import { downloadFileJson } from "../core/downloadFileJson";
-import { uploadFileJson } from "../core/uploadFileJson";
-import { objectToJson } from "../core/objectToJson";
+import { copyTextToClipboard } from "../core/util/copyTextToClipboard";
+import { downloadFileJson } from "../core/util/downloadFileJson";
+import { uploadFileJson } from "../core/util/uploadFileJson";
+import { objectToJson } from "../core/util/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { getId, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
 

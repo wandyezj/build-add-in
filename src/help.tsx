@@ -5,9 +5,6 @@ import { App } from "./help/App";
 
 async function setup() {
     log(LogTag.SetupStart);
-
-    // Start Render AFTER we have the current snip id.
-    // This avoids a race condition.
     const container = document.getElementById("container")!;
     const root = createRoot(container);
     root.render(<App />);

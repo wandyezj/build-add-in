@@ -1,6 +1,7 @@
-import { loadCurrentSnipToRun } from "./core/storage";
+import { loadCurrentSnipToRun, loadStartupSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
+import { Snip } from "./core/Snip";
 
 console.log("run");
 
@@ -69,9 +70,19 @@ function loadJs(js: string) {
 
 async function runSnip() {
     const goBack = window.location.hash === "#back";
-    const goBackSharedReset = window.location.hash === "#reset";
+    const isShared = window.location.hash === "#shared";
 
-    const snip = await getCurrentSnip();
+    /**
+     * The snip to run.
+     */
+    let snip: Snip | undefined = undefined;
+
+    if (isShared) {
+        snip = await loadStartupSnipToRun();
+    } else {
+        snip = await getCurrentSnip();
+    }
+
     console.log("snip", snip);
     if (snip === undefined) {
         return;
@@ -90,7 +101,7 @@ async function runSnip() {
         html = `${backButtonHtml} ${refreshButtonHtml}<br/><br/>${html}`;
     }
 
-    if (goBackSharedReset) {
+    if (isShared) {
         const backButtonHtml = `<button onclick="window.location.href='./shared.html#reset'">Reset</button>`;
         html = `${backButtonHtml}<br/><br/>${html}`;
     }
