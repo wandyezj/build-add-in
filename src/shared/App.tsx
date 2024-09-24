@@ -5,7 +5,6 @@ import {
     FluentProvider,
     webLightTheme,
     Option,
-    Text,
     Label,
     makeStyles,
     useId,
@@ -26,28 +25,6 @@ const useStyles = makeStyles({
  * The top level application component.
  */
 export function App() {
-    const dropdownId = useId("dropdown-select-startup-snip");
-    const styles = useStyles();
-
-    // Load all embedded snips
-    // Allow selection of which snip to consider the startup snip
-
-    return (
-        <FluentProvider theme={webLightTheme}>
-            <h1> Startup Snip </h1>
-            <Label htmlFor={dropdownId} className={styles.field}>
-                {" "}
-                Select snip embedded in the document
-            </Label>
-            <DropdownStartupSnip dropdownId={dropdownId}></DropdownStartupSnip>
-            <br></br>
-            <br></br>
-            <Button onClick={run}>Start</Button>
-        </FluentProvider>
-    );
-}
-
-function DropdownStartupSnip({ dropdownId }: { dropdownId: string }) {
     // all options
     const [snips, setSnips] = useState([] as SnipMetadata[]);
 
@@ -93,32 +70,48 @@ function DropdownStartupSnip({ dropdownId }: { dropdownId: string }) {
         reload();
     }, []);
 
+    const dropdownId = useId("dropdown-select-startup-snip");
+    const styles = useStyles();
+
+    // Load all embedded snips
+    // Allow selection of which snip to consider the startup snip
+
     return (
-        <Dropdown
-            
-            //placeholder="Select Startup Snip"
-            value={value}
-            selectedOptions={selectedOptions}
-            onOptionSelect={(event, data) => {
-                const id = data.optionValue;
+        <FluentProvider theme={webLightTheme}>
+            <h1> Startup Snip </h1>
+            <Label htmlFor={dropdownId} className={styles.field}>
+                {" "}
+                Select snip embedded in the document
+            </Label>
+            <Dropdown
+                id={dropdownId}
+                //placeholder="Select Startup Snip"
+                value={value}
+                selectedOptions={selectedOptions}
+                onOptionSelect={(event, data) => {
+                    const id = data.optionValue;
 
-                console.log(`onOptionSelect ${id}`);
-                if (id) {
-                    saveStartupSnipId({ id: "", snipId: id });
-                }
-                setSelectedOptions(data.selectedOptions);
-                setValue(data.optionText ?? "");
-            }}
-            defaultChecked={true}
+                    console.log(`onOptionSelect ${id}`);
+                    if (id) {
+                        saveStartupSnipId({ id: "", snipId: id });
+                    }
+                    setSelectedOptions(data.selectedOptions);
+                    setValue(data.optionText ?? "");
+                }}
+                defaultChecked={true}
 
-            // defaultValue={value}
-            // defaultSelectedOptions={selectedOptions}
-        >
-            {snips.map((snip) => (
-                <Option key={snip.id} value={snip.id}>
-                    {snip.name}
-                </Option>
-            ))}
-        </Dropdown>
+                // defaultValue={value}
+                // defaultSelectedOptions={selectedOptions}
+            >
+                {snips.map((snip) => (
+                    <Option key={snip.id} value={snip.id}>
+                        {snip.name}
+                    </Option>
+                ))}
+            </Dropdown>
+            <br></br>
+            <br></br>
+            <Button onClick={run}>Start</Button>
+        </FluentProvider>
     );
 }

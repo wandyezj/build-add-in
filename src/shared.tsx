@@ -25,7 +25,7 @@ async function setup() {
 
     // if reset or no startup snip
 
-    if (window.location.hash === "#reset" || ! await isStartupSnip()) {
+    if (window.location.hash === "#reset" || !(await isStartupSnip())) {
         const container = document.getElementById("container")!;
         const root = createRoot(container);
         root.render(<App />);
