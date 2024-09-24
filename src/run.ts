@@ -102,6 +102,7 @@ async function runSnip() {
         const _____originalConsole = console;
 (function () {
     const console = {
+        ..._____originalConsole,
         log: function () {
             _____originalConsole.log.apply(_____originalConsole, arguments);
             const consoleDiv = document.getElementById("console");
