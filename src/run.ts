@@ -2,6 +2,7 @@ import { loadCurrentSnipToRun, loadStartupSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
 import { Snip } from "./core/Snip";
+import { enableRunInlineConsole } from "./core/settings/enableRunInlineConsole";
 
 console.log("run");
 
@@ -108,9 +109,26 @@ async function runSnip() {
 
     // compile TypeScript
     const ts = snip.files["typescript"].content;
-    const { js, issues } = compileCode(ts);
+    const results = compileCode(ts);
+    const { issues } = results;
+    let { js } = results;
     console.log("Issues");
     console.log(issues);
+
+    const displayConsole = enableRunInlineConsole();
+    if (displayConsole) {
+        html = html + `\n<br/><div id="console"></div>`;
+        js = `
+const _____originalConsoleLog = console.log;
+console.log = function () {
+    _____originalConsoleLog.apply(console, arguments);
+    const consoleDiv = document.getElementById("console");
+    const newLine = document.createElement("div");
+    newLine.textContent = Array.from(arguments).join(" ");
+    consoleDiv.appendChild(newLine);
+};
+${js}`;
+    }
 
     // Loading order matters
     await loadLibraries(libraries);
