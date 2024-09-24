@@ -99,20 +99,15 @@ async function runSnip() {
     if (displayConsole) {
         html = html + `\n<br/><div id="console"></div>`;
         js = `
-        const _____originalConsole = console;
-(function () {
-    const console = {
-        ..._____originalConsole,
-        log: function () {
-            _____originalConsole.log.apply(_____originalConsole, arguments);
-            const consoleDiv = document.getElementById("console");
-            const newLine = document.createElement("div");
-            newLine.textContent = Array.from(arguments).join(" ");
-            consoleDiv.appendChild(newLine);
-        }
-    };
-${js}
-})();`;
+const _____originalConsoleLog = console.log;
+console.log = function () {
+    _____originalConsoleLog.apply(console, arguments);
+    const consoleDiv = document.getElementById("console");
+    const newLine = document.createElement("div");
+    newLine.textContent = Array.from(arguments).join(" ");
+    consoleDiv.appendChild(newLine);
+};
+${js}`;
     }
 
     // Loading order matters
