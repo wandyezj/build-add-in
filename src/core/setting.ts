@@ -18,6 +18,16 @@ export const settingsMetadata = {
     } as SettingString,
 
     /**
+     * Show in run console.log in inline text.
+     */
+    enableRunInlineConsole: {
+        name: "Enable Run Inline Console",
+        tooltip: "Useful for simple debugging without F12",
+        type: "boolean",
+        defaultValue: true,
+    } as SettingBoolean,
+
+    /**
      * Show the samples in the open menu.
      */
     enableSamples: {

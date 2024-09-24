@@ -1,6 +1,7 @@
 import { loadCurrentSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
+import { enableRunInlineConsole } from "./core/settings/enableRunInlineConsole";
 
 console.log("run");
 
@@ -88,9 +89,30 @@ async function runSnip() {
     }
     // TODO: will need to compile TypeScript, where should this be done?
     const ts = snip.files["typescript"].content;
-    const { js, issues } = compileCode(ts);
+    const results = compileCode(ts);
+    const { issues } = results;
+    let { js } = results;
     console.log("Issues");
     console.log(issues);
+
+    const displayConsole = enableRunInlineConsole();
+    if (displayConsole) {
+        html = html + `\n<br/><div id="console"></div>`;
+        js = `
+        const _____originalConsole = console;
+(function () {
+    const console = {
+        log: function () {
+            _____originalConsole.log.apply(_____originalConsole, arguments);
+            const consoleDiv = document.getElementById("console");
+            const newLine = document.createElement("div");
+            newLine.textContent = Array.from(arguments).join(" ");
+            consoleDiv.appendChild(newLine);
+        }
+    };
+${js}
+})();`;
+    }
 
     // Loading order matters
     await loadLibraries(libraries);
