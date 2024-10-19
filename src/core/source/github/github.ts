@@ -6,7 +6,6 @@
 // read
 // update
 // delete
-// eslint-disable-next-line @typescript-eslint/naming-convention
 function getHeaders(pat: string) {
     return {
         // eslint-disable-next-line @typescript-eslint/naming-convention
