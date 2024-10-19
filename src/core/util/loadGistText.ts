@@ -10,7 +10,6 @@ export async function loadGistText(url: string): Promise<string> {
     const gistJson = await request.json();
 
     // Find the first files raw url
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const rawUrl = getSingleGistFileUrl(gistJson);
 
     // load up the gist data
@@ -26,7 +25,6 @@ export function getSingleGistFileUrl(gistJson: { files: { [key: string]: { raw_u
         throw new Error("Gist must have a single file");
     }
     const file = filesData[0];
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const rawUrl = file["raw_url"];
     return rawUrl;
 }

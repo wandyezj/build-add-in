@@ -72,6 +72,12 @@ module.exports = async (env, options) => {
             filename: isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js",
             path: path.resolve(__dirname, "..", "dist"),
         },
+        optimization: {
+            runtimeChunk: "single",
+            splitChunks: {
+                chunks: "all",
+            },
+        },
         resolve: {
             extensions: [".ts", ".json", ".js", ".tsx"],
         },
