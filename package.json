@@ -11,6 +11,7 @@
         "build": "npm run clean && npm run style-check && npm run spell-check && npm run lint && npm run compile",
         "clean": "node ./scripts/clean.js dist",
         "compile": "webpack --config ./config/webpack.config.js --mode production",
+        "analyze": "npm run compile -- --env analyze=true",
         "server": "npx http-server %CD%/dist --ssl --cert %USERPROFILE%\\.office-addin-dev-certs\\localhost.crt --key %USERPROFILE%\\.office-addin-dev-certs\\localhost.key -c-1 --cors -p 3000",
         "localhost-certificates-install": "npx office-addin-dev-certs install",
         "localhost-certificates-install-i-am-admin": "npx office-addin-dev-certs install --machine",

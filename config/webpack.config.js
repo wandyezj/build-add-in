@@ -2,7 +2,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
-//const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { Marked } = require("marked");
 
 // Options
@@ -44,6 +44,11 @@ const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
 module.exports = async (env, options) => {
+    //console.log(env);
+
+    // pass in parameters with --env analyze=true
+    const analyze = env["analyze"] === "true";
+
     const isDevelopment = options.mode === "development";
     const config = {
         // no source maps for production
@@ -100,7 +105,6 @@ module.exports = async (env, options) => {
             noParse: [require.resolve("typescript/lib/typescript.js")],
         },
         plugins: [
-            //new BundleAnalyzerPlugin(),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "src/blocks.html",
@@ -182,6 +186,10 @@ module.exports = async (env, options) => {
             }),
         ],
     };
+
+    if (analyze) {
+        config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: "static", openAnalyzer: true }));
+    }
 
     //Only need to configure webserver in development mode
     if (options.mode === "development") {
