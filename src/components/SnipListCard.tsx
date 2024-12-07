@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Caption1, Text, makeStyles, tokens } from "@fluentui/react-components";
 import { Card, CardHeader } from "@fluentui/react-components";
-import { formatModified } from "../core/formatModified";
+import { formatModified } from "../core/util/formatModified";
 
 const useStyles = makeStyles({
     card: {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Blocks } from "./Blocks";
 import { CodeTemplateBlock, CodeTemplateBlockParameterValue } from "../CodeTemplateBlock";
-import { objectClone } from "../../core/objectClone";
+import { objectClone } from "../../core/util/objectClone";
 
 export function BlocksView({
     blocks,

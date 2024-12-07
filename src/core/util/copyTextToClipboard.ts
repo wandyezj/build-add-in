@@ -1,4 +1,4 @@
-import { log, LogTag } from "./log";
+import { log, LogTag } from "../log";
 
 export async function copyTextToClipboard(text: string) {
     log(LogTag.CopyToClipboard, `copyTextToClipboard - Secure Context ${window.isSecureContext}`);
