@@ -1,6 +1,7 @@
-import { loadCurrentSnipToRun } from "./core/storage";
+import { loadCurrentSnipToRun, loadStartupSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
+import { Snip } from "./core/Snip";
 import { enableRunInlineConsole } from "./core/settings/enableRunInlineConsole";
 
 console.log("run");
@@ -70,8 +71,19 @@ function loadJs(js: string) {
 
 async function runSnip() {
     const goBack = window.location.hash === "#back";
+    const isShared = window.location.hash === "#shared";
 
-    const snip = await getCurrentSnip();
+    /**
+     * The snip to run.
+     */
+    let snip: Snip | undefined = undefined;
+
+    if (isShared) {
+        snip = await loadStartupSnipToRun();
+    } else {
+        snip = await getCurrentSnip();
+    }
+
     console.log("snip", snip);
     if (snip === undefined) {
         return;
@@ -81,13 +93,21 @@ async function runSnip() {
     const libraries = snip.files["libraries"].content;
     const css = snip.files["css"].content;
     let html = snip.files["html"].content;
+
     // Add back button to top of html
     if (goBack) {
-        const backButtonHtml = `<button onclick="window.location.href='./edit.html';"> Back</button>`;
+        // window.location.href='./edit.html';
+        const backButtonHtml = `<button onclick="window.history.back();"> Back</button>`;
         const refreshButtonHtml = `<button onclick="window.location.reload();">Refresh</button>`;
         html = `${backButtonHtml} ${refreshButtonHtml}<br/><br/>${html}`;
     }
-    // TODO: will need to compile TypeScript, where should this be done?
+
+    if (isShared) {
+        const backButtonHtml = `<button onclick="window.location.href='./shared.html#reset'">Reset</button>`;
+        html = `${backButtonHtml}<br/><br/>${html}`;
+    }
+
+    // compile TypeScript
     const ts = snip.files["typescript"].content;
     const results = compileCode(ts);
     const { issues } = results;

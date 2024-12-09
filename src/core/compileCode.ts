@@ -45,6 +45,6 @@ export function compileCode(code: string) {
     }
 
     const js = result.outputText;
-    console.log(js);
+    //console.log(js);
     return { issues, js };
 }

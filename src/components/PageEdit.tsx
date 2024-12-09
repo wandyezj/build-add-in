@@ -21,7 +21,7 @@ import { Editor } from "./Editor";
 import { DialogImport } from "./DialogImport";
 import { deleteSnipById, saveSnip } from "../core/snipStorage";
 import { newDefaultSnip } from "../core/newDefaultSnip";
-import { copyTextToClipboard } from "../core/copyTextToClipboard";
+import { copyTextToClipboard } from "../core/util/copyTextToClipboard";
 import { LogTag, log } from "../core/log";
 import { ButtonEmbedCopy } from "./ButtonEmbedCopy";
 import { ButtonOpenMenu } from "./ButtonOpenMenu";

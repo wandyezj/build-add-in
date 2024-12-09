@@ -12,6 +12,9 @@ import { setHost } from "./core/globals";
 import { TriggerManager } from "./core/actions/TriggerManager";
 import { getWatch } from "./core/util/getWatch";
 
+// Redirect immediately to shared for simpler testing.
+window.location.href = "./shared.html";
+
 console.log("actions load");
 
 // Store triggers in custom XML
