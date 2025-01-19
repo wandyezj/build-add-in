@@ -64,7 +64,6 @@ export function Editor({
                             e.preventDefault();
                             t.focus();
                             editor.trigger("keyboard", "tab", null);
-                            console.log("Redirect");
                         }
                     }
                 }
