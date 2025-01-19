@@ -1,11 +1,6 @@
 import { ExportSnip } from "./Snip";
 
-export const defaultSnip: ExportSnip = {
-    name: "New Snip",
-    files: {
-        typescript: {
-            language: "typescript",
-            content: `
+const defaultFileTypeScriptContent = `
 //
 // Click "Run" to execute the code below.
 //
@@ -21,16 +16,15 @@ function run() {
 
 function ready() {
     console.log('Hello world!');
-    document.getElementById("button-run").hidden = false;
 }
 
 async function runExcel() {
     await Excel.run({ delayForCellEdit: true }, async (context) => {
         const range = context.workbook.getSelectedRange();
         range.format.fill.color = "yellow";
-        range.load("value");
+        range.load("values");
         await context.sync();
-        console.log(\`The range address was "\${range.value}".\`);
+        console.log(\`The range value was "\${range.values}".\`);
     });
 }
 
@@ -63,7 +57,7 @@ async function runOutlook() {
         } else {
             console.error(asyncResult.error);
         }
-  });
+    });
 }
 
 
@@ -77,12 +71,14 @@ Office.onReady(({host, platform})=> {
     const elementPlatform = document.getElementById('platform');
     elementPlatform.innerText = \`\${platform}\`;
 
+    document.getElementById("button-run").hidden = false;
+
     ready();
 });
 
 /**
- * Get a color associated with the host.
- */
+* Get a color associated with the host.
+*/
 function getHostColor(host: Office.HostType): string {
     const hostToColor = new Map<Office.HostType, string>([
         [Office.HostType.Excel, "green"],
@@ -94,21 +90,18 @@ function getHostColor(host: Office.HostType): string {
     return color;
 }
 
-`,
-        },
-        html: {
-            language: "html",
-            content: `
+`;
+
+const defaultFileHtmlContent = `
 <h1 onclick="ready">Hello 
 <span id="host">?</span>
 on <span id="platform">?</span>
 !</h1>
+
 <button id="button-run" onclick="run()" hidden>Run</button>
-`,
-        },
-        css: {
-            language: "css",
-            content: `
+`;
+
+const defaultFileCssContent = `
 body {
     background-color: white;
 }
@@ -142,13 +135,91 @@ h1 {
     color: #fff;
 }
 
+`;
 
-`,
-        },
-        libraries: {
-            language: "text",
-            content:
-                "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
-        },
+const defaultFileTypeScript = {
+    language: "typescript",
+    content: defaultFileTypeScriptContent,
+};
+
+const defaultFileHtml = {
+    language: "html",
+    content: defaultFileHtmlContent,
+};
+
+const defaultFileCss = {
+    language: "css",
+    content: defaultFileCssContent,
+};
+
+const defaultFileLibraries = {
+    language: "text",
+    content:
+        "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
+};
+
+export const defaultSnip: ExportSnip = {
+    name: "New Snip",
+    files: {
+        typescript: defaultFileTypeScript,
+        html: defaultFileHtml,
+        css: defaultFileCss,
+        libraries: defaultFileLibraries,
     },
 };
+
+function makeOverride(files: { typescript: string }): ExportSnip {
+    const snip: ExportSnip = {
+        name: "New Snip",
+        files: {
+            typescript: {
+                language: "typescript",
+                content: files.typescript,
+            },
+            html: defaultFileHtml,
+            css: defaultFileCss,
+            libraries: defaultFileLibraries,
+        },
+    };
+
+    return snip;
+}
+
+const defaultSnipExcelTypeScript = `
+async function run() {
+    console.log("run");
+
+    await Excel.run({ delayForCellEdit: true }, async (context) => {
+
+        const range = context.workbook.getSelectedRange();
+
+        range.format.fill.color = "yellow";
+        range.load("values");
+        await context.sync();
+        console.log(\`The range value was "\${range.values}".\`);
+
+    });
+}
+
+function ready() {
+    run();
+}
+
+Office.onReady(({host, platform})=> {
+    console.log("READY");
+
+    const elementHost = document.getElementById('host');
+    elementHost.innerText = \`\${platform}\`;
+
+    const elementPlatform = document.getElementById('platform');
+    elementPlatform.innerText = \`\${platform}\`;
+
+    document.getElementById("button-run").hidden = false;
+
+    ready();
+});
+`;
+
+export const defaultSnipExcel: ExportSnip = makeOverride({
+    typescript: defaultSnipExcelTypeScript,
+});
