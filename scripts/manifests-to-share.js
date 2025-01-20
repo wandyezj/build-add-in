@@ -1,8 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
+const os = require("os");
+const isMac = "Darwin" === os.type();
+
+const env = process.env;
+const username = env["USER"];
+
+// https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-mac
+const shareDirectoryMac = `/Users/${username}/Library/Containers/com.microsoft.Excel/Data/Documents/wef`;
+
+// Network share
+const shareDirectoryWin = "C:/manifests";
+
 const manifestDirectory = "./manifests";
-const shareDirectory = "C:/manifests";
+const shareDirectory = isMac ? shareDirectoryMac : shareDirectoryWin;
 
 const manifests = fs
     .readdirSync(manifestDirectory)

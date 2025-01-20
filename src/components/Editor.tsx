@@ -50,6 +50,25 @@ export function Editor({
 
     function setupEditor() {
         if (editor) {
+            // Capture Tab keys in editor
+            // Verify source is the monaco editor
+            // Stop propagating event
+            // Redirect tab to monaco editor
+            document.addEventListener("keydown", (e) => {
+                if (e.target) {
+                    const t = e.target as HTMLTextAreaElement;
+                    if (t.className.includes("monaco-mouse-cursor-text")) {
+                        if (e.key === "Tab") {
+                            e.stopImmediatePropagation();
+                            e.stopPropagation();
+                            e.preventDefault();
+                            t.focus();
+                            editor.trigger("keyboard", "tab", null);
+                        }
+                    }
+                }
+            });
+
             editor.getModel()?.dispose();
             const file = snip.files[fileId];
             const model = monaco.editor.createModel(file.content, file.language);
