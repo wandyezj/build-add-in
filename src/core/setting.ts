@@ -27,6 +27,13 @@ export const settingsMetadata = {
         defaultValue: true,
     } as SettingBoolean,
 
+    enableHostSpecificNewSnip: {
+        name: "Enable Host Specific New Snip",
+        type: "boolean",
+        tooltip: "Use a default snip tailored to each host.",
+        defaultValue: true,
+    } as SettingBoolean,
+
     /**
      * Show the samples in the open menu.
      */
