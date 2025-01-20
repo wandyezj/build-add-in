@@ -6,7 +6,7 @@ import { Dismiss24Regular } from "@fluentui/react-icons";
 import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource } from "../core/Snip";
 import { getAllSnipMetadata, getSnipById } from "../core/source/embedSnip";
-import { formatModified } from "../core/formatModified";
+import { formatModified } from "../core/util/formatModified";
 
 async function getAllEmbed() {
     const metadata = await getAllSnipMetadata();

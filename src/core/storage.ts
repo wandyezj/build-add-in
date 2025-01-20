@@ -1,12 +1,13 @@
 import { Snip, SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./Snip";
 import { LogTag, log } from "./log";
-import { objectToJson } from "./objectToJson";
+import { objectToJson } from "./util/objectToJson";
 import { Settings, parseSettingsJson } from "./setting";
 
 type Key =
     | typeof keyCurrentSnipReference
     | typeof keyCurrentSnipSource
     | typeof keyCurrentSnipToRun
+    | typeof keyStartupSnipToRun
     | typeof keySettings;
 
 function keyGet(key: Key) {
@@ -71,6 +72,29 @@ export function loadCurrentSnipToRun(): Snip | undefined {
 
 export function deleteCurrentSnipToRun(): void {
     keyRemove(keyCurrentSnipToRun);
+}
+
+/**
+ * The content of the current snip to run.
+ */
+const keyStartupSnipToRun = "startupSnipToRun";
+
+export function saveStartupSnipToRun(snip: Snip) {
+    const text = getSnipJson(snip);
+    keySet(keyStartupSnipToRun, text);
+}
+
+export function loadStartupSnipToRun(): Snip | undefined {
+    const text = keyGet(keyStartupSnipToRun);
+    if (text === null) {
+        return undefined;
+    }
+    const snip = getSnipFromJson(text);
+    return snip;
+}
+
+export function deleteStartupSnipToRun(): void {
+    keyRemove(keyStartupSnipToRun);
 }
 
 const keySettings = "settings";

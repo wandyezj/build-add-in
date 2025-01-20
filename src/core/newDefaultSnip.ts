@@ -1,3 +1,4 @@
+import { objectClone } from "./util/objectClone";
 import { ExportSnip, Snip, completeSnip } from "./Snip";
 import {
     defaultSnip,
@@ -7,7 +8,6 @@ import {
     defaultSnipWord,
 } from "./defaultSnip";
 import { getHost } from "./globals";
-import { objectClone } from "./objectClone";
 import { enableHostSpecificNewSnip } from "./settings/enableHostSpecificNewSnip";
 
 export function newDefaultSnip(): Snip {

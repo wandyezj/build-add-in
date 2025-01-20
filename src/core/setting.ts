@@ -1,4 +1,4 @@
-import { objectClone } from "./objectClone";
+import { objectClone } from "./util/objectClone";
 import { loadSettings, saveSettings } from "./storage";
 
 /**
