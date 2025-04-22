@@ -29,6 +29,7 @@ import { enableEmbed } from "../core/settings/enableEmbed";
 import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
 import { enableEditImport } from "../core/settings/enableEditImport";
+import { loc } from "../core/localize/loc";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -118,21 +119,21 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 </Tooltip>
 
                 {getSetting("enableEditRun") ? (
-                    <TooltipButton tip="Run" icon={<PlayRegular />} onClick={buttonRun} />
+                    <TooltipButton tip={loc("Run")} icon={<PlayRegular />} onClick={buttonRun} />
                 ) : (
                     <></>
                 )}
 
                 <TooltipButton
                     testId={idEditButtonCopyToClipboard}
-                    tip="Copy to clipboard"
+                    tip={loc("Copy to clipboard")}
                     icon={<ClipboardRegular />}
                     onClick={buttonCopySnipToClipboard}
                 />
 
                 {enableEditImport() ? (
                     <TooltipButton
-                        tip="Import"
+                        tip={loc("Import")}
                         icon={<ArrowImportRegular />}
                         onClick={() => setDialogImportOpen(true)}
                     />
@@ -142,13 +143,13 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
 
-                <TooltipButton tip="Delete" icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
+                <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 
                 {/** Label */}
                 {enableEmbed() ? getSourceBadge(snip) : <></>}
 
                 {/** Settings */}
-                <TooltipButton tip="Settings" icon={<SettingsRegular />} onClick={buttonSettings} />
+                <TooltipButton tip={loc("Settings")} icon={<SettingsRegular />} onClick={buttonSettings} />
             </Toolbar>
             <TabList
                 defaultSelectedValue="typescript"

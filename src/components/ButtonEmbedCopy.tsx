@@ -14,7 +14,7 @@ import { DocumentAddRegular } from "@fluentui/react-icons";
 import { Snip } from "../core/Snip";
 import { saveSnip } from "../core/source/embedSnip";
 import { LogTag, log } from "../core/log";
-
+import { loc } from "../core/localize/loc";
 /**
  * Button to embed a script in the document.
  */
@@ -28,19 +28,19 @@ export function ButtonEmbedCopy({ snip }: { snip: Snip }) {
     return (
         <Dialog>
             <DialogTrigger disableButtonEnhancement>
-                <TooltipButton tip="Embed copy of snip" icon={<DocumentAddRegular />} />
+                <TooltipButton tip={loc("Embed copy of snip")} icon={<DocumentAddRegular />} />
             </DialogTrigger>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Embed Snip in document?</DialogTitle>
+                    <DialogTitle>{loc("Embed Snip in document?")}</DialogTitle>
                     <DialogContent>{snip.name}</DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="secondary">Cancel</Button>
+                            <Button appearance="secondary">{loc("Cancel")}</Button>
                         </DialogTrigger>
                         <DialogTrigger disableButtonEnhancement>
                             <Button appearance="primary" onClick={onClickEmbed}>
-                                Embed
+                                {loc("Embed")}
                             </Button>
                         </DialogTrigger>
                     </DialogActions>
