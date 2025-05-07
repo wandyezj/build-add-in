@@ -8,15 +8,26 @@ export function loc(s: string): string {
         return s;
     }
 
+    const index = strings[Language.English].indexOf(s);
+
+    // Pseudo language is used to find strings that are not translated.
+    if (language === Language.Pseudo) {
+        if (index === -1) {
+            // Not Localized
+            return s;
+        }
+        // Add a question mark to the string to indicate it is translated.
+        return `? ${s}`;
+    }
+
     const translations = strings[language];
     if (translations) {
-        const index = strings[Language.English].indexOf(s);
         const translation = translations[index];
         if (translation) {
             return translation;
         }
     }
 
-    // Did not find a translation
-    return "?";
+    // Did not find a translation - use original English.
+    return s;
 }

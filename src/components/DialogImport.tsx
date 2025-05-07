@@ -16,6 +16,7 @@ import { SnipWithSource, completeSnip, getExportSnipFromExportJson, isValidSnipE
 import { saveSnip } from "../core/snipStorage";
 import { loadUrlText } from "../core/util/loadUrlText";
 import { loadGistText } from "../core/util/loadGistText";
+import { loc } from "../core/localize/loc";
 
 const useStyles = makeStyles({
     base: {
@@ -137,22 +138,22 @@ export function DialogImport({
             <DialogSurface>
                 <form onSubmit={onClickImport}>
                     <DialogBody>
-                        <DialogTitle>Import Snip</DialogTitle>
+                        <DialogTitle>{loc("Import Snip")}</DialogTitle>
                         <DialogContent>
                             <div className={styles.base}>
                                 <Label className={styles.label} htmlFor={textareaId}>
-                                    Paste a JSON, gist, or url.
+                                    {loc("Paste a JSON, gist, or url.")}
                                 </Label>
                                 <Textarea id={textareaId} />
                             </div>
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">Close</Button>
+                                <Button appearance="secondary">{loc("Close")}</Button>
                             </DialogTrigger>
                             <DialogTrigger disableButtonEnhancement>
                                 <Button type="submit" appearance="primary">
-                                    Import
+                                    {loc("Import")}
                                 </Button>
                             </DialogTrigger>
                         </DialogActions>

@@ -22,6 +22,7 @@
         "markdownlint",
         "minifier",
         "oaspapps",
+        "ploc",
         "prettierrc",
         "Runtimes",
         "SETCOLOR",
@@ -36,5 +37,6 @@
     // flagWords - list of words to be always considered incorrect
     // This is useful for offensive words and common spelling errors.
     // For example "hte" should be "the"
-    "flagWords": []
+    "flagWords": [],
+    "ignorePaths": ["localize/strings.tsv", "src/core/localize/strings.json"]
 }

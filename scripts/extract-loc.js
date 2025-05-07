@@ -84,9 +84,10 @@ function unique(original) {
 }
 
 // write the AI translation prompt to a file
-const allStrings = unique(locStrings.slice(1).map(({ string }) => string))
-    .map((string) => `"${string}"`)
-    .join(", ");
+// Only write unique strings
+const uniqueStrings = unique(locStrings.slice(1).map(({ string }) => string));
+uniqueStrings.sort();
+const allStrings = uniqueStrings.map((string) => `"${string}"`).join(", ");
 
 // read from the prompt file
 const promptPrefixFilePath = "./localize/prompt-prefix.txt";

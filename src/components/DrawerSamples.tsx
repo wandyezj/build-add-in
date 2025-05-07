@@ -9,6 +9,7 @@ import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from 
 import { SampleListCard } from "./SampleListCard";
 import { SnipWithSource, completeSnip } from "../core/Snip";
 import { getHostName } from "../core/globals";
+import { loc } from "../core/localize/loc";
 
 function snipsWithTag(snips: SampleMetadata[], host: string) {
     return snips.filter((snip) => {
@@ -118,12 +119,12 @@ export function DrawerSamples({
                             />
                         }
                     >
-                        Sample Snips
+                        {loc("Sample Snips")}
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <TooltipButton tip="Refresh Samples" icon={<ArrowSyncRegular />} onClick={reloadSamples} />
+                    <TooltipButton tip={loc("Refresh Samples")} icon={<ArrowSyncRegular />} onClick={reloadSamples} />
                     {samples.map(({ id, name, description }) => (
                         <SampleListCard
                             key={id}
