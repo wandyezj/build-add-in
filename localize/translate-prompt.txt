@@ -4,3 +4,5 @@ Do not include quotes around the translations.
 
 Translate the following from English to Japanese, Spanish, French, German, Chinese
 
+
+"Embed copy of snip", "Embed Snip in document?", "Cancel", "Embed", "Run", "Copy to clipboard", "Import", "Delete", "Settings"

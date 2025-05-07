@@ -5,5 +5,6 @@ export enum Language {
     Japanese = "Japanese",
     Spanish = "Spanish",
     French = "French",
-    German = "German"
+    German = "German",
+    Chinese = "Chinese"
 }

@@ -14,7 +14,7 @@
         "スニップのコピーを埋め込む",
         "ドキュメントにスニップを埋め込みますか？",
         "キャンセル",
-        "埋め込み",
+        "埋め込む",
         "実行",
         "クリップボードにコピー",
         "インポート",
@@ -22,8 +22,8 @@
         "設定"
     ],
     "Spanish": [
-        "Insertar copia del recorte",
-        "¿Insertar el recorte en el documento?",
+        "Insertar copia del fragmento",
+        "¿Insertar fragmento en el documento?",
         "Cancelar",
         "Insertar",
         "Ejecutar",
@@ -33,8 +33,8 @@
         "Configuración"
     ],
     "French": [
-        "Intégrer une copie de l'extrait",
-        "Intégrer l'extrait dans le document ?",
+        "Intégrer une copie du code",
+        "Intégrer le code dans le document ?",
         "Annuler",
         "Intégrer",
         "Exécuter",
@@ -45,7 +45,7 @@
     ],
     "German": [
         "Kopie des Snips einbetten",
-        "Snips ins Dokument einbetten?",
+        "Snip in Dokument einbetten?",
         "Abbrechen",
         "Einbetten",
         "Ausführen",
@@ -53,5 +53,16 @@
         "Importieren",
         "Löschen",
         "Einstellungen"
+    ],
+    "Chinese": [
+        "嵌入代码片段副本",
+        "要在文档中嵌入代码片段吗？",
+        "取消",
+        "嵌入",
+        "运行",
+        "复制到剪贴板",
+        "导入",
+        "删除",
+        "设置"
     ]
 }

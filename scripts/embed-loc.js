@@ -14,8 +14,15 @@ const rows = stringsTsv
     .split("\n")
     .map((line) => line.split("\t"));
 
+if (rows[0][0] === "Language") {
+    rows[0][0] = "English";
+} else {
+    console.error("First column must be 'Language'");
+    process.exit(1);
+}
+
 // check each row has the same length
-const languages = rows.slice(1).filter((row, index) => {
+const languages = rows.filter((row, index) => {
     const allValuesPresent = row.length === rows[0].length;
     if (!allValuesPresent) {
         console.error(`Row [${index}] has different length than the first row`);
