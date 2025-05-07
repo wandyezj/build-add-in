@@ -1,0 +1,57 @@
+{
+    "English": [
+        "Embed copy of snip",
+        "Embed Snip in document?",
+        "Cancel",
+        "Embed",
+        "Run",
+        "Copy to clipboard",
+        "Import",
+        "Delete",
+        "Settings"
+    ],
+    "Japanese": [
+        "スニップのコピーを埋め込む",
+        "ドキュメントにスニップを埋め込みますか？",
+        "キャンセル",
+        "埋め込み",
+        "実行",
+        "クリップボードにコピー",
+        "インポート",
+        "削除",
+        "設定"
+    ],
+    "Spanish": [
+        "Insertar copia del recorte",
+        "¿Insertar el recorte en el documento?",
+        "Cancelar",
+        "Insertar",
+        "Ejecutar",
+        "Copiar al portapapeles",
+        "Importar",
+        "Eliminar",
+        "Configuración"
+    ],
+    "French": [
+        "Intégrer une copie de l'extrait",
+        "Intégrer l'extrait dans le document ?",
+        "Annuler",
+        "Intégrer",
+        "Exécuter",
+        "Copier dans le presse-papiers",
+        "Importer",
+        "Supprimer",
+        "Paramètres"
+    ],
+    "German": [
+        "Kopie des Snips einbetten",
+        "Snips ins Dokument einbetten?",
+        "Abbrechen",
+        "Einbetten",
+        "Ausführen",
+        "In die Zwischenablage kopieren",
+        "Importieren",
+        "Löschen",
+        "Einstellungen"
+    ]
+}

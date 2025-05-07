@@ -38,6 +38,7 @@
         "deploy-git-hooks": "node ./scripts/deploy-git-hooks.js --install",
         "remove-git-hooks": "node ./scripts/deploy-git-hooks.js --remove",
         "extract-loc": "node ./scripts/extract-loc.js",
+        "embed-loc": "node ./scripts/embed-loc.js",
         "playwright-install": "playwright install --with-deps chromium",
         "playwright-test": "playwright test --config ./config/playwright.config.ts",
         "playwright-report": "playwright show-report"

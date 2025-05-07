@@ -6,6 +6,7 @@
 
 // Gather a list of all source files
 const fs = require("fs");
+const path = require("path");
 
 // recursively read all files in a directory
 function readDir(dir) {
@@ -57,8 +58,12 @@ for (const file of sourceFiles) {
     locStrings.push(...strings);
 }
 
+//
+// Discovered loc strings
+//
+
 // Write the strings to a file
-const locFile = "./localize/loc.tsv";
+const locFile = "./localize/extract-loc.tsv";
 const locData = locStrings
     .map(({ file, string }) => {
         return [file, `"${string}"`].join("\t");
@@ -67,3 +72,28 @@ const locData = locStrings
 fs.writeFileSync(locFile, locData, "utf8");
 
 console.log(`Wrote ${locStrings.length} loc strings to ${locFile}`);
+
+//
+// Translation prompt
+//
+
+function unique(original) {
+    return original.filter((value, index, array) => {
+        return array.indexOf(value) === index;
+    });
+}
+
+// write the AI translation prompt to a file
+const allStrings = unique(locStrings.slice(1).map(({ string }) => string))
+    .map((string) => `"${string}"`)
+    .join(", ");
+
+// read from the prompt file
+const promptPrefixFilePath = "./localize/prompt-prefix.txt";
+const promptPrefix = fs.readFileSync(promptPrefixFilePath, "utf8");
+
+//const prompt = `You are a localization assistant. You will be given a list of strings in English. Your task is to translate them into the target language. Please do not include any extra text or explanations, just the translations.
+const prompt = `${promptPrefix}\n${allStrings}`;
+const promptFilePath = "./localize/translate-prompt.txt";
+fs.writeFileSync(promptFilePath, prompt, "utf8");
+console.log(`Wrote translation prompt to ${promptFilePath}`);
