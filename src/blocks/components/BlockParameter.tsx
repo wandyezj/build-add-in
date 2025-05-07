@@ -3,6 +3,7 @@ import { BlockParameterBoolean } from "./BlockParameterBoolean";
 import { makeStyles } from "@fluentui/react-components";
 import { BlockParameterString } from "./BlockParameterString";
 import { BlockParameterNumber } from "./BlockParameterNumber";
+import { BlockParameterEnum } from "./BlockParameterEnum";
 import { CodeTemplateBlockParameter } from "../CodeTemplateBlock";
 
 const useStyles = makeStyles({
@@ -53,6 +54,18 @@ export function BlockParameter({
                         description={description}
                         initialValue={value}
                         updateValue={updateValue}
+                    />
+                </div>
+            );
+        case "enum":
+            return (
+                <div className={styles.text}>
+                    <BlockParameterEnum
+                        name={name}
+                        description={description}
+                        initialValue={value}
+                        updateValue={updateValue}
+                        enumValues={parameter.metadata.enumValues}
                     />
                 </div>
             );

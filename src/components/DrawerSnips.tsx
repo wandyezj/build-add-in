@@ -27,6 +27,7 @@ import { uploadFileJson } from "../core/util/uploadFileJson";
 import { objectToJson } from "../core/util/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
 import { getId, idEditButtonOpenSnip, idEditOpenSnipButtonNewSnip } from "./id";
+import { loc } from "../core/localize/loc";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
@@ -88,7 +89,7 @@ export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => v
         <>
             <TooltipButton
                 testId={idEditButtonOpenSnip}
-                tip="Local Snips"
+                tip={loc("Local Snips")}
                 icon={<DocumentFolderRegular />}
                 onClick={() => setIsOpen(true)}
             />
@@ -146,7 +147,7 @@ export function DrawerSnips({
                             />
                         }
                     >
-                        Local Snips
+                        {loc("Local Snips")}
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
@@ -156,17 +157,17 @@ export function DrawerSnips({
                         Need the ability to easily select all.
                         */}
                     <TooltipButton
-                        tip="Copy All Snips To Clipboard"
+                        tip={loc("Copy All Snips To Clipboard")}
                         icon={<ClipboardRegular />}
                         onClick={copyAllToClipboard}
                     />
                     <TooltipButton
-                        tip="Download All Snips"
+                        tip={loc("Download All Snips")}
                         icon={<ArrowDownloadRegular />}
                         onClick={downloadAllToFile}
                     />
                     <TooltipButton
-                        tip="Upload Snips"
+                        tip={loc("Upload Snips")}
                         icon={<ArrowUploadRegular />}
                         onClick={() => {
                             uploadMultipleFromFile().then(() => {
@@ -176,7 +177,7 @@ export function DrawerSnips({
                     />
                     <TooltipButton
                         testId={getId(idEditOpenSnipButtonNewSnip)}
-                        tip="New Snip"
+                        tip={loc("New Snip")}
                         icon={<AddRegular />}
                         onClick={() => {
                             addNewDefaultSnip().then(() => {

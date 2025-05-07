@@ -32,10 +32,11 @@ export function Settings() {
                 type: setting.type,
                 value,
                 description: setting.tooltip || "",
+                metadata: setting.metadata,
             } as CodeTemplateBlockParameter;
             return { key, parameter };
         })
-        .filter((setting) => ["boolean", "string"].includes(setting.parameter.type));
+        .filter((setting) => ["boolean", "string", "enum"].includes(setting.parameter.type));
 
     return settingParameters.map(({ parameter, key }) => (
         <BlockParameter

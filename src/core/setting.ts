@@ -1,5 +1,6 @@
 import { objectClone } from "./util/objectClone";
 import { loadSettings, saveSettings } from "./storage";
+import { Language } from "./localize/Language";
 
 /**
  * All of the settings.
@@ -69,7 +70,19 @@ export const settingsMetadata = {
         type: "boolean",
         defaultValue: false,
     } as SettingBoolean,
+
+    language: {
+        name: "Language",
+        tooltip: "Language to use for the editor. Best effort AI translation.",
+        type: "enum",
+        defaultValue: Language.English,
+
+        metadata: {
+            enumValues: Object.fromEntries(Object.values(Language).map((v) => [v, v])),
+        },
+    } as SettingEnum<Language>,
 };
+
 Object.freeze(settingsMetadata);
 
 type SettingsMetadata = typeof settingsMetadata;
@@ -116,11 +129,14 @@ export function parseSettingsJson(value: string): Settings {
 interface Setting {
     name: string;
     tooltip?: string;
+    metadata?: unknown;
 }
 
 type SettingBoolean = Readonly<Setting & SettingValueBoolean>;
 
 type SettingString = Readonly<Setting & SettingValueString>;
+
+type SettingEnum<T> = Readonly<Setting & SettingValueEnum<T>>;
 
 interface SettingValueBoolean {
     type: "boolean";
@@ -130,6 +146,11 @@ interface SettingValueBoolean {
 interface SettingValueString {
     type: "string";
     defaultValue: string;
+}
+
+interface SettingValueEnum<T> {
+    type: "enum";
+    defaultValue: T;
 }
 
 export function getSettingsMetadata(): Readonly<SettingsMetadata> {

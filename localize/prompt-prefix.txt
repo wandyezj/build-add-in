@@ -1,0 +1,6 @@
+In the context of automatic translation for software.
+Format the response as a TSV with one language per row. 
+Do not include quotes around the translations.
+
+Translate the following from English to Japanese, Spanish, French, German, Chinese
+

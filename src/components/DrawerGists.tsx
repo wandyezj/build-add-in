@@ -8,6 +8,7 @@ import { saveSnip } from "../core/database";
 import { GistListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
 import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
+import { loc } from "../core/localize/loc";
 
 async function getItemById(id: string) {
     const item = sourceSnipGitHub.getItemById(id);
@@ -101,7 +102,7 @@ export function DrawerGists({
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <TooltipButton tip="Refresh Gists" icon={<ArrowSyncRegular />} onClick={reloadSamples} />
+                    <TooltipButton tip={loc("Refresh Gists")} icon={<ArrowSyncRegular />} onClick={reloadSamples} />
                     {samples.map(({ id, name }) => (
                         <GistListCard
                             key={id}

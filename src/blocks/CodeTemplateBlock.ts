@@ -27,12 +27,13 @@ export interface CodeTemplateBlock {
     template: string;
 }
 
-export type CodeTemplateBlockParameterType = "string" | "number" | "boolean";
+export type CodeTemplateBlockParameterType = "string" | "number" | "boolean" | "enum";
 
 export type CodeTemplateBlockParameterValue =
     | CodeTemplateBlockParameterValueString
     | CodeTemplateBlockParameterValueNumber
-    | CodeTemplateBlockParameterValueBoolean;
+    | CodeTemplateBlockParameterValueBoolean
+    | CodeTemplateBlockParameterValueEnum<string>;
 
 export interface CodeTemplateBlockParameterValueString {
     type: "string";
@@ -49,12 +50,21 @@ export interface CodeTemplateBlockParameterValueBoolean {
     value: boolean;
 }
 
+export interface CodeTemplateBlockParameterValueEnum<T> {
+    type: "enum";
+    value: T;
+    metadata: {
+        enumValues: Record<T & string, string>;
+    };
+}
+
 export type CodeTemplateBlockParameter = {
     /**
      * display name for the parameter
      */
     name: string;
     description: string;
+    metadata?: unknown;
 } & CodeTemplateBlockParameterValue;
 
 export function getFilledTemplate(

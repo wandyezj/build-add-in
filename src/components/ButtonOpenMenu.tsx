@@ -30,6 +30,7 @@ import { LogTag, log } from "../core/log";
 import { DrawerGists } from "./DrawerGists";
 import { enableGists } from "../core/settings/enableGists";
 import { enableSamples } from "../core/settings/enableSamples";
+import { loc } from "../core/localize/loc";
 
 export function ButtonOpenMenu({
     openSnip,
@@ -55,7 +56,7 @@ export function ButtonOpenMenu({
             <Menu openOnHover={true} hoverDelay={0}>
                 <MenuTrigger>
                     <ToolbarButton data-testid={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenRegular />}>
-                        Open
+                        {loc("Open")}
                     </ToolbarButton>
                 </MenuTrigger>
 
@@ -66,18 +67,18 @@ export function ButtonOpenMenu({
                             icon={<DocumentFolderRegular />}
                             onClick={() => setIsOpenLocal(true)}
                         >
-                            Local
+                            {loc("Local")}
                         </MenuItem>
 
                         <MenuDivider />
 
                         <MenuItem icon={<AddRegular />} onClick={buttonNewSnip}>
-                            New
+                            {loc("New")}
                         </MenuItem>
 
                         {enableEmbed() ? (
                             <MenuItem icon={<DocumentRegular />} onClick={() => setIsOpenDrawerEmbed(true)}>
-                                Embed
+                                {loc("Embed")}
                             </MenuItem>
                         ) : (
                             <></>
@@ -85,7 +86,7 @@ export function ButtonOpenMenu({
 
                         {enableGists() ? (
                             <MenuItem icon={<CodeBlockRegular />} onClick={() => setIsOpenDrawerGists(true)}>
-                                Gist
+                                {loc("Gist")}
                             </MenuItem>
                         ) : (
                             <></>
@@ -93,7 +94,7 @@ export function ButtonOpenMenu({
 
                         {enableSamples() ? (
                             <MenuItem icon={<BookDefault28Regular />} onClick={() => setIsOpenDrawerSamples(true)}>
-                                Sample
+                                {loc("Sample")}
                             </MenuItem>
                         ) : (
                             <></>
@@ -102,7 +103,7 @@ export function ButtonOpenMenu({
                         <MenuDivider />
 
                         <MenuItem icon={<ArrowImportRegular />} onClick={openImportDialog}>
-                            Import
+                            {loc("Import")}
                         </MenuItem>
                     </MenuList>
                 </MenuPopover>
