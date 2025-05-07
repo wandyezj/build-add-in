@@ -1,22 +1,6 @@
-# Localize
+# Localize Design
 
 Allow multiple languages.
-
-## Mark strings for translation
-
-Only target UI strings.
-
-
-## Run Translation Tooling
-
-1. > npm run extract-loc
-2. Copy and Paste [translate-prompt.txt](..\localize\translate-prompt.txt) to AI translator
-3. Copy and Paste the AI translation output to [string.tsv](..\localize\strings.tsv)
-4. > npm run embed-loc
-5. Check that the files still make sense
-
-note: it's hard to spot check languages you aren't familiar with so it's best effort.
-
 
 ## Items
 

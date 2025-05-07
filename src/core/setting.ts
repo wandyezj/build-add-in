@@ -73,7 +73,7 @@ export const settingsMetadata = {
 
     language: {
         name: "Language",
-        tooltip: "Language to use for the editor.",
+        tooltip: "Language to use for the editor. Best effort AI translation.",
         type: "enum",
         defaultValue: Language.English,
 
