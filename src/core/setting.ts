@@ -75,7 +75,7 @@ export const settingsMetadata = {
         name: "Language",
         tooltip: "Language to use for the editor. Best effort AI translation.",
         type: "enum",
-        defaultValue: Language.English,
+        defaultValue: Language.Default,
 
         metadata: {
             enumValues: Object.fromEntries(Object.values(Language).map((v) => [v, v])),
