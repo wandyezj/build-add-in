@@ -14,6 +14,11 @@ export function getLanguage(): Exclude<Language, Language.Default> {
     if (language === Language.Default) {
         const displayLanguage = Office.context.displayLanguage;
         console.log(`Display Language: ${displayLanguage}`);
+        if (typeof displayLanguage !== "string") {
+            // Happens when running outside of Office.
+            console.log("Display Language Not Available, default to English");
+            return Language.English;
+        }
 
         // Only look at the first part of the language code.
         const lookupLanguage = displayLanguage.split("-")[0];
