@@ -18,7 +18,7 @@ export function log(tag: LogTag, ...data: unknown[]) {
 
 // TODO: add timer between start and end tags with same prefix.
 
-const tagsToLog = new Set<LogTag>([]);
+const tagsToLog = new Set<LogTag>(getLogTagsFromLocalStorage());
 
 export enum LogTag {
     /**
@@ -46,4 +46,16 @@ export enum LogTag {
     LoadMonacoLibs = "LoadMonacoLibs",
     ButtonNew = "ButtonNew",
     Embed = "Embed",
+}
+
+function getLogTagsFromLocalStorage(): LogTag[] {
+    const rawTags = localStorage.getItem("log");
+    if (!rawTags) {
+        return [];
+    }
+    const tags = rawTags
+        .split(/[, ]/)
+        .map((tag) => tag.trim())
+        .filter((tag) => Object.values(LogTag).includes(tag as LogTag)) as LogTag[];
+    return tags;
 }
