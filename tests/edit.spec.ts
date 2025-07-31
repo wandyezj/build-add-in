@@ -8,9 +8,7 @@ import {
     idEditOpenSnipButtonNewSnip,
 } from "../src/components/id";
 import { Snip } from "../src/core/Snip";
-
-const editPageUrl = "edit.html";
-const editPageTitle = "Edit";
+import { editPageUrl, editPageTitle } from "./constants";
 
 test("edit page basic", async ({ browser }) => {
     // Use id attribute for test selectors

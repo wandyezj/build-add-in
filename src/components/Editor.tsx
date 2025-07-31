@@ -130,5 +130,7 @@ export function Editor({
     setupEditor();
 
     // This allows the editor to capture tabs: data-tabster='{"uncontrolled":{}}'
-    return <div data-tabster='{"uncontrolled":{}}' className={styles.editor} ref={container}></div>;
+    return (
+        <div id="div-monaco-editor" data-tabster='{"uncontrolled":{}}' className={styles.editor} ref={container}></div>
+    );
 }
