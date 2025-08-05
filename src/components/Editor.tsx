@@ -3,6 +3,8 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import { SnipWithSource } from "../core/Snip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { makeStyles } from "@fluentui/react-components";
+import { Theme } from "../core/settings/Theme";
+import { getTheme } from "../core/settings/getTheme";
 
 // cspell:ignore tabster
 
@@ -29,6 +31,16 @@ function ignoreCtrlS(element: HTMLElement) {
         },
         false
     );
+}
+
+function getMonacoEditorTheme() {
+    const theme = getTheme();
+    switch (theme) {
+        case Theme.Dark:
+            return "vs-dark";
+        case Theme.Light:
+            return "vs";
+    }
 }
 
 export function Editor({
@@ -68,6 +80,9 @@ export function Editor({
                     }
                 }
             });
+
+            const theme = getMonacoEditorTheme();
+            monaco.editor.setTheme(theme);
 
             editor.getModel()?.dispose();
             const file = snip.files[fileId];

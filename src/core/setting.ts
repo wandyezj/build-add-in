@@ -1,6 +1,15 @@
 import { objectClone } from "./util/objectClone";
 import { loadSettings, saveSettings } from "./storage";
 import { Language } from "./localize/Language";
+import { Theme } from "./settings/Theme";
+
+/**
+ * Returns an object with keys and values from the enum.
+ * The keys are the same as the enum values.
+ */
+function getEnumValues<T>(enumObject: Record<string, T>): { [k: string]: T } {
+    return Object.fromEntries(Object.values(enumObject).map((v) => [v, v]));
+}
 
 /**
  * All of the settings.
@@ -17,6 +26,17 @@ export const settingsMetadata = {
         type: "string",
         defaultValue: "",
     } as SettingString,
+
+    theme: {
+        name: "Theme",
+        tooltip: "Theme to use for the editor.",
+        type: "enum",
+        defaultValue: Theme.Default,
+
+        metadata: {
+            enumValues: getEnumValues(Theme),
+        },
+    } as SettingEnum<Theme>,
 
     /**
      * Show in run console.log in inline text.
@@ -78,7 +98,7 @@ export const settingsMetadata = {
         defaultValue: Language.Default,
 
         metadata: {
-            enumValues: Object.fromEntries(Object.values(Language).map((v) => [v, v])),
+            enumValues: getEnumValues(Language),
         },
     } as SettingEnum<Language>,
 };
