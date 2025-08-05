@@ -19,7 +19,12 @@ export function App() {
                             // So use replace instead of window.history.back()
 
                             // Back button is only used when navigating from edit.
-                            window.location.replace(window.location.origin + "/edit.html");
+                            const origin = window.location.origin;
+                            const pathname = window.location.pathname;
+
+                            // Replace settings.html with edit.html
+                            const backLocation = origin + pathname.replace(/settings.html$/, "edit.html");
+                            window.location.replace(backLocation);
                         }}
                     />
                 ) : (
