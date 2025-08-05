@@ -11,7 +11,17 @@ export function App() {
         <FluentProvider theme={webLightTheme}>
             <div>
                 {goBack ? (
-                    <TooltipButton tip="Back" icon={<ArrowLeftRegular />} onClick={() => window.history.back()} />
+                    <TooltipButton
+                        tip="Back"
+                        icon={<ArrowLeftRegular />}
+                        onClick={() => {
+                            // We want to force a reload when the settings are changed.
+                            // So use replace instead of window.history.back()
+
+                            // Back button is only used when navigating from edit.
+                            window.location.replace(window.location.origin + "/edit.html");
+                        }}
+                    />
                 ) : (
                     <></>
                 )}
