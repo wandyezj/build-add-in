@@ -90,6 +90,10 @@ async function setup() {
     const root = createRoot(container);
     root.render(<App initialSnip={initialSnip} />);
 
+    // Remove the loading container.
+    // Display loading until everything is rendered.
+    document.getElementById("load-container")?.remove();
+
     // Persist is lower priority than rendering.
     persistData();
     log(LogTag.SetupEnd);
