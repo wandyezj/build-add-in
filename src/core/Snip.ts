@@ -157,8 +157,8 @@ export function pruneSnip(snip: Snip): Snip {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
-            content: snip.files[key].content,
             language: snip.files[key].language,
+            content: snip.files[key].content,
         };
     }
 
@@ -202,15 +202,6 @@ export function isValidSnipExportJson(value: string): boolean {
     } catch (e) {
         return false;
     }
-}
-
-/**
- * Get save JSON string from a Snip.
- */
-export function getSnipExportJson(snip: Snip): string {
-    const pruned = pruneSnipForExport(snip);
-    const text = objectToJson(pruned);
-    return text;
 }
 
 export function getSnipJson(snip: Snip): string {

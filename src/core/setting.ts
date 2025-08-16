@@ -2,6 +2,7 @@ import { objectClone } from "./util/objectClone";
 import { loadSettings, saveSettings } from "./storage";
 import { Language } from "./localize/Language";
 import { Theme } from "./settings/Theme";
+import { SnipExportFormat } from "./settings/SnipExportFormat";
 
 /**
  * Returns an object with keys and values from the enum.
@@ -90,6 +91,17 @@ export const settingsMetadata = {
         type: "boolean",
         defaultValue: false,
     } as SettingBoolean,
+
+    snipExportFormat: {
+        name: "Snip Export Format",
+        tooltip: "Format to use when exporting snips.",
+        type: "enum",
+        defaultValue: SnipExportFormat.Json,
+
+        metadata: {
+            enumValues: getEnumValues(SnipExportFormat),
+        },
+    },
 
     language: {
         name: "Language",

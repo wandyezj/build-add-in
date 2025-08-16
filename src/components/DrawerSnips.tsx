@@ -22,7 +22,7 @@ import {
     //DatabaseArrowUpRegular,
 } from "@fluentui/react-icons";
 import { copyTextToClipboard } from "../core/util/copyTextToClipboard";
-import { downloadFileJson } from "../core/util/downloadFileJson";
+import { downloadFileText } from "../core/util/downloadFileText";
 import { uploadFileJson } from "../core/util/uploadFileJson";
 import { objectToJson } from "../core/util/objectToJson";
 import { newDefaultSnip } from "../core/newDefaultSnip";
@@ -46,7 +46,7 @@ async function copyAllToClipboard() {
 
 async function downloadAllToFile() {
     const text = await getAllSnipJsonText();
-    downloadFileJson(text, "snips.json");
+    downloadFileText(text, "snips.json");
 }
 
 async function uploadMultipleFromFile() {

@@ -13,7 +13,7 @@ import {
     ArrowImportRegular,
     SettingsRegular,
 } from "@fluentui/react-icons";
-import { SnipSource, SnipWithSource, getSnipExportJson } from "../core/Snip";
+import { SnipSource, SnipWithSource } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
@@ -30,6 +30,7 @@ import { idEditButtonCopyToClipboard } from "./id";
 import { getSetting } from "../core/setting";
 import { enableEditImport } from "../core/settings/enableEditImport";
 import { loc } from "../core/localize/loc";
+import { getSnipExport } from "../core/getSnipExport";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -82,7 +83,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
      */
     function buttonCopySnipToClipboard() {
         log(LogTag.ButtonCopy, "button - copy to clipboard");
-        const text = getSnipExportJson(snip);
+        const text = getSnipExport(snip);
         copyTextToClipboard(text);
     }
 
