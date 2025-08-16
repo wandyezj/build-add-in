@@ -26,7 +26,7 @@ function downloadFile({ filename, text, encoding }: { filename: string; text: st
     URL.revokeObjectURL(downloadUrl);
 }
 
-export function downloadFileJson(text: string, filename: string) {
+export function downloadFileText(text: string, filename: string) {
     const encoding = "data:text/plain";
     downloadFile({ filename, text, encoding });
 }
