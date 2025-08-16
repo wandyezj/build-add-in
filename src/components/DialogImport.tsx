@@ -12,11 +12,20 @@ import {
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import { SnipWithSource, completeSnip, getExportSnipFromExportJson, isValidSnipExportJson } from "../core/Snip";
+import {
+    Snip,
+    SnipWithSource,
+    completeSnip,
+    getExportSnipFromExportJson,
+    isValidExportSnip,
+    isValidSnipExportJson,
+} from "../core/Snip";
 import { saveSnip } from "../core/snipStorage";
 import { loadUrlText } from "../core/util/loadUrlText";
 import { loadGistText } from "../core/util/loadGistText";
 import { loc } from "../core/localize/loc";
+import { getSnipExportJson } from "../core/getSnipExport";
+import { objectFromYaml } from "../core/util/objectFromYaml";
 
 const useStyles = makeStyles({
     base: {
@@ -38,6 +47,24 @@ function isPossibleUrl(value: string) {
 function isPossibleGistUrl(value: string) {
     const possible = isPossibleUrl(value) && value.startsWith("https://gist.github.com/");
     return possible;
+}
+
+/**
+ * @param value YAML string to parse
+ * @returns export snip json string if the value is valid, otherwise undefined
+ */
+export function getSnipExportJsonTextFromExportYaml(value: string): string | undefined {
+    try {
+        const snip = objectFromYaml(value) as Snip;
+        const valid = isValidExportSnip(snip);
+        if (valid) {
+            const content = getSnipExportJson(snip);
+            return content;
+        }
+    } catch (e) {
+        console.error("Error parsing YAML", e);
+    }
+    return undefined;
 }
 
 /**
@@ -67,11 +94,19 @@ async function getImportSnip(value: string): Promise<string | undefined> {
         console.error(e);
     }
 
-    // Is this a valid import snip?
+    // Is this a valid import json snip?
     const valid = isValidSnipExportJson(content);
     if (valid) {
         return content;
     }
+
+    // Is this a valid export yaml snip?
+    const json = getSnipExportJsonTextFromExportYaml(content);
+    if (json !== undefined) {
+        // Valid YAML snip - return the export json equivalent.
+        return json;
+    }
+
     return undefined;
 }
 

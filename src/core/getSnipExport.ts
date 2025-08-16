@@ -7,7 +7,7 @@ import { objectToYaml } from "./util/objectToYaml";
 /**
  * Get save JSON string from a Snip.
  */
-function getSnipExportJson(snip: Snip): string {
+export function getSnipExportJson(snip: Snip): string {
     const pruned = pruneSnipForExport(snip);
     const text = objectToJson(pruned);
     return text;
