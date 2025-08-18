@@ -54,9 +54,10 @@
     },
     "homepage": "https://github.com/wandyezj/website#readme",
     "dependencies": {
-        "@fluentui/react-components": "^9.57.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
+        "@fluentui/react-components": "^9.68.3",
+        "@fluentui/react-icons": "^2.0.307",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "typescript": "^5.9.2",
         "yaml": "^2.6.0"
     },
