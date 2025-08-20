@@ -199,13 +199,15 @@ module.exports = async (env, options) => {
 
     //Only need to configure webserver in development mode
     if (options.mode === "development") {
+        const options = await devCerts.getHttpsServerOptions();
+
         config.devServer = {
             ...config.devServer,
             open: optionDevOpenBrowserTabs ? optionOpenBrowserTabs : [],
             port: 3000,
             server: {
                 type: "https",
-                options: await getHttpsOptions(),
+                options,
             },
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -215,8 +217,3 @@ module.exports = async (env, options) => {
 
     return config;
 };
-
-async function getHttpsOptions() {
-    const options = await devCerts.getHttpsServerOptions();
-    return options;
-}

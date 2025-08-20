@@ -7,7 +7,9 @@ const rootUrlProduction = "https://wandyezj.github.io/build-add-in";
 
 export async function navigateToPage(browser: Browser, subpath: string, title: string): Promise<Page> {
     // Create a separate browser context for each test
-    const context = await browser.newContext();
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const context = await browser.newContext({ ignoreHTTPSErrors: true });
     const page = await context.newPage();
     const useSource = getSource();
     const rootUrl = useSource === Source.Localhost ? rootUrlLocal : rootUrlProduction;
@@ -16,7 +18,7 @@ export async function navigateToPage(browser: Browser, subpath: string, title: s
     // redirect to local data
     if (useSource === Source.Dist) {
         // interceptor to replace content of the page
-        page.route(`${rootUrl}/*`, (route, request) => {
+        await page.route(`${rootUrl}/*`, (route, request) => {
             const url = request.url();
             const subpath = url.substring(rootUrl.length + 1);
             const body = getLocalDistData(subpath);

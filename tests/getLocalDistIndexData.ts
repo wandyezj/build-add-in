@@ -9,7 +9,7 @@ const mainPageLocalDistDataPath = path.resolve(localDistPath, "index.html");
 
 export function getLocalDistIndexData() {
     if (!fs.existsSync(mainPageLocalDistDataPath)) {
-        throw new Error(`cannot find mainPageLocalDistDataPat ${mainPageLocalDistDataPath}`);
+        throw new Error(`cannot find mainPageLocalDistDataPath ${mainPageLocalDistDataPath}`);
     }
 
     const mainPageLocalDistData = fs.readFileSync(mainPageLocalDistDataPath);
