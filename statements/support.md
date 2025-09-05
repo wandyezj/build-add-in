@@ -8,4 +8,4 @@ The Build Add-In is provided as is with no guarantee of quality or support.
 
 [Report Issues](https://github.com/wandyezj/build-add-in/issues)
 
-[contact wandyezj](https://twitter.com/wandyezj)
+[contact wandyezj](https://x.com/wandyezj)
