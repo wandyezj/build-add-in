@@ -58,17 +58,27 @@ GitHub hosts GPG keys linked to accounts.
 0. Require that the author have a GitHub account and have published a public key.
 1. Prompt for information about the signature
     - snip
-    - GitHub username
-    - public key id
+    - GitHub username -> text box
+    - public key id -> dropdown from loaded keys
 2. Provide text to sign containing:
     - snip
     - date
     - GitHub username
     - public key id
-3. Author uses their private key to sign the text
+3. Author uses their private key to sign the text using gpg
 4. Get the signature from the author
 5. Verify that the signature works.
 6. Store the signature with the document
+
+### Use GPG to Sign
+
+> gpg --output doc.sig --detach-sig doc
+
+> gpg --verify doc.sig doc
+
+The sig file is in binary format and contains different packets.
+
+> gpg --list-packets doc.sig
 
 ## Verify Signature
 
@@ -79,3 +89,28 @@ GitHub hosts GPG keys linked to accounts.
 
 
 If the signature matches up - then it's likely that the GitHub user signed it - or their key was hacked,
+
+
+### Verify With JavaScript
+
+[Get User GPG key](https://docs.github.com/en/rest/users/gpg-keys?apiVersion=2022-11-28)
+
+> GET https://api.github.com/users/USERNAME/gpg_keys
+
+[MDN SubtleCrypto/verify](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/verify)
+
+> verify(algorithm, key, signature, data)
+
+[Open PGP JS](https://openpgpjs.org)
+
+[Open PGP JS on NPM](https://www.npmjs.com/package/openpgp)
+
+## About PGP
+
+PGP created Public and Private Key pairs. The keys can then be used in various algorithms
+
+## Sign and Verify With JavaScript
+
+Use the SubtleCrypto library to create a key pair, have the public key be hosted somewhere and then just verify the signature
+
+
