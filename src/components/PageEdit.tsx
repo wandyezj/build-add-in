@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { Badge, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
+import { Badge, Dialog, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     // ArrowDownloadRegular,
     PlayRegular,
@@ -12,6 +12,7 @@ import {
     DocumentFolderRegular,
     ArrowImportRegular,
     SettingsRegular,
+    DocumentSignatureRegular,
 } from "@fluentui/react-icons";
 import { SnipSource, SnipWithSource } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
@@ -31,6 +32,8 @@ import { getSetting } from "../core/setting";
 import { enableEditImport } from "../core/settings/enableEditImport";
 import { loc } from "../core/localize/loc";
 import { getSnipExport } from "../core/getSnipExport";
+import { enableSignature } from "../core/settings/enableSignature";
+import { DialogSignature } from "./DialogSignature";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -46,6 +49,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     const [snip, setSnip] = useState(initialSnip);
 
     const [dialogImportOpen, setDialogImportOpen] = useState(false);
+    const [dialogSignatureOpen, setDialogSignatureOpen] = useState(false);
 
     useEffect(() => {
         setupSnip(snip);
@@ -105,6 +109,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <DialogImport openSnip={openSnip} open={dialogImportOpen} setOpen={setDialogImportOpen} />
+            <DialogSignature open={dialogSignatureOpen} setOpen={setDialogSignatureOpen} />
             <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
@@ -143,6 +148,16 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 )}
 
                 {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
+
+                {enableSignature() ? (
+                    <TooltipButton
+                        tip={loc("Signature")}
+                        icon={<DocumentSignatureRegular />}
+                        onClick={() => setDialogSignatureOpen(true)}
+                    />
+                ) : (
+                    <></>
+                )}
 
                 <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 

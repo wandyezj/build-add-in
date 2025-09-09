@@ -3,6 +3,7 @@ import { loadSettings, saveSettings } from "./storage";
 import { Language } from "./localize/Language";
 import { Theme } from "./settings/Theme";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
+import { enableSignature } from "./settings/enableSignature";
 
 /**
  * Returns an object with keys and values from the enum.
@@ -71,6 +72,19 @@ export const settingsMetadata = {
     enableEmbed: {
         name: "Enable Embed",
         type: "boolean",
+        defaultValue: false,
+    } as SettingBoolean,
+
+    /**
+     * Show the signature button on the edit page.
+     * The button allows:
+     * - viewing a snips embedded signature
+     * - signing a snip with a GPG key tied to a GitHub account
+     */
+    enableSignature: {
+        name: "Enable Signature",
+        type: "boolean",
+        tooltip: "Enable the signature button on the edit page.",
         defaultValue: false,
     } as SettingBoolean,
 

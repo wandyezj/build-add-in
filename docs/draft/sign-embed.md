@@ -102,8 +102,10 @@ If the signature matches up - then it's likely that the GitHub user signed it - 
 > verify(algorithm, key, signature, data)
 
 [Open PGP JS](https://openpgpjs.org)
+    - [Open PGP JS on NPM](https://www.npmjs.com/package/openpgp)
+    - [verify](https://docs.openpgpjs.org/global.html#verify)
+        - Takes in the signature and the public key.
 
-[Open PGP JS on NPM](https://www.npmjs.com/package/openpgp)
 
 ## About PGP
 
@@ -113,4 +115,56 @@ PGP created Public and Private Key pairs. The keys can then be used in various a
 
 Use the SubtleCrypto library to create a key pair, have the public key be hosted somewhere and then just verify the signature
 
+## Look up GitHub username from email
 
+> https://api.github.com/search/users?q=wandyezj@gmail.com
+
+
+## What changes to make?
+
+Allow embedding gpg signatures as a property of a snip.
+
+Create a badge on the edit page toolbar to show the author.
+
+- UX options
+    - Icons
+        - CertificateRegular
+        - SignatureRegular
+        - DocumentSignatureRegular
+    - Button
+        - Make it a regular button
+    - [Tag](https://react.fluentui.dev/?path=/docs/components-tag-tag--docs)
+        - Tag with Icon that is clickable
+    - [Info Label](https://react.fluentui.dev/?path=/docs/components-infolabel--docs)
+
+- Add switch for signature
+    - Add note "Adding a signature requires understanding GPG"
+
+- UX Controls
+    - Required Actions
+        - sign
+        - display signature
+        - remove signature
+    - Option: Button and Dialog
+        - Add button in the edit pane activated by switch
+        - Add dialog with the controls
+        - Separate dialog to sign and another to view?
+    - Option: Tab next to libraries
+        - Add separate pane for signature that contains what the dialog has.
+        - Probably makes the most sense - but more complex
+
+- Store the signature with the embedded snip as a new file type.
+    - add optional author : {source: "GitHub", username: "author"} field to Snip - where to retrieve the GPG key
+    - add optional signature file to Snip.
+        - This will contain the gpg signature.
+        - {signature: string, }
+
+- Snip to hash text function - create a consistent ordering of the snip data
+
+- Provide Steps to get the signature
+    - Download of hash text to sign
+    - Upload of signature for text
+
+- Function to verify signature
+    - Retrieve GPG key from GitHub based on username
+    - verify 
