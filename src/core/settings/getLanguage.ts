@@ -1,6 +1,7 @@
 import { Language } from "../localize/Language";
 import { getSetting } from "../setting";
 import { languageMap } from "../localize/languageMap";
+import { log, LogTag } from "../log";
 
 /**
  * Get the language setting for the add-in.
@@ -13,10 +14,10 @@ export function getLanguage(): Exclude<Language, Language.Default> {
 
     if (language === Language.Default) {
         const displayLanguage = Office.context.displayLanguage;
-        console.log(`Display Language: ${displayLanguage}`);
+        log(LogTag.Language, `Display Language: ${displayLanguage}`);
         if (typeof displayLanguage !== "string") {
             // Happens when running outside of Office.
-            console.log("Display Language Not Available, default to English");
+            log(LogTag.Language, "Display Language Not Available, default to English");
             return Language.English;
         }
 
@@ -26,12 +27,12 @@ export function getLanguage(): Exclude<Language, Language.Default> {
         // Check if the language is in the map.
         const language = languageMap.get(lookupLanguage);
         if (language) {
-            console.log(`Language: ${language}`);
+            log(LogTag.Language, `Language: ${language}`);
             return language;
         }
 
         // Default to English if not found.
-        console.log(`Display Language ${displayLanguage} Not Available, default to English`);
+        log(LogTag.Language, `Display Language ${displayLanguage} Not Available, default to English`);
         return Language.English;
     }
 

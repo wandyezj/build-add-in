@@ -1,3 +1,15 @@
+export function logGeneric(stream: "log" | "error", tag: LogTag, ...data: unknown[]) {
+    if (tag === undefined) {
+        console[stream]("Tag Unknown");
+        return;
+    }
+
+    // Only log specific tags
+    if (tagsToLog.has(tag)) {
+        console[stream](...data);
+    }
+}
+
 /**
  * direct all logging through the log function
  * This helps with debugging and testing
@@ -6,14 +18,11 @@
  * @returns
  */
 export function log(tag: LogTag, ...data: unknown[]) {
-    if (tag === undefined) {
-        console.log("Tag Unknown");
-        return;
-    }
-    // Only log specific tags
-    if (tagsToLog.has(tag)) {
-        console.log(...data);
-    }
+    logGeneric("log", tag, ...data);
+}
+
+export function logError(tag: LogTag, ...data: unknown[]) {
+    logGeneric("error", tag, ...data);
 }
 
 // TODO: add timer between start and end tags with same prefix.
@@ -46,6 +55,13 @@ export enum LogTag {
     LoadMonacoLibs = "LoadMonacoLibs",
     ButtonNew = "ButtonNew",
     Embed = "Embed",
+    UploadFile = "UploadFile",
+
+    /**
+     * Queries to the GitHub API
+     */
+    GitHubApi = "GitHubApi",
+    Language = "Language",
 }
 
 function getLogTagsFromLocalStorage(): LogTag[] {

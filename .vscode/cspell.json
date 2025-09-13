@@ -23,6 +23,7 @@
         "markdownlint",
         "minifier",
         "oaspapps",
+        "openpgp",
         "ploc",
         "prettierrc",
         "Runtimes",
