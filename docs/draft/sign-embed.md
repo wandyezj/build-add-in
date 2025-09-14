@@ -97,6 +97,12 @@ If the signature matches up - then it's likely that the GitHub user signed it - 
 
 > GET https://api.github.com/users/USERNAME/gpg_keys
 
+- This does not work because it does not show the full armored key.
+
+
+The following reveals an armored key for the specific GitHub user. This contains their full set of GPG keys. If there are no GPG keys it returns the text `Not Found`
+> https://github.com/USERNAME.gpg
+
 [MDN SubtleCrypto/verify](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/verify)
 
 > verify(algorithm, key, signature, data)
@@ -131,6 +137,14 @@ Create a badge on the edit page toolbar to show the author.
         - CertificateRegular
         - SignatureRegular
         - DocumentSignatureRegular
+        - ContactCardRegular
+        - ContactCardLinkRegular
+        - ContactCardRibbonRegular
+        - FingerprintRegular
+        - LinkPersonRegular
+        - RibbonRegular
+        - ShieldRegular
+        - ErrorCircleRegular
     - Button
         - Make it a regular button
     - [Tag](https://react.fluentui.dev/?path=/docs/components-tag-tag--docs)

@@ -24,9 +24,36 @@ export interface Snip {
     name: string;
 
     /**
+     * Author of the snip.
+     */
+    author?: SnipAuthor;
+
+    /**
      * Files in the snip.
      */
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
+}
+
+/**
+ * Author of the snip.
+ * Verified by GitHub GPG signature.
+ */
+export interface SnipAuthor {
+    /**
+     * The source of the public key to verify the signature.
+     * For now, only GitHub GPG key is supported.
+     */
+    source: "GitHub";
+
+    /**
+     * GitHub username of the author.
+     */
+    username: string;
+
+    /**
+     * GPG signature of the snip.
+     */
+    signature: string;
 }
 
 export interface SnipFile {
@@ -37,7 +64,7 @@ export interface SnipFile {
 /**
  * A Snip used for import / export.
  */
-export type ExportSnip = Pick<Snip, "name" | "files">;
+export type ExportSnip = Pick<Snip, "name" | "author" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
@@ -162,20 +189,32 @@ export function pruneSnip(snip: Snip): Snip {
         };
     }
 
-    const { id, name, modified } = snip;
+    const { id, name, modified, author } = snip;
     return {
         id,
         modified,
         name,
+        author,
         files,
     };
 }
 
+/**
+ * Get the snip doc text to sign.
+ */
+export function getSnipDocText(snip: Snip): string {
+    const { name, files } = pruneSnipForExport(snip);
+    const hashSnip = { name, files };
+    const text = objectToJson(hashSnip);
+    return text;
+}
+
 export function pruneSnipForExport(snip: Snip): ExportSnip {
-    const { name, files } = pruneSnip(snip);
+    const { name, author, files } = pruneSnip(snip);
 
     return {
         name,
+        author,
         files,
     };
 }

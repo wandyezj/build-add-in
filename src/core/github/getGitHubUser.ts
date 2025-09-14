@@ -1,4 +1,5 @@
 export interface GitHubUser {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     avatar_url: string;
     email: string;
 }
@@ -16,7 +17,9 @@ export async function getGitHubUser(username: string): Promise<GitHubUser | unde
     const response = await fetch(url, {
         method: "GET",
         headers: {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             "Content-Type": "application/json",
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: "application/vnd.github.v3+json",
         },
     });

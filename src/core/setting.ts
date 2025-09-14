@@ -3,7 +3,6 @@ import { loadSettings, saveSettings } from "./storage";
 import { Language } from "./localize/Language";
 import { Theme } from "./settings/Theme";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
-import { enableSignature } from "./settings/enableSignature";
 
 /**
  * Returns an object with keys and values from the enum.

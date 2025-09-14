@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { Badge, Dialog, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
+import { Badge, Input, Tab, TabList, Toolbar, Tooltip } from "@fluentui/react-components";
 import {
     // ArrowDownloadRegular,
     PlayRegular,
@@ -109,7 +109,12 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <DialogImport openSnip={openSnip} open={dialogImportOpen} setOpen={setDialogImportOpen} />
-            <DialogSignature open={dialogSignatureOpen} setOpen={setDialogSignatureOpen} />
+            <DialogSignature
+                snip={snip}
+                updateSnip={updateSnip}
+                open={dialogSignatureOpen}
+                setOpen={setDialogSignatureOpen}
+            />
             <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">

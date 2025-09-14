@@ -33,22 +33,22 @@ export enum LogTag {
     /**
      * Setup Sequence for editor
      */
-    Setup = "setup",
+    Setup = "Setup",
     /**
      * Setup sequence first tag
      */
-    SetupStart = "setupStart",
+    SetupStart = "SetupStart",
     /**
      * Setup sequence last tag
      */
-    SetupEnd = "setupEnd",
+    SetupEnd = "SetupEnd",
 
-    CopyToClipboard = "copyToClipboard",
+    CopyToClipboard = "CopyToClipboard",
 
-    LocalStorage = "storage",
+    LocalStorage = "LocalStorage",
 
-    MostRecentlyModifiedMetadata = "mostRecentlyModifiedMetadata",
-    UpdateMonacoLibs = "updateMonacoLibs",
+    MostRecentlyModifiedMetadata = "MostRecentlyModifiedMetadata",
+    UpdateMonacoLibs = "UpdateMonacoLibs",
     ButtonImport = "ButtonImport",
     ButtonCopy = "ButtonCopy",
     ButtonDelete = "ButtonDelete",
@@ -62,6 +62,7 @@ export enum LogTag {
      */
     GitHubApi = "GitHubApi",
     Language = "Language",
+    UploadSignature = "UploadSignature",
 }
 
 function getLogTagsFromLocalStorage(): LogTag[] {
