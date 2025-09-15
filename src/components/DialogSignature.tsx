@@ -37,6 +37,7 @@ import { getGitHubUser } from "../core/github/getGitHubUser";
 import { pgpSignatureMatches } from "../core/pgp/pgpSignatureMatches";
 import { getGitHubUserGpgKeys } from "../core/github/getGitHubUserGpgKeys";
 import { debounceClear, debounce } from "../core/util/debounce";
+import { getSnipAuthor } from "../core/getSnipAuthor";
 
 const useStyles = makeStyles({
     base: {
@@ -60,49 +61,6 @@ function getBadgeForState(state: "none" | "query" | "success" | "fail") {
         case "fail":
             return <Badge size="large" color="warning" icon={<WarningRegular />} />;
     }
-}
-
-/**
- * @returns author info if the snip is signed and the signature matches the public key of the author.
- * If the snip is not signed or the signature does not match, returns undefined.
- */
-async function getSnipAuthor(snip: SnipWithSource): Promise<undefined | { username: string; avatar: string }> {
-    const { author } = snip;
-    if (author === undefined) {
-        return undefined;
-    }
-
-    const { username, signature } = author;
-
-    const user = await getGitHubUser(username);
-    if (user === undefined) {
-        return undefined;
-    }
-    const avatar = user.avatar_url;
-
-    const messageText = getSnipDocText(snip);
-
-    // public keys linked to the GitHub user
-    const publicKey = await getGitHubUserGpgKeys(username);
-    if (publicKey === undefined) {
-        log(LogTag.UploadFile, `GitHub GPG key for user ${username} not found`);
-        return undefined;
-    }
-
-    const matches = await pgpSignatureMatches({
-        messageText,
-        publicKeyArmored: publicKey,
-        detachedSignature: signature,
-    });
-
-    if (!matches) {
-        return undefined;
-    }
-
-    return {
-        username,
-        avatar,
-    };
 }
 
 async function isGitHubUsername(username: string): Promise<boolean> {
