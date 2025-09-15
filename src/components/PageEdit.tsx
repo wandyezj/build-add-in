@@ -53,7 +53,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     const [dialogImportOpen, setDialogImportOpen] = useState(false);
     const [dialogSignatureOpen, setDialogSignatureOpen] = useState(false);
     const [dialogAuthorViewOpen, setDialogAuthorViewOpen] = useState(false);
-    
+
     useEffect(() => {
         setupSnip(snip);
     });
@@ -118,11 +118,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 open={dialogSignatureOpen}
                 setOpen={setDialogSignatureOpen}
             />
-            <DialogAuthorView
-                snip={snip}
-                open={dialogAuthorViewOpen}
-                setOpen={setDialogAuthorViewOpen}
-            />
+            <DialogAuthorView snip={snip} open={dialogAuthorViewOpen} setOpen={setDialogAuthorViewOpen} />
             <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
@@ -164,22 +160,20 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
 
                 {enableSignature() ? (
                     <>
-                    <TooltipButton
-                        tip={loc("Signature")}
-                        icon={<SignatureRegular />}
-                        onClick={() => setDialogSignatureOpen(true)}
-                    />
-                    <TooltipButton
-                        tip={loc("Author")}
-                        icon={<ContactCardRegular />}
-                        onClick={() => setDialogAuthorViewOpen(true)}
-                    />
+                        <TooltipButton
+                            tip={loc("Signature")}
+                            icon={<SignatureRegular />}
+                            onClick={() => setDialogSignatureOpen(true)}
+                        />
+                        <TooltipButton
+                            tip={loc("Author")}
+                            icon={<ContactCardRegular />}
+                            onClick={() => setDialogAuthorViewOpen(true)}
+                        />
                     </>
                 ) : (
                     <></>
                 )}
-
-
 
                 <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 
