@@ -12,8 +12,6 @@ import {
     Input,
     useId,
     Badge,
-    Link,
-    Persona,
 } from "@fluentui/react-components";
 
 import { makeStyles, tokens } from "@fluentui/react-components";
@@ -23,12 +21,10 @@ import { getSnipDocText, SnipWithSource } from "../core/Snip";
 import { uploadFileSig } from "../core/util/uploadFileSig";
 import { TooltipButton } from "./TooltipButton";
 import {
-    AddRegular,
     ArrowDownloadRegular,
     ArrowSyncRegular,
     ArrowUploadRegular,
     CheckmarkRegular,
-    LinkRegular,
     QuestionRegular,
     WarningRegular,
 } from "@fluentui/react-icons";
@@ -37,7 +33,7 @@ import { getGitHubUser } from "../core/github/getGitHubUser";
 import { pgpSignatureMatches } from "../core/pgp/pgpSignatureMatches";
 import { getGitHubUserGpgKeys } from "../core/github/getGitHubUserGpgKeys";
 import { debounceClear, debounce } from "../core/util/debounce";
-import { getSnipAuthor } from "../core/getSnipAuthor";
+import { SnipAuthor } from "./SnipAuthor";
 
 const useStyles = makeStyles({
     base: {
@@ -76,8 +72,18 @@ function getDocFileName({ name }: { name: string }) {
     return `${name}.txt`;
 }
 
-function getSigFileName(name: { name: string }) {
+function getSigFileName({ name }: { name: string }) {
     return `${name}.sig`;
+}
+
+function snipWithAuthor(
+    snip: SnipWithSource,
+    author: { source: "GitHub"; username: string; signature: string }
+): SnipWithSource {
+    return {
+        ...snip,
+        author,
+    };
 }
 
 export function DialogSignature({
@@ -101,9 +107,12 @@ export function DialogSignature({
     const [signature, setSignature] = React.useState<string | undefined>(undefined);
     const [signatureState, setSignatureState] = React.useState<"none" | "query" | "success" | "fail">("none");
 
-    // Signature
-    const [authorName, setAuthorName] = React.useState<string | undefined>(undefined);
-    const [authorAvatar, setAuthorAvatar] = React.useState<string | undefined>(undefined);
+    const [newSignatureOk, setNewSignatureOk] = React.useState<boolean>(false);
+
+    useEffect(() => {
+        // Reset when the dialog opens
+        setNewSignatureOk(signatureState === "success");
+    }, [signatureState]);
 
     async function updateUsernameState(username: string) {
         const debounceIdUsernameState = "usernameState";
@@ -134,18 +143,8 @@ export function DialogSignature({
         const username = snip.author?.username ?? "";
 
         setUsername(username);
-
-        // See if the snip has a valid author.
-        getSnipAuthor(snip).then((authorInfo) => {
-            if (authorInfo === undefined) {
-                setAuthorName(undefined);
-                setAuthorAvatar(undefined);
-                return;
-            }
-            const { username, avatar } = authorInfo;
-            setAuthorName(username);
-            setAuthorAvatar(avatar);
-        });
+        setSignature(undefined);
+        setSignatureState("none");
     }, [open]);
 
     function downloadDoc() {
@@ -186,19 +185,17 @@ export function DialogSignature({
     }
 
     async function addSignatureToSnip() {
+        console.log("Add signature to snip");
         if (signature === undefined) {
             log(LogTag.UploadFile, "No signature to add to snip");
             return;
         }
 
-        const updatedSnip: SnipWithSource = {
-            ...snip,
-            author: {
-                source: "GitHub",
-                username,
-                signature,
-            },
-        };
+        const updatedSnip = snipWithAuthor(snip, {
+            source: "GitHub",
+            username,
+            signature,
+        });
         updateSnip(updatedSnip);
     }
 
@@ -216,45 +213,19 @@ export function DialogSignature({
                     <DialogTitle>{loc("Signature")}</DialogTitle>
                     <DialogContent>
                         <div className={styles.base}>
-                            {authorName === undefined ? (
-                                <p>Snip by unknown author.</p>
-                            ) : (
-                                <>
-                                    <p>Snip Author</p>
-                                    <Persona
-                                        name={authorName}
-                                        primaryText={authorName}
-                                        secondaryText={
-                                            <Link
-                                                as="button"
-                                                onClick={() =>
-                                                    window.open(`https://www.github.com/${authorName}`, "_blank")
-                                                }
-                                            >
-                                                GitHub
-                                                <LinkRegular />
-                                            </Link>
-                                        }
-                                        size="large"
-                                        avatar={{
-                                            image: {
-                                                src: authorAvatar,
-                                            },
-                                        }}
-                                    />
-                                </>
-                            )}
                             Create a new signature for the snip "{snip.name}"
-                            <Label htmlFor={inputId}>GitHub Username</Label>
-                            <Input
-                                value={username}
-                                onChange={(ev, data) => {
-                                    setUsername(data.value.trim());
-                                }}
-                                id={inputId}
-                                contentAfter={getBadgeForState(usernameState)}
-                            />
                             <ol>
+                                <li>
+                                    <Label htmlFor={inputId}>GitHub Username</Label>
+                                    <Input
+                                        value={username}
+                                        onChange={(ev, data) => {
+                                            setUsername(data.value.trim());
+                                        }}
+                                        id={inputId}
+                                        contentAfter={getBadgeForState(usernameState)}
+                                    />
+                                </li>
                                 <li>
                                     <strong>Download the doc text</strong> to sign:
                                     <TooltipButton
@@ -284,20 +255,33 @@ export function DialogSignature({
                                     {getBadgeForState(signatureState)}
                                 </li>
                                 <li>
-                                    <strong>Add signature</strong> to snip:
-                                    <TooltipButton
-                                        tip={loc("Update Snip")}
-                                        icon={<AddRegular />}
-                                        onClick={addSignatureToSnip}
-                                    />
+                                    <strong>Check the signature</strong>:<br></br>
+                                    {username !== undefined && signature !== undefined ? (
+                                        <SnipAuthor
+                                            snip={snipWithAuthor(snip, { source: "GitHub", username, signature })}
+                                        />
+                                    ) : (
+                                        <>
+                                            <p>No signature uploaded</p>
+                                        </>
+                                    )}
                                 </li>
                             </ol>
                         </div>
                     </DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="primary">{loc("Close")}</Button>
+                            <Button appearance={newSignatureOk ? "secondary" : "primary"}>{loc("Close")}</Button>
                         </DialogTrigger>
+                        {newSignatureOk ? (
+                            <DialogTrigger disableButtonEnhancement>
+                                <Button onClick={addSignatureToSnip} appearance="primary">
+                                    {loc("Sign")}
+                                </Button>
+                            </DialogTrigger>
+                        ) : (
+                            <> </>
+                        )}
                     </DialogActions>
                 </DialogBody>
             </DialogSurface>
