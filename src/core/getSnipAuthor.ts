@@ -8,7 +8,9 @@ import { SnipWithSource, getSnipDocText } from "./Snip";
  * @returns author info if the snip is signed and the signature matches the public key of the author.
  * If the snip is not signed or the signature does not match, returns undefined.
  */
-export async function getSnipAuthor(snip: SnipWithSource): Promise<undefined | { username: string; avatar: string }> {
+export async function getSnipAuthor(
+    snip: SnipWithSource
+): Promise<undefined | { username: string; avatar: string; userIds: string[] }> {
     const { author } = snip;
     if (author === undefined) {
         return undefined;
@@ -31,18 +33,20 @@ export async function getSnipAuthor(snip: SnipWithSource): Promise<undefined | {
         return undefined;
     }
 
-    const matches = await pgpSignatureMatches({
+    const result = await pgpSignatureMatches({
         messageText,
         publicKeyArmored: publicKey,
         detachedSignature: signature,
     });
 
-    if (!matches) {
+    if (!result.matches) {
         return undefined;
     }
+    const { userIds } = result;
 
     return {
         username,
         avatar,
+        userIds,
     };
 }

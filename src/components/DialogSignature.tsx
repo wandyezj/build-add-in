@@ -168,7 +168,7 @@ export function DialogSignature({
             return;
         }
 
-        const matches = await pgpSignatureMatches({
+        const { matches } = await pgpSignatureMatches({
             messageText: getSnipDocText(snip),
             publicKeyArmored: publicKey,
             detachedSignature: signatureUploaded,

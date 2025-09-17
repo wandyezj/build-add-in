@@ -8,7 +8,7 @@ export async function pgpSignatureMatches({
     messageText: string;
     publicKeyArmored: string;
     detachedSignature: string;
-}): Promise<boolean> {
+}): Promise<{ matches: false } | { matches: true; userIds: string[] }> {
     const publicKeys = await readKeys({ armoredKeys: publicKeyArmored });
 
     // publicKeys.forEach((key) => {
@@ -29,18 +29,28 @@ export async function pgpSignatureMatches({
         verificationKeys: publicKeys,
     });
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { verified: verifiedPromise, keyID } = verificationResult.signatures[0];
+    const { verified: verifiedPromise, keyID: keyId } = verificationResult.signatures[0];
 
-    let matches = false;
     try {
         // True if the signature matches
         // throws on invalid signature
-        matches = await verifiedPromise;
-        console.log("Signed by key id " + keyID.toHex());
+        const matches = await verifiedPromise;
+        console.log("Signed by key id " + keyId.toHex());
+
+        const userIds = publicKeys
+            .filter((key) => key.getKeys(keyId))
+            .flat()
+            .map((key) => key.getUserIDs())
+            .flat()
+            .filter((value, index, self) => {
+                // Filter out duplicate user IDs
+                return self.indexOf(value) === index;
+            });
+
+        return { matches, userIds };
     } catch (e: unknown) {
         console.error("Signature verification failed:", (e as { message: string }).message);
     }
 
-    return matches;
+    return { matches: false };
 }

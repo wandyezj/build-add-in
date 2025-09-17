@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Persona } from "@fluentui/react-components";
+import { Link, Persona, Tooltip } from "@fluentui/react-components";
 import { LinkRegular } from "@fluentui/react-icons";
 import { getSnipAuthor } from "../core/getSnipAuthor";
 import { SnipWithSource } from "../core/Snip";
@@ -10,6 +10,7 @@ import { SnipWithSource } from "../core/Snip";
 export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
     const [authorName, setAuthorName] = React.useState<string | undefined>(undefined);
     const [authorAvatar, setAuthorAvatar] = React.useState<string | undefined>(undefined);
+    const [userIds, setUserIds] = React.useState<string[] | undefined>(undefined);
 
     useEffect(() => {
         // See if the snip has a valid author.
@@ -17,11 +18,13 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
             if (authorInfo === undefined) {
                 setAuthorName(undefined);
                 setAuthorAvatar(undefined);
+                setUserIds(undefined);
                 return;
             }
-            const { username, avatar } = authorInfo;
+            const { username, avatar, userIds } = authorInfo;
             setAuthorName(username);
             setAuthorAvatar(avatar);
+            setUserIds(userIds);
         });
     }, [snip]);
 
@@ -33,12 +36,18 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
         <>
             <Persona
                 name={authorName}
-                primaryText={authorName}
+                primaryText={
+                    <Tooltip content={userIds?.join(", ") || ""} relationship={"description"}>
+                        <span>{authorName}</span>
+                    </Tooltip>
+                }
                 secondaryText={
-                    <Link as="button" onClick={() => window.open(`https://www.github.com/${authorName}`, "_blank")}>
-                        GitHub
-                        <LinkRegular />
-                    </Link>
+                    <span>
+                        <Link as="button" onClick={() => window.open(`https://www.github.com/${authorName}`, "_blank")}>
+                            GitHub
+                            <LinkRegular />
+                        </Link>
+                    </span>
                 }
                 size="extra-large"
                 avatar={{
