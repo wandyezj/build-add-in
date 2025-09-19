@@ -1,4 +1,5 @@
-export interface GitHubGpgKey {
+interface GitHubGpgKey {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     raw_key: string;
 }
 
@@ -33,4 +34,3 @@ export async function getGitHubUserGpgKeysRaw(username: string): Promise<string[
 
     return keys;
 }
-const response = await fetch("https://api.github.com/users/wandyezj/gpg_keys");
