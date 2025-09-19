@@ -25,10 +25,6 @@ export function logError(tag: LogTag, ...data: unknown[]) {
     logGeneric("error", tag, ...data);
 }
 
-// TODO: add timer between start and end tags with same prefix.
-
-const tagsToLog = new Set<LogTag>(getLogTagsFromLocalStorage());
-
 export enum LogTag {
     /**
      * Setup Sequence for editor
@@ -65,11 +61,24 @@ export enum LogTag {
     UploadSignature = "UploadSignature",
 }
 
+// TODO: add timer between start and end tags with same prefix.
+
+const tagsToLog = new Set<LogTag>(getLogTagsFromLocalStorage());
+
 function getLogTagsFromLocalStorage(): LogTag[] {
     const rawTags = localStorage.getItem("log");
     if (!rawTags) {
         return [];
     }
+
+    // Show all of the tags if the value is "all"
+    if (rawTags === "all") {
+        const excludeTags = [LogTag.Language];
+        return Object.values(LogTag)
+            .map((tag) => tag as LogTag)
+            .filter((tag) => !excludeTags.includes(tag));
+    }
+
     const tags = rawTags
         .split(/[, ]/)
         .map((tag) => tag.trim())

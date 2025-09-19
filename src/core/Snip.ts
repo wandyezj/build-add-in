@@ -150,11 +150,43 @@ function validSnipFiles(snip: Partial<Snip>): boolean {
     return true;
 }
 
-function getSnipValidProperties(snip: Snip): { [property in keyof Snip]: boolean } {
+function validSnipAuthor(snip: Maybe<Snip, "author">): boolean {
+    if (!snip.author) {
+        return true; // author is optional
+    }
+
+    if (typeof snip.author !== "object") {
+        return false;
+    }
+
+    const { source, username, signature } = snip.author;
+
+    if (typeof source !== "string" || !["GitHub"].includes(source)) {
+        return false;
+    }
+
+    if (typeof username !== "string" || username.length === 0) {
+        return false;
+    }
+
+    if (
+        typeof signature !== "string" ||
+        signature.length === 0 ||
+        !signature.startsWith("-----BEGIN PGP SIGNATURE-----") ||
+        !signature.endsWith("-----END PGP SIGNATURE-----")
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
+function getSnipValidProperties(snip: Snip): { [property in keyof Required<Snip>]: boolean } {
     return {
         id: validSnipId(snip),
         modified: validSnipModified(snip),
         name: validSnipName(snip),
+        author: validSnipAuthor(snip),
         files: validSnipFiles(snip),
     };
 }
@@ -164,7 +196,7 @@ export function isValidExportSnip(snip: ExportSnip): boolean {
         return false;
     }
     const valid = getSnipValidProperties(snip as Snip);
-    const isValid = valid.name && valid.files;
+    const isValid = valid.name && valid.author && valid.files;
     return isValid;
 }
 
@@ -173,7 +205,7 @@ export function isValidSnip(snip: Snip): boolean {
         return false;
     }
     const valid = getSnipValidProperties(snip);
-    const isValid = valid.id && valid.modified && valid.name && valid.files;
+    const isValid = valid.id && valid.modified && valid.name && valid.author && valid.files;
     return isValid;
 }
 
