@@ -94,17 +94,23 @@ export async function embedSave({
 function embedSaveGenericCallback({ xml, id, embedNamespace }: { xml: string; id: string; embedNamespace: string }) {
     return async function (context: GenericContext, customXmlParts: GenericCustomXmlPartCollection) {
         let item;
+
         if (id === undefined) {
+            // Create a new item
             item = customXmlParts.add(xml);
         } else {
+            // Attempt to update the existing item with the id.
             const collection = customXmlParts.getByNamespace(embedNamespace);
             item = collection.getItemOrNullObject(id);
             item.setXml(xml);
             await context.sync();
             if (item.isNullObject) {
+                // If the item does not exist, create a new one.
                 item = customXmlParts.add(xml);
             }
         }
+
+        // Get the id of the item
         item.load("id");
         await context.sync();
         const itemId = item.id;

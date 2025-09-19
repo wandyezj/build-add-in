@@ -12,6 +12,8 @@ import {
     DocumentFolderRegular,
     ArrowImportRegular,
     SettingsRegular,
+    ContactCardRegular,
+    SignatureRegular,
 } from "@fluentui/react-icons";
 import { SnipSource, SnipWithSource } from "../core/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
@@ -31,6 +33,9 @@ import { getSetting } from "../core/setting";
 import { enableEditImport } from "../core/settings/enableEditImport";
 import { loc } from "../core/localize/loc";
 import { getSnipExport } from "../core/getSnipExport";
+import { enableSignature } from "../core/settings/enableSignature";
+import { DialogSignature } from "./DialogSignature";
+import { DialogAuthorView } from "./DialogAuthorView";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -46,6 +51,8 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     const [snip, setSnip] = useState(initialSnip);
 
     const [dialogImportOpen, setDialogImportOpen] = useState(false);
+    const [dialogSignatureOpen, setDialogSignatureOpen] = useState(false);
+    const [dialogAuthorViewOpen, setDialogAuthorViewOpen] = useState(false);
 
     useEffect(() => {
         setupSnip(snip);
@@ -105,6 +112,13 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
     return (
         <>
             <DialogImport openSnip={openSnip} open={dialogImportOpen} setOpen={setDialogImportOpen} />
+            <DialogSignature
+                snip={snip}
+                updateSnip={updateSnip}
+                open={dialogSignatureOpen}
+                setOpen={setDialogSignatureOpen}
+            />
+            <DialogAuthorView snip={snip} open={dialogAuthorViewOpen} setOpen={setDialogAuthorViewOpen} />
             <Toolbar size="medium" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
@@ -143,6 +157,22 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 )}
 
                 {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
+
+                {enableSignature() ? (
+                    <TooltipButton
+                        tip={loc("Signature")}
+                        icon={<SignatureRegular />}
+                        onClick={() => setDialogSignatureOpen(true)}
+                    />
+                ) : (
+                    <></>
+                )}
+
+                <TooltipButton
+                    tip={loc("Author")}
+                    icon={<ContactCardRegular />}
+                    onClick={() => setDialogAuthorViewOpen(true)}
+                />
 
                 <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 

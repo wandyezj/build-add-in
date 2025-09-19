@@ -24,9 +24,36 @@ export interface Snip {
     name: string;
 
     /**
+     * Author of the snip.
+     */
+    author?: SnipAuthor;
+
+    /**
      * Files in the snip.
      */
     files: { [key: string]: SnipFile } & Record<"typescript" | "html" | "css" | "libraries", SnipFile>;
+}
+
+/**
+ * Author of the snip.
+ * Verified by GitHub GPG signature.
+ */
+export interface SnipAuthor {
+    /**
+     * The source of the public key to verify the signature.
+     * For now, only GitHub GPG key is supported.
+     */
+    source: "GitHub";
+
+    /**
+     * GitHub username of the author.
+     */
+    username: string;
+
+    /**
+     * GPG signature of the snip.
+     */
+    signature: string;
 }
 
 export interface SnipFile {
@@ -37,7 +64,7 @@ export interface SnipFile {
 /**
  * A Snip used for import / export.
  */
-export type ExportSnip = Pick<Snip, "name" | "files">;
+export type ExportSnip = Pick<Snip, "name" | "author" | "files">;
 
 export type SnipMetadata = Pick<Snip, "id" | "name" | "modified">;
 
@@ -123,11 +150,43 @@ function validSnipFiles(snip: Partial<Snip>): boolean {
     return true;
 }
 
-function getSnipValidProperties(snip: Snip): { [property in keyof Snip]: boolean } {
+function validSnipAuthor(snip: Maybe<Snip, "author">): boolean {
+    if (!snip.author) {
+        return true; // author is optional
+    }
+
+    if (typeof snip.author !== "object") {
+        return false;
+    }
+
+    const { source, username, signature } = snip.author;
+
+    if (typeof source !== "string" || !["GitHub"].includes(source)) {
+        return false;
+    }
+
+    if (typeof username !== "string" || username.length === 0) {
+        return false;
+    }
+
+    if (
+        typeof signature !== "string" ||
+        signature.length === 0 ||
+        !signature.startsWith("-----BEGIN PGP SIGNATURE-----") ||
+        !signature.endsWith("-----END PGP SIGNATURE-----")
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
+function getSnipValidProperties(snip: Snip): { [property in keyof Required<Snip>]: boolean } {
     return {
         id: validSnipId(snip),
         modified: validSnipModified(snip),
         name: validSnipName(snip),
+        author: validSnipAuthor(snip),
         files: validSnipFiles(snip),
     };
 }
@@ -137,7 +196,7 @@ export function isValidExportSnip(snip: ExportSnip): boolean {
         return false;
     }
     const valid = getSnipValidProperties(snip as Snip);
-    const isValid = valid.name && valid.files;
+    const isValid = valid.name && valid.author && valid.files;
     return isValid;
 }
 
@@ -146,7 +205,7 @@ export function isValidSnip(snip: Snip): boolean {
         return false;
     }
     const valid = getSnipValidProperties(snip);
-    const isValid = valid.id && valid.modified && valid.name && valid.files;
+    const isValid = valid.id && valid.modified && valid.name && valid.author && valid.files;
     return isValid;
 }
 
@@ -162,20 +221,32 @@ export function pruneSnip(snip: Snip): Snip {
         };
     }
 
-    const { id, name, modified } = snip;
+    const { id, name, modified, author } = snip;
     return {
         id,
         modified,
         name,
+        author,
         files,
     };
 }
 
+/**
+ * Get the snip doc text to sign.
+ */
+export function getSnipDocText(snip: Snip): string {
+    const { name, files } = pruneSnipForExport(snip);
+    const hashSnip = { name, files };
+    const text = objectToJson(hashSnip);
+    return text;
+}
+
 export function pruneSnipForExport(snip: Snip): ExportSnip {
-    const { name, files } = pruneSnip(snip);
+    const { name, author, files } = pruneSnip(snip);
 
     return {
         name,
+        author,
         files,
     };
 }
