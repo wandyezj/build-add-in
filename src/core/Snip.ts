@@ -172,8 +172,8 @@ function validSnipAuthor(snip: Maybe<Snip, "author">): boolean {
     if (
         typeof signature !== "string" ||
         signature.length === 0 ||
-        !signature.startsWith("-----BEGIN PGP SIGNATURE-----") ||
-        !signature.endsWith("-----END PGP SIGNATURE-----")
+        !signature.trimStart().startsWith("-----BEGIN PGP SIGNATURE-----") ||
+        !signature.trimEnd().endsWith("-----END PGP SIGNATURE-----")
     ) {
         return false;
     }
