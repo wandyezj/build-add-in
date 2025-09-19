@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Dialog,
     DialogTrigger,
@@ -140,21 +140,29 @@ export function DialogImport({
     openSnip: (openSnip: SnipWithSource) => void;
 }) {
     //const [open, setOpen] = React.useState(open);
+    const [importText, setImportText] = React.useState("");
+
+    useEffect(() => {
+        // Reset the import text when the dialog opens
+        if (open) {
+            setImportText("");
+        }
+    }, [open]);
+
     const textareaId = useId("import-textarea");
     const styles = useStyles();
 
     async function doImport(value: string) {
+        log(LogTag.ButtonImport, "doImport");
         const snip = await importSnip(value);
         if (snip) {
             openSnip(snip);
         }
     }
 
-    async function onClickImport(event: React.FormEvent) {
-        event.preventDefault();
+    async function onClickImport() {
         log(LogTag.ButtonImport, "import");
-        const value = (document.getElementById(textareaId) as HTMLTextAreaElement).value;
-        const snipText = await getImportSnip(value);
+        const snipText = await getImportSnip(importText);
         if (snipText) {
             doImport(snipText);
         }
@@ -171,29 +179,31 @@ export function DialogImport({
             }}
         >
             <DialogSurface>
-                <form onSubmit={onClickImport}>
-                    <DialogBody>
-                        <DialogTitle>{loc("Import Snip")}</DialogTitle>
-                        <DialogContent>
-                            <div className={styles.base}>
-                                <Label className={styles.label} htmlFor={textareaId}>
-                                    {loc("Paste a JSON, gist, or url.")}
-                                </Label>
-                                <Textarea id={textareaId} />
-                            </div>
-                        </DialogContent>
-                        <DialogActions>
-                            <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">{loc("Close")}</Button>
-                            </DialogTrigger>
-                            <DialogTrigger disableButtonEnhancement>
-                                <Button type="submit" appearance="primary">
-                                    {loc("Import")}
-                                </Button>
-                            </DialogTrigger>
-                        </DialogActions>
-                    </DialogBody>
-                </form>
+                <DialogBody>
+                    <DialogTitle>{loc("Import Snip")}</DialogTitle>
+                    <DialogContent>
+                        <div className={styles.base}>
+                            <Label className={styles.label} htmlFor={textareaId}>
+                                {loc("Paste a JSON, gist, or url.")}
+                            </Label>
+                            <Textarea
+                                value={importText}
+                                onChange={(e, data) => setImportText(data.value)}
+                                id={textareaId}
+                            />
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <DialogTrigger disableButtonEnhancement>
+                            <Button appearance="secondary">{loc("Close")}</Button>
+                        </DialogTrigger>
+                        <DialogTrigger disableButtonEnhancement>
+                            <Button appearance="primary" onClick={onClickImport}>
+                                {loc("Import")}
+                            </Button>
+                        </DialogTrigger>
+                    </DialogActions>
+                </DialogBody>
             </DialogSurface>
         </Dialog>
     );
