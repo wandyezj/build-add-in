@@ -23,17 +23,17 @@ see [package.json](../package.json)
 ### Monaco
 
 - `monaco-editor-webpack-plugin`
-- Editor
+    - Editor
 
 ### TypeScript
 
 - `typescript`
-- compile typescript to JavaScript
+    - compile typescript to JavaScript
 
 ### Marked
 
 - `marked`
-- Compile markdown for html statements as part of the build.
+    - Compile markdown for html statements as part of the build.
 
 ### Webpack
 
@@ -54,6 +54,11 @@ Build System to bundle website.
 - `webpack-bundle-analyzer`
 - `office-addin-dev-certs`
 
+### Other
+
+- `openpgp`
+    - PGP signatures are used to sign snips to indicate the author.
+
 ### Code Health
 
 - `cspell`
@@ -63,6 +68,9 @@ Build System to bundle website.
 ### UI testing
 
 - `playwright`
+
+
+
 
 ## Other Tools
 

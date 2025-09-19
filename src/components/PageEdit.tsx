@@ -159,21 +159,20 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 {enableEmbed() ? <ButtonEmbedCopy snip={snip} /> : <></>}
 
                 {enableSignature() ? (
-                    <>
-                        <TooltipButton
-                            tip={loc("Signature")}
-                            icon={<SignatureRegular />}
-                            onClick={() => setDialogSignatureOpen(true)}
-                        />
-                        <TooltipButton
-                            tip={loc("Author")}
-                            icon={<ContactCardRegular />}
-                            onClick={() => setDialogAuthorViewOpen(true)}
-                        />
-                    </>
+                    <TooltipButton
+                        tip={loc("Signature")}
+                        icon={<SignatureRegular />}
+                        onClick={() => setDialogSignatureOpen(true)}
+                    />
                 ) : (
                     <></>
                 )}
+
+                <TooltipButton
+                    tip={loc("Author")}
+                    icon={<ContactCardRegular />}
+                    onClick={() => setDialogAuthorViewOpen(true)}
+                />
 
                 <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 

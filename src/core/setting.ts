@@ -77,7 +77,6 @@ export const settingsMetadata = {
     /**
      * Show the signature button on the edit page.
      * The button allows:
-     * - viewing a snips embedded signature
      * - signing a snip with a GPG key tied to a GitHub account
      */
     enableSignature: {

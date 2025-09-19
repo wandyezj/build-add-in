@@ -11,12 +11,6 @@ export async function pgpSignatureMatches({
 }): Promise<{ matches: false } | { matches: true; userIds: string[] }> {
     const publicKeys = await readKeys({ armoredKeys: publicKeyArmored });
 
-    // publicKeys.forEach((key) => {
-    //     console.log("Public Key ID: " + key.getKeyID().toHex());
-    //     console.log("Public Key User IDs: " + key.getUserIDs().join(", "));
-    //     console.log("Public Key Fingerprint: " + key.getFingerprint());
-    // });
-
     const message = await createMessage({ text: messageText });
 
     const signature = await readSignature({

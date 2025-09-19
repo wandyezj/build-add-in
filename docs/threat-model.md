@@ -34,7 +34,7 @@ People could be tricked into running naughty code.
 - Data manipulation
     - Write data to a document
 - Data loss
-    - Write data to a document to remove of change it
+    - Write data to a document to remove or change it
 
 ## Who are the likely targets for abuse?
 
@@ -55,6 +55,6 @@ Consumer customers don't have an IT department, they need to look out for themse
 - Warning dialog on first open about running untrusted code.
 - Warning when importing code about running untrusted code.
 - Enterprise customers can restrict Add-Ins to only a set of trusted Add-Ins. They can also restrict side loading of Add-Ins.
-- For embedded snips allow developers
+- Allow snips to contain signatures to identify authors.
 
 
