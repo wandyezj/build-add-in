@@ -2,14 +2,16 @@ import { readKeys, createMessage, readSignature, verify } from "openpgp";
 
 export async function pgpSignatureMatches({
     messageText,
-    publicKeyArmored,
+    publicKeysArmored,
     detachedSignature,
 }: {
     messageText: string;
-    publicKeyArmored: string;
+    publicKeysArmored: string[];
     detachedSignature: string;
 }): Promise<{ matches: false } | { matches: true; userIds: string[] }> {
-    const publicKeys = await readKeys({ armoredKeys: publicKeyArmored });
+    const publicKeys = (
+        await Promise.all(publicKeysArmored.map((publicKeyArmored) => readKeys({ armoredKeys: publicKeyArmored })))
+    ).flat();
 
     const message = await createMessage({ text: messageText });
 

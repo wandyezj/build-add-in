@@ -1,5 +1,5 @@
 import { getGitHubUser } from "./github/getGitHubUser";
-import { getGitHubUserGpgKeys } from "./github/getGitHubUserGpgKeys";
+import { getGitHubUserGpgKeysRaw } from "./github/getGitHubUserGpgKeysRaw";
 import { log, LogTag } from "./log";
 import { pgpSignatureMatches } from "./pgp/pgpSignatureMatches";
 import { SnipWithSource, getSnipDocText } from "./Snip";
@@ -27,15 +27,15 @@ export async function getSnipAuthor(
     const messageText = getSnipDocText(snip);
 
     // public keys linked to the GitHub user
-    const publicKey = await getGitHubUserGpgKeys(username);
-    if (publicKey === undefined) {
+    const publicKeys = await getGitHubUserGpgKeysRaw(username);
+    if (publicKeys === undefined) {
         log(LogTag.UploadFile, `GitHub GPG key for user ${username} not found`);
         return undefined;
     }
 
     const result = await pgpSignatureMatches({
         messageText,
-        publicKeyArmored: publicKey,
+        publicKeysArmored: publicKeys,
         detachedSignature: signature,
     });
 

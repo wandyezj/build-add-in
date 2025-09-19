@@ -31,9 +31,9 @@ import {
 import { downloadFileText } from "../core/util/downloadFileText";
 import { getGitHubUser } from "../core/github/getGitHubUser";
 import { pgpSignatureMatches } from "../core/pgp/pgpSignatureMatches";
-import { getGitHubUserGpgKeys } from "../core/github/getGitHubUserGpgKeys";
 import { debounceClear, debounce } from "../core/util/debounce";
 import { SnipAuthor } from "./SnipAuthor";
+import { getGitHubUserGpgKeysRaw } from "../core/github/getGitHubUserGpgKeysRaw";
 
 const useStyles = makeStyles({
     base: {
@@ -161,8 +161,8 @@ export function DialogSignature({
         setSignature(undefined);
         setSignatureState("query");
 
-        const publicKey = await getGitHubUserGpgKeys(username);
-        if (publicKey === undefined) {
+        const publicKeys = await getGitHubUserGpgKeysRaw(username);
+        if (publicKeys === undefined) {
             log(LogTag.UploadSignature, `GitHub GPG key for user ${username} not found`);
             setSignatureState("fail");
             return;
@@ -170,7 +170,7 @@ export function DialogSignature({
 
         const { matches } = await pgpSignatureMatches({
             messageText: getSnipDocText(snip),
-            publicKeyArmored: publicKey,
+            publicKeysArmored: publicKeys,
             detachedSignature: signatureUploaded,
         });
 
