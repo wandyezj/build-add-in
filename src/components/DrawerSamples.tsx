@@ -1,7 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
+import {
+    DrawerBody,
+    DrawerHeader,
+    DrawerHeaderTitle,
+    OverlayDrawer,
+    Button,
+    ListItem,
+    makeStyles,
+    List,
+} from "@fluentui/react-components";
 import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
@@ -44,6 +53,12 @@ async function deleteAllSamplesForHost() {
     await Promise.all(promises);
 }
 
+const useStyles = makeStyles({
+    listItem: {
+        padding: "2px",
+    },
+});
+
 /**
  * Enable opening a snip from a list of available snips.
  */
@@ -57,6 +72,8 @@ export function DrawerSamples({
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [samples, setSamples] = useState([] as SampleMetadata[]);
+
+    const styles = useStyles();
 
     function refreshSamples() {
         getAllSamples().then((samples) => {
@@ -125,17 +142,18 @@ export function DrawerSamples({
 
                 <DrawerBody>
                     <TooltipButton tip={loc("Refresh Samples")} icon={<ArrowSyncRegular />} onClick={reloadSamples} />
-                    {samples.map(({ id, name, description }) => (
-                        <SampleListCard
-                            key={id}
-                            id={id}
-                            title={name}
-                            description={description}
-                            onClick={() => {
-                                clickCard(id);
-                            }}
-                        />
-                    ))}
+                    <List navigationMode="items">
+                        {samples.map(({ id, name, description }) => (
+                            <ListItem
+                                key={id}
+                                onAction={() => clickCard(id)}
+                                aria-label={name}
+                                className={styles.listItem}
+                            >
+                                <SampleListCard key={id} id={id} title={name} description={description} />
+                            </ListItem>
+                        ))}
+                    </List>
                 </DrawerBody>
             </OverlayDrawer>
         </>
