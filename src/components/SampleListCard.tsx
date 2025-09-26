@@ -14,21 +14,11 @@ const useStyles = makeStyles({
     },
 });
 
-export function SampleListCard({
-    id,
-    title,
-    description,
-    onClick,
-}: {
-    id: string;
-    title: string;
-    description: string;
-    onClick: () => void;
-}) {
+export function SampleListCard({ id, title, description }: { id: string; title: string; description: string }) {
     const styles = useStyles();
 
     return (
-        <Card id={id} className={styles.card} orientation="vertical" onClick={onClick}>
+        <Card id={id} className={styles.card} orientation="vertical">
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
                 description={<Caption1 className={styles.caption}>{description}</Caption1>}
@@ -42,18 +32,16 @@ export function GistListCard({
     title,
     description,
     link,
-    onClick,
 }: {
     id: string;
     title: string;
     description: string;
     link: string;
-    onClick: () => void;
 }) {
     const styles = useStyles();
 
     return (
-        <Card id={id} className={styles.card} orientation="vertical" onClick={onClick}>
+        <Card id={id} className={styles.card} orientation="vertical">
             <CardHeader
                 header={<Text weight="semibold">{title}</Text>}
                 description={

@@ -1,7 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
+import {
+    DrawerBody,
+    DrawerHeader,
+    DrawerHeaderTitle,
+    OverlayDrawer,
+    Button,
+    ListItem,
+    makeStyles,
+    List,
+} from "@fluentui/react-components";
 import { Dismiss24Regular } from "@fluentui/react-icons";
 import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource } from "../core/Snip";
@@ -12,6 +21,12 @@ async function getAllEmbed() {
     const metadata = await getAllSnipMetadata();
     return metadata;
 }
+
+const useStyles = makeStyles({
+    listItem: {
+        padding: "2px",
+    },
+});
 
 /**
  * Enable opening a snip from a list of available snips.
@@ -26,6 +41,8 @@ export function DrawerEmbed({
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [snips, setSnips] = useState([] as SnipMetadata[]);
+
+    const styles = useStyles();
 
     function reload() {
         getAllEmbed().then((snips) => {
@@ -68,17 +85,18 @@ export function DrawerEmbed({
                 </DrawerHeader>
 
                 <DrawerBody>
-                    {snips.map(({ id, modified, name }) => (
-                        <SampleListCard
-                            key={id}
-                            id={id}
-                            title={name}
-                            description={formatModified(modified)}
-                            onClick={() => {
-                                clickCard(id);
-                            }}
-                        />
-                    ))}
+                    <List navigationMode="items">
+                        {snips.map(({ id, modified, name }) => (
+                            <ListItem
+                                key={id}
+                                onAction={() => clickCard(id)}
+                                aria-label={name}
+                                className={styles.listItem}
+                            >
+                                <SampleListCard key={id} id={id} title={name} description={formatModified(modified)} />
+                            </ListItem>
+                        ))}
+                    </List>
                 </DrawerBody>
             </OverlayDrawer>
         </>

@@ -1,6 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
+import {
+    DrawerBody,
+    DrawerHeader,
+    DrawerHeaderTitle,
+    OverlayDrawer,
+    Button,
+    ListItem,
+    List,
+    makeStyles,
+} from "@fluentui/react-components";
 import { Dismiss24Regular, DocumentFolderRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { SnipListCard } from "./SnipListCard";
@@ -98,6 +107,12 @@ export function ButtonOpen({ openSnip }: { openSnip: (snip: SnipWithSource) => v
     );
 }
 
+const useStyles = makeStyles({
+    listItem: {
+        padding: "2px",
+    },
+});
+
 /**
  * Enable opening a snip from a list of available snips.
  */
@@ -111,6 +126,8 @@ export function DrawerSnips({
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [localSnips, setLocalSnips] = useState([] as SnipMetadata[]);
+
+    const styles = useStyles();
 
     function refreshLocalSnips() {
         getAllLocalSnips().then((snips) => {
@@ -186,17 +203,18 @@ export function DrawerSnips({
                         }}
                     />
 
-                    {localSnips.map(({ id, name, modified }) => (
-                        <SnipListCard
-                            key={id}
-                            id={id}
-                            title={name}
-                            modified={modified}
-                            onClick={() => {
-                                clickCard(id);
-                            }}
-                        />
-                    ))}
+                    <List navigationMode="items">
+                        {localSnips.map(({ id, name, modified }) => (
+                            <ListItem
+                                key={id}
+                                onAction={() => clickCard(id)}
+                                aria-label={name}
+                                className={styles.listItem}
+                            >
+                                <SnipListCard key={id} id={id} title={name} modified={modified} />
+                            </ListItem>
+                        ))}
+                    </List>
                 </DrawerBody>
             </OverlayDrawer>
         </>

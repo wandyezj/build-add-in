@@ -1,7 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { DrawerBody, DrawerHeader, DrawerHeaderTitle, OverlayDrawer, Button } from "@fluentui/react-components";
+import {
+    DrawerBody,
+    DrawerHeader,
+    DrawerHeaderTitle,
+    OverlayDrawer,
+    Button,
+    List,
+    ListItem,
+    makeStyles,
+} from "@fluentui/react-components";
 import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { saveSnip } from "../core/database";
@@ -27,6 +36,12 @@ async function getAllMetadata(): Promise<SnipMetadata[]> {
     return metadata;
 }
 
+const useStyles = makeStyles({
+    listItem: {
+        padding: "2px",
+    },
+});
+
 /**
  * Enable opening a snip from a list of GitHub gists.
  */
@@ -40,6 +55,8 @@ export function DrawerGists({
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [samples, setSamples] = useState([] as SnipMetadata[]);
+
+    const styles = useStyles();
 
     function refreshGists() {
         getAllMetadata().then((samples) => {
@@ -103,18 +120,24 @@ export function DrawerGists({
 
                 <DrawerBody>
                     <TooltipButton tip={loc("Refresh Gists")} icon={<ArrowSyncRegular />} onClick={reloadSamples} />
-                    {samples.map(({ id, name }) => (
-                        <GistListCard
-                            key={id}
-                            id={id}
-                            title={name}
-                            description={id}
-                            link={`https://gist.github.com/${id}`}
-                            onClick={() => {
-                                clickCard(id);
-                            }}
-                        />
-                    ))}
+                    <List navigationMode="items">
+                        {samples.map(({ id, name }) => (
+                            <ListItem
+                                key={id}
+                                onAction={() => clickCard(id)}
+                                aria-label={name}
+                                className={styles.listItem}
+                            >
+                                <GistListCard
+                                    key={id}
+                                    id={id}
+                                    title={name}
+                                    description={id}
+                                    link={`https://gist.github.com/${id}`}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
                 </DrawerBody>
             </OverlayDrawer>
         </>
