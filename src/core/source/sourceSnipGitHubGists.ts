@@ -19,7 +19,7 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
      * Prune a GitHub gist to only the required metadata.
      */
     pruneGitHubGistToItemMetadata: (item: GitHubGist) => Promise<ItemMetadata | undefined>;
-    getItemFromGist: (id: string, gist: GitHubGist, data: string) => Item | undefined;
+    getItemFromGist: (id: string, gist: GitHubGist) => Promise<Item | undefined>;
 }): GenericItemSource<Item, ItemMetadata> {
     const { personalAccessToken, pruneGitHubGistToItemMetadata, getItemFromGist } = parameters;
 
@@ -42,9 +42,7 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
 
     async function getItemById(id: string) {
         const gist = await getGist(personalAccessToken, id);
-        const rawUrl = getSingleGistFileUrl(gist);
-        const text = await loadUrlText(rawUrl);
-        const item = getItemFromGist(id, gist, text);
+        const item = await getItemFromGist(id, gist);
         return item;
     }
 
@@ -68,36 +66,85 @@ const githubSnipStorageFileNameJson = "snip.json";
 const githubSnipStorageFileNameYaml = "snip.yaml";
 const personalAccessToken = getSetting("githubPersonalAccessToken");
 
-/**
- * The format of the snip stored in GitHub Gists.
- */
-enum GitHubGistExportSnipFormat {
-    /**
-     * JSON format
-     * The file name is `snip.json`.
-     */
-    Json = "json",
+// /**
+//  * The format of the snip stored in GitHub Gists.
+//  */
+// enum GitHubGistExportSnipFormat {
+//     /**
+//      * JSON format
+//      * The file name is `snip.json`.
+//      */
+//     Json = "json",
 
-    /**
-     * YAML format
-     * The file name is `snip.yaml`.
-     */
-    Yaml = "yaml",
-}
+//     /**
+//      * YAML format
+//      * The file name is `snip.yaml`.
+//      */
+//     Yaml = "yaml",
+// }
 
-function getGitHubGistExportSnipFormat(gist: GitHubGist): GitHubGistExportSnipFormat | undefined {
-    let snipFile = gist.files[githubSnipStorageFileNameJson];
-    if (snipFile !== undefined && snipFile.language === "JSON" && snipFile.type === "application/json") {
-        return GitHubGistExportSnipFormat.Json;
-    }
+// /**
+//  * Identify the snip format in a GitHub Gist and corresponding file.
+//  */
+// function getGitHubGistExportSnipFormatData(gist: GitHubGist):
+//     | {
+//           format: GitHubGistExportSnipFormat.Json | GitHubGistExportSnipFormat.Yaml;
+//           snipFile: GitHubGist["files"][number];
+//       }
+//     | undefined {
+//     // Is the format Json?
+//     let snipFile = gist.files[githubSnipStorageFileNameJson];
+//     if (snipFile !== undefined && snipFile.language === "JSON" && snipFile.type === "application/json") {
+//         return { format: GitHubGistExportSnipFormat.Json, snipFile };
+//     }
 
-    snipFile = gist.files[githubSnipStorageFileNameYaml];
-    if (snipFile !== undefined && snipFile.language === "YAML" && snipFile.type === "text/x-yaml") {
-        return GitHubGistExportSnipFormat.Yaml;
-    }
+//     // Is the format Yaml?
+//     snipFile = gist.files[githubSnipStorageFileNameYaml];
+//     if (snipFile !== undefined && snipFile.language === "YAML" && snipFile.type === "text/x-yaml") {
+//         return { format: GitHubGistExportSnipFormat.Yaml, snipFile };
+//     }
 
-    return undefined;
-}
+//     // Unknown format
+//     return undefined;
+// }
+
+// function getExportSnipFromFormat(format: GitHubGistExportSnipFormat, data: string): ExportSnip | undefined {
+//     switch (format) {
+//         case GitHubGistExportSnipFormat.Json:
+//             return getExportSnipFromExportJson(data);
+//         case GitHubGistExportSnipFormat.Yaml:
+//             return getExportSnipFromExportYaml(data);
+//         default:
+//             return undefined;
+//     }
+// }
+
+// async function getExportSnipFromGitHubGist(gist: GitHubGist): Promise<ExportSnip | undefined> {
+//     // Support both JSON and YAML snips
+
+//     console.log(gist.id);
+
+//     // Identify the format of the snip in the gist
+//     const formatData = getGitHubGistExportSnipFormatData(gist);
+//     if (formatData === undefined) {
+//         // Unknown format
+//         return undefined;
+//     }
+//     const { format, snipFile } = formatData;
+
+//     // Fetch the snip file data from the gist
+//     const url = snipFile.raw_url;
+//     const response = await fetch(url);
+//     const text = await response.text();
+
+//     try {
+//         const snip = getExportSnipFromFormat(format, text);
+//         return snip;
+//     } catch (e) {
+//         console.error(`Error parsing snip from GitHub Gist: ${e}`);
+//     }
+//     return undefined;
+// }
 
 async function getExportSnipFromGitHubGistJson(gist: GitHubGist): Promise<ExportSnip | undefined> {
     const snipFile = gist.files[githubSnipStorageFileNameJson];
@@ -151,8 +198,8 @@ async function getExportSnipFromGitHubGist(gist: GitHubGist): Promise<ExportSnip
     console.log(gist.id);
 
     function errorHandler(e: Error) {
-        // Log the error but continue trying other formats
-        // Generally this shouldn't happen.
+        // This shouldn't happen.
+        // Log the error but continue trying other formats.
         console.error(`Error getting snip from GitHub Gist: ${e}`);
         return undefined;
     }
@@ -177,7 +224,7 @@ async function getExportSnipFromGitHubGist(gist: GitHubGist): Promise<ExportSnip
 
 export const sourceSnipGitHub = getSourceGithubGists({
     personalAccessToken,
-    pruneGitHubGistToItemMetadata: async (item) => {
+    pruneGitHubGistToItemMetadata: async (item: GitHubGist) => {
         // Is Target Gist?
         const snip = await getExportSnipFromGitHubGist(item);
         if (snip === undefined) {
@@ -190,14 +237,15 @@ export const sourceSnipGitHub = getSourceGithubGists({
         const metadata = pruneSnipToSnipMetadata({ ...snip, id, modified });
         return metadata;
     },
-    getItemFromGist: (id, gist: GitHubGist, data: string) => {
-        // Try both Json and Yaml formats
-        const file = gist.files[githubSnipStorageFileNameJson] || gist.files[githubSnipStorageFileNameYaml];
+    getItemFromGist: async (id, gist: GitHubGist) => {
+        const exportItem = await getExportSnipFromGitHubGist(gist);
 
-        const exportItem = getExportSnipFromExportJson(data) || getExportSnipFromExportYaml(data);
         if (exportItem === undefined) {
+            // This can happen if the Gist was modified.
+            console.warn(`No export snip found in GitHub Gist with id ${id}`);
             return undefined;
         }
+
         const item = {
             id,
             modified: Date.parse(gist.updated_at),
