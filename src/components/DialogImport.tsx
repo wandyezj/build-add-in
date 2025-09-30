@@ -55,7 +55,7 @@ function isPossibleGistUrl(value: string) {
  */
 export function getSnipExportJsonTextFromExportYaml(value: string): string | undefined {
     try {
-        const snip = objectFromYaml(value) as Snip;
+        const snip = objectFromYaml<Snip>(value);
         const valid = isValidExportSnip(snip);
         if (valid) {
             const content = getSnipExportJson(snip);

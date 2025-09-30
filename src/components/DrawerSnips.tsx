@@ -20,7 +20,7 @@ import {
     SnipWithSource,
     completeSnip,
     isValidExportSnip,
-    pruneSnipForExport,
+    pruneSnipToExportSnip,
 } from "../core/Snip";
 import {
     ClipboardRegular,
@@ -40,7 +40,7 @@ import { loc } from "../core/localize/loc";
 
 async function getAllSnipJsonText(): Promise<string> {
     const snips = await getAllSnips();
-    const prunedSnips = snips.map((snip) => pruneSnipForExport(snip));
+    const prunedSnips = snips.map((snip) => pruneSnipToExportSnip(snip));
     const snipsJsonText = objectToJson(prunedSnips);
     return snipsJsonText;
 }
