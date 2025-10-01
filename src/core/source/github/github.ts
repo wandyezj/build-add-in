@@ -24,12 +24,37 @@ export interface GitHubGist {
     created_at: string;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     updated_at: string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    files: { [key: string]: { raw_url: string; type: "application/json" | string; language: "JSON" | string } };
+
+    files: {
+        [key: string]:
+            | {
+                  // snip.json
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  raw_url: string;
+                  type: "application/json";
+                  language: "JSON";
+              }
+            | {
+                  // snip.yaml
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  raw_url: string;
+                  type: "text/x-yaml";
+                  language: "YAML";
+              }
+            | {
+                  // other file
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  raw_url: string;
+                  type: string;
+                  language: string;
+              };
+    };
     public: boolean;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     owner: { login: string; avatar_url: string };
 }
+
+// YAML type: text/x-yaml
 
 // will need to page
 // https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28

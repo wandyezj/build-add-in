@@ -1,5 +1,6 @@
 // Only have a single version of snip.
 
+import { objectFromYaml } from "./util/objectFromYaml";
 import { objectToJson } from "./util/objectToJson";
 
 // If need to update in a non-compatible way, create a transform function to update existing snips.
@@ -210,9 +211,9 @@ export function isValidSnip(snip: Snip): boolean {
 }
 
 /**
- * Make sure the snip is valid and only contains what is expected.
+ * Prune the snip to only contain allowed files.
  */
-export function pruneSnip(snip: Snip): Snip {
+function pruneSnipToFiles(snip: Pick<Snip, "files">): Pick<Snip, "files"> {
     const files: typeof snip.files = {} as typeof snip.files;
     for (const key of requiredKeys) {
         files[key] = {
@@ -220,6 +221,14 @@ export function pruneSnip(snip: Snip): Snip {
             content: snip.files[key].content,
         };
     }
+    return { files };
+}
+
+/**
+ * Make sure the snip is valid and only contains what is expected.
+ */
+export function pruneSnip(snip: Snip): Snip {
+    const { files } = pruneSnipToFiles(snip);
 
     const { id, name, modified, author } = snip;
     return {
@@ -232,17 +241,11 @@ export function pruneSnip(snip: Snip): Snip {
 }
 
 /**
- * Get the snip doc text to sign.
+ * Prune a snip to only contain export properties.
  */
-export function getSnipDocText(snip: Snip): string {
-    const { name, files } = pruneSnipForExport(snip);
-    const hashSnip = { name, files };
-    const text = objectToJson(hashSnip);
-    return text;
-}
-
-export function pruneSnipForExport(snip: Snip): ExportSnip {
-    const { name, author, files } = pruneSnip(snip);
+export function pruneSnipToExportSnip(snip: ExportSnip): ExportSnip {
+    const { name, author } = snip;
+    const { files } = pruneSnipToFiles(snip);
 
     return {
         name,
@@ -258,6 +261,16 @@ export function pruneSnipToSnipMetadata(snip: Pick<Snip, "id" | "modified" | "na
         modified,
         name,
     };
+}
+
+/**
+ * Get the snip doc text to sign.
+ */
+export function getSnipDocText(snip: Snip): string {
+    const { name, files } = pruneSnipToExportSnip(snip);
+    const hashSnip = { name, files };
+    const text = objectToJson(hashSnip);
+    return text;
 }
 
 /**
@@ -300,17 +313,45 @@ export function getSnipFromJson(value: string): Snip | undefined {
 }
 
 /**
- * Gets a Snip from a JSON string
+ * ExportSnip Json -> ExportSnip
+ *
+ * Gets a Snip from a Json string
  * @param value Json string to parse
  * @returns pruned Snip if the value is valid, otherwise undefined
  */
 export function getExportSnipFromExportJson(value: string): ExportSnip | undefined {
     try {
         const snip = JSON.parse(value);
-        if (!isValidExportSnip(snip)) {
+
+        const valid = isValidExportSnip(snip);
+        if (!valid) {
             return undefined;
         }
-        const pruned = pruneSnipForExport(snip);
+
+        const pruned = pruneSnipToExportSnip(snip);
+        return pruned;
+    } catch (e) {
+        return undefined;
+    }
+}
+
+/**
+ * ExportSnip Yaml -> ExportSnip
+ *
+ * Gets a Snip from a Yaml string
+ * @param value Yaml string to parse
+ * @returns pruned Snip if the value is valid, otherwise undefined
+ */
+export function getExportSnipFromExportYaml(value: string): ExportSnip | undefined {
+    try {
+        const snip = objectFromYaml<Snip>(value);
+
+        const valid = isValidExportSnip(snip);
+        if (!valid) {
+            return undefined;
+        }
+
+        const pruned = pruneSnipToExportSnip(snip);
         return pruned;
     } catch (e) {
         return undefined;
@@ -323,6 +364,7 @@ export function completeSnip(piece: ExportSnip, options?: { id?: string }): Snip
     const idPostfix = options?.id ?? "";
     // Unique ID is the timestamp
     const id = `${now}${idPostfix}`;
+
     // Modified is when it was created
     const modified = now;
 

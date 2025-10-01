@@ -1,6 +1,6 @@
 import { getSnipExportFormat } from "./settings/getSnipExportFormat";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
-import { pruneSnipForExport, type Snip } from "./Snip";
+import { pruneSnipToExportSnip, type Snip } from "./Snip";
 import { objectToJson } from "./util/objectToJson";
 import { objectToYaml } from "./util/objectToYaml";
 
@@ -8,13 +8,13 @@ import { objectToYaml } from "./util/objectToYaml";
  * Get save JSON string from a Snip.
  */
 export function getSnipExportJson(snip: Snip): string {
-    const pruned = pruneSnipForExport(snip);
+    const pruned = pruneSnipToExportSnip(snip);
     const text = objectToJson(pruned);
     return text;
 }
 
 function getSnipExportYaml(snip: Snip): string {
-    const pruned = pruneSnipForExport(snip);
+    const pruned = pruneSnipToExportSnip(snip);
     const text = objectToYaml(pruned);
     return text;
 }
