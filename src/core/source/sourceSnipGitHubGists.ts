@@ -2,8 +2,6 @@ import { GenericItemSource } from "./GenericItemSource";
 import { getSetting } from "../setting";
 import { ExportSnip, getExportSnipFromExportJson, getExportSnipFromExportYaml, pruneSnipToSnipMetadata } from "../Snip";
 import { getGist, getGists, GitHubGist } from "./github/github";
-import { getSingleGistFileUrl } from "../util/loadGistText";
-import { loadUrlText } from "../util/loadUrlText";
 
 /**
  * Use specific GitHub accounts gist storage to store snips.
@@ -65,86 +63,6 @@ export function getSourceGithubGists<Item extends { id: string }, ItemMetadata e
 const githubSnipStorageFileNameJson = "snip.json";
 const githubSnipStorageFileNameYaml = "snip.yaml";
 const personalAccessToken = getSetting("githubPersonalAccessToken");
-
-// /**
-//  * The format of the snip stored in GitHub Gists.
-//  */
-// enum GitHubGistExportSnipFormat {
-//     /**
-//      * JSON format
-//      * The file name is `snip.json`.
-//      */
-//     Json = "json",
-
-//     /**
-//      * YAML format
-//      * The file name is `snip.yaml`.
-//      */
-//     Yaml = "yaml",
-// }
-
-// /**
-//  * Identify the snip format in a GitHub Gist and corresponding file.
-//  */
-// function getGitHubGistExportSnipFormatData(gist: GitHubGist):
-//     | {
-//           format: GitHubGistExportSnipFormat.Json | GitHubGistExportSnipFormat.Yaml;
-//           snipFile: GitHubGist["files"][number];
-//       }
-//     | undefined {
-//     // Is the format Json?
-//     let snipFile = gist.files[githubSnipStorageFileNameJson];
-//     if (snipFile !== undefined && snipFile.language === "JSON" && snipFile.type === "application/json") {
-//         return { format: GitHubGistExportSnipFormat.Json, snipFile };
-//     }
-
-//     // Is the format Yaml?
-//     snipFile = gist.files[githubSnipStorageFileNameYaml];
-//     if (snipFile !== undefined && snipFile.language === "YAML" && snipFile.type === "text/x-yaml") {
-//         return { format: GitHubGistExportSnipFormat.Yaml, snipFile };
-//     }
-
-//     // Unknown format
-//     return undefined;
-// }
-
-// function getExportSnipFromFormat(format: GitHubGistExportSnipFormat, data: string): ExportSnip | undefined {
-//     switch (format) {
-//         case GitHubGistExportSnipFormat.Json:
-//             return getExportSnipFromExportJson(data);
-//         case GitHubGistExportSnipFormat.Yaml:
-//             return getExportSnipFromExportYaml(data);
-//         default:
-//             return undefined;
-//     }
-// }
-
-// async function getExportSnipFromGitHubGist(gist: GitHubGist): Promise<ExportSnip | undefined> {
-//     // Support both JSON and YAML snips
-
-//     console.log(gist.id);
-
-//     // Identify the format of the snip in the gist
-//     const formatData = getGitHubGistExportSnipFormatData(gist);
-//     if (formatData === undefined) {
-//         // Unknown format
-//         return undefined;
-//     }
-//     const { format, snipFile } = formatData;
-
-//     // Fetch the snip file data from the gist
-//     const url = snipFile.raw_url;
-//     const response = await fetch(url);
-//     const text = await response.text();
-
-//     try {
-//         const snip = getExportSnipFromFormat(format, text);
-//         return snip;
-//     } catch (e) {
-//         console.error(`Error parsing snip from GitHub Gist: ${e}`);
-//     }
-//     return undefined;
-// }
 
 async function getExportSnipFromGitHubGistJson(gist: GitHubGist): Promise<ExportSnip | undefined> {
     const snipFile = gist.files[githubSnipStorageFileNameJson];
@@ -224,15 +142,15 @@ async function getExportSnipFromGitHubGist(gist: GitHubGist): Promise<ExportSnip
 
 export const sourceSnipGitHub = getSourceGithubGists({
     personalAccessToken,
-    pruneGitHubGistToItemMetadata: async (item: GitHubGist) => {
+    pruneGitHubGistToItemMetadata: async (gist: GitHubGist) => {
         // Is Target Gist?
-        const snip = await getExportSnipFromGitHubGist(item);
+        const snip = await getExportSnipFromGitHubGist(gist);
         if (snip === undefined) {
             return undefined;
         }
 
-        const id = item.id;
-        const modified = new Date(item.updated_at).getTime();
+        const { id, updated_at } = gist;
+        const modified = new Date(updated_at).getTime();
 
         const metadata = pruneSnipToSnipMetadata({ ...snip, id, modified });
         return metadata;
@@ -246,9 +164,12 @@ export const sourceSnipGitHub = getSourceGithubGists({
             return undefined;
         }
 
+        const { updated_at } = gist;
+        const modified = Date.parse(updated_at);
+
         const item = {
             id,
-            modified: Date.parse(gist.updated_at),
+            modified,
             ...exportItem,
         };
         return item;
