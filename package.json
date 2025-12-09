@@ -36,6 +36,7 @@
         "check-manifest-local": "npx office-addin-manifest validate manifests/local.xml",
         "check-manifest-outlook": "npx office-addin-manifest validate --production manifests/production.outlook.xml ",
         "check-manifest-outlook-local": "npx office-addin-manifest validate manifests/local.outlook.xml",
+        "make-app-package": "node ./scripts/make-app-package.js manifests/local.manifest.json .",
         "deploy-git-hooks": "node ./scripts/deploy-git-hooks.js --install",
         "remove-git-hooks": "node ./scripts/deploy-git-hooks.js --remove",
         "extract-loc": "node ./scripts/extract-loc.js",

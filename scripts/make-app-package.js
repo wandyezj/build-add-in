@@ -9,14 +9,15 @@ const child_process = require("child_process");
 const parameters = process.argv.slice(2);
 
 if (parameters.length !== 2) {
-    console.log("usage: [manifest.json] [output directory]");
+    console.log("usage: [manifest.json] [output directory relative to root]");
     process.exit(0);
 }
 
-const [manifestPath, outputDirectory] = parameters;
+const [manifestPath, outputDirectoryRelative] = parameters;
 
 const root = path.resolve(__dirname, "..");
 console.log(root);
+const outputDirectory = path.join(root, outputDirectoryRelative);
 
 // Read manifest
 const manifestText = fs.readFileSync(manifestPath, "utf8");
@@ -49,16 +50,16 @@ icons.forEach((iconPath) => {
 
 // Create zip folder
 const zipPathIn = tempPath;
-const zipPathOut = path.join(root, "appPackage.zip");
+const zipPathOut = path.normalize(path.join(outputDirectory, "appPackage.zip"));
 if (fs.existsSync(zipPathOut)) {
     fs.rmSync(zipPathOut);
 }
 
 const files = fs.readdirSync(zipPathIn);
 
-const command = `tar.exe -a --create -v --file ${zipPathOut} ${files.join(" ")}`;
+const command = `tar.exe --auto-compress --create --verbose --file ${zipPathOut} ${files.join(" ")}`;
 console.log(command);
 child_process.execSync(command, { cwd: zipPathIn });
 
 // Cleanup
-fs.rmdirSync(tempPath, { recursive: true, force: true });
+fs.rmSync(tempPath, { recursive: true, force: true });
