@@ -1,6 +1,6 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json#",
-    "manifestVersion": "1.17",
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.24/MicrosoftTeams.schema.json#",
+    "manifestVersion": "1.24",
     "version": "2.0.1",
     "id": "01000000-1000-1000-0000-000000007357",
     "localizationInfo": {
@@ -69,18 +69,18 @@
                     "lifetime": "short",
                     "actions": [
                         {
-                            "id": "action_1",
+                            "id": "action_compose_button_edit",
                             "type": "openPage",
-                            "displayName": "action_1",
+                            "displayName": "action_compose_button_edit",
                             "pinnable": false,
                             "view": "view_1",
                             "multiselect": false,
                             "supportsNoItemContext": false
                         },
                         {
-                            "id": "action_4",
+                            "id": "action_read_button_edit",
                             "type": "openPage",
-                            "displayName": "action_4",
+                            "displayName": "action_read_button_edit",
                             "pinnable": false,
                             "view": "view_4",
                             "multiselect": false,
@@ -124,27 +124,27 @@
                     "lifetime": "short",
                     "actions": [
                         {
-                            "id": "action_2",
+                            "id": "action_compose_button_run",
                             "type": "openPage",
-                            "displayName": "action_2",
+                            "displayName": "action_compose_button_run",
                             "pinnable": false,
                             "view": "view_2",
                             "multiselect": false,
                             "supportsNoItemContext": false
                         },
                         {
-                            "id": "action_5",
+                            "id": "action_read_button_run",
                             "type": "openPage",
-                            "displayName": "action_5",
+                            "displayName": "action_read_button_run",
                             "pinnable": false,
                             "view": "view_5",
                             "multiselect": false,
                             "supportsNoItemContext": false
                         },
                         {
-                            "id": "action_8",
+                            "id": "action_organizer_button_run",
                             "type": "openPage",
-                            "displayName": "action_8",
+                            "displayName": "action_organizer_button_run",
                             "pinnable": false,
                             "view": "view_8",
                             "multiselect": false,
@@ -179,27 +179,27 @@
                     "lifetime": "short",
                     "actions": [
                         {
-                            "id": "action_3",
+                            "id": "action_compose_button_help",
                             "type": "openPage",
-                            "displayName": "action_3",
+                            "displayName": "action_compose_button_help",
                             "pinnable": false,
                             "view": "view_3",
                             "multiselect": false,
                             "supportsNoItemContext": false
                         },
                         {
-                            "id": "action_6",
+                            "id": "action_read_button_help",
                             "type": "openPage",
-                            "displayName": "action_6",
+                            "displayName": "action_read_button_help",
                             "pinnable": false,
                             "view": "view_6",
                             "multiselect": false,
                             "supportsNoItemContext": false
                         },
                         {
-                            "id": "action_9",
+                            "id": "action_organizer_button_help",
                             "type": "openPage",
-                            "displayName": "action_9",
+                            "displayName": "action_organizer_button_help",
                             "pinnable": false,
                             "view": "view_9",
                             "multiselect": false,
@@ -260,7 +260,7 @@
                                                 "title": "Edit",
                                                 "description": "Edit Snip"
                                             },
-                                            "actionId": "action_1",
+                                            "actionId": "action_compose_button_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         },
@@ -286,7 +286,7 @@
                                                 "title": "Run",
                                                 "description": "Run Snip"
                                             },
-                                            "actionId": "action_2",
+                                            "actionId": "action_compose_button_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }
@@ -318,7 +318,7 @@
                                                 "title": "Help",
                                                 "description": "Get Help"
                                             },
-                                            "actionId": "action_3",
+                                            "actionId": "action_compose_button_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }
@@ -370,7 +370,7 @@
                                                 "title": "Edit",
                                                 "description": "Edit Snip"
                                             },
-                                            "actionId": "action_4",
+                                            "actionId": "action_read_button_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         },
@@ -396,7 +396,7 @@
                                                 "title": "Run",
                                                 "description": "Run Snip"
                                             },
-                                            "actionId": "action_5",
+                                            "actionId": "action_read_button_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }
@@ -428,7 +428,7 @@
                                                 "title": "Help",
                                                 "description": "Get Help"
                                             },
-                                            "actionId": "action_6",
+                                            "actionId": "action_read_button_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }
@@ -506,7 +506,7 @@
                                                 "title": "Run",
                                                 "description": "Run Snip"
                                             },
-                                            "actionId": "action_8",
+                                            "actionId": "action_organizer_button_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }
@@ -538,7 +538,7 @@
                                                 "title": "Help",
                                                 "description": "Get Help"
                                             },
-                                            "actionId": "action_9",
+                                            "actionId": "action_organizer_button_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
                                         }

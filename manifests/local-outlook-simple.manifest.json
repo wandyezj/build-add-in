@@ -1,0 +1,268 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.24/MicrosoftTeams.schema.json#",
+    "manifestVersion": "1.24",
+    "version": "2.0.1",
+    "id": "01000000-1000-1000-0000-000000007357",
+    "localizationInfo": {
+        "defaultLanguageTag": "en-us"
+    },
+    "developer": {
+        "name": "wandyezj",
+        "websiteUrl": "https://localhost:3000/statements/support.html",
+        "privacyUrl": "https://localhost:3000/statements/support.html",
+        "termsOfUseUrl": "https://localhost:3000/statements/support.html"
+    },
+    "name": {
+        "short": "(local) (unity) (2) Build",
+        "full": "(local) (unity) (2) Build"
+    },
+    "description": {
+        "short": "Build Extensions",
+        "full": "Build Extensions"
+    },
+    "icons": {
+        "outline": "assets/icon-64.png",
+        "color": "assets/icon-128.png"
+    },
+    "accentColor": "#230201",
+    "validDomains": ["https://localhost:3000"],
+    "showLoadingIndicator": false,
+    "isFullScreen": false,
+    "defaultBlockUntilAdminAction": false,
+    "authorization": {
+        "permissions": {
+            "resourceSpecific": [
+                {
+                    "name": "Mailbox.ReadWrite.User",
+                    "type": "Delegated"
+                }
+            ]
+        }
+    },
+    "extensions": [
+        {
+            "requirements": {
+                "capabilities": [
+                    {
+                        "name": "Mailbox",
+                        "minVersion": "1.7"
+                    }
+                ],
+                "scopes": ["mail"]
+            },
+            "runtimes": [
+                {
+                    "requirements": {
+                        "capabilities": [
+                            {
+                                "name": "Mailbox",
+                                "minVersion": "1.7"
+                            }
+                        ],
+                        "formFactors": ["desktop"]
+                    },
+                    "id": "runtime_edit",
+                    "type": "general",
+                    "code": {
+                        "page": "https://localhost:3000/edit.html"
+                    },
+                    "lifetime": "short",
+                    "actions": [
+                        {
+                            "id": "action_button_edit",
+                            "type": "openPage",
+                            "displayName": "action_button_edit",
+                            "pinnable": false,
+                            "view": "view_edit",
+                            "multiselect": false,
+                            "supportsNoItemContext": false
+                        }
+                    ]
+                },
+                {
+                    "requirements": {
+                        "capabilities": [
+                            {
+                                "name": "Mailbox",
+                                "minVersion": "1.7"
+                            }
+                        ],
+                        "formFactors": ["desktop"]
+                    },
+                    "id": "runtime_run",
+                    "type": "general",
+                    "code": {
+                        "page": "https://localhost:3000/run.html"
+                    },
+                    "lifetime": "short",
+                    "actions": [
+                        {
+                            "id": "action_button_run",
+                            "type": "openPage",
+                            "displayName": "action_button_run",
+                            "pinnable": false,
+                            "view": "view_run",
+                            "multiselect": false,
+                            "supportsNoItemContext": false
+                        }
+                    ]
+                },
+                {
+                    "requirements": {
+                        "capabilities": [
+                            {
+                                "name": "Mailbox",
+                                "minVersion": "1.7"
+                            }
+                        ],
+                        "formFactors": ["desktop"]
+                    },
+                    "id": "runtime_help",
+                    "type": "general",
+                    "code": {
+                        "page": "https://localhost:3000/help.html"
+                    },
+                    "lifetime": "short",
+                    "actions": [
+                        {
+                            "id": "action_button_help",
+                            "type": "openPage",
+                            "displayName": "action_button_help",
+                            "pinnable": false,
+                            "view": "view_help",
+                            "multiselect": false,
+                            "supportsNoItemContext": false
+                        }
+                    ]
+                }
+            ],
+            "ribbons": [
+                {
+                    "requirements": {
+                        "capabilities": [
+                            {
+                                "name": "Mailbox",
+                                "minVersion": "1.7"
+                            }
+                        ],
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
+                    },
+                    "contexts": ["meetingDetailsOrganizer", "mailCompose", "mailRead", "meetingDetailsAttendee"],
+                    "tabs": [
+                        {
+                            "builtInTabId": "TabDefault",
+                            "groups": [
+                                {
+                                    "id": "Outlook.GroupId.Extension",
+                                    "label": "(local) (unity) Extension",
+                                    "controls": [
+                                        {
+                                            "id": "Outlook.ButtonId.Edit",
+                                            "type": "button",
+                                            "label": "Edit",
+                                            "icons": [
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
+                                            ],
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
+                                            "actionId": "action_button_edit",
+                                            "overriddenByRibbonApi": false,
+                                            "enabled": true
+                                        },
+                                        {
+                                            "id": "Outlook.ButtonId.Run",
+                                            "type": "button",
+                                            "label": "Run",
+                                            "icons": [
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
+                                            ],
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
+                                            "actionId": "action_button_run",
+                                            "overriddenByRibbonApi": false,
+                                            "enabled": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "Outlook.GroupId.Help",
+                                    "label": "Help",
+                                    "controls": [
+                                        {
+                                            "id": "Outlook.ButtonId.Help",
+                                            "type": "button",
+                                            "label": "Help",
+                                            "icons": [
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
+                                            ],
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
+                                            "actionId": "action_button_help",
+                                            "overriddenByRibbonApi": false,
+                                            "enabled": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "alternates": [
+                {
+                    "alternateIcons": {
+                        "icon": {
+                            "size": 64,
+                            "url": "https://localhost:3000/assets/icon-64.png"
+                        },
+                        "highResolutionIcon": {
+                            "size": 64,
+                            "url": "https://localhost:3000/assets/icon-128.png"
+                        }
+                    }
+                }
+            ],
+            "audienceClaimUrl": "https://localhost:3000/taskpane.html"
+        }
+    ]
+}
