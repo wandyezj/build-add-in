@@ -25,7 +25,8 @@
         {
             "requirements": {
                 "capabilities": [{ "name": "DialogApi", "minVersion": "1.2" }],
-                "scopes": ["document", "workbook", "presentation"]
+                "scopes": ["document", "workbook", "presentation"],
+                "formFactors": ["desktop"]
             },
             "runtimes": [
                 {
