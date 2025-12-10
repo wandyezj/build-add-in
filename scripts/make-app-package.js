@@ -33,10 +33,9 @@ const icons = [manifest.icons.color, manifest.icons.outline];
 // Create Temp Directory
 const tempName = fs.mkdtempSync("temp-");
 const tempPath = path.join(root, tempName);
-//fs.mkdirSync(tempPath);
 console.log(tempPath);
 
-// copy required files to temp directory
+// Copy files to temp zip directory
 const fromPath = manifestPath;
 const toPath = path.join(tempPath, "manifest.json");
 fs.copyFileSync(fromPath, toPath);
@@ -48,7 +47,7 @@ icons.forEach((iconPath) => {
     fs.copyFileSync(fromPath, toPath);
 });
 
-// Create zip folder
+// Create Zip File
 const zipPathIn = tempPath;
 const zipPathOut = path.normalize(path.join(outputDirectory, "appPackage.zip"));
 if (fs.existsSync(zipPathOut)) {
@@ -56,7 +55,6 @@ if (fs.existsSync(zipPathOut)) {
 }
 
 const files = fs.readdirSync(zipPathIn);
-
 const command = `tar.exe --auto-compress --create --verbose --file ${zipPathOut} ${files.join(" ")}`;
 console.log(command);
 child_process.execSync(command, { cwd: zipPathIn });
