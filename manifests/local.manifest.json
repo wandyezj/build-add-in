@@ -1,14 +1,14 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.24/MicrosoftTeams.schema.json#",
-    "manifestVersion": "1.24",
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json#",
+    "manifestVersion": "1.17",
     "version": "1.0.1",
     "id": "01000000-0000-0000-0000-b1d000007357",
     "localizationInfo": { "defaultLanguageTag": "en-us" },
     "developer": {
         "name": "wandyezj",
         "websiteUrl": "https://localhost:3000/statements/support.html",
-        "privacyUrl": "https://localhost:3000/statements/support.html",
-        "termsOfUseUrl": "https://localhost:3000/statements/support.html"
+        "privacyUrl": "https://localhost:3000/statements/privacy.html",
+        "termsOfUseUrl": "https://localhost:3000/statements/eula.html"
     },
     "name": { "short": "(local) (unity) Build", "full": "(local) (unity) Build" },
     "description": { "short": "Build Extensions", "full": "Build Extensions" },

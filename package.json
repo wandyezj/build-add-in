@@ -31,6 +31,7 @@
         "share": "node ./scripts/manifests-to-share.js",
         "manifest": "node ./scripts/make-manifest.js && npm run share && npm run check-manifests",
         "make-manifest": "node ./scripts/make-manifest.js",
+        "make-manifest-shared": "node ./scripts/make-manifest-shared.js",
         "check-manifests": "npm run check-manifest-local && npm run check-manifest && npm run check-manifest-outlook-local && npm run check-manifest-outlook",
         "check-manifest": "npx office-addin-manifest validate --production manifests/production.xml",
         "check-manifest-local": "npx office-addin-manifest validate manifests/local.xml",
