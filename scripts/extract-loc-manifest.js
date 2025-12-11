@@ -95,7 +95,7 @@ function doSearch(searchPath, searchObject, currentPath = "") {
  * Specific paths to look for strings in the manifest
  */
 const localizationPaths = [
-    "name.sort",
+    "name.short",
     "name.full",
     "description.short",
     "description.full",
@@ -107,10 +107,7 @@ const localizationPaths = [
 ];
 
 //
-let loc = {
-    ["$schema"]:
-        "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.Localization.schema.json",
-};
+let loc = {};
 
 for (const search of localizationPaths) {
     const found = doSearch(search, manifest);
@@ -120,6 +117,38 @@ for (const search of localizationPaths) {
 // Write the localization strings to a file
 const defaultLanguage = manifest.localizationInfo.defaultLanguageTag;
 
+const locFile = {
+    ["$schema"]:
+        "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.Localization.schema.json",
+    ...loc,
+};
+
+// Write Base Loc file
 const locFileName = `${defaultLanguage}.json`;
-const outputFilePath = path.join(outputDirectory, locFileName);
-fs.writeFileSync(outputFilePath, JSON.stringify(loc, null, 4));
+const locOutputFilePath = path.join(outputDirectory, locFileName);
+const locFileContent = JSON.stringify(locFile, null, 4);
+fs.writeFileSync(locOutputFilePath, locFileContent);
+
+// Construct the translation file
+
+// iterate through all keys in loc
+const translationValues = [];
+for (const key in loc) {
+    const value = loc[key];
+    translationValues.push(value);
+}
+
+// remove duplicates from the array
+const uniqueTranslationValues = Array.from(new Set(translationValues));
+uniqueTranslationValues.sort();
+
+// Create the translation prompt
+const localizeDirectory = path.join(root, "localize");
+const promptPrefixFilePath = path.join(localizeDirectory, "prompt-prefix.txt");
+const promptPrefix = fs.readFileSync(promptPrefixFilePath, "utf8");
+
+const values = uniqueTranslationValues.map((value) => `"${value}"`).join(", ");
+
+const translationPrompt = `${promptPrefix}\n\n${values}`;
+const translationPromptFilePath = path.join(localizeDirectory, "translate-prompt-manifest.txt");
+fs.writeFileSync(translationPromptFilePath, translationPrompt, "utf8");

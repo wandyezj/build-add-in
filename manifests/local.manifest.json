@@ -3,32 +3,81 @@
     "manifestVersion": "1.17",
     "version": "0.0.1",
     "id": "01000000-0000-0000-0000-b1d000007357",
-    "localizationInfo": { "defaultLanguageTag": "en-us" },
+    "localizationInfo": {
+        "defaultLanguageTag": "en",
+        "additionalLanguages": [
+            {
+                "languageTag": "en",
+                "file": "localize/languages/en.json"
+            },
+            {
+                "languageTag": "ja",
+                "file": "localize/languages/ja.json"
+            },
+            {
+                "languageTag": "es",
+                "file": "localize/languages/es.json"
+            },
+            {
+                "languageTag": "fr",
+                "file": "localize/languages/fr.json"
+            },
+            {
+                "languageTag": "de",
+                "file": "localize/languages/de.json"
+            },
+            {
+                "languageTag": "zh",
+                "file": "localize/languages/zh.json"
+            }
+        ]
+    },
     "developer": {
         "name": "wandyezj",
         "websiteUrl": "https://localhost:3000/statements/support.html",
         "privacyUrl": "https://localhost:3000/statements/privacy.html",
         "termsOfUseUrl": "https://localhost:3000/statements/eula.html"
     },
-    "name": { "short": "(local) (unity) Build", "full": "(local) (unity) Build" },
-    "description": { "short": "Build Extensions", "full": "Build Extensions" },
-    "icons": { "outline": "assets/icon-32.png", "color": "assets/icon-64.png" },
+    "name": {
+        "short": "(local) (unity) Build",
+        "full": "(local) (unity) Build"
+    },
+    "description": {
+        "short": "Build Extensions",
+        "full": "Build Extensions"
+    },
+    "icons": {
+        "outline": "assets/icon-32.png",
+        "color": "assets/icon-64.png"
+    },
     "accentColor": "#000000",
     "validDomains": ["https://localhost:3000"],
     "showLoadingIndicator": false,
     "isFullScreen": false,
     "defaultBlockUntilAdminAction": false,
     "authorization": {
-        "permissions": { "resourceSpecific": [{ "name": "Document.ReadWrite.User", "type": "Delegated" }] }
+        "permissions": {
+            "resourceSpecific": [
+                {
+                    "name": "Document.ReadWrite.User",
+                    "type": "Delegated"
+                }
+            ]
+        }
     },
     "extensions": [
         {
-            "requirements": { "scopes": ["document", "workbook", "presentation", "mail"], "formFactors": ["desktop"] },
+            "requirements": {
+                "scopes": ["document", "workbook", "presentation", "mail"],
+                "formFactors": ["desktop"]
+            },
             "runtimes": [
                 {
                     "id": "runtime_edit",
                     "type": "general",
-                    "code": { "page": "https://localhost:3000/edit.html" },
+                    "code": {
+                        "page": "https://localhost:3000/edit.html"
+                    },
                     "lifetime": "short",
                     "actions": [
                         {
@@ -45,7 +94,9 @@
                 {
                     "id": "runtime_run",
                     "type": "general",
-                    "code": { "page": "https://localhost:3000/run.html" },
+                    "code": {
+                        "page": "https://localhost:3000/run.html"
+                    },
                     "lifetime": "short",
                     "actions": [
                         {
@@ -62,7 +113,9 @@
                 {
                     "id": "runtime_help",
                     "type": "general",
-                    "code": { "page": "https://localhost:3000/help.html" },
+                    "code": {
+                        "page": "https://localhost:3000/help.html"
+                    },
                     "lifetime": "short",
                     "actions": [
                         {
@@ -79,7 +132,9 @@
                 {
                     "id": "runtime_settings",
                     "type": "general",
-                    "code": { "page": "https://localhost:3000/settings.html" },
+                    "code": {
+                        "page": "https://localhost:3000/settings.html"
+                    },
                     "lifetime": "short",
                     "actions": [
                         {
@@ -96,7 +151,10 @@
             ],
             "ribbons": [
                 {
-                    "requirements": { "scopes": ["document", "workbook", "presentation"], "formFactors": ["desktop"] },
+                    "requirements": {
+                        "scopes": ["document", "workbook", "presentation"],
+                        "formFactors": ["desktop"]
+                    },
                     "contexts": ["default"],
                     "tabs": [
                         {
@@ -107,9 +165,18 @@
                                     "id": "group_id_extension",
                                     "label": "Extension",
                                     "icons": [
-                                        { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                        { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                        { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                        {
+                                            "size": 16,
+                                            "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                        },
+                                        {
+                                            "size": 32,
+                                            "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                        },
+                                        {
+                                            "size": 80,
+                                            "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                        }
                                     ],
                                     "controls": [
                                         {
@@ -117,11 +184,23 @@
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Edit", "description": "Edit Snip" },
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
                                             "actionId": "action_id_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -131,11 +210,23 @@
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-play-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-play-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-play-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Run", "description": "Run Snip" },
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
                                             "actionId": "action_id_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -146,9 +237,18 @@
                                     "id": "group_id_help",
                                     "label": "Help",
                                     "icons": [
-                                        { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                        { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                        { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                        {
+                                            "size": 16,
+                                            "url": "https://localhost:3000/assets/icon-help-16.png"
+                                        },
+                                        {
+                                            "size": 32,
+                                            "url": "https://localhost:3000/assets/icon-help-32.png"
+                                        },
+                                        {
+                                            "size": 80,
+                                            "url": "https://localhost:3000/assets/icon-help-80.png"
+                                        }
                                     ],
                                     "controls": [
                                         {
@@ -156,11 +256,23 @@
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Help", "description": "Get Help" },
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
                                             "actionId": "action_id_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -171,9 +283,18 @@
                                     "id": "group_id_settings",
                                     "label": "Settings",
                                     "icons": [
-                                        { "size": 16, "url": "https://localhost:3000/assets/icon-settings-16.png" },
-                                        { "size": 32, "url": "https://localhost:3000/assets/icon-settings-32.png" },
-                                        { "size": 80, "url": "https://localhost:3000/assets/icon-settings-80.png" }
+                                        {
+                                            "size": 16,
+                                            "url": "https://localhost:3000/assets/icon-settings-16.png"
+                                        },
+                                        {
+                                            "size": 32,
+                                            "url": "https://localhost:3000/assets/icon-settings-32.png"
+                                        },
+                                        {
+                                            "size": 80,
+                                            "url": "https://localhost:3000/assets/icon-settings-80.png"
+                                        }
                                     ],
                                     "controls": [
                                         {
@@ -194,7 +315,10 @@
                                                     "url": "https://localhost:3000/assets/icon-settings-80.png"
                                                 }
                                             ],
-                                            "supertip": { "title": "Settings", "description": "Change Settings" },
+                                            "supertip": {
+                                                "title": "Settings",
+                                                "description": "Change Settings"
+                                            },
                                             "actionId": "action_id_settings",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -206,7 +330,10 @@
                     ]
                 },
                 {
-                    "requirements": { "scopes": ["mail"], "formFactors": ["desktop"] },
+                    "requirements": {
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
+                    },
                     "contexts": ["mailRead"],
                     "tabs": [
                         {
@@ -221,11 +348,23 @@
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Edit", "description": "Edit Snip" },
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
                                             "actionId": "action_id_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -235,11 +374,23 @@
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-play-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-play-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-play-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Run", "description": "Run Snip" },
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
                                             "actionId": "action_id_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -255,11 +406,23 @@
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Help", "description": "Get Help" },
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
                                             "actionId": "action_id_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -271,7 +434,10 @@
                     ]
                 },
                 {
-                    "requirements": { "scopes": ["mail"], "formFactors": ["desktop"] },
+                    "requirements": {
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
+                    },
                     "contexts": ["mailCompose"],
                     "tabs": [
                         {
@@ -286,11 +452,23 @@
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Edit", "description": "Edit Snip" },
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
                                             "actionId": "action_id_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -300,11 +478,23 @@
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-play-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-play-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-play-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Run", "description": "Run Snip" },
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
                                             "actionId": "action_id_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -320,11 +510,23 @@
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Help", "description": "Get Help" },
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
                                             "actionId": "action_id_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -336,7 +538,10 @@
                     ]
                 },
                 {
-                    "requirements": { "scopes": ["mail"], "formFactors": ["desktop"] },
+                    "requirements": {
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
+                    },
                     "contexts": ["meetingDetailsOrganizer"],
                     "tabs": [
                         {
@@ -351,11 +556,23 @@
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Edit", "description": "Edit Snip" },
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
                                             "actionId": "action_id_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -365,11 +582,23 @@
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-play-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-play-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-play-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Run", "description": "Run Snip" },
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
                                             "actionId": "action_id_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -385,11 +614,23 @@
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Help", "description": "Get Help" },
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
                                             "actionId": "action_id_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -401,7 +642,10 @@
                     ]
                 },
                 {
-                    "requirements": { "scopes": ["mail"], "formFactors": ["desktop"] },
+                    "requirements": {
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
+                    },
                     "contexts": ["meetingDetailsAttendee"],
                     "tabs": [
                         {
@@ -416,11 +660,23 @@
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-edit-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-edit-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-edit-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Edit", "description": "Edit Snip" },
+                                            "supertip": {
+                                                "title": "Edit",
+                                                "description": "Edit Snip"
+                                            },
                                             "actionId": "action_id_edit",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -430,11 +686,23 @@
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-play-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-play-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-play-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Run", "description": "Run Snip" },
+                                            "supertip": {
+                                                "title": "Run",
+                                                "description": "Run Snip"
+                                            },
                                             "actionId": "action_id_run",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -450,11 +718,23 @@
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
-                                                { "size": 16, "url": "https://localhost:3000/assets/icon-help-16.png" },
-                                                { "size": 32, "url": "https://localhost:3000/assets/icon-help-32.png" },
-                                                { "size": 80, "url": "https://localhost:3000/assets/icon-help-80.png" }
+                                                {
+                                                    "size": 16,
+                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
+                                                },
+                                                {
+                                                    "size": 32,
+                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
+                                                },
+                                                {
+                                                    "size": 80,
+                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
+                                                }
                                             ],
-                                            "supertip": { "title": "Help", "description": "Get Help" },
+                                            "supertip": {
+                                                "title": "Help",
+                                                "description": "Get Help"
+                                            },
                                             "actionId": "action_id_help",
                                             "overriddenByRibbonApi": false,
                                             "enabled": true
@@ -469,8 +749,14 @@
             "alternates": [
                 {
                     "alternateIcons": {
-                        "icon": { "size": 32, "url": "https://localhost:3000/assets/icon-32.png" },
-                        "highResolutionIcon": { "size": 64, "url": "https://localhost:3000/assets/icon-64.png" }
+                        "icon": {
+                            "size": 32,
+                            "url": "https://localhost:3000/assets/icon-32.png"
+                        },
+                        "highResolutionIcon": {
+                            "size": 64,
+                            "url": "https://localhost:3000/assets/icon-64.png"
+                        }
                     }
                 }
             ]

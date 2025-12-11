@@ -22,12 +22,16 @@ const outputDirectory = path.join(root, outputDirectoryRelative);
 const manifestText = fs.readFileSync(manifestPath, "utf8");
 
 /**
- * @type {{icons: { outline: string; color: string;}}}
+ * @type {{icons: { outline: string; color: string;}; localizationInfo: {defaultLanguageTag: string; additionalLanguages: {languageTag: string; file: string;}[];}}}
  */
 const manifest = JSON.parse(manifestText);
 
 // Read "icons" property
 const icons = [manifest.icons.color, manifest.icons.outline];
+
+const languages = manifest.localizationInfo.additionalLanguages.map((lang) => lang.file);
+
+const additionalFiles = [...icons, ...languages];
 
 // Create Temp Directory
 const tempName = fs.mkdtempSync("temp-");
@@ -39,9 +43,9 @@ const fromPath = manifestPath;
 const toPath = path.join(tempPath, "manifest.json");
 fs.copyFileSync(fromPath, toPath);
 
-icons.forEach((iconPath) => {
-    const fromPath = path.join(root, iconPath);
-    const toPath = path.join(tempPath, iconPath);
+additionalFiles.forEach((filePath) => {
+    const fromPath = path.join(root, filePath);
+    const toPath = path.join(tempPath, filePath);
     fs.mkdirSync(path.dirname(toPath), { recursive: true });
     fs.copyFileSync(fromPath, toPath);
 });

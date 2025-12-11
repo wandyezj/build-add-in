@@ -4,7 +4,33 @@
     "version": "1.0.0",
     "id": "01000000-0000-0000-1000-b1d000007357",
     "localizationInfo": {
-        "defaultLanguageTag": "en-us"
+        "defaultLanguageTag": "en",
+        "additionalLanguages": [
+            {
+                "languageTag": "en",
+                "file": "localize/languages/en.json"
+            },
+            {
+                "languageTag": "ja",
+                "file": "localize/languages/ja.json"
+            },
+            {
+                "languageTag": "es",
+                "file": "localize/languages/es.json"
+            },
+            {
+                "languageTag": "fr",
+                "file": "localize/languages/fr.json"
+            },
+            {
+                "languageTag": "de",
+                "file": "localize/languages/de.json"
+            },
+            {
+                "languageTag": "zh",
+                "file": "localize/languages/zh.json"
+            }
+        ]
     },
     "developer": {
         "name": "wandyezj",
@@ -25,9 +51,7 @@
         "color": "assets/icon-64.png"
     },
     "accentColor": "#000000",
-    "validDomains": [
-        "https://wandyezj.github.io/build-add-in"
-    ],
+    "validDomains": ["https://wandyezj.github.io/build-add-in"],
     "showLoadingIndicator": false,
     "isFullScreen": false,
     "defaultBlockUntilAdminAction": false,
@@ -44,15 +68,8 @@
     "extensions": [
         {
             "requirements": {
-                "scopes": [
-                    "document",
-                    "workbook",
-                    "presentation",
-                    "mail"
-                ],
-                "formFactors": [
-                    "desktop"
-                ]
+                "scopes": ["document", "workbook", "presentation", "mail"],
+                "formFactors": ["desktop"]
             },
             "runtimes": [
                 {
@@ -135,18 +152,10 @@
             "ribbons": [
                 {
                     "requirements": {
-                        "scopes": [
-                            "document",
-                            "workbook",
-                            "presentation"
-                        ],
-                        "formFactors": [
-                            "desktop"
-                        ]
+                        "scopes": ["document", "workbook", "presentation"],
+                        "formFactors": ["desktop"]
                     },
-                    "contexts": [
-                        "default"
-                    ],
+                    "contexts": ["default"],
                     "tabs": [
                         {
                             "id": "TabExtension",
@@ -322,16 +331,10 @@
                 },
                 {
                     "requirements": {
-                        "scopes": [
-                            "mail"
-                        ],
-                        "formFactors": [
-                            "desktop"
-                        ]
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
                     },
-                    "contexts": [
-                        "mailRead"
-                    ],
+                    "contexts": ["mailRead"],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",
@@ -432,16 +435,10 @@
                 },
                 {
                     "requirements": {
-                        "scopes": [
-                            "mail"
-                        ],
-                        "formFactors": [
-                            "desktop"
-                        ]
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
                     },
-                    "contexts": [
-                        "mailCompose"
-                    ],
+                    "contexts": ["mailCompose"],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",
@@ -542,16 +539,10 @@
                 },
                 {
                     "requirements": {
-                        "scopes": [
-                            "mail"
-                        ],
-                        "formFactors": [
-                            "desktop"
-                        ]
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
                     },
-                    "contexts": [
-                        "meetingDetailsOrganizer"
-                    ],
+                    "contexts": ["meetingDetailsOrganizer"],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",
@@ -652,16 +643,10 @@
                 },
                 {
                     "requirements": {
-                        "scopes": [
-                            "mail"
-                        ],
-                        "formFactors": [
-                            "desktop"
-                        ]
+                        "scopes": ["mail"],
+                        "formFactors": ["desktop"]
                     },
-                    "contexts": [
-                        "meetingDetailsAttendee"
-                    ],
+                    "contexts": ["meetingDetailsAttendee"],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",

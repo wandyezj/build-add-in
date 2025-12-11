@@ -1,5 +1,6 @@
 {
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.Localization.schema.json",
+    "name.short": "(unity) Build",
     "name.full": "(unity) Build",
     "description.short": "Build Extensions",
     "description.full": "Build Extensions",
