@@ -10,22 +10,6 @@ const productionManifestPath = path.join(root, "manifests", "production.manifest
 const localManifestText = fs.readFileSync(localManifestPath, "utf8");
 const manifest = JSON.parse(localManifestText);
 
-// Modify the local manifest to create the production manifest.
-
-// What needs to change?
-//
-// - id
-// - version
-//
-// Recursively modify:
-// - name
-// - URL paths
-
-productionManifest.id = "01000000-0000-0000-1000-b1d000007357";
-productionManifest.version = "1.0.0";
-
-// Traverse through all nodes in the manifest object and make updates.
-
 /**
  * Transform the string for production.
  * @param {string} s
@@ -37,8 +21,8 @@ function modifyString(s) {
         return s.replace(localhostPrefix, productionPrefix);
     }
 
-    const localNamePrefix = "(local) (unity) Build";
-    const productionNamePrefix = "(unity) Build";
+    const localNamePrefix = "(local) (unity)";
+    const productionNamePrefix = "(unity)";
     if (s.startsWith(localNamePrefix)) {
         return s.replace(localNamePrefix, productionNamePrefix);
     }
@@ -49,7 +33,6 @@ function modifyString(s) {
 /**
  * Traverse and modify the manifest object.
  * @param {unknown} node
- * @returns
  */
 function traverseAndModify(node) {
     if (typeof node === "string") {
@@ -73,7 +56,22 @@ function traverseAndModify(node) {
     return node;
 }
 
+// Modify the local manifest to create the production manifest.
+
+// What needs to change?
+//
+// Recursively modify:
+// - name
+// - URL paths
+//
+// Directly modify:
+// - id
+// - version
+
 const productionManifest = traverseAndModify(manifest);
+
+productionManifest.id = "01000000-0000-0000-1000-b1d000007357";
+productionManifest.version = "1.0.0";
 
 // Write the production manifest to file.
 const productionManifestText = JSON.stringify(productionManifest, null, 4);

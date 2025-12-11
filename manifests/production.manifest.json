@@ -1,16 +1,16 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json#",
     "manifestVersion": "1.17",
-    "version": "1.0.1",
-    "id": "01000000-0000-0000-0000-b1d000007357",
+    "version": "1.0.0",
+    "id": "01000000-0000-0000-1000-b1d000007357",
     "localizationInfo": {
         "defaultLanguageTag": "en-us"
     },
     "developer": {
         "name": "wandyezj",
         "websiteUrl": "https://wandyezj.github.io/build-add-in/statements/support.html",
-        "privacyUrl": "https://wandyezj.github.io/build-add-in/statements/support.html",
-        "termsOfUseUrl": "https://wandyezj.github.io/build-add-in/statements/support.html"
+        "privacyUrl": "https://wandyezj.github.io/build-add-in/statements/privacy.html",
+        "termsOfUseUrl": "https://wandyezj.github.io/build-add-in/statements/eula.html"
     },
     "name": {
         "short": "(unity) Build",
@@ -154,7 +154,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension",
-                                    "label": "(local) (unity) Extension",
+                                    "label": "(unity) Extension",
                                     "icons": [
                                         {
                                             "size": 16,
@@ -338,7 +338,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(local) (unity) Extension",
+                                    "label": "(unity) Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -448,7 +448,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(local) (unity) Extension",
+                                    "label": "(unity) Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -558,7 +558,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(local) (unity) Extension",
+                                    "label": "(unity) Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -668,7 +668,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(local) (unity) Extension",
+                                    "label": "(unity) Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
