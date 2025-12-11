@@ -1,0 +1,125 @@
+// Extract localization strings from the manifest and write them to a file.
+
+const fs = require("fs");
+const path = require("path");
+
+const parameters = process.argv.slice(2);
+
+if (parameters.length !== 2) {
+    console.log("usage: [manifest.json] [output directory relative to root]");
+    process.exit(0);
+}
+
+const [manifestPath, outputDirectoryRelative] = parameters;
+
+// https://learn.microsoft.com/en-us/microsoftteams/platform/resources/schema/localization-schema
+
+const manifestText = fs.readFileSync(manifestPath, "utf8");
+
+/**
+ * @type {{localizationInfo: {defaultLanguageTag: string;}}}
+ */
+const manifest = JSON.parse(manifestText);
+
+const root = path.resolve(__dirname, "..");
+console.log(root);
+const outputDirectory = path.join(root, outputDirectoryRelative);
+
+// Extract localization strings from the manifest.
+
+/**
+ * Search for all matching paths in the searchObject given the searchPath.
+ * search Path has the format
+ * a.b
+ * a.b[n]
+ *
+ * '.' means look for the property in the object
+ * '[n]' means search through each array element.
+ *
+ * @param {string} searchPath
+ * @param {unknown} searchObject
+ * @param {string} currentPath
+ * @returns {Record<string, string>} - key is path, value is string
+ */
+function doSearch(searchPath, searchObject, currentPath = "") {
+    const results = {};
+
+    if (searchObject === null || searchObject === undefined) {
+        return results;
+    }
+
+    // Split searchPath into first segment + rest
+    const dotIndex = searchPath.indexOf(".");
+    const first = dotIndex === -1 ? searchPath : searchPath.slice(0, dotIndex);
+    const rest = dotIndex === -1 ? "" : searchPath.slice(dotIndex + 1);
+
+    const isArrayWildcard = first.endsWith("[n]");
+    const key = isArrayWildcard ? first.slice(0, -3) : first;
+
+    const nextValue = searchObject[key];
+
+    // If no rest, and we’ve reached the target
+    if (!rest) {
+        if (isArrayWildcard && Array.isArray(nextValue)) {
+            nextValue.forEach((val, i) => {
+                if (typeof val === "string") {
+                    results[`${currentPath ? currentPath + "." : ""}${key}[${i}]`] = val;
+                }
+            });
+        } else if (typeof nextValue === "string") {
+            results[currentPath ? `${currentPath}.${key}` : key] = nextValue;
+        }
+        return results;
+    }
+
+    // If array wildcard: recurse each element
+    if (isArrayWildcard && Array.isArray(nextValue)) {
+        nextValue.forEach((val, i) => {
+            const newPath = currentPath ? `${currentPath}.${key}[${i}]` : `${key}[${i}]`;
+
+            Object.assign(results, doSearch(rest, val, newPath));
+        });
+        return results;
+    }
+
+    // Normal property traversal
+    if (nextValue !== undefined) {
+        const newPath = currentPath ? `${currentPath}.${key}` : key;
+        Object.assign(results, doSearch(rest, nextValue, newPath));
+    }
+
+    return results;
+}
+
+/**
+ * Specific paths to look for strings in the manifest
+ */
+const localizationPaths = [
+    "name.sort",
+    "name.full",
+    "description.short",
+    "description.full",
+    "extensions[n].ribbons[n].tabs[n].label",
+    "extensions[n].ribbons[n].tabs[n].groups[n].label",
+    "extensions[n].ribbons[n].tabs[n].groups[n].controls[n].label",
+    "extensions[n].ribbons[n].tabs[n].groups[n].controls[n].supertip.title",
+    "extensions[n].ribbons[n].tabs[n].groups[n].controls[n].supertip.description",
+];
+
+//
+let loc = {
+    ["$schema"]:
+        "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.Localization.schema.json",
+};
+
+for (const search of localizationPaths) {
+    const found = doSearch(search, manifest);
+    loc = { ...loc, ...found };
+}
+
+// Write the localization strings to a file
+const defaultLanguage = manifest.localizationInfo.defaultLanguageTag;
+
+const locFileName = `${defaultLanguage}.json`;
+const outputFilePath = path.join(outputDirectory, locFileName);
+fs.writeFileSync(outputFilePath, JSON.stringify(loc, null, 4));

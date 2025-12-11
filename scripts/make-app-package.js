@@ -2,7 +2,6 @@
 // https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-add-in-with-unified-manifest#manually-create-the-add-in-package-file
 
 const fs = require("fs");
-const os = require("os");
 const path = require("path");
 const child_process = require("child_process");
 
