@@ -152,7 +152,8 @@ console.log(`\nCreating manifest strings for:`);
 const [baseLanguage] = manifestStrings;
 const completeLanguages = [];
 for (const row of manifestStrings) {
-    const [lang, ...values] = row;
+    const values = row;
+    const [lang] = values;
     const simpleLang = languageCodeMap.get(lang.trim());
     if (simpleLang === undefined) {
         console.error(`Language ${lang} not found in language code mapping`);
@@ -166,7 +167,7 @@ for (const row of manifestStrings) {
         const valueToLocalize = manifestTemplate[key];
         let value = valueToLocalize;
 
-        // If the value is a string, replace replace with translation
+        // If the value is a string, replace with translation
         if (typeof valueToLocalize === "string") {
             const index = baseLanguage.indexOf(valueToLocalize);
             if (index >= 0) {
@@ -174,6 +175,7 @@ for (const row of manifestStrings) {
             }
         }
 
+        console.log(`   ${key} : ${valueToLocalize} : ${value}`);
         // Add every value to the new manifest
         newManifest[key] = value;
     }

@@ -48,7 +48,7 @@ function doSearch(searchPath, searchObject, currentPath = "") {
         return results;
     }
 
-    // Split searchPath into first segment + rest
+    // Split searchPath into first.rest
     const dotIndex = searchPath.indexOf(".");
     const first = dotIndex === -1 ? searchPath : searchPath.slice(0, dotIndex);
     const rest = dotIndex === -1 ? "" : searchPath.slice(dotIndex + 1);
