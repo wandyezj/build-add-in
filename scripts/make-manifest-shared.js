@@ -21,8 +21,8 @@ function modifyString(s) {
         return s.replace(localhostPrefix, productionPrefix);
     }
 
-    const localNamePrefix = "(local) (unity)";
-    const productionNamePrefix = "(unity)";
+    const localNamePrefix = "(local) (unity) Build";
+    const productionNamePrefix = "(unity) Build";
     if (s.startsWith(localNamePrefix)) {
         return s.replace(localNamePrefix, productionNamePrefix);
     }

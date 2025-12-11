@@ -154,7 +154,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension",
-                                    "label": "(unity) Extension",
+                                    "label": "Extension",
                                     "icons": [
                                         {
                                             "size": 16,
@@ -338,7 +338,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(unity) Extension",
+                                    "label": "Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -448,7 +448,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(unity) Extension",
+                                    "label": "Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -558,7 +558,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(unity) Extension",
+                                    "label": "Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
@@ -668,7 +668,7 @@
                             "groups": [
                                 {
                                     "id": "group_id_extension_outlook",
-                                    "label": "(unity) Extension",
+                                    "label": "Extension",
                                     "controls": [
                                         {
                                             "id": "button_id_edit",
