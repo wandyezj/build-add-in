@@ -2,14 +2,14 @@ import { getGitHubUser } from "./github/getGitHubUser";
 import { getGitHubUserGpgKeysRaw } from "./github/getGitHubUserGpgKeysRaw";
 import { log, LogTag } from "./log";
 import { pgpSignatureMatches } from "./pgp/pgpSignatureMatches";
-import { SnipWithSource, getSnipDocText } from "./Snip";
+import { Snip, getSnipDocText } from "./Snip";
 
 /**
  * @returns author info if the snip is signed and the signature matches the public key of the author.
  * If the snip is not signed or the signature does not match, returns undefined.
  */
 export async function getSnipAuthor(
-    snip: SnipWithSource
+    snip: Snip
 ): Promise<undefined | { username: string; avatar: string; userIds: string[] }> {
     const { author } = snip;
     if (author === undefined) {

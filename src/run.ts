@@ -73,6 +73,10 @@ async function runSnip() {
     const goBack = window.location.hash === "#back";
     const isShared = window.location.hash === "#shared";
 
+    const query = window.location.search;
+    const search = new URLSearchParams(query);
+    const open = search.get("open");
+
     /**
      * The snip to run.
      */
@@ -80,6 +84,35 @@ async function runSnip() {
 
     if (isShared) {
         snip = await loadStartupSnipToRun();
+    } else if (open) {
+        // To prevent running of arbitrary code, prompt for consent.
+        try {
+            const module = await import("./core/getImportSnip");
+            const snipText = await module.getImportSnip(open);
+            if (snipText === undefined) {
+                console.error("Failed to load snip from gist");
+                return;
+            }
+            snip = JSON.parse(snipText);
+
+            // verify the signature
+            let author = undefined;
+            if (snip) {
+                const module = await import("./core/getSnipAuthor");
+                author = await module.getSnipAuthor(snip);
+            }
+
+            // ask for consent to run the snip
+            const message = `${author === undefined ? "Warning! " : ""}This snip is by ${author === undefined ? "an unknown author" : author.username + " on GitHub"}. Do you want to run it?`;
+            console.log(message);
+            const allow = window.confirm(message);
+            if (!allow) {
+                snip = undefined;
+            }
+        } catch (error) {
+            console.error("Failed to load gist:", error);
+            return;
+        }
     } else {
         snip = await getCurrentSnip();
     }
