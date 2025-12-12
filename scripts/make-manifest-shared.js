@@ -4,56 +4,60 @@ const path = require("path");
 
 const root = path.join(__dirname, "..");
 
+// In
 const localManifestPath = path.join(root, "manifests", "local.manifest.json");
+
+// Out
 const productionManifestPath = path.join(root, "manifests", "production.manifest.json");
 
-const localManifestText = fs.readFileSync(localManifestPath, "utf8");
-const manifest = JSON.parse(localManifestText);
-
 /**
- * Transform the string for production.
- * @param {string} s
+ * Create a function that traverses and modifies nodes.
+ * @param {(s: string) => string} modifyString
+ * @return {(node: unknown) => unknown}
  */
-function modifyString(s) {
-    const localhostPrefix = "https://localhost:3000";
-    const productionPrefix = "https://wandyezj.github.io/build-add-in";
-    if (s.startsWith(localhostPrefix)) {
-        return s.replace(localhostPrefix, productionPrefix);
-    }
+function getTraverseAndModify(modifyString) {
+    /**
+     * Traverse and modify the manifest object.
+     * @param {unknown} node
+     */
+    function traverseAndModify(node) {
+        if (typeof node === "string") {
+            return modifyString(node);
+        }
 
-    const localNamePrefix = "(local) (unity) Build";
-    const productionNamePrefix = "(unity) Build";
-    if (s.startsWith(localNamePrefix)) {
-        return s.replace(localNamePrefix, productionNamePrefix);
-    }
+        if (Array.isArray(node)) {
+            for (let i = 0; i < node.length; i++) {
+                node[i] = traverseAndModify(node[i]);
+            }
+            return node;
+        }
 
-    return s;
+        if (typeof node === "object") {
+            for (const key in node) {
+                node[key] = traverseAndModify(node[key]);
+            }
+            return node;
+        }
+
+        return node;
+    }
+    return traverseAndModify;
 }
 
 /**
- * Traverse and modify the manifest object.
- * @param {unknown} node
+ * @type {[string, string][]} - [prefix to replace, replacement]
+ * @returns {(s: string) => string}
  */
-function traverseAndModify(node) {
-    if (typeof node === "string") {
-        return modifyString(node);
-    }
-
-    if (Array.isArray(node)) {
-        for (let i = 0; i < node.length; i++) {
-            node[i] = traverseAndModify(node[i]);
+function getModifyString(prefixes) {
+    function modifyString(s) {
+        for (const [prefix, replacement] of prefixes) {
+            if (s.startsWith(prefix)) {
+                return s.replace(prefix, replacement);
+            }
         }
-        return node;
+        return s;
     }
-
-    if (typeof node === "object") {
-        for (const key in node) {
-            node[key] = traverseAndModify(node[key]);
-        }
-        return node;
-    }
-
-    return node;
+    return modifyString;
 }
 
 // Modify the local manifest to create the production manifest.
@@ -68,7 +72,15 @@ function traverseAndModify(node) {
 // - id
 // - version
 
-const productionManifest = traverseAndModify(manifest);
+const localManifestText = fs.readFileSync(localManifestPath, "utf8");
+const manifest = JSON.parse(localManifestText);
+
+const productionManifest = getTraverseAndModify(
+    getModifyString([
+        ["https://localhost:3000", "https://wandyezj.github.io/build-add-in"],
+        ["(local) (unity) Build", "(unity) Build"],
+    ])
+)(manifest);
 
 productionManifest.id = "01000000-0000-0000-1000-b1d000007357";
 productionManifest.version = "1.0.0";

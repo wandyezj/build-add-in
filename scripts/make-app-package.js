@@ -22,14 +22,14 @@ const outputDirectory = path.join(root, outputDirectoryRelative);
 const manifestText = fs.readFileSync(manifestPath, "utf8");
 
 /**
- * @type {{icons: { outline: string; color: string;}; localizationInfo: {defaultLanguageTag: string; additionalLanguages: {languageTag: string; file: string;}[];}}}
+ * @type {{icons: { outline: string; color: string;}; localizationInfo: {defaultLanguageTag: string; additionalLanguages?: {languageTag: string; file: string;}[];}}}
  */
 const manifest = JSON.parse(manifestText);
 
 // Read "icons" property
 const icons = [manifest.icons.color, manifest.icons.outline];
 
-const languages = manifest.localizationInfo.additionalLanguages.map((lang) => lang.file);
+const languages = (manifest.localizationInfo.additionalLanguages || []).map((lang) => lang.file);
 
 const additionalFiles = [...icons, ...languages];
 
