@@ -72,21 +72,31 @@ function getModifyString(prefixes) {
 // - id
 // - version
 
-const localManifestText = fs.readFileSync(localManifestPath, "utf8");
-const manifest = JSON.parse(localManifestText);
+/**
+ * Create a modified manifest from the local host manifest.
+ * @param {string} localManifestPath
+ * @param {string} newManifestPath
+ * @param {string} id
+ * @param {string} version
+ * @param {[string,string][]} prefixes - [original, replacement][]
+ */
+function makeModifiedManifest(localManifestPath, newManifestPath, id, version, prefixes) {
+    const localManifestText = fs.readFileSync(localManifestPath, "utf8");
+    const localManifest = JSON.parse(localManifestText);
 
-const productionManifest = getTraverseAndModify(
-    getModifyString([
-        ["https://localhost:3000", "https://wandyezj.github.io/build-add-in"],
-        ["(local) (unity) Build", "(unity) Build"],
-    ])
-)(manifest);
+    const modifiedManifest = getTraverseAndModify(getModifyString(prefixes))(localManifest);
 
-productionManifest.id = "01000000-0000-0000-1000-b1d000007357";
-productionManifest.version = "1.0.0";
+    modifiedManifest.id = id;
+    modifiedManifest.version = version;
 
-// Write the production manifest to file.
-const productionManifestText = JSON.stringify(productionManifest, null, 4);
-fs.writeFileSync(productionManifestPath, productionManifestText, "utf8");
+    // Write the production manifest to file.
+    const modifiedManifestText = JSON.stringify(modifiedManifest, null, 4);
+    fs.writeFileSync(newManifestPath, modifiedManifestText, "utf8");
+}
+
+makeModifiedManifest(localManifestPath, productionManifestPath, "01000000-0000-0000-1000-b1d000007357", "1.0.0", [
+    ["https://localhost:3000", "https://wandyezj.github.io/build-add-in"],
+    ["(local) (unity) Build", "(unity) Build"],
+]);
 
 console.log(`Complete`);
