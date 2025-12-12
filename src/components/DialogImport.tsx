@@ -12,20 +12,10 @@ import {
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import {
-    Snip,
-    SnipWithSource,
-    completeSnip,
-    getExportSnipFromExportJson,
-    isValidExportSnip,
-    isValidSnipExportJson,
-} from "../core/Snip";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson } from "../core/Snip";
 import { saveSnip } from "../core/snipStorage";
-import { loadUrlText } from "../core/util/loadUrlText";
-import { loadGistText } from "../core/util/loadGistText";
 import { loc } from "../core/localize/loc";
-import { getSnipExportJson } from "../core/getSnipExport";
-import { objectFromYaml } from "../core/util/objectFromYaml";
+import { getImportSnip } from "../core/getImportSnip";
 
 const useStyles = makeStyles({
     base: {
@@ -36,79 +26,6 @@ const useStyles = makeStyles({
         marginBottom: tokens.spacingVerticalMNudge,
     },
 });
-
-function isPossibleUrl(value: string) {
-    const text = value.trim();
-    // Does it look like a url?
-    const possible = !text.includes("\n") && (text.startsWith("http://") || text.startsWith("https://"));
-    return possible;
-}
-
-function isPossibleGistUrl(value: string) {
-    const possible = isPossibleUrl(value) && value.startsWith("https://gist.github.com/");
-    return possible;
-}
-
-/**
- * @param value YAML string to parse
- * @returns export snip json string if the value is valid, otherwise undefined
- */
-export function getSnipExportJsonTextFromExportYaml(value: string): string | undefined {
-    try {
-        const snip = objectFromYaml<Snip>(value);
-        const valid = isValidExportSnip(snip);
-        if (valid) {
-            const content = getSnipExportJson(snip);
-            return content;
-        }
-    } catch (e) {
-        console.error("Error parsing YAML", e);
-    }
-    return undefined;
-}
-
-/**
- * Value can be:
- * - text - JSON snip
- * - url - to a JSON snip
- * - gist - GitHub gist url with a single file containing the JSON snip
- * @param value
- * @returns the snip text or undefined
- */
-async function getImportSnip(value: string): Promise<string | undefined> {
-    // Import - text
-    let content = value;
-
-    try {
-        const url = value.trim();
-        if (isPossibleGistUrl(value)) {
-            // Import - gist
-            const text = await loadGistText(url);
-            content = text;
-        } else if (isPossibleUrl(value)) {
-            // Import - url
-            const text = await loadUrlText(url);
-            content = text;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
-    // Is this a valid import json snip?
-    const valid = isValidSnipExportJson(content);
-    if (valid) {
-        return content;
-    }
-
-    // Is this a valid export yaml snip?
-    const json = getSnipExportJsonTextFromExportYaml(content);
-    if (json !== undefined) {
-        // Valid YAML snip - return the export json equivalent.
-        return json;
-    }
-
-    return undefined;
-}
 
 async function importSnip(value: string): Promise<SnipWithSource | undefined> {
     console.log("Import snip");

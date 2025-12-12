@@ -23,6 +23,11 @@ A full list of all features.
     - Run an embed script
     - Delete an embed script
 
+- Open (web)
+    - Allow creation of links to open a specific snip
+    - `https://wandyezj.github.io/build-add-in/run.html?open=<gist id>`
+    - [Example](https://wandyezj.github.io/build-add-in/run.html?open-gist=b0c4a25ff96a7514756fef6e08fae968)
+
 - Copy to clipboard
 
 - Delete
