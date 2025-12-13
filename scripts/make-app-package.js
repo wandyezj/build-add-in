@@ -7,12 +7,12 @@ const child_process = require("child_process");
 
 const parameters = process.argv.slice(2);
 
-if (parameters.length !== 2) {
-    console.log("usage: [manifest.json] [output directory relative to root]");
+if (![2, 3].includes(parameters.length)) {
+    console.log("usage: [manifest.json] [output directory relative to root] [optional file name]");
     process.exit(0);
 }
 
-const [manifestPath, outputDirectoryRelative] = parameters;
+const [manifestPath, outputDirectoryRelative, outputFileName] = parameters;
 
 const root = path.resolve(__dirname, "..");
 console.log(root);
@@ -52,7 +52,8 @@ additionalFiles.forEach((filePath) => {
 
 // Create Zip File
 const zipPathIn = tempPath;
-const zipPathOut = path.normalize(path.join(outputDirectory, "appPackage.zip"));
+const zipFileName = outputFileName || "appPackage.zip";
+const zipPathOut = path.normalize(path.join(outputDirectory, zipFileName));
 if (fs.existsSync(zipPathOut)) {
     fs.rmSync(zipPathOut);
 }
@@ -64,3 +65,5 @@ child_process.execSync(command, { cwd: zipPathIn });
 
 // Cleanup
 fs.rmSync(tempPath, { recursive: true, force: true });
+
+console.log(`\nCreated ${zipFileName}`);
