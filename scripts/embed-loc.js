@@ -4,36 +4,52 @@ const fs = require("fs");
 
 // In
 const stringsTsvFilePath = "./localize/strings.tsv";
-const languageCodeTsvFilePath = "./localize/language-code.tsv"; // not used in this script, but can be used to generate a mapping table
+const languageCodeTsvFilePath = "./localize/language-code.tsv";
+const manifestStringsTsvFilePath = "./localize/strings-manifest.tsv";
+const manifestStringsTemplateJsonFilePath = "./localize/en.json";
 
 // Out
 const stringsJsonFilePath = "./src/core/localize/strings.json";
 const languageEnumFilePath = "./src/core/localize/Language.ts";
 const languageMapFilePath = "./src/core/localize/languageMap.ts";
+const manifestStringsDirectory = "localize/languages";
+
+// In Out
+const localManifestPath = "./manifests/local.manifest.json";
 
 const stringsTsv = fs.readFileSync(stringsTsvFilePath, "utf-8");
 
-// gather by language
-const rows = stringsTsv
-    .trim()
-    .split("\n")
-    .map((line) => line.split("\t"));
+/**
+ * Get all the languages that have all values present in the TSV text.
+ * @param {strings} stringsTsv
+ * @returns {string[][]} - array of rows, each row is an array of strings
+ */
+function getAllFullyPresentLanguagesInTsvText(stringsTsv) {
+    // gather by language
+    const rows = stringsTsv
+        .trim()
+        .split("\n")
+        .map((line) => line.split("\t").map((value) => value.trim()));
 
-if (rows[0][0] === "Language") {
-    rows[0][0] = "English";
-} else {
-    console.error("First column must be 'Language'");
-    process.exit(1);
+    if (rows[0][0] === "Language") {
+        rows[0][0] = "English";
+    } else {
+        console.error("First column must be 'Language'");
+        process.exit(1);
+    }
+
+    // check each row has the same length
+    const languages = rows.filter((row, index) => {
+        const allValuesPresent = row.length === rows[0].length;
+        if (!allValuesPresent) {
+            console.error(`Row [${index}] has different length than the first row`);
+        }
+        return allValuesPresent;
+    });
+    return languages;
 }
 
-// check each row has the same length
-const languages = rows.filter((row, index) => {
-    const allValuesPresent = row.length === rows[0].length;
-    if (!allValuesPresent) {
-        console.error(`Row [${index}] has different length than the first row`);
-    }
-    return allValuesPresent;
-});
+const languages = getAllFullyPresentLanguagesInTsvText(stringsTsv);
 
 const stringsJson = {};
 languages.reduce((acc, row) => {
@@ -77,6 +93,7 @@ console.log(`Wrote Language enum to ${languageEnumFilePath}`);
 const languageCodeTsv = fs.readFileSync(languageCodeTsvFilePath, "utf-8");
 
 /**
+ * [simple language, simple code][]
  * @type {[string, string][]}
  */
 const languageCodeRows = languageCodeTsv
@@ -120,3 +137,72 @@ export const languageMap = new Map<string, Exclude<Language, Language.Default>>(
 `;
 fs.writeFileSync(languageMapFilePath, languageMap, "utf-8");
 console.log(`Wrote languageMap to ${languageMapFilePath}`);
+
+// Write manifest translations
+
+// Read manifest strings TSV
+const manifestStringsTsv = fs.readFileSync(manifestStringsTsvFilePath, "utf-8");
+const manifestStrings = getAllFullyPresentLanguagesInTsvText(manifestStringsTsv);
+
+const manifestTemplateText = fs.readFileSync(manifestStringsTemplateJsonFilePath, "utf-8");
+const manifestTemplate = JSON.parse(manifestTemplateText);
+
+// For each language, create a JSON file with the strings, based off the main template
+console.log(`\nCreating manifest strings for:`);
+const [baseLanguage] = manifestStrings;
+const completeLanguages = [];
+for (const row of manifestStrings) {
+    const values = row;
+    const [lang] = values;
+    const simpleLang = languageCodeMap.get(lang.trim());
+    if (simpleLang === undefined) {
+        console.error(`Language ${lang} not found in language code mapping`);
+        process.exit(1);
+    }
+    console.log(`${lang} (${simpleLang})`);
+
+    // construct the new object from template
+    const newManifest = {};
+    for (const key in manifestTemplate) {
+        const valueToLocalize = manifestTemplate[key];
+        let value = valueToLocalize;
+
+        // If the value is a string, replace with translation
+        if (typeof valueToLocalize === "string") {
+            const index = baseLanguage.indexOf(valueToLocalize);
+            if (index >= 0) {
+                value = values[index];
+            }
+        }
+
+        console.log(`   ${key} : ${valueToLocalize} : ${value}`);
+        // Add every value to the new manifest
+        newManifest[key] = value;
+    }
+
+    // Write the language file
+    const outputFilePath = `${manifestStringsDirectory}/${simpleLang}.json`;
+    const outputText = JSON.stringify(newManifest, null, 4) + "\n";
+    fs.writeFileSync(outputFilePath, outputText);
+    completeLanguages.push(simpleLang);
+}
+
+// Update manifest with available languages
+const localManifestText = fs.readFileSync(localManifestPath, "utf-8");
+
+/**
+ * @type {{localizationInfo: {defaultLanguageTag: string; additionalLanguages: {languageTag: string; file: string;}[]}}}
+ */
+const localManifest = JSON.parse(localManifestText);
+
+localManifest.localizationInfo.additionalLanguages = completeLanguages
+    //.filter((lang) => lang !== localManifest.localizationInfo.defaultLanguageTag)
+    .map((lang) => {
+        return {
+            languageTag: lang,
+            file: `localize/languages/${lang}.json`,
+        };
+    });
+
+const updatedLocalManifestText = JSON.stringify(localManifest, null, 4) + "\n";
+fs.writeFileSync(localManifestPath, updatedLocalManifestText, "utf-8");

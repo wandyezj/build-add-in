@@ -11,7 +11,7 @@ set inkscape="%tools%\Programs\inkscape\inkscape.exe"
 
 set svg_name=hexagon
 set png_name=icon
-for %%s in (16 32 64 80 128 300) do (
+for %%s in (16 32 64 80 128 192 300) do (
     set size=%%s
 
     set png_size=!size!

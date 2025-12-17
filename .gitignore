@@ -4,3 +4,6 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 temp/
+temp-*/
+appPackage*.zip
+NUL
