@@ -51,7 +51,7 @@
         "color": "assets/icon-192.png"
     },
     "accentColor": "#000000",
-    "validDomains": ["https://wandyezj.github.io"],
+    "validDomains": ["wandyezj.github.io"],
     "showLoadingIndicator": false,
     "isFullScreen": false,
     "defaultBlockUntilAdminAction": false,
