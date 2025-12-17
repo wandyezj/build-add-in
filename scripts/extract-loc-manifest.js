@@ -119,7 +119,7 @@ const defaultLanguage = manifest.localizationInfo.defaultLanguageTag;
 
 const locFile = {
     ["$schema"]:
-        "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.Localization.schema.json",
+        "https://developer.microsoft.com/en-us/json-schemas/teams/v1.17/MicrosoftTeams.Localization.schema.json",
     ...loc,
 };
 

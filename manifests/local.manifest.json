@@ -44,11 +44,11 @@
     },
     "description": {
         "short": "Build Extensions",
-        "full": "Build Extensions"
+        "full": "Build Extensions in Word, Excel, PowerPoint, and Outlook"
     },
     "icons": {
         "outline": "assets/icon-32.png",
-        "color": "assets/icon-64.png"
+        "color": "assets/icon-192.png"
     },
     "accentColor": "#000000",
     "validDomains": ["https://localhost:3000"],

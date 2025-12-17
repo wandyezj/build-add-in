@@ -95,7 +95,8 @@ function makeModifiedManifest(localManifestPath, newManifestPath, id, version, p
 }
 
 makeModifiedManifest(localManifestPath, productionManifestPath, "01000000-0000-0000-0000-b1d00000970d", "1.0.0", [
-    ["https://localhost:3000", "https://wandyezj.github.io/build-add-in"],
+    ["https://localhost:3000/", "https://wandyezj.github.io/build-add-in/"],
+    ["https://localhost:3000", "https://wandyezj.github.io"],
     ["(local) (unity) Build", "Build"],
 ]);
 
