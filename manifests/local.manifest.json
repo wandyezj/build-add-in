@@ -758,6 +758,22 @@
                             "url": "https://localhost:3000/assets/icon-64.png"
                         }
                     }
+                },
+                {
+                    "hide": {
+                        "storeOfficeAddin": {
+                            "officeAddinId": "01000000-1000-0000-0000-000000007357",
+                            "assetId": "WA200006932"
+                        }
+                    }
+                },
+                {
+                    "hide": {
+                        "storeOfficeAddin": {
+                            "officeAddinId": "01000000-0000-0000-1000-000000007357",
+                            "assetId": "WA200006798"
+                        }
+                    }
                 }
             ]
         }

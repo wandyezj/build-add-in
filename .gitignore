@@ -6,3 +6,4 @@ node_modules/
 temp/
 temp-*/
 appPackage*.zip
+NUL

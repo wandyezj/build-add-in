@@ -94,9 +94,9 @@ function makeModifiedManifest(localManifestPath, newManifestPath, id, version, p
     fs.writeFileSync(newManifestPath, modifiedManifestText, "utf8");
 }
 
-makeModifiedManifest(localManifestPath, productionManifestPath, "01000000-0000-0000-1000-b1d000007357", "1.0.0", [
+makeModifiedManifest(localManifestPath, productionManifestPath, "01000000-0000-0000-0000-b1d00000970d", "1.0.0", [
     ["https://localhost:3000", "https://wandyezj.github.io/build-add-in"],
-    ["(local) (unity) Build", "(unity) Build"],
+    ["(local) (unity) Build", "Build"],
 ]);
 
 console.log(`Complete`);
