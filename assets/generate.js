@@ -1,5 +1,6 @@
 //
 // Use Inkscape 1.4.2 to generate PNG asset icons from Fluent UI SVG files
+// https://inkscape.org/
 //
 
 const { execSync } = require("child_process");
