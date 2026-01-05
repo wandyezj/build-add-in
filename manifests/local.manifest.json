@@ -61,6 +61,18 @@
                 {
                     "name": "Document.ReadWrite.User",
                     "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.ReadWrite.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "MailboxItem.AppendOnSend.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.AccessSharedFolders.User",
+                    "type": "Delegated"
                 }
             ]
         }
