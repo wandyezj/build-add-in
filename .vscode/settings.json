@@ -8,6 +8,10 @@
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
 
+    "workbench.editorAssociations": {
+        "*.svg": "default"
+    },
+
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
     },
