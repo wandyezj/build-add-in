@@ -1,14 +1,12 @@
 //
-// Produce cropped images for the store listing
-// Use ImageMagick to crop the images.
+// Strips all timestamps from PNG images in a directory using ImageMagick.
 // https://github.com/Homebrew/brew/releases
 //
 
 const { execSync } = require("child_process");
 const path = require("path");
 const os = require("os");
-
-const listingDirectory = __dirname;
+const fs = require("fs");
 
 function getMagick() {
     const isMac = "Darwin" === os.type();
@@ -34,29 +32,29 @@ function getMagick() {
 
 const magick = getMagick();
 
-// specific width and height needed for the store
-const width = 1366;
-const height = 768;
-
-function crop(name) {
-    console.log();
-    console.log(`Crop ${name}`);
-
-    const imageName = `${name}-taskpane-${width}-${height}.png`;
-
-    const imageIn = path.join(listingDirectory, imageName);
-    const imageOut = imageIn;
-
-    const command = `${magick} "${imageIn}" -crop ${width}x${height}+0+0 "${imageOut}"`;
-
+function stripTimestamp(imagePath) {
+    const command = `${magick} "${imagePath}" -strip -define png:exclude-chunks=date,time "${imagePath}"`;
     console.log(command);
     execSync(command, { stdio: "inherit" });
 }
 
-// crop and save over the original images
+const parameters = process.argv.slice(2);
 
-const shots = ["outlook", "excel", "powerpoint", "word"];
+if (![1].includes(parameters.length)) {
+    console.log("usage: [png directory]");
+    process.exit(1);
+}
 
-shots.forEach((name) => {
-    crop(name);
+const [pngDirectory] = parameters;
+
+const pngPath = path.resolve(pngDirectory);
+
+console.log(`\nStripping timestamps from PNGs in: ${pngDirectory}`);
+
+const files = fs.readdirSync(pngPath).filter((file) => file.endsWith(".png"));
+
+files.forEach((file) => {
+    console.log(`\n${file}`);
+    const filePath = path.join(pngPath, file);
+    stripTimestamp(filePath);
 });

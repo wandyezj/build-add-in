@@ -20,6 +20,7 @@
         "HIDETASKPANE",
         "Inkscape",
         "linebreak",
+        "magick",
         "markdownlint",
         "minifier",
         "oaspapps",
@@ -43,5 +44,8 @@
     // This is useful for offensive words and common spelling errors.
     // For example "hte" should be "the"
     "flagWords": [],
-    "ignorePaths": ["localize/strings.tsv", "src/core/localize/strings.json"]
+    "ignorePaths": [
+        "localize/strings.tsv",
+        "src/core/localize/strings.json"
+    ]
 }
