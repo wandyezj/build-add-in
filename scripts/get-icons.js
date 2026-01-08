@@ -8,7 +8,7 @@
 // To:
 // assets/fluent-svg
 //
-// Icon Catalogue: https://react.fluentui.dev/?path=/docs/icons-catalog--page
+// Icon Catalogue: https://storybooks.fluentui.dev/react/?path=/docs/icons-catalog--docs
 //
 const fs = require("fs");
 

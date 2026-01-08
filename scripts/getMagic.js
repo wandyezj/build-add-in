@@ -41,6 +41,7 @@ function getMagick() {
     const magick = options
         .filter(([condition, path]) => condition && fs.existsSync(path))
         .map(([, path]) => (isWindows ? `"${path}"` : path))
+        .reverse()
         .pop();
 
     if (!magick) {

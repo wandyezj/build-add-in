@@ -47,7 +47,7 @@
         "full": "Build Extensions in Word, Excel, PowerPoint, and Outlook"
     },
     "icons": {
-        "outline": "assets/icon-32.png",
+        "outline": "assets/icon-outline-32.png",
         "color": "assets/icon-192.png"
     },
     "accentColor": "#000000",
@@ -60,6 +60,18 @@
             "resourceSpecific": [
                 {
                     "name": "Document.ReadWrite.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.ReadWrite.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "MailboxItem.AppendOnSend.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.AccessSharedFolders.User",
                     "type": "Delegated"
                 }
             ]

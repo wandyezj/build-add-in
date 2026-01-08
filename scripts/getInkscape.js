@@ -39,6 +39,7 @@ function getInkscape() {
     const inkscape = options
         .filter(([condition, path]) => condition && fs.existsSync(path))
         .map(([, path]) => (isWindows ? `"${path}"` : path))
+        .reverse()
         .pop();
 
     if (!inkscape) {

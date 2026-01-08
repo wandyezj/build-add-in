@@ -1,7 +1,12 @@
+//
 // Extract localization strings from the manifest and write them to a file.
+// https://learn.microsoft.com/en-us/microsoftteams/platform/resources/schema/localization-schema
+//
 
 const fs = require("fs");
 const path = require("path");
+
+const root = path.resolve(__dirname, "..");
 
 const parameters = process.argv.slice(2);
 
@@ -12,8 +17,6 @@ if (parameters.length !== 2) {
 
 const [manifestPath, outputDirectoryRelative] = parameters;
 
-// https://learn.microsoft.com/en-us/microsoftteams/platform/resources/schema/localization-schema
-
 const manifestText = fs.readFileSync(manifestPath, "utf8");
 
 /**
@@ -21,11 +24,7 @@ const manifestText = fs.readFileSync(manifestPath, "utf8");
  */
 const manifest = JSON.parse(manifestText);
 
-const root = path.resolve(__dirname, "..");
-console.log(root);
 const outputDirectory = path.join(root, outputDirectoryRelative);
-
-// Extract localization strings from the manifest.
 
 /**
  * Search for all matching paths in the searchObject given the searchPath.
@@ -106,7 +105,9 @@ const localizationPaths = [
     "extensions[n].ribbons[n].tabs[n].groups[n].controls[n].supertip.description",
 ];
 
-//
+/**
+ * @type {Record<string, string>}
+ */
 let loc = {};
 
 for (const search of localizationPaths) {
