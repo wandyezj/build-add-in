@@ -1,6 +1,5 @@
 //
 // Strips all timestamps from PNG images in a directory using ImageMagick.
-// https://github.com/Homebrew/brew/releases
 //
 
 const { execSync } = require("child_process");
