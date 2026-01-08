@@ -4,33 +4,34 @@
     "version": "0.0.1",
     "id": "01000000-0000-0000-0000-b1d000007357",
     "localizationInfo": {
-        "defaultLanguageTag": "en",
-        "additionalLanguages": [
-            {
-                "languageTag": "en",
-                "file": "localize/languages/en.json"
-            },
-            {
-                "languageTag": "ja",
-                "file": "localize/languages/ja.json"
-            },
-            {
-                "languageTag": "es",
-                "file": "localize/languages/es.json"
-            },
-            {
-                "languageTag": "fr",
-                "file": "localize/languages/fr.json"
-            },
-            {
-                "languageTag": "de",
-                "file": "localize/languages/de.json"
-            },
-            {
-                "languageTag": "zh",
-                "file": "localize/languages/zh.json"
-            }
-        ]
+        "defaultLanguageTag": "en"
+        // Comment out additional languages for now to simplify store validation.
+        // "additionalLanguages": [
+        //     {
+        //         "languageTag": "en",
+        //         "file": "localize/languages/en.json"
+        //     },
+        //     {
+        //         "languageTag": "ja",
+        //         "file": "localize/languages/ja.json"
+        //     },
+        //     {
+        //         "languageTag": "es",
+        //         "file": "localize/languages/es.json"
+        //     },
+        //     {
+        //         "languageTag": "fr",
+        //         "file": "localize/languages/fr.json"
+        //     },
+        //     {
+        //         "languageTag": "de",
+        //         "file": "localize/languages/de.json"
+        //     },
+        //     {
+        //         "languageTag": "zh",
+        //         "file": "localize/languages/zh.json"
+        //     }
+        // ]
     },
     "developer": {
         "name": "wandyezj",
@@ -39,11 +40,11 @@
         "termsOfUseUrl": "https://localhost:3000/statements/eula.html"
     },
     "name": {
-        "short": "(local) (unity) Build",
-        "full": "(local) (unity) Build"
+        "short": "(local) (unity) Build for All",
+        "full": "(local) (unity) Build for All"
     },
     "description": {
-        "short": "Build Extensions",
+        "short": "Quickly create, run, and share Office Add-In code snips.",
         "full": "PLACEHOLDER"
     },
     "icons": {

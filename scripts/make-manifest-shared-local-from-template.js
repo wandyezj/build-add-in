@@ -46,7 +46,14 @@ const mailRead = template.extensions[0].ribbons.find(({ contexts }) => contexts[
 });
 
 const descriptionFull = `
-Build Extensions in Word, Excel, PowerPoint, and Outlook
+Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Outlook!
+
+- Create and edit code snips that include JavaScript, HTML, and CSS.
+- Use the Office JS API to interact with Office documents.
+- Run your snip and immediately see the results.
+- Get started quickly with samples.
+- Share your code snips with others.
+
 `.trim();
 
 template.description.full = descriptionFull;
