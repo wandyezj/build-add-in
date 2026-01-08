@@ -1,26 +1,17 @@
 //
-// Use Inkscape 1.4.2 to generate PNG asset icons from Fluent UI SVG files
-// https://inkscape.org/
+// Generate PNG asset icons from Fluent UI SVG files using Inkscape.
 //
 
 const { execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
-const os = require("os");
+const { getInkscape } = require("./getInkscape.js");
 
-const assetsDirectory = __dirname;
+const inkscape = getInkscape();
+
+const rootDirectory = path.resolve(__dirname, "..");
+const assetsDirectory = path.join(rootDirectory, "assets");
 const fluentSvgDirectory = path.join(assetsDirectory, "fluent-svg");
-
-const isMac = "Darwin" === os.type();
-
-// On Windows, Inkscape is expected to be in the tools directory pointed to by the `tools` environment variable
-const inkscapeWindows = `"${path.join(process.env.tools || "", "Programs", "inkscape", "inkscape.exe")}"`;
-
-// On macOS, Inkscape is expected to be in the installed Applications directory
-const inkscapeMac = "/Applications/Inkscape.app/Contents/MacOS/inkscape";
-
-// Use the correct Inkscape path based on the OS
-const inkscape = isMac ? inkscapeMac : inkscapeWindows;
 
 /**
  * Generate a single PNG from an SVG using inkscape
