@@ -4,33 +4,7 @@
     "version": "1.0.0",
     "id": "01000000-0000-0000-0000-b1d00000970d",
     "localizationInfo": {
-        "defaultLanguageTag": "en",
-        "additionalLanguages": [
-            {
-                "languageTag": "en",
-                "file": "localize/languages/en.json"
-            },
-            {
-                "languageTag": "ja",
-                "file": "localize/languages/ja.json"
-            },
-            {
-                "languageTag": "es",
-                "file": "localize/languages/es.json"
-            },
-            {
-                "languageTag": "fr",
-                "file": "localize/languages/fr.json"
-            },
-            {
-                "languageTag": "de",
-                "file": "localize/languages/de.json"
-            },
-            {
-                "languageTag": "zh",
-                "file": "localize/languages/zh.json"
-            }
-        ]
+        "defaultLanguageTag": "en"
     },
     "developer": {
         "name": "wandyezj",
@@ -39,15 +13,15 @@
         "termsOfUseUrl": "https://wandyezj.github.io/build-add-in/statements/eula.html"
     },
     "name": {
-        "short": "Build",
-        "full": "Build"
+        "short": "Build for All",
+        "full": "Build for All"
     },
     "description": {
-        "short": "Build Extensions",
-        "full": "Build Extensions in Word, Excel, PowerPoint, and Outlook"
+        "short": "Quickly create, run, and share Office Add-In code snips.",
+        "full": "Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Outlook!\n\n- Create and edit code snips that include JavaScript, HTML, and CSS.\n- Use the Office JS API to interact with Office documents.\n- Run your snip and immediately see the results.\n- Get started quickly with samples.\n- Share your code snips with others."
     },
     "icons": {
-        "outline": "assets/icon-32.png",
+        "outline": "assets/icon-outline-32.png",
         "color": "assets/icon-192.png"
     },
     "accentColor": "#000000",
@@ -60,6 +34,18 @@
             "resourceSpecific": [
                 {
                     "name": "Document.ReadWrite.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.ReadWrite.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "MailboxItem.AppendOnSend.User",
+                    "type": "Delegated"
+                },
+                {
+                    "name": "Mailbox.AccessSharedFolders.User",
                     "type": "Delegated"
                 }
             ]

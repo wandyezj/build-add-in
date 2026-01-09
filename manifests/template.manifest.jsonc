@@ -5,6 +5,33 @@
     "id": "01000000-0000-0000-0000-b1d000007357",
     "localizationInfo": {
         "defaultLanguageTag": "en"
+        // Comment out additional languages for now to simplify store validation.
+        // "additionalLanguages": [
+        //     {
+        //         "languageTag": "en",
+        //         "file": "localize/languages/en.json"
+        //     },
+        //     {
+        //         "languageTag": "ja",
+        //         "file": "localize/languages/ja.json"
+        //     },
+        //     {
+        //         "languageTag": "es",
+        //         "file": "localize/languages/es.json"
+        //     },
+        //     {
+        //         "languageTag": "fr",
+        //         "file": "localize/languages/fr.json"
+        //     },
+        //     {
+        //         "languageTag": "de",
+        //         "file": "localize/languages/de.json"
+        //     },
+        //     {
+        //         "languageTag": "zh",
+        //         "file": "localize/languages/zh.json"
+        //     }
+        // ]
     },
     "developer": {
         "name": "wandyezj",
@@ -18,7 +45,7 @@
     },
     "description": {
         "short": "Quickly create, run, and share Office Add-In code snips.",
-        "full": "Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Outlook!\n\n- Create and edit code snips that include JavaScript, HTML, and CSS.\n- Use the Office JS API to interact with Office documents.\n- Run your snip and immediately see the results.\n- Get started quickly with samples.\n- Share your code snips with others."
+        "full": "PLACEHOLDER"
     },
     "icons": {
         "outline": "assets/icon-outline-32.png",
@@ -315,324 +342,13 @@
                         }
                     ]
                 },
+                // The outlook ribbon is duplicated for each context
                 {
                     "requirements": {
                         "scopes": ["mail"],
                         "formFactors": ["desktop"]
                     },
                     "contexts": ["mailRead"],
-                    "tabs": [
-                        {
-                            "builtInTabId": "TabDefault",
-                            "groups": [
-                                {
-                                    "id": "group_id_extension_outlook",
-                                    "label": "Extension",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_edit",
-                                            "type": "button",
-                                            "label": "Edit",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Edit",
-                                                "description": "Edit Snip"
-                                            },
-                                            "actionId": "action_id_edit",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        },
-                                        {
-                                            "id": "button_id_run",
-                                            "type": "button",
-                                            "label": "Run",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Run",
-                                                "description": "Run Snip"
-                                            },
-                                            "actionId": "action_id_run",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": "group_id_help_outlook",
-                                    "label": "Help",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_help",
-                                            "type": "button",
-                                            "label": "Help",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Help",
-                                                "description": "Get Help"
-                                            },
-                                            "actionId": "action_id_help",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "requirements": {
-                        "scopes": ["mail"],
-                        "formFactors": ["desktop"]
-                    },
-                    "contexts": ["mailCompose"],
-                    "tabs": [
-                        {
-                            "builtInTabId": "TabDefault",
-                            "groups": [
-                                {
-                                    "id": "group_id_extension_outlook",
-                                    "label": "Extension",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_edit",
-                                            "type": "button",
-                                            "label": "Edit",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Edit",
-                                                "description": "Edit Snip"
-                                            },
-                                            "actionId": "action_id_edit",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        },
-                                        {
-                                            "id": "button_id_run",
-                                            "type": "button",
-                                            "label": "Run",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Run",
-                                                "description": "Run Snip"
-                                            },
-                                            "actionId": "action_id_run",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": "group_id_help_outlook",
-                                    "label": "Help",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_help",
-                                            "type": "button",
-                                            "label": "Help",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Help",
-                                                "description": "Get Help"
-                                            },
-                                            "actionId": "action_id_help",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "requirements": {
-                        "scopes": ["mail"],
-                        "formFactors": ["desktop"]
-                    },
-                    "contexts": ["meetingDetailsOrganizer"],
-                    "tabs": [
-                        {
-                            "builtInTabId": "TabDefault",
-                            "groups": [
-                                {
-                                    "id": "group_id_extension_outlook",
-                                    "label": "Extension",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_edit",
-                                            "type": "button",
-                                            "label": "Edit",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-edit-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-edit-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-edit-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Edit",
-                                                "description": "Edit Snip"
-                                            },
-                                            "actionId": "action_id_edit",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        },
-                                        {
-                                            "id": "button_id_run",
-                                            "type": "button",
-                                            "label": "Run",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-play-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-play-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-play-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Run",
-                                                "description": "Run Snip"
-                                            },
-                                            "actionId": "action_id_run",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": "group_id_help_outlook",
-                                    "label": "Help",
-                                    "controls": [
-                                        {
-                                            "id": "button_id_help",
-                                            "type": "button",
-                                            "label": "Help",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-help-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-help-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-help-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Help",
-                                                "description": "Get Help"
-                                            },
-                                            "actionId": "action_id_help",
-                                            "overriddenByRibbonApi": false,
-                                            "enabled": true
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "requirements": {
-                        "scopes": ["mail"],
-                        "formFactors": ["desktop"]
-                    },
-                    "contexts": ["meetingDetailsAttendee"],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",
