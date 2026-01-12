@@ -5,7 +5,7 @@
 const { execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
-const { getMagick } = require("./getMagic.js");
+const { getMagick } = require("./getMagick.js");
 
 const magick = getMagick();
 

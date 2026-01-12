@@ -25,6 +25,7 @@
         "lint-fix": "eslint --config ./config/eslint.mjs --fix \"@(src|tests|scripts)/**/*.@(ts|tsx|js)\"",
         "test": "npm run compile && set TEST_MODE=dist && npm run playwright-test",
         "crop-listing-screenshots": "node ./scripts/crop-listing-screenshots.js && node ./scripts/strip-png-timestamps.js ./listing",
+        "make-listing-images": "node ./scripts/make-listing-images.js",
         "icon": "npm run icon-copy && npm run icon-generate",
         "icon-copy": "node ./scripts/get-icons.js",
         "icon-generate": "node ./scripts/generate-icons.js",
