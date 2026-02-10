@@ -53,7 +53,14 @@ build develop wandyezj
 
 ### Screenshots
 
-TODO: Add screenshots
+![Build Add-In showing edit and run in Excel.](./excel-taskpane-1366-768.png)
+
+![Build Add-In showing edit in Outlook.](./outlook-taskpane-1366-768.png)
+
+![Build Add-In showing edit and run in PowerPoint.](./powerpoint-taskpane-1366-768.png)
+
+![Build Add-In showing edit and run in Word.](./word-taskpane-1366-768.png)
+
 
 ### Additional information
 
