@@ -132,14 +132,14 @@ Object.freeze(settingsMetadata);
 
 type SettingsMetadata = typeof settingsMetadata;
 export type SettingsKey = keyof SettingsMetadata;
-const SettingsKeys = Object.getOwnPropertyNames(settingsMetadata) as SettingsKey[];
+const settingsKeys = Object.getOwnPropertyNames(settingsMetadata) as SettingsKey[];
 
 /**
  * setting name -> setting type
  */
 export type Settings = { [key in SettingsKey]: (typeof settingsMetadata)[key]["defaultValue"] };
 
-const settingsDefaults = SettingsKeys.reduce((defaults, key) => {
+const settingsDefaults = settingsKeys.reduce((defaults, key) => {
     defaults = {
         ...defaults,
         [key]: settingsMetadata[key].defaultValue,
@@ -174,7 +174,7 @@ export function parseSettingsJson(value: string): Settings {
 
         if (isPlainObject(settingsValue)) {
             const parsedSettings = settingsValue as Record<string, unknown>;
-            const settings = SettingsKeys.reduce((previous, key) => {
+            const settings = settingsKeys.reduce((previous, key) => {
                 const value = parsedSettings[key];
 
                 if (isValidSettingValue(key, value)) {
