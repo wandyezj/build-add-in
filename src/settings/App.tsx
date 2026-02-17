@@ -22,8 +22,8 @@ export function App() {
                             const origin = window.location.origin;
                             const pathname = window.location.pathname;
 
-                            // Replace settings2.html with edit.html
-                            const backLocation = origin + pathname.replace(/settings2.html$/, "edit.html");
+                            // Replace settings.html with edit.html
+                            const backLocation = origin + pathname.replace(/settings.html$/, "edit.html");
                             window.location.replace(backLocation);
                         }}
                     />
