@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **build-add-in**, a Microsoft Office Add-in (taskpane) that lets users write, edit, and run TypeScript/HTML/CSS code snippets ("snips") inside Word, Excel, PowerPoint, and Outlook. It integrates with GitHub Gists for sharing and supports GPG-signed snippets. Compiles to static files hosted via GitHub Pages. Licensed under the Unlicense (public domain).
+This is **build-add-in**, a Microsoft Office Add-in (taskpane) that lets users write, edit, and run TypeScript/HTML/CSS code snippets ("snips") inside Word, Excel, PowerPoint, and Outlook. It integrates with GitHub Gists for sharing and supports GPG-signed snippets. Compiles to static files hosted via GitHub Pages.
 
 Requires Node >= 20.0, npm >= 10.0.
 
 ## Common Commands
 
 | Command | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `npm run build` | Full pipeline: clean, style-check, spell-check, lint, compile |
 | `npm run compile` | Webpack production build (outputs to `dist/`) |
 | `npm run start` | Dev server with HTTPS on port 3000 |
@@ -21,15 +21,20 @@ Requires Node >= 20.0, npm >= 10.0.
 | `npm run style-check` | Check formatting |
 | `npm run spell-check` | cspell spell check |
 | `npm run test` | Compile then run Playwright E2E tests (Chromium) |
-| `npm run playwright-test` | Run Playwright tests alone (requires prior compile, set TEST_MODE=dist) |
-| `npm run playwright-report` | View Playwright test report |
-| `npm run manifest` | Generate + validate Office manifests from template |
-| `npm run localhost-certificates-install` | Install dev HTTPS certs (required once for dev server) |
-| `npm run analyze` | Bundle size analysis with webpack-bundle-analyzer |
+
 
 ### Manifest Editing
 
-Only edit template files directly: `manifests/template.xml` (Word/Excel/PowerPoint) and `manifests/local.outlook.xml` (Outlook). Other manifest files are generated via `npm run manifest`.
+Only edit the following template manifest files directly:
+
+- `manifests/template.xml` (Word/Excel/PowerPoint)
+- `manifests/template.outlook.xml` (Outlook).
+- `manifests/template.manifest.jsonc` (Shared manifest for all apps)
+
+Other XML manifest files are generated via `npm run manifest`.
+
+Other JSON manifest files are generated via `npm run make-manifest-shared`
+
 
 ### First-Time Test Setup
 
@@ -90,6 +95,7 @@ React 18 with Fluent UI (`@fluentui/react-components`) for Office-consistent the
 ## Code Style Rules
 
 **ESLint** (`config/eslint.mjs`):
+
 - Strict equality (`===`) required
 - Double quotes, always semicolons
 - `strictCamelCase` for variables/functions; `StrictPascalCase` for types/interfaces
@@ -99,9 +105,11 @@ React 18 with Fluent UI (`@fluentui/react-components`) for Office-consistent the
 - No leading/trailing underscores (except unused parameters)
 
 **Prettier** (`config/prettier.json`):
+
 - 120 char line width, 4-space indent, LF line endings, ES5 trailing commas
 
 **TypeScript** (`tsconfig.json`):
+
 - Strict mode, ESNext target/module, React JSX
 
 ## Project Principles

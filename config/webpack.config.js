@@ -198,7 +198,7 @@ module.exports = async (env, options) => {
     }
 
     //Only need to configure webserver in development mode
-    if (options.mode === "development") {
+    if (isDevelopment) {
         config.devServer = {
             ...config.devServer,
             open: optionDevOpenBrowserTabs ? optionOpenBrowserTabs : [],

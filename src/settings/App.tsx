@@ -10,7 +10,7 @@ export function App() {
     return (
         <FluentProvider theme={webLightTheme}>
             <div>
-                {goBack ? (
+                {goBack && (
                     <TooltipButton
                         tip="Back"
                         icon={<ArrowLeftRegular />}
@@ -22,14 +22,12 @@ export function App() {
                             const origin = window.location.origin;
                             const pathname = window.location.pathname;
 
-                            // Replace settings.html with edit.html
-                            const backLocation = origin + pathname.replace(/settings.html$/, "edit.html");
+                            // Replace settings2.html with edit.html
+                            const backLocation = origin + pathname.replace(/settings2.html$/, "edit.html");
                             window.location.replace(backLocation);
                         }}
                     />
-                ) : (
-                    <></>
-                )}
+                    )}
                 <h1>Settings</h1>
                 <Settings />
             </div>
