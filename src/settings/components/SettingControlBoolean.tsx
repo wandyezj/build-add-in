@@ -25,14 +25,17 @@ export function SettingControlBoolean({
     return (
         <>
             <Text>{name}</Text>
-            <Tooltip content={`${description}${hasDescription ? " " : " "}${format(checked, hasDescription)}`} relationship="label">
+            <Tooltip
+                content={`${description}${hasDescription ? " " : " "}${format(checked, hasDescription)}`}
+                relationship="label"
+            >
                 <Switch checked={checked} onChange={onChange} />
             </Tooltip>
         </>
     );
 }
 
-function format(value: boolean, embrace: boolean) : string {
+function format(value: boolean, embrace: boolean): string {
     const text = value ? "True" : "False";
     return embrace ? `(${text})` : text;
 }

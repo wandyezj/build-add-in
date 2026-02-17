@@ -27,7 +27,7 @@ export function App() {
                             window.location.replace(backLocation);
                         }}
                     />
-                    )}
+                )}
                 <h1>Settings</h1>
                 <Settings />
             </div>
