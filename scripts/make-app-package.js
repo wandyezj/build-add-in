@@ -3,7 +3,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const child_process = require("child_process");
+const { execSync } = require("child_process");
 const os = require("os");
 
 const isMac = "Darwin" === os.type();
@@ -65,7 +65,7 @@ const files = fs.readdirSync(zipPathIn);
 const tarCommand = isMac ? "tar" : "tar.exe";
 const command = `${tarCommand} --auto-compress --create --verbose --file ${zipPathOut} ${files.join(" ")}`;
 console.log(command);
-child_process.execSync(command, { cwd: zipPathIn });
+execSync(command, { cwd: zipPathIn });
 
 // Cleanup
 fs.rmSync(tempPath, { recursive: true, force: true });

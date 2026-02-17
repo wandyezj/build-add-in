@@ -165,6 +165,7 @@ export const sourceSnipGitHub = getSourceGithubGists({
             return undefined;
         }
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { updated_at } = gist;
         const modified = Date.parse(updated_at);
 

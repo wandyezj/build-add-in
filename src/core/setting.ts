@@ -3,6 +3,7 @@ import { loadSettings, saveSettings } from "./storage";
 import { Language } from "./localize/Language";
 import { Theme } from "./settings/Theme";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
+import { isPlainObject } from "./util/isPlainObject";
 
 /**
  * Returns an object with keys and values from the enum.
@@ -131,13 +132,14 @@ Object.freeze(settingsMetadata);
 
 type SettingsMetadata = typeof settingsMetadata;
 export type SettingsKey = keyof SettingsMetadata;
+const settingsKeys = Object.getOwnPropertyNames(settingsMetadata) as SettingsKey[];
 
 /**
  * setting name -> setting type
  */
 export type Settings = { [key in SettingsKey]: (typeof settingsMetadata)[key]["defaultValue"] };
 
-const settingsDefaults = (Object.getOwnPropertyNames(settingsMetadata) as SettingsKey[]).reduce((defaults, key) => {
+const settingsDefaults = settingsKeys.reduce((defaults, key) => {
     defaults = {
         ...defaults,
         [key]: settingsMetadata[key].defaultValue,
@@ -145,20 +147,46 @@ const settingsDefaults = (Object.getOwnPropertyNames(settingsMetadata) as Settin
     return defaults;
 }, {} as Partial<Settings>) as Settings;
 
+function isValidSettingValue(key: SettingsKey, value: unknown): value is Settings[SettingsKey] {
+    const { metadata, type } = settingsMetadata[key];
+
+    switch (type) {
+        case "boolean":
+            return typeof value === "boolean";
+        case "string":
+            return typeof value === "string";
+        case "enum": {
+            if (typeof value !== "string") {
+                return false;
+            }
+
+            const enumValues = metadata?.enumValues;
+            return Object.values(enumValues).includes(value);
+        }
+        default:
+            return false;
+    }
+}
+
 export function parseSettingsJson(value: string): Settings {
     try {
-        const settingsValue = JSON.parse(value);
+        const settingsValue: unknown = JSON.parse(value);
 
-        if (typeof settingsValue === "object") {
-            const settings: Settings = Object.getOwnPropertyNames(settingsDefaults).reduce((previous, key) => {
-                // TODO: validation on settings
-                // Only allow keys that have defaults
-                const newObject = {
-                    ...previous,
-                    [key]: settingsValue[key],
-                };
+        if (isPlainObject(settingsValue)) {
+            const parsedSettings = settingsValue as Record<string, unknown>;
+            const settings = settingsKeys.reduce((previous, key) => {
+                const value = parsedSettings[key];
 
-                return newObject;
+                if (isValidSettingValue(key, value)) {
+                    const newObject = {
+                        ...previous,
+                        [key]: value,
+                    };
+
+                    return newObject;
+                }
+
+                return previous;
             }, objectClone(settingsDefaults));
 
             return settings;
@@ -195,6 +223,9 @@ interface SettingValueString {
 interface SettingValueEnum<T> {
     type: "enum";
     defaultValue: T;
+    metadata: {
+        enumValues: Record<T & string, string>;
+    };
 }
 
 export function getSettingsMetadata(): Readonly<SettingsMetadata> {

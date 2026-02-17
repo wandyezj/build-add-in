@@ -8,3 +8,4 @@ temp-*/
 appPackage*.zip
 NUL
 .DS_Store
+tmp*
