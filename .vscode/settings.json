@@ -43,6 +43,12 @@
         "extends": "./config/markdownlint.jsonc"
     },
 
+    "chat.tools.terminal.autoApprove": {
+        "npm run extract-loc": true,
+        "npm run embed-loc": true,
+        "/^cmd \\/c \"npm run (extract-loc|embed-loc)\"$/": true
+    },
+
     "files.exclude": {
         "node_modules": true
     }
