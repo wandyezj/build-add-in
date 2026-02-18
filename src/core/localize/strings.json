@@ -43,7 +43,10 @@
         "with the GPG key associated with your GitHub account:",
         "Embed Snips",
         "Gist Snips",
-        "Snip source"
+        "Snip source",
+        "No signature.",
+        "Signature is invalid.",
+        "Signature could not be verified."
     ],
     "Japanese": [
         "著者",
@@ -89,7 +92,10 @@
         "GitHub アカウントに関連付けられた GPG キーで:",
         "埋め込みスニップ",
         "Gistスニップ",
-        "スニップのソース"
+        "スニップのソース",
+        "署名がありません。",
+        "署名が無効です。",
+        "署名を検証できませんでした。"
     ],
     "Spanish": [
         "Autor",
@@ -135,7 +141,10 @@
         "con la clave GPG asociada a tu cuenta de GitHub:",
         "Fragmentos incrustados",
         "Fragmentos de Gist",
-        "Origen del fragmento"
+        "Origen del fragmento",
+        "No hay firma.",
+        "La firma no es válida.",
+        "No se pudo verificar la firma."
     ],
     "French": [
         "Auteur",
@@ -181,7 +190,10 @@
         "avec la clé GPG associée à votre compte GitHub :",
         "Extraits intégrés",
         "Extraits Gist",
-        "Source de l’extrait"
+        "Source de l’extrait",
+        "Aucune signature.",
+        "La signature est invalide.",
+        "Impossible de vérifier la signature."
     ],
     "German": [
         "Autor",
@@ -227,7 +239,10 @@
         "mit dem GPG-Schlüssel, der mit Ihrem GitHub-Konto verknüpft ist:",
         "Eingebettete Snips",
         "Gist-Snips",
-        "Snip-Quelle"
+        "Snip-Quelle",
+        "Keine Signatur.",
+        "Die Signatur ist ungültig.",
+        "Die Signatur konnte nicht verifiziert werden."
     ],
     "Chinese": [
         "作者",
@@ -273,6 +288,9 @@
         "使用与你的 GitHub 账户关联的 GPG 密钥：",
         "嵌入代码片段",
         "Gist 代码片段",
-        "代码片段来源"
+        "代码片段来源",
+        "没有签名。",
+        "签名无效。",
+        "无法验证签名。"
     ]
 }
