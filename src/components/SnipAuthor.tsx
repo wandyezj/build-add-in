@@ -39,9 +39,10 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
         return (
             <div>
                 <p>
-                    <strong>{loc("Unknown")}</strong>
+                    <Tooltip content={reason} relationship={"description"}>
+                        <strong>{loc("Unknown")}</strong>
+                    </Tooltip>
                 </p>
-                {reason === undefined ? null : <p>{reason}</p>}
             </div>
         );
     }
