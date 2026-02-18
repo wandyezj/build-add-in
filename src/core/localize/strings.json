@@ -40,7 +40,10 @@
         "Unknown",
         "Unknown Parameter",
         "Upload the signature",
-        "with the GPG key associated with your GitHub account:"
+        "with the GPG key associated with your GitHub account:",
+        "Embed Snips",
+        "Gist Snips",
+        "Snip source"
     ],
     "Japanese": [
         "著者",
@@ -83,7 +86,10 @@
         "不明",
         "不明なパラメーター",
         "署名をアップロード",
-        "GitHub アカウントに関連付けられた GPG キーで:"
+        "GitHub アカウントに関連付けられた GPG キーで:",
+        "埋め込みスニップ",
+        "Gistスニップ",
+        "スニップのソース"
     ],
     "Spanish": [
         "Autor",
@@ -126,7 +132,10 @@
         "Desconocido",
         "Parámetro desconocido",
         "Subir la firma",
-        "con la clave GPG asociada a tu cuenta de GitHub:"
+        "con la clave GPG asociada a tu cuenta de GitHub:",
+        "Fragmentos incrustados",
+        "Fragmentos de Gist",
+        "Origen del fragmento"
     ],
     "French": [
         "Auteur",
@@ -169,7 +178,10 @@
         "Inconnu",
         "Paramètre inconnu",
         "Téléverser la signature",
-        "avec la clé GPG associée à votre compte GitHub :"
+        "avec la clé GPG associée à votre compte GitHub :",
+        "Extraits intégrés",
+        "Extraits Gist",
+        "Source de l’extrait"
     ],
     "German": [
         "Autor",
@@ -212,7 +224,10 @@
         "Unbekannt",
         "Unbekannter Parameter",
         "Signatur hochladen",
-        "mit dem GPG-Schlüssel, der mit Ihrem GitHub-Konto verknüpft ist:"
+        "mit dem GPG-Schlüssel, der mit Ihrem GitHub-Konto verknüpft ist:",
+        "Eingebettete Snips",
+        "Gist-Snips",
+        "Snip-Quelle"
     ],
     "Chinese": [
         "作者",
@@ -255,6 +270,9 @@
         "未知",
         "未知参数",
         "上传签名",
-        "使用与你的 GitHub 账户关联的 GPG 密钥："
+        "使用与你的 GitHub 账户关联的 GPG 密钥：",
+        "嵌入代码片段",
+        "Gist 代码片段",
+        "代码片段来源"
     ]
 }

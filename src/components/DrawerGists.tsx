@@ -114,7 +114,7 @@ export function DrawerGists({
                             />
                         }
                     >
-                        Gist Snips
+                        {loc("Gist Snips")}
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 

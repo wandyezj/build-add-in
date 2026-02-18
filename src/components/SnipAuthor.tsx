@@ -45,7 +45,7 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
                 secondaryText={
                     <span>
                         <Link as="button" onClick={() => window.open(`https://www.github.com/${authorName}`, "_blank")}>
-                            GitHub
+                            GitHub {/* localize-scan-ignore: brand name */}
                             <LinkRegular />
                         </Link>
                     </span>

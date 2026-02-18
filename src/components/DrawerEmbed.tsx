@@ -81,7 +81,7 @@ export function DrawerEmbed({
                             />
                         }
                     >
-                        Embed Snips
+                        {loc("Embed Snips")}
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 

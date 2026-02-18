@@ -218,7 +218,7 @@ function getSourceBadge(snip: SnipWithSource) {
     }
     const source = snip.source;
     return (
-        <Tooltip content="Snip source" relationship="description">
+        <Tooltip content={loc("Snip source")} relationship="description">
             <Badge size="large" color="informative" icon={getIconForSource(source)}>
                 {source}
             </Badge>
