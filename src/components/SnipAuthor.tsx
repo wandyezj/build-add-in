@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, Persona, Tooltip } from "@fluentui/react-components";
 import { LinkRegular } from "@fluentui/react-icons";
-import { getSnipAuthor } from "../core/getSnipAuthor";
+import { getSnipAuthor, SnipAuthorResultCode } from "../core/getSnipAuthor";
 import { SnipWithSource } from "../core/Snip";
 import { loc } from "../core/localize/loc";
 
@@ -12,25 +12,39 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
     const [authorName, setAuthorName] = React.useState<string | undefined>(undefined);
     const [authorAvatar, setAuthorAvatar] = React.useState<string | undefined>(undefined);
     const [userIds, setUserIds] = React.useState<string[] | undefined>(undefined);
+    const [authorResultCode, setAuthorResultCode] = React.useState<SnipAuthorResultCode | undefined>(undefined);
 
     useEffect(() => {
         // See if the snip has a valid author.
         getSnipAuthor(snip).then((authorInfo) => {
-            if (authorInfo === undefined) {
-                setAuthorName(undefined);
-                setAuthorAvatar(undefined);
-                setUserIds(undefined);
+            const { result } = authorInfo;
+            setAuthorResultCode(result);
+
+            if (result === SnipAuthorResultCode.Verified) {
+                const { username, avatar, userIds } = authorInfo.author;
+                setAuthorName(username);
+                setAuthorAvatar(avatar);
+                setUserIds(userIds);
                 return;
             }
-            const { username, avatar, userIds } = authorInfo;
-            setAuthorName(username);
-            setAuthorAvatar(avatar);
-            setUserIds(userIds);
+
+            setAuthorName(undefined);
+            setAuthorAvatar(undefined);
+            setUserIds(undefined);
         });
     }, [snip]);
 
     if (authorName === undefined) {
-        return <p>{loc("Unknown")}</p>;
+        const reason = formatAuthorResultCode(authorResultCode);
+        return (
+            <div>
+                <p>
+                    <Tooltip content={reason} relationship={"description"}>
+                        <strong>{loc("Unknown")}</strong>
+                    </Tooltip>
+                </p>
+            </div>
+        );
     }
 
     return (
@@ -59,4 +73,19 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
             />
         </>
     );
+}
+
+function formatAuthorResultCode(code: SnipAuthorResultCode | undefined): string {
+    if (code === undefined) {
+        return "";
+    }
+
+    switch (code) {
+        case SnipAuthorResultCode.NoSignature:
+            return loc("No signature.");
+        case SnipAuthorResultCode.InvalidSignature:
+            return loc("Signature is invalid.");
+        default:
+            return loc("Signature could not be verified.");
+    }
 }

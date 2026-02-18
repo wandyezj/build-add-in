@@ -66,7 +66,7 @@ for (const file of sourceFiles) {
 const locFile = "./localize/extract-loc.tsv";
 const locData = locStrings
     .map(({ file, string }) => {
-        return [file, `"${string}"`].join("\t");
+        return [file.replaceAll("/", "\\"), `"${string}"`].join("\t");
     })
     .join("\n");
 fs.writeFileSync(locFile, locData, "utf8");
