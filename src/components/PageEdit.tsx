@@ -123,7 +123,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                 <ButtonOpenMenu openSnip={openSnip} openImportDialog={() => setDialogImportOpen(true)}></ButtonOpenMenu>
                 <Tooltip content={snip.name} relationship="label">
                     <Input
-                        aria-label="Snip Name"
+                        aria-label={loc("Snip Name")}
                         type="text"
                         value={snip.name}
                         onChange={(_, { value }) => {
@@ -189,6 +189,7 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     setFileId(value as string);
                 }}
             >
+                {/** localize-scan-ignore: language tab labels (TS, HTML, CSS, Libraries) */}
                 <Tab value="typescript"> TS </Tab>
                 <Tab value="html">HTML</Tab>
                 <Tab value="css"> CSS</Tab>

@@ -29,7 +29,18 @@
         "Sign",
         "Signature",
         "Upload Sig",
-        "Upload Snips"
+        "Upload Snips",
+        "Back",
+        "Check the signature",
+        "Download the doc text to sign:",
+        "GitHub Username",
+        "No signature uploaded",
+        "Sign the doc text",
+        "Snip Name",
+        "Unknown",
+        "Unknown Parameter",
+        "Upload the signature",
+        "with the GPG key associated with your GitHub account:"
     ],
     "Japanese": [
         "著者",
@@ -61,7 +72,18 @@
         "署名する",
         "署名",
         "署名をアップロード",
-        "スニップをアップロード"
+        "スニップをアップロード",
+        "戻る",
+        "署名を確認",
+        "署名するためのドキュメントテキストをダウンロード:",
+        "GitHubユーザー名",
+        "署名がアップロードされていません",
+        "ドキュメントテキストに署名",
+        "スニップ名",
+        "不明",
+        "不明なパラメーター",
+        "署名をアップロード",
+        "GitHub アカウントに関連付けられた GPG キーで:"
     ],
     "Spanish": [
         "Autor",
@@ -93,7 +115,18 @@
         "Firmar",
         "Firma",
         "Subir firma",
-        "Subir fragmentos"
+        "Subir fragmentos",
+        "Atrás",
+        "Comprobar la firma",
+        "Descargar el texto del documento para firmar:",
+        "Nombre de usuario de GitHub",
+        "No se ha subido ninguna firma",
+        "Firmar el texto del documento",
+        "Nombre del fragmento",
+        "Desconocido",
+        "Parámetro desconocido",
+        "Subir la firma",
+        "con la clave GPG asociada a tu cuenta de GitHub:"
     ],
     "French": [
         "Auteur",
@@ -125,7 +158,18 @@
         "Signer",
         "Signature",
         "Téléverser la signature",
-        "Téléverser les extraits"
+        "Téléverser les extraits",
+        "Retour",
+        "Vérifier la signature",
+        "Télécharger le texte du document à signer :",
+        "Nom d’utilisateur GitHub",
+        "Aucune signature téléversée",
+        "Signer le texte du document",
+        "Nom de l’extrait",
+        "Inconnu",
+        "Paramètre inconnu",
+        "Téléverser la signature",
+        "avec la clé GPG associée à votre compte GitHub :"
     ],
     "German": [
         "Autor",
@@ -157,7 +201,18 @@
         "Signieren",
         "Signatur",
         "Signatur hochladen",
-        "Snips hochladen"
+        "Snips hochladen",
+        "Zurück",
+        "Signatur prüfen",
+        "Dokumenttext zum Signieren herunterladen:",
+        "GitHub-Benutzername",
+        "Keine Signatur hochgeladen",
+        "Dokumenttext signieren",
+        "Snip-Name",
+        "Unbekannt",
+        "Unbekannter Parameter",
+        "Signatur hochladen",
+        "mit dem GPG-Schlüssel, der mit Ihrem GitHub-Konto verknüpft ist:"
     ],
     "Chinese": [
         "作者",
@@ -189,6 +244,17 @@
         "签名",
         "签名",
         "上传签名",
-        "上传代码片段"
+        "上传代码片段",
+        "返回",
+        "检查签名",
+        "下载要签名的文档文本：",
+        "GitHub 用户名",
+        "未上传签名",
+        "对文档文本进行签名",
+        "代码片段名称",
+        "未知",
+        "未知参数",
+        "上传签名",
+        "使用与你的 GitHub 账户关联的 GPG 密钥："
     ]
 }

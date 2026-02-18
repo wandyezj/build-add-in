@@ -16,6 +16,7 @@ import { SampleListCard } from "./SampleListCard";
 import { SnipMetadata, SnipWithSource } from "../core/Snip";
 import { getAllSnipMetadata, getSnipById } from "../core/source/embedSnip";
 import { formatModified } from "../core/util/formatModified";
+import { loc } from "../core/localize/loc";
 
 async function getAllEmbed() {
     const metadata = await getAllSnipMetadata();
@@ -74,7 +75,7 @@ export function DrawerEmbed({
                         action={
                             <Button
                                 appearance="subtle"
-                                aria-label="Close"
+                                aria-label={loc("Close")}
                                 icon={<Dismiss24Regular />}
                                 onClick={() => setIsOpen(false)}
                             />

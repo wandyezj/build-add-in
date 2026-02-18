@@ -46,7 +46,8 @@
     "chat.tools.terminal.autoApprove": {
         "npm run extract-loc": true,
         "npm run embed-loc": true,
-        "/^cmd \\/c \"npm run (extract-loc|embed-loc)\"$/": true
+        "cmd /c \"npm run extract-loc\"": true,
+        "cmd /c \"npm run embed-loc\"": true
     },
 
     "files.exclude": {

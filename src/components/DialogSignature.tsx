@@ -216,7 +216,7 @@ export function DialogSignature({
                             Create a new signature for the snip "{snip.name}"
                             <ol>
                                 <li>
-                                    <Label htmlFor={inputId}>GitHub Username</Label>
+                                    <Label htmlFor={inputId}>{loc("GitHub Username")}</Label>
                                     <Input
                                         value={username}
                                         onChange={(ev, data) => {
@@ -227,7 +227,7 @@ export function DialogSignature({
                                     />
                                 </li>
                                 <li>
-                                    <strong>Download the doc text</strong> to sign:
+                                    <strong>{loc("Download the doc text to sign:")}</strong>
                                     <TooltipButton
                                         tip={loc("Download Doc")}
                                         icon={<ArrowDownloadRegular />}
@@ -235,8 +235,8 @@ export function DialogSignature({
                                     />
                                 </li>
                                 <li>
-                                    <strong>Sign the doc text</strong> with the GPG key associated with your GitHub
-                                    account:
+                                    <strong>{loc("Sign the doc text")}</strong>{" "}
+                                    {loc("with the GPG key associated with your GitHub account:")}
                                     <br></br>
                                     <code>cd ~/Downloads</code>
                                     <br></br>
@@ -246,7 +246,7 @@ export function DialogSignature({
                                     </code>
                                 </li>
                                 <li>
-                                    <strong>Upload the signature</strong>:
+                                    <strong>{loc("Upload the signature")}</strong>:
                                     <TooltipButton
                                         tip={loc("Upload Sig")}
                                         icon={<ArrowUploadRegular />}
@@ -255,14 +255,14 @@ export function DialogSignature({
                                     {getBadgeForState(signatureState)}
                                 </li>
                                 <li>
-                                    <strong>Check the signature</strong>:<br></br>
+                                    <strong>{loc("Check the signature")}</strong>:<br></br>
                                     {username !== undefined && signature !== undefined ? (
                                         <SnipAuthor
                                             snip={snipWithAuthor(snip, { source: "GitHub", username, signature })}
                                         />
                                     ) : (
                                         <>
-                                            <p>No signature uploaded</p>
+                                            <p>{loc("No signature uploaded")}</p>
                                         </>
                                     )}
                                 </li>
