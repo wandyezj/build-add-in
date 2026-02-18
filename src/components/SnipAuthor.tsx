@@ -3,6 +3,7 @@ import { Link, Persona, Tooltip } from "@fluentui/react-components";
 import { LinkRegular } from "@fluentui/react-icons";
 import { getSnipAuthor } from "../core/getSnipAuthor";
 import { SnipWithSource } from "../core/Snip";
+import { loc } from "../core/localize/loc";
 
 /**
  * The author information for a snip.
@@ -29,7 +30,7 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
     }, [snip]);
 
     if (authorName === undefined) {
-        return <p>Unknown</p>;
+        return <p>{loc("Unknown")}</p>;
     }
 
     return (
@@ -44,7 +45,7 @@ export function SnipAuthor({ snip }: { snip: SnipWithSource }) {
                 secondaryText={
                     <span>
                         <Link as="button" onClick={() => window.open(`https://www.github.com/${authorName}`, "_blank")}>
-                            GitHub
+                            GitHub {/* localize-scan-ignore: brand name */}
                             <LinkRegular />
                         </Link>
                     </span>

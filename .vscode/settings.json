@@ -43,6 +43,27 @@
         "extends": "./config/markdownlint.jsonc"
     },
 
+    "chat.tools.terminal.autoApprove": {
+        "npm run extract-loc": true,
+        "npm run embed-loc": true,
+        "npm run style-check": true,
+        "npm run spell-check": true,
+        "npm run lint": true,
+        "npm run compile": true,
+        "npm run build": true,
+        "npm run test": true,
+        "npm run playwright-install": true,
+        "cmd /c \"npm run extract-loc\"": true,
+        "cmd /c \"npm run embed-loc\"": true,
+        "cmd /c \"npm run style-check\"": true,
+        "cmd /c \"npm run spell-check\"": true,
+        "cmd /c \"npm run lint\"": true,
+        "cmd /c \"npm run compile\"": true,
+        "cmd /c \"npm run build\"": true,
+        "cmd /c \"npm run test\"": true,
+        "cmd /c \"npm run playwright-install\"": true
+    },
+
     "files.exclude": {
         "node_modules": true
     }

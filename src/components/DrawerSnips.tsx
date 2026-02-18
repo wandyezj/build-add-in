@@ -158,7 +158,7 @@ export function DrawerSnips({
                         action={
                             <Button
                                 appearance="subtle"
-                                aria-label="Close"
+                                aria-label={loc("Close")}
                                 icon={<Dismiss24Regular />}
                                 onClick={() => setIsOpen(false)}
                             />

@@ -5,6 +5,7 @@ import { SettingControlNumber } from "./SettingControlNumber";
 import { SettingControlEnum } from "./SettingControlEnum";
 import { SettingControlBoolean } from "./SettingControlBoolean";
 import { Setting } from "./Setting";
+import { loc } from "../../core/localize/loc";
 
 const useStyles = makeStyles({
     text: {
@@ -70,6 +71,6 @@ export function SettingControl({
                 </div>
             );
         default:
-            return <div> Unknown Parameter</div>;
+            return <div> {loc("Unknown Parameter")}</div>;
     }
 }
