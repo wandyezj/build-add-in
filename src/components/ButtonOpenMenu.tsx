@@ -55,7 +55,11 @@ export function ButtonOpenMenu({
         <>
             <Menu openOnHover={true} hoverDelay={0}>
                 <MenuTrigger>
-                    <ToolbarButton data-testid={getId(idEditButtonOpen)} aria-label="Open" icon={<FolderOpenRegular />}>
+                    <ToolbarButton
+                        data-testid={getId(idEditButtonOpen)}
+                        aria-label={loc("Open")}
+                        icon={<FolderOpenRegular />}
+                    >
                         {loc("Open")}
                     </ToolbarButton>
                 </MenuTrigger>

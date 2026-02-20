@@ -99,7 +99,8 @@ async function runSnip() {
             let author = undefined;
             if (snip) {
                 const module = await import("./core/getSnipAuthor");
-                author = await module.getSnipAuthor(snip);
+                const result = await module.getSnipAuthor(snip);
+                author = result.result === module.SnipAuthorResultCode.Verified ? result.author : undefined;
             }
 
             // ask for consent to run the snip

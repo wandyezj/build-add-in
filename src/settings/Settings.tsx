@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SettingsKey, getSetting, getSettings, getSettingsMetadata } from "../core/setting";
-import { BlockParameter } from "../blocks/components/BlockParameter";
+import { SettingControl } from "./components/SettingControl";
 import { saveSettings } from "../core/storage";
-import { CodeTemplateBlockParameter } from "../blocks/CodeTemplateBlock";
+import { Setting } from "./components/Setting";
 
 export function Settings() {
     const [settings, setSettings] = useState(getSettings());
@@ -16,8 +16,6 @@ export function Settings() {
         setSettings(newSettings);
     }
 
-    // Use Blocks for settings
-    //<Blocks></Blocks>
     const metadata = getSettingsMetadata();
 
     const settingParameters = Object.getOwnPropertyNames(metadata)
@@ -33,13 +31,13 @@ export function Settings() {
                 value,
                 description: setting.tooltip || "",
                 metadata: setting.metadata,
-            } as CodeTemplateBlockParameter;
+            } as Setting;
             return { key, parameter };
         })
         .filter((setting) => ["boolean", "string", "enum"].includes(setting.parameter.type));
 
     return settingParameters.map(({ parameter, key }) => (
-        <BlockParameter
+        <SettingControl
             key={key}
             parameter={parameter}
             updateValue={(value) => {

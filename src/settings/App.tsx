@@ -3,6 +3,7 @@ import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { Settings } from "./Settings";
 import { ArrowLeftRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "../components/TooltipButton";
+import { loc } from "../core/localize/loc";
 
 export function App() {
     const goBack = window.location.hash === "#back";
@@ -10,9 +11,9 @@ export function App() {
     return (
         <FluentProvider theme={webLightTheme}>
             <div>
-                {goBack ? (
+                {goBack && (
                     <TooltipButton
-                        tip="Back"
+                        tip={loc("Back")}
                         icon={<ArrowLeftRegular />}
                         onClick={() => {
                             // We want to force a reload when the settings are changed.
@@ -27,10 +28,8 @@ export function App() {
                             window.location.replace(backLocation);
                         }}
                     />
-                ) : (
-                    <></>
                 )}
-                <h1>Settings</h1>
+                <h1>{loc("Settings")}</h1>
                 <Settings />
             </div>
         </FluentProvider>

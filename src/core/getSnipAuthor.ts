@@ -4,23 +4,45 @@ import { log, LogTag } from "./log";
 import { pgpSignatureMatches } from "./pgp/pgpSignatureMatches";
 import { Snip, getSnipDocText } from "./Snip";
 
+export enum SnipAuthorResultCode {
+    Verified = "Verified",
+    NoSignature = "NoSignature",
+    GitHubUserNotFound = "GitHubUserNotFound",
+    GitHubGpgKeysMissing = "GitHubGpgKeysMissing",
+    InvalidSignature = "InvalidSignature",
+}
+
+export type SnipAuthorResult =
+    | {
+          result: SnipAuthorResultCode.Verified;
+          author: {
+              username: string;
+              avatar: string;
+              userIds: string[];
+          };
+      }
+    | {
+          result: Exclude<SnipAuthorResultCode, SnipAuthorResultCode.Verified>;
+      };
+
 /**
- * @returns author info if the snip is signed and the signature matches the public key of the author.
- * If the snip is not signed or the signature does not match, returns undefined.
+ * @returns author details when the snip signature validates, otherwise a descriptive error.
  */
-export async function getSnipAuthor(
-    snip: Snip
-): Promise<undefined | { username: string; avatar: string; userIds: string[] }> {
+export async function getSnipAuthor(snip: Snip): Promise<SnipAuthorResult> {
     const { author } = snip;
     if (author === undefined) {
-        return undefined;
+        return { result: SnipAuthorResultCode.NoSignature };
     }
 
     const { username, signature } = author;
 
+    if (username === undefined || signature === undefined) {
+        return { result: SnipAuthorResultCode.InvalidSignature };
+    }
+
     const user = await getGitHubUser(username);
     if (user === undefined) {
-        return undefined;
+        return { result: SnipAuthorResultCode.GitHubUserNotFound };
     }
     const avatar = user.avatar_url;
 
@@ -30,7 +52,7 @@ export async function getSnipAuthor(
     const publicKeys = await getGitHubUserGpgKeysRaw(username);
     if (publicKeys === undefined) {
         log(LogTag.UploadFile, `GitHub GPG key for user ${username} not found`);
-        return undefined;
+        return { result: SnipAuthorResultCode.GitHubGpgKeysMissing };
     }
 
     const result = await pgpSignatureMatches({
@@ -40,13 +62,16 @@ export async function getSnipAuthor(
     });
 
     if (!result.matches) {
-        return undefined;
+        return { result: SnipAuthorResultCode.InvalidSignature };
     }
     const { userIds } = result;
 
     return {
-        username,
-        avatar,
-        userIds,
+        result: SnipAuthorResultCode.Verified,
+        author: {
+            username,
+            avatar,
+            userIds,
+        },
     };
 }
