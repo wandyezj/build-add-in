@@ -18,7 +18,7 @@
     },
     "description": {
         "short": "Quickly create, run, and share Office Add-In code snips.",
-        "full": "Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Outlook!\n\n- Create and edit code snips that include JavaScript, HTML, and CSS.\n- Use the Office JS API to interact with Office documents.\n- Run your snip and immediately see the results.\n- Get started quickly with samples.\n- Share your code snips with others."
+        "full": "Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Outlook!\n\n- Create and edit code snips that include JavaScript, HTML, and CSS.\n- Use the Office JS API to interact with Office documents.\n- Run your snip and immediately see the results.\n- Get started quickly with samples.\n- Share your code snips with others.\n\n\n[Get Started](https://github.com/wandyezj/build-add-in)\n\n[Contact](https://github.com/wandyezj)"
     },
     "icons": {
         "outline": "assets/icon-outline-32.png",

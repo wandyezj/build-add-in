@@ -39,6 +39,11 @@ Play with the Office JavaScript API within Excel, Word, PowerPoint, or Outlook!
 
 - Create snips that include JavaScript, HTML, CSS.
 - Run code snips and see the result.
+
+[Get Started](https://github.com/wandyezj/build-add-in)
+
+[Contact](https://github.com/wandyezj)
+
 ```
 
 ### Search Keywords

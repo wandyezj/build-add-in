@@ -54,6 +54,11 @@ Augment your workflow with the Office JS API in Word, Excel, PowerPoint, and Out
 - Get started quickly with samples.
 - Share your code snips with others.
 
+
+[Get Started](https://github.com/wandyezj/build-add-in)
+
+[Contact](https://github.com/wandyezj)
+
 `.trim();
 
 template.description.full = descriptionFull;
