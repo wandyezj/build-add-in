@@ -193,7 +193,7 @@
                                     ],
                                     "controls": [
                                         {
-                                            "id": "button_id_edit",
+                                            "id": "control_id_edit",
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
@@ -219,7 +219,7 @@
                                             "enabled": true
                                         },
                                         {
-                                            "id": "button_id_run",
+                                            "id": "control_id_run",
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
@@ -265,7 +265,7 @@
                                     ],
                                     "controls": [
                                         {
-                                            "id": "button_id_help",
+                                            "id": "control_id_help",
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
@@ -311,7 +311,7 @@
                                     ],
                                     "controls": [
                                         {
-                                            "id": "button_id_settings",
+                                            "id": "control_id_settings",
                                             "type": "button",
                                             "label": "Settings",
                                             "icons": [
@@ -358,7 +358,7 @@
                                     "label": "Extension",
                                     "controls": [
                                         {
-                                            "id": "button_id_edit",
+                                            "id": "control_id_edit",
                                             "type": "button",
                                             "label": "Edit",
                                             "icons": [
@@ -384,7 +384,7 @@
                                             "enabled": true
                                         },
                                         {
-                                            "id": "button_id_run",
+                                            "id": "control_id_run",
                                             "type": "button",
                                             "label": "Run",
                                             "icons": [
@@ -416,7 +416,7 @@
                                     "label": "Help",
                                     "controls": [
                                         {
-                                            "id": "button_id_help",
+                                            "id": "control_id_help",
                                             "type": "button",
                                             "label": "Help",
                                             "icons": [
