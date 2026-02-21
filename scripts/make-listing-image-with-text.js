@@ -49,6 +49,7 @@ execSync(
     { stdio: "inherit" }
 );
 
+// cSpell:words pointsize
 const altText = text; // Use the provided text
 const textOption = `-gravity south -font "Monaco" -fill black -pointsize 50 -annotate +0+30 "${altText}" -strip -define png:exclude-chunks=date,time `;
 

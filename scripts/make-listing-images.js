@@ -52,6 +52,8 @@ if (!fs.existsSync(outputDirectory)) {
 
 // Create each listing image with alt text
 
+//// cSpell:words pointsize findstr ghostwhite Segoe
+
 function makeListingImage(imagePath, altText) {
     const inputImagePath = path.join(listingDirectory, imagePath);
 
