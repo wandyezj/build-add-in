@@ -67,6 +67,15 @@ export const settingsMetadata = {
     } as SettingBoolean,
 
     /**
+     * Show AI features in the UI.
+     */
+    enableAi: {
+        name: "Enable AI",
+        type: "boolean",
+        defaultValue: false,
+    } as SettingBoolean,
+
+    /**
      * Show the embed button on the edit page and in the open menu.
      */
     enableEmbed: {
