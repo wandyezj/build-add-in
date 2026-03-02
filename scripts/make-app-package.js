@@ -6,7 +6,9 @@ const path = require("path");
 const { execSync } = require("child_process");
 const os = require("os");
 
-const isMac = "Darwin" === os.type();
+const osType = os.type(); // 'Linux', 'Darwin', or 'Windows_NT'
+const isMac = "Darwin" === osType;
+const isLinux = "Linux" === osType;
 
 const parameters = process.argv.slice(2);
 
@@ -62,7 +64,7 @@ if (fs.existsSync(zipPathOut)) {
 }
 
 const files = fs.readdirSync(zipPathIn);
-const tarCommand = isMac ? "tar" : "tar.exe";
+const tarCommand = isMac || isLinux ? "tar" : "tar.exe";
 const command = `${tarCommand} --auto-compress --create --verbose --file ${zipPathOut} ${files.join(" ")}`;
 console.log(command);
 execSync(command, { cwd: zipPathIn });

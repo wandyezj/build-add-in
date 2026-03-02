@@ -63,6 +63,9 @@ jobs:
     - name: compile
       run: npm run compile
 
+    - name: manifest
+      run: npm run compile-manifests
+
     - name: Upload static files as artifact
       if: inputs.upload
       uses: actions/upload-pages-artifact@v3
