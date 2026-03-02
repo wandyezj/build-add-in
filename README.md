@@ -5,14 +5,25 @@
 
 ![Logo](./assets/icon-80.png)
 
-Get the Build Add-In from Microsoft AppSource:
+## Get the Build Add-In
 
-- Get for [Word, Excel, and PowerPoint](https://appsource.microsoft.com/en-us/product/office/WA200006798).
-- Get for [Outlook](https://appsource.microsoft.com/en-us/product/office/WA200006932).
+[Try in your browser](https://wandyezj.github.io/build-add-in/edit.html)!
 
-Alternatively, [sideload the manifests](https://github.com/wandyezj/build-add-in/blob/main/docs/sideload.md).
 
-[Tutorial](https://github.com/wandyezj/build-add-in/blob/main/docs/tutorial.md)
+Get from Microsoft Marketplace:
+
+- Build for All for [Word, Excel, PowerPoint, and Outlook](https://marketplace.microsoft.com/en-us/product/WA200010142)
+
+Get from Microsoft AppSource:
+
+- Build for [Word, Excel, and PowerPoint](https://appsource.microsoft.com/en-us/product/office/WA200006798).
+- Build for [Outlook](https://appsource.microsoft.com/en-us/product/office/WA200006932).
+
+Alternatively, [sideload the manifest](https://github.com/wandyezj/build-add-in/blob/main/docs/sideload.md).
+
+## Get Started
+
+Open the [Tutorial](https://github.com/wandyezj/build-add-in/blob/main/docs/tutorial.md).
 
 ## Goals
 
