@@ -43,6 +43,8 @@ ${body}
 const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
+const { library } = require("webpack");
+
 module.exports = async (env, options) => {
     //console.log(env);
 
@@ -50,7 +52,9 @@ module.exports = async (env, options) => {
     const analyze = env["analyze"] === "true";
 
     const isDevelopment = options.mode === "development";
+
     const config = {
+        name: "main",
         // no source maps for production
         devtool: isDevelopment ? "inline-source-map" : undefined,
 
@@ -75,6 +79,14 @@ module.exports = async (env, options) => {
         },
         output: {
             // Add contenthash to cache bust on CDN
+            // filename: (pathData) => {
+            //     const name = pathData.chunk?.name;
+            //     if (name === "library") {
+            //         return "library/build.js";
+            //     }
+
+            //     return isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js";
+            // },
             filename: isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js",
             path: path.resolve(__dirname, "..", "dist"),
         },
@@ -213,7 +225,43 @@ module.exports = async (env, options) => {
         };
     }
 
-    return config;
+    libraryConfig = {
+        dependencies: ["main"],
+        name: "library",
+        entry: {
+            library: "./lib/index.ts",
+        },
+        output: {
+            filename: "library/build.js",
+            path: path.resolve(__dirname, "..", "dist"),
+            library: {
+                name: "Build",
+                type: "window", // Expose the library on the window object
+                export: "Build", // Export the Build object
+            },
+        },
+        optimization: {
+            runtimeChunk: false,
+            splitChunks: false,
+            minimize: false, // Disable minimization for library
+        },
+        resolve: {
+            extensions: [".ts", ".json", ".js"],
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(ts)$/,
+                    loader: "ts-loader",
+                    options: {
+                        configFile: path.resolve(__dirname, "..", "lib", "tsconfig.json"),
+                    },
+                },
+            ],
+        },
+    };
+
+    return [config, libraryConfig];
 };
 
 async function getHttpsOptions() {

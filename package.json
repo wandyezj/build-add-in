@@ -10,7 +10,11 @@
     "scripts": {
         "build": "npm run clean && npm run style-check && npm run spell-check && npm run lint && npm run compile",
         "clean": "node ./scripts/clean.js dist",
+        "clean-temp": "node ./scripts/clean.js temp",
         "compile": "webpack --config ./config/webpack.config.js --mode production",
+        "doc-extract": "api-extractor run --local",
+        "doc-document": "api-documenter markdown --input-folder ./temp --output-folder ./dist/library",
+        "doc": "npm run clean-temp && tsc --project ./lib/tsconfig.json && npm run doc-extract && npm run doc-document",
         "analyze": "npm run compile -- --env analyze=true",
         "server": "npx http-server %CD%/dist --ssl --cert %USERPROFILE%\\.office-addin-dev-certs\\localhost.crt --key %USERPROFILE%\\.office-addin-dev-certs\\localhost.key -c-1 --cors -p 3000",
         "localhost-certificates": "npx office-addin-dev-certs",
@@ -75,11 +79,14 @@
         "yaml": "^2.6.0"
     },
     "devDependencies": {
+        "@microsoft/api-documenter": "^7.29.6",
+        "@microsoft/api-extractor": "^7.57.6",
         "@playwright/test": "^1.54.2",
         "@types/node": "^18.7.17",
         "@types/office-js": "^1.0.376",
         "@types/react": "^18.3.23",
         "@types/react-dom": "^18.3.7",
+        "@types/webpack": "^5.28.5",
         "@typescript-eslint/eslint-plugin": "^8.40.0",
         "@typescript-eslint/parser": "^8.40.0",
         "clean-webpack-plugin": "^4.0.0",
