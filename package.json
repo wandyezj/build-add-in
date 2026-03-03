@@ -13,7 +13,7 @@
         "clean-temp": "node ./scripts/clean.js temp",
         "compile": "webpack --config ./config/webpack.config.js --mode production",
         "doc-extract": "api-extractor run --local",
-        "doc-document": "api-documenter markdown --input-folder ./temp --output-folder ./dist/library",
+        "doc-document": "api-documenter markdown --input-folder ./temp --output-folder ./temp/library-markdown",
         "doc": "npm run clean-temp && tsc --project ./lib/tsconfig.json && npm run doc-extract && npm run doc-document",
         "analyze": "npm run compile -- --env analyze=true",
         "server": "npx http-server %CD%/dist --ssl --cert %USERPROFILE%\\.office-addin-dev-certs\\localhost.crt --key %USERPROFILE%\\.office-addin-dev-certs\\localhost.key -c-1 --cors -p 3000",

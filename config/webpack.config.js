@@ -43,7 +43,80 @@ ${body}
 const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
-const { library } = require("webpack");
+const { execSync } = require("child_process");
+const { readdirSync, readFileSync, watch } = require("fs");
+
+/**
+ * The LibraryPlugin plugin runs a command to generate files.
+ * Then copies files from specified directories to the output directory.
+ */
+class LibraryPlugin {
+    /**
+     * Command to run
+     * @param {string} command
+     * @param {[string, string[]][]} copyFrom - [directory, extensions] Directory to copy files from and extensions to include
+     * @param {string} copyTo - Directory to copy files to
+     */
+    constructor(command, copyFrom, copyTo) {
+        this.command = command;
+        this.copyFrom = copyFrom;
+        this.copyTo = copyTo;
+    }
+
+    apply(compiler) {
+        compiler.hooks.thisCompilation.tap("LibraryPlugin", (compilation) => {
+            const { sources } = compiler.webpack;
+            compilation.hooks.processAssets.tap(
+                {
+                    name: "LibraryPlugin",
+                    stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
+                },
+                () => {
+                    function emitAsset(name, content) {
+                        const source = new sources.RawSource(content);
+                        compilation.emitAsset(name, source);
+                    }
+
+                    const root = path.resolve(__dirname, "..");
+
+                    // Run the command to generate files
+                    execSync(this.command, { cwd: root, stdio: "inherit" });
+
+                    this.copyFrom.forEach(([dir, extensions]) => {
+                        const dirPath = path.resolve(root, dir);
+
+                        const files = readdirSync(dirPath).filter((file) =>
+                            extensions.some((ext) => file.endsWith(ext))
+                        );
+                        files.forEach((file) => {
+                            if (extensions && !extensions.some((ext) => file.endsWith(ext))) {
+                                return;
+                            }
+                            const filePathIn = path.join(dirPath, file);
+                            let filePathOut = path.join(this.copyTo, file);
+
+                            let contents = readFileSync(filePathIn, "utf-8"); // Ensure the file exists
+
+                            if (file === "build.d.ts") {
+                                contents = contents
+                                    .replaceAll("export { }", "")
+                                    .replaceAll("export declare", "declare");
+                            }
+
+                            if (file.endsWith(".md")) {
+                                const basename = path.basename(file, ".md");
+                                contents = contents.replaceAll(".md)", ".html)");
+                                contents = mdToHtml(contents, basename);
+                                filePathOut = path.join(this.copyTo, `${basename}.html`);
+                            }
+                            emitAsset(filePathOut, contents);
+                        });
+                    });
+                }
+            );
+        });
+    }
+}
 
 module.exports = async (env, options) => {
     //console.log(env);
@@ -52,6 +125,11 @@ module.exports = async (env, options) => {
     const analyze = env["analyze"] === "true";
 
     const isDevelopment = options.mode === "development";
+
+    const ignored = ["**/temp/**", "**/dist/**"];
+    const watchOptions = {
+        ignored,
+    };
 
     const config = {
         name: "main",
@@ -65,8 +143,12 @@ module.exports = async (env, options) => {
         devServer: {
             static: {
                 directory: path.join(__dirname, "..", "dist"),
+                watch: {
+                    ignored,
+                },
             },
         },
+        watchOptions,
         entry: {
             edit: "./src/edit.tsx",
             run: "./src/run.ts",
@@ -227,6 +309,7 @@ module.exports = async (env, options) => {
 
     libraryConfig = {
         dependencies: ["main"],
+        watchOptions,
         name: "library",
         entry: {
             library: "./lib/index.ts",
@@ -259,6 +342,16 @@ module.exports = async (env, options) => {
                 },
             ],
         },
+        plugins: [
+            new LibraryPlugin(
+                "npm run doc",
+                [
+                    ["temp/library-rollup", [".d.ts"]],
+                    ["temp/library-markdown", [".md"]],
+                ],
+                "library"
+            ),
+        ],
     };
 
     return [config, libraryConfig];
