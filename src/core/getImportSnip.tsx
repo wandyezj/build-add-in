@@ -1,4 +1,4 @@
-import { isValidExportSnip, isValidSnipExportJson, Snip } from "../core/Snip";
+import { isValidExportSnip, isValidSnipExportJson, Snip } from "./snip/Snip";
 import { loadGistText } from "../core/util/loadGistText";
 import { loadUrlText } from "../core/util/loadUrlText";
 import { getSnipExportJson } from "./getSnipExport";

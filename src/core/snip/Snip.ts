@@ -1,7 +1,7 @@
 // Only have a single version of snip.
 
-import { objectFromYaml } from "./util/objectFromYaml";
-import { objectToJson } from "./util/objectToJson";
+import { objectFromYaml } from "../util/objectFromYaml";
+import { objectToJson } from "../util/objectToJson";
 
 // If need to update in a non-compatible way, create a transform function to update existing snips.
 /**

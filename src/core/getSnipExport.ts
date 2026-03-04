@@ -1,6 +1,6 @@
 import { getSnipExportFormat } from "./settings/getSnipExportFormat";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
-import { pruneSnipToExportSnip, type Snip } from "./Snip";
+import { pruneSnipToExportSnip, type Snip } from "./snip/Snip";
 import { objectToJson } from "./util/objectToJson";
 import { objectToYaml } from "./util/objectToYaml";
 

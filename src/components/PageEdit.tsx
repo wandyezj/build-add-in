@@ -15,7 +15,7 @@ import {
     ContactCardRegular,
     SignatureRegular,
 } from "@fluentui/react-icons";
-import { SnipSource, SnipWithSource } from "../core/Snip";
+import { SnipSource, SnipWithSource } from "../core/snip/Snip";
 import { saveCurrentSnipReference, saveCurrentSnipToRun } from "../core/storage";
 import { TooltipButton } from "./TooltipButton";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";

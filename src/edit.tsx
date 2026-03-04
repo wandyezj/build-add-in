@@ -6,7 +6,7 @@ import { getMostRecentlyModifiedSnipId, saveSnip } from "./core/database";
 import { getSnipById } from "./core/snipStorage";
 import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
-import { SnipReference, SnipWithSource } from "./core/Snip";
+import { SnipReference, SnipWithSource } from "./core/snip/Snip";
 import { setupOffice } from "./core/setupOffice";
 
 async function initializeCurrentId(): Promise<SnipReference> {

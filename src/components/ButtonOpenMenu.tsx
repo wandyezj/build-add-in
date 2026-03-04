@@ -10,7 +10,7 @@ import {
     ToolbarButton,
 } from "@fluentui/react-components";
 
-import { SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/snip/Snip";
 import {
     FolderOpenRegular,
     DocumentFolderRegular,

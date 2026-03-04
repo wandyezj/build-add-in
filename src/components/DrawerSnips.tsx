@@ -21,7 +21,7 @@ import {
     completeSnip,
     isValidExportSnip,
     pruneSnipToExportSnip,
-} from "../core/Snip";
+} from "../core/snip/Snip";
 import {
     ClipboardRegular,
     ArrowDownloadRegular,

@@ -1,4 +1,4 @@
-import { Snip, SnipMetadata, getSnipFromJson, getSnipJson, pruneSnipToSnipMetadata } from "../Snip";
+import { Snip, SnipMetadata, getSnipFromJson, getSnipJson, pruneSnipToSnipMetadata } from "../snip/Snip";
 import { getSourceEmbed } from "./getSourceEmbed";
 
 //

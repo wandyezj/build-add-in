@@ -17,7 +17,7 @@ import {
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
 import { loc } from "../core/localize/loc";
-import { getSnipDocText, SnipWithSource } from "../core/Snip";
+import { getSnipDocText, SnipWithSource } from "../core/snip/Snip";
 import { uploadFileSig } from "../core/util/uploadFileSig";
 import { TooltipButton } from "./TooltipButton";
 import {

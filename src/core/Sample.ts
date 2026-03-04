@@ -1,4 +1,4 @@
-import { Snip } from "./Snip";
+import { Snip } from "./snip/Snip";
 import yaml from "yaml";
 import { saveSample } from "./database";
 import { SupportedHostName } from "./globals";

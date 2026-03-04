@@ -7,7 +7,7 @@ import {
     idEditButtonOpenSnip,
     idEditOpenSnipButtonNewSnip,
 } from "../src/components/id";
-import { Snip } from "../src/core/Snip";
+import { Snip } from "../src/core/snip/Snip";
 
 const editPageUrl = "edit.html";
 const editPageTitle = "Edit";

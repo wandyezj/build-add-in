@@ -11,7 +11,7 @@ import {
 } from "@fluentui/react-components";
 import { run } from "./run";
 import { getAllSnipMetadata } from "../core/source/embedSnip";
-import { SnipMetadata } from "../core/Snip";
+import { SnipMetadata } from "../core/snip/Snip";
 import { getStartupSnipId, saveStartupSnipId } from "../core/source/embedSingleStartupSnip";
 
 const useStyles = makeStyles({

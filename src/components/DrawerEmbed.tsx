@@ -13,7 +13,7 @@ import {
 } from "@fluentui/react-components";
 import { Dismiss24Regular } from "@fluentui/react-icons";
 import { SampleListCard } from "./SampleListCard";
-import { SnipMetadata, SnipWithSource } from "../core/Snip";
+import { SnipMetadata, SnipWithSource } from "../core/snip/Snip";
 import { getAllSnipMetadata, getSnipById } from "../core/source/embedSnip";
 import { formatModified } from "../core/util/formatModified";
 import { loc } from "../core/localize/loc";

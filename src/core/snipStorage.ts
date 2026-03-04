@@ -1,4 +1,4 @@
-import { Snip, SnipMetadata, SnipMetadataWithSource, SnipReference, SnipSource, SnipWithSource } from "./Snip";
+import { Snip, SnipMetadata, SnipMetadataWithSource, SnipReference, SnipSource, SnipWithSource } from "./snip/Snip";
 
 import {
     getAllSnipMetadata as getAllSnipMetadataInDatabase,
