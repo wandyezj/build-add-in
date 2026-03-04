@@ -20,6 +20,33 @@ const optionOpenBrowserTabs = [
     //"/help.html"
 ];
 
+/**
+ * Removes whitespace from begin
+ * @param {string} s - The input string.
+ * @returns {string} - The string with leading whitespace removed from each line.
+ */
+function dedent(s) {
+    const text = s.replace(/\r\n/g, "\n");
+
+    const lines = text.split("\n");
+
+    let minIndent = lines.reduce((minIndent, line) => {
+        if (line.trim() === "") {
+            return minIndent;
+        }
+
+        const match = line.match(/^[ ]*/);
+        const indent = match ? match[0].length : 0;
+        return Math.min(minIndent, indent);
+    }, Infinity);
+
+    if (!Number.isFinite(minIndent) || minIndent === 0) {
+        return text;
+    }
+
+    return lines.map((line) => (line.trim() === "" ? "" : line.slice(minIndent))).join("\n");
+}
+
 const marked = new Marked();
 marked.use({
     gfm: true,
@@ -400,7 +427,20 @@ module.exports = async (env, options) => {
                         to: "library",
                         transform: ({ name, content }) => {
                             // Remove export { } from the rollup file
-                            content = content.replaceAll("export { }", "").replaceAll("export declare", "declare");
+                            content = content.replaceAll("export { }", "").replaceAll("export declare", "");
+
+                            // Embed in namespace
+
+                            content = dedent(`
+                                /**
+                                 * The Build namespace contains all public APIs of the library.
+                                 * @beta
+                                 */
+                                declare namespace Build {
+                                    ${content}
+                                }
+                            `);
+
                             return { name, content };
                         },
                     },
