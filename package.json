@@ -12,7 +12,7 @@
         "clean": "node ./scripts/clean.js dist",
         "clean-temp": "node ./scripts/clean.js temp",
         "compile": "webpack --config ./config/webpack.config.js --mode production",
-        "doc-extract": "api-extractor run --local",
+        "doc-extract": "api-extractor run --local --config ./config/api-extractor.json",
         "doc-document": "api-documenter markdown --input-folder ./temp --output-folder ./temp/library-markdown",
         "doc": "npm run clean-temp && tsc --project ./lib/tsconfig.json && npm run doc-extract && npm run doc-document",
         "analyze": "npm run compile -- --env analyze=true",
