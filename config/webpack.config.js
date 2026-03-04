@@ -21,9 +21,9 @@ const optionOpenBrowserTabs = [
 ];
 
 /**
- * Removes whitespace from begin
+ * Removes the same amount of whitespace from the start of each line, based on the line with the least amount of leading whitespace.
  * @param {string} s - The input string.
- * @returns {string} - The string with leading whitespace removed from each line.
+ * @returns {string} - The string with the same amount of leading whitespace removed from each line.
  */
 function dedent(s) {
     const text = s.replace(/\r\n/g, "\n");
@@ -431,15 +431,14 @@ module.exports = async (env, options) => {
 
                             // Embed in namespace
 
-                            content = dedent(`
-                                /**
-                                 * The Build namespace contains all public APIs of the library.
-                                 * @beta
-                                 */
-                                declare namespace Build {
-                                    ${content}
-                                }
-                            `);
+                            content =
+                                dedent(`
+                                    /**
+                                     * The Build namespace contains all public APIs of the library.
+                                     * @beta
+                                     */
+                                    declare namespace Build {
+                                    `) + `${content}\n}`;
 
                             return { name, content };
                         },
