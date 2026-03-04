@@ -13,6 +13,19 @@ export function getLanguage(): Exclude<Language, Language.Default> {
     const language = getSetting("language");
 
     if (language === Language.Default) {
+        // Office.js is not loaded.
+        if (
+            typeof Office !== "object" ||
+            Office === null ||
+            typeof Office.context !== "object" ||
+            Office.context === null ||
+            typeof Office.context.displayLanguage === "undefined"
+        ) {
+            // Happens when running outside of Office.
+            log(LogTag.Language, "Display Language Not Available, (Office.js is not loaded) default to English");
+            return Language.English;
+        }
+
         const displayLanguage = Office.context.displayLanguage;
         log(LogTag.Language, `Display Language: ${displayLanguage}`);
         if (typeof displayLanguage !== "string") {
