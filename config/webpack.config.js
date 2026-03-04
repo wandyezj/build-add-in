@@ -346,7 +346,7 @@ module.exports = async (env, options) => {
         };
     }
 
-    libraryConfig = {
+    const libraryConfig = {
         dependencies: ["main"],
         watchOptions,
         name: "library",
