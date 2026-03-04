@@ -7,6 +7,7 @@
         "declarationMap": true,
         "types": [],
         "lib": ["es2020"],
+        "strict": true,
         "outDir": "../temp/library"
     },
     "include": ["index.ts", "getHostColor.ts"]
