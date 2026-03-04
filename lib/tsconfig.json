@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "commonjs",
+        "declaration": true,
+        "declarationMap": true,
+        "types": [],
+        "lib": ["es2020"],
+        "strict": true,
+        "outDir": "../temp/library"
+    },
+    "include": ["index.ts", "getHostColor.ts"]
+}
