@@ -147,7 +147,7 @@ class LibraryPlugin {
                             const filePathIn = path.join(fromPath, name);
                             const contentIn = readFileSync(filePathIn, "utf-8");
                             const { name: nameOut, content: contentOut } = transform({ name, content: contentIn });
-                            const filePathOut = path.join(toRelativePath, nameOut);
+                            const filePathOut = path.posix.join(toRelativePath, nameOut);
                             emitAsset(filePathOut, contentOut);
                         });
                     });
