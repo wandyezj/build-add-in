@@ -47,20 +47,28 @@ const { execSync } = require("child_process");
 const { readdirSync, readFileSync, watch } = require("fs");
 
 /**
+ * @typedef {Object} LibraryPattern
+ * @property {string} from - Source directory, relative to project root.
+ * @property {string} to - Output directory, relative to project root.
+ * @property {(file: string) => boolean} filter - Returns true for files to include.
+ * @property {(input: { name: string; content: string }) => { name: string; content: string }} transform - Transforms file name/content before emit.
+ */
+
+/**
  * The LibraryPlugin plugin runs a command to generate files.
  * Then copies files from specified directories to the output directory.
  */
 class LibraryPlugin {
     /**
      * Command to run
-     * @param {string} command
-     * @param {[string, string[]][]} copyFrom - [directory, extensions] Directory to copy files from and extensions to include
-     * @param {string} copyTo - Directory to copy files to
+     * @param {Object} options - Options for the plugin
+     * @param {string} options.command - Command to run to generate files
+     * @param {Array<LibraryPattern>} options.patterns - Patterns for copying files
+     *
      */
-    constructor(command, copyFrom, copyTo) {
-        this.command = command;
-        this.copyFrom = copyFrom;
-        this.copyTo = copyTo;
+    constructor(options) {
+        this.command = options.command;
+        this.patterns = options.patterns;
     }
 
     apply(compiler) {
@@ -82,34 +90,18 @@ class LibraryPlugin {
                     // Run the command to generate files
                     execSync(this.command, { cwd: root, stdio: "inherit" });
 
-                    this.copyFrom.forEach(([dir, extensions]) => {
-                        const dirPath = path.resolve(root, dir);
+                    this.patterns.forEach(({ from, to, filter, transform }) => {
+                        const fromPath = path.resolve(root, from);
+                        const toPath = path.resolve(root, to);
 
-                        const files = readdirSync(dirPath).filter((file) =>
-                            extensions.some((ext) => file.endsWith(ext))
-                        );
-                        files.forEach((file) => {
-                            if (extensions && !extensions.some((ext) => file.endsWith(ext))) {
-                                return;
-                            }
-                            const filePathIn = path.join(dirPath, file);
-                            let filePathOut = path.join(this.copyTo, file);
+                        const files = readdirSync(fromPath).filter((file) => filter(file));
 
-                            let contents = readFileSync(filePathIn, "utf-8"); // Ensure the file exists
-
-                            if (file === "build.d.ts") {
-                                contents = contents
-                                    .replaceAll("export { }", "")
-                                    .replaceAll("export declare", "declare");
-                            }
-
-                            if (file.endsWith(".md")) {
-                                const basename = path.basename(file, ".md");
-                                contents = contents.replaceAll(".md)", ".html)");
-                                contents = mdToHtml(contents, basename);
-                                filePathOut = path.join(this.copyTo, `${basename}.html`);
-                            }
-                            emitAsset(filePathOut, contents);
+                        files.forEach((name) => {
+                            const filePathIn = path.join(fromPath, name);
+                            const contentIn = readFileSync(filePathIn, "utf-8");
+                            const { name: nameOut, content: contentOut } = transform({ name, content: contentIn });
+                            const filePathOut = path.join(toPath, nameOut);
+                            emitAsset(filePathOut, contentOut);
                         });
                     });
                 }
@@ -343,14 +335,37 @@ module.exports = async (env, options) => {
             ],
         },
         plugins: [
-            new LibraryPlugin(
-                "npm run doc",
-                [
-                    ["temp/library-rollup", [".d.ts"]],
-                    ["temp/library-markdown", [".md"]],
+            new LibraryPlugin({
+                command: "npm run doc",
+                patterns: [
+                    {
+                        from: "temp/library-rollup",
+                        filter: (file) => file.endsWith(".d.ts"),
+                        to: "library",
+                        transform: ({ name, content }) => {
+                            // Remove export { } from the rollup file
+                            content = content.replaceAll("export { }", "").replaceAll("export declare", "declare");
+                            return { name, content };
+                        },
+                    },
+                    {
+                        from: "temp/library-markdown",
+                        filter: (file) => file.endsWith(".md"),
+                        to: "library",
+                        transform: ({ name, content }) => {
+                            // Convert markdown to HTML
+                            const basename = path.basename(name, ".md");
+
+                            // Fix links in markdown to point to HTML files
+                            content = content.replaceAll(".md)", ".html)");
+
+                            // Convert markdown to HTML
+                            content = mdToHtml(content, basename);
+                            return { name: `${basename}.html`, content };
+                        },
+                    },
                 ],
-                "library"
-            ),
+            }),
         ],
     };
 
