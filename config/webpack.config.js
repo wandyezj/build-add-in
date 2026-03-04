@@ -44,7 +44,7 @@ const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
 const { execSync } = require("child_process");
-const { readdirSync, readFileSync, watch } = require("fs");
+const { readdirSync, readFileSync } = require("fs");
 
 /**
  * @typedef {Object} LibraryPattern
