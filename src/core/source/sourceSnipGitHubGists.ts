@@ -1,6 +1,11 @@
 import { GenericItemSource } from "./GenericItemSource";
 import { getSetting } from "../setting";
-import { ExportSnip, getExportSnipFromExportJson, getExportSnipFromExportYaml, pruneSnipToSnipMetadata } from "../Snip";
+import {
+    ExportSnip,
+    getExportSnipFromExportJson,
+    getExportSnipFromExportYaml,
+    pruneSnipToSnipMetadata,
+} from "../snip/Snip";
 import { getGist, getGists, GitHubGist } from "./github/github";
 
 /**

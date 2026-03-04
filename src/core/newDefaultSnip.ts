@@ -1,5 +1,5 @@
 import { objectClone } from "./util/objectClone";
-import { ExportSnip, Snip, completeSnip } from "./Snip";
+import { ExportSnip, Snip, completeSnip } from "./snip/Snip";
 import {
     defaultSnip,
     defaultSnipExcel,

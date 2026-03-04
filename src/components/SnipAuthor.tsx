@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, Persona, Tooltip } from "@fluentui/react-components";
 import { LinkRegular } from "@fluentui/react-icons";
 import { getSnipAuthor, SnipAuthorResultCode } from "../core/getSnipAuthor";
-import { SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/snip/Snip";
 import { loc } from "../core/localize/loc";
 
 /**

@@ -1,4 +1,4 @@
-import { ExportSnip } from "./Snip";
+import { ExportSnip } from "./snip/Snip";
 
 const defaultFileTypeScriptContent = `
 //

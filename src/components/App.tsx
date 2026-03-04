@@ -1,7 +1,7 @@
 import React from "react";
 import { FluentProvider, webLightTheme, webDarkTheme } from "@fluentui/react-components";
 import { PageEdit } from "./PageEdit";
-import { SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/snip/Snip";
 import { getTheme } from "../core/settings/getTheme";
 import { Theme } from "../core/settings/Theme";
 

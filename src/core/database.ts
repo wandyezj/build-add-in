@@ -1,7 +1,7 @@
 // Indexed DB database
 // For Extension
 import { Sample, SampleMetadata } from "./Sample";
-import { Snip, SnipMetadata } from "./Snip";
+import { Snip, SnipMetadata } from "./snip/Snip";
 import { LogTag, log } from "./log";
 import { newDefaultSnip } from "./newDefaultSnip";
 

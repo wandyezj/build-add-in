@@ -16,7 +16,7 @@ import { TooltipButton } from "./TooltipButton";
 import { SampleMetadata, loadSamplesToDatabase } from "../core/Sample";
 import { deleteSampleById, getAllSampleMetadata, getSampleById, saveSnip } from "../core/database";
 import { SampleListCard } from "./SampleListCard";
-import { SnipWithSource, completeSnip } from "../core/Snip";
+import { SnipWithSource, completeSnip } from "../core/snip/Snip";
 import { getHostName } from "../core/globals";
 import { loc } from "../core/localize/loc";
 

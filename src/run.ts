@@ -1,7 +1,7 @@
 import { loadCurrentSnipToRun, loadStartupSnipToRun } from "./core/storage";
 import { parseLibraries } from "./core/parseLibraries";
 import { compileCode } from "./core/compileCode";
-import { Snip } from "./core/Snip";
+import { Snip } from "./core/snip/Snip";
 import { enableRunInlineConsole } from "./core/settings/enableRunInlineConsole";
 
 console.log("run");

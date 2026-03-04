@@ -12,7 +12,7 @@ import {
 
 import { makeStyles, tokens, useId, Label, Textarea } from "@fluentui/react-components";
 import { LogTag, log } from "../core/log";
-import { SnipWithSource, completeSnip, getExportSnipFromExportJson } from "../core/Snip";
+import { SnipWithSource, completeSnip, getExportSnipFromExportJson } from "../core/snip/Snip";
 import { saveSnip } from "../core/snipStorage";
 import { loc } from "../core/localize/loc";
 import { getImportSnip } from "../core/getImportSnip";

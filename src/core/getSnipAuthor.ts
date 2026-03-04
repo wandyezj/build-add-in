@@ -2,7 +2,7 @@ import { getGitHubUser } from "./github/getGitHubUser";
 import { getGitHubUserGpgKeysRaw } from "./github/getGitHubUserGpgKeysRaw";
 import { log, LogTag } from "./log";
 import { pgpSignatureMatches } from "./pgp/pgpSignatureMatches";
-import { Snip, getSnipDocText } from "./Snip";
+import { Snip, getSnipDocText } from "./snip/Snip";
 
 export enum SnipAuthorResultCode {
     Verified = "Verified",

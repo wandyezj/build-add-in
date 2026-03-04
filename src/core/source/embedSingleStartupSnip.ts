@@ -1,4 +1,4 @@
-import { Snip } from "../Snip";
+import { Snip } from "../snip/Snip";
 import { clearItemsFromGenericItemSource } from "./clearItemsFromGenericItemSource";
 import { getSourceEmbed } from "./getSourceEmbed";
 import { source as sourceSnip } from "./embedSnip";

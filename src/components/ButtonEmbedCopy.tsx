@@ -11,7 +11,7 @@ import {
 } from "@fluentui/react-components";
 import { TooltipButton } from "./TooltipButton";
 import { DocumentAddRegular } from "@fluentui/react-icons";
-import { Snip } from "../core/Snip";
+import { Snip } from "../core/snip/Snip";
 import { saveSnip } from "../core/source/embedSnip";
 import { LogTag, log } from "../core/log";
 import { loc } from "../core/localize/loc";

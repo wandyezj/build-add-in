@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-import { SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/snip/Snip";
 import { updateMonacoLibs } from "../core/updateMonacoLibs";
 import { makeStyles } from "@fluentui/react-components";
 import { Theme } from "../core/settings/Theme";

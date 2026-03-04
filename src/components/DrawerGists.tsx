@@ -15,7 +15,7 @@ import { Dismiss24Regular, ArrowSyncRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "./TooltipButton";
 import { saveSnip } from "../core/database";
 import { GistListCard } from "./SampleListCard";
-import { SnipMetadata, SnipWithSource, completeSnip } from "../core/Snip";
+import { SnipMetadata, SnipWithSource, completeSnip } from "../core/snip/Snip";
 import { sourceSnipGitHub } from "../core/source/sourceSnipGitHubGists";
 import { loc } from "../core/localize/loc";
 

@@ -11,7 +11,7 @@ import {
 } from "@fluentui/react-components";
 
 import { makeStyles, tokens } from "@fluentui/react-components";
-import { SnipWithSource } from "../core/Snip";
+import { SnipWithSource } from "../core/snip/Snip";
 import { loc } from "../core/localize/loc";
 import { SnipAuthor } from "./SnipAuthor";
 
