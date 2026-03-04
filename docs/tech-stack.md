@@ -6,7 +6,7 @@
 
 ## Operating System
 
-All tools should work on Windows.
+All tools should work on Windows, Mac, and Linux.
 
 Ubuntu is used on the build machines.
 
