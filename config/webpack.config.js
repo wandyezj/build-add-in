@@ -364,9 +364,9 @@ module.exports = async (env, options) => {
             filename: "library/build.js",
             path: path.resolve(__dirname, "..", "dist"),
             library: {
+                // Expose the library on the global object as "Build"
                 name: "Build",
-                type: "window", // Expose the library on the window object
-                export: "Build", // Export the Build object
+                type: "global",
             },
         },
         optimization: {
