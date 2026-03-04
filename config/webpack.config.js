@@ -133,7 +133,14 @@ class LibraryPlugin {
 
                     // Run the command to generate files
                     if (shouldRunCommand) {
-                        execSync(this.command, { cwd: root, stdio: "inherit" });
+                        try {
+                            execSync(this.command, { cwd: root, stdio: "inherit" });
+                        } catch (error) {
+                            // Error running the command.
+                            compilation.errors.push(new Error(`LibraryPlugin: Command failed - ${error.message}`));
+                            return;
+                        }
+
                         this.lastWatchHash = watchHash;
                     }
 

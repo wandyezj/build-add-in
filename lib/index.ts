@@ -6,7 +6,7 @@ export { getHostColor };
 
 /**
  * Build
- * @public
+ * @beta
  */
 export const Build = {
     getHostColor,

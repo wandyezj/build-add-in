@@ -306,7 +306,7 @@
          * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
          * DEFAULT VALUE: ""
          */
-        // "betaTrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>-beta.d.ts",
+        "betaTrimmedFilePath": "<projectFolder>/temp/library-rollup/<unscopedPackageName>-beta.d.ts",
 
         /**
          * Specifies the output path for a .d.ts rollup file to be generated with trimming for a "public" release.
@@ -320,7 +320,7 @@
          * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
          * DEFAULT VALUE: ""
          */
-        "publicTrimmedFilePath": "<projectFolder>/temp/library-rollup/<unscopedPackageName>.d.ts"
+        "publicTrimmedFilePath": "<projectFolder>/temp/library-rollup/<unscopedPackageName>.d.ts",
 
         /**
          * When a declaration is trimmed, by default it will be replaced by a code comment such as
@@ -329,7 +329,7 @@
          *
          * DEFAULT VALUE: false
          */
-        // "omitTrimmingComments": true
+        "omitTrimmingComments": true
     },
 
     /**
@@ -441,6 +441,10 @@
             "default": {
                 "logLevel": "warning"
                 // "addToApiReportFile": false
+            },
+
+            "tsdoc-param-tag-missing-hyphen": {
+                "logLevel": "none"
             }
 
             // "tsdoc-link-tag-unescaped-text": {
