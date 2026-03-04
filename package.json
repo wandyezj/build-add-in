@@ -16,6 +16,7 @@
         "doc-document": "api-documenter markdown --input-folder ./temp --output-folder ./temp/library-markdown",
         "doc": "npm run clean-temp && npm run compile-lib && npm run doc-extract && npm run doc-document",
         "compile-lib": "tsc --project ./lib/tsconfig.json",
+        "compile-manifests": "npm run make-app-package -- manifests/production.manifest.json . dist/manifests/appPackage.zip",
         "analyze": "npm run compile -- --env analyze=true",
         "server": "npx http-server %CD%/dist --ssl --cert %USERPROFILE%\\.office-addin-dev-certs\\localhost.crt --key %USERPROFILE%\\.office-addin-dev-certs\\localhost.key -c-1 --cors -p 3000",
         "localhost-certificates": "npx office-addin-dev-certs",

@@ -1,6 +1,6 @@
 # Tutorial
 
-The Build Add-In is a tool to allow you to create snips to extend Word, Excel, and PowerPoint using the Office.js API.
+The Build Add-In is a tool to allow you to create snips to extend Word, Excel, PowerPoint, and Outlook using the Office.js API.
 
 Each snip consists of TypeScript, HTML, and CSS.
 
