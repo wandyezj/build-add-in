@@ -44,10 +44,49 @@ const devCerts = require("office-addin-dev-certs");
 
 const path = require("path");
 const { execSync } = require("child_process");
-const { readdirSync, readFileSync } = require("fs");
+const { readdirSync, readFileSync, statSync } = require("fs");
+
+/**
+ * Gets a list of all files in the directory and its subdirectories.
+ * @param {string} directory
+ * @returns {string[]} A list of file paths.
+ */
+function getDirectoryFiles(directory) {
+    const entries = readdirSync(directory, { withFileTypes: true });
+    const files = [];
+
+    entries.forEach((entry) => {
+        const fullPath = path.join(directory, entry.name);
+        if (entry.isDirectory()) {
+            files.push(...getDirectoryFiles(fullPath));
+            return;
+        }
+
+        files.push(fullPath);
+    });
+
+    return files;
+}
+
+/**
+ * Detect if any files in the directory have changed.
+ * @param {string} root - The root directory to check for changes.
+ */
+function getDirectoryHash(root) {
+    const files = getDirectoryFiles(root).sort();
+
+    const parts = files.map((filePath) => {
+        const stat = statSync(filePath);
+        const relativePath = path.relative(root, filePath);
+        return `${relativePath}:${stat.size}:${stat.mtimeMs}`;
+    });
+
+    return parts.join("|");
+}
 
 /**
  * @typedef {Object} LibraryPattern
+ * @property {string} watch - Directory to watch for changes, relative to project root. Changes trigger the command to run.
  * @property {string} from - Source directory, relative to project root.
  * @property {string} to - Output directory, relative to project root.
  * @property {(file: string) => boolean} filter - Returns true for files to include.
@@ -60,15 +99,17 @@ const { readdirSync, readFileSync } = require("fs");
  */
 class LibraryPlugin {
     /**
-     * Command to run
+     * Run a command whenever files in the watch directory change, and copy files from the specified directories to the output directory.
      * @param {Object} options - Options for the plugin
+     * @param {string} options.watch - Directory to watch for changes
      * @param {string} options.command - Command to run to generate files
      * @param {Array<LibraryPattern>} options.patterns - Patterns for copying files
-     *
      */
     constructor(options) {
         this.command = options.command;
         this.patterns = options.patterns;
+        this.watch = options.watch;
+        this.lastWatchHash = "";
     }
 
     apply(compiler) {
@@ -87,12 +128,18 @@ class LibraryPlugin {
 
                     const root = path.resolve(__dirname, "..");
 
+                    const watchHash = getDirectoryHash(path.join(root, this.watch));
+                    const shouldRunCommand = !compiler.watchMode || this.lastWatchHash !== watchHash;
+
                     // Run the command to generate files
-                    execSync(this.command, { cwd: root, stdio: "inherit" });
+                    if (shouldRunCommand) {
+                        execSync(this.command, { cwd: root, stdio: "inherit" });
+                        this.lastWatchHash = watchHash;
+                    }
 
                     this.patterns.forEach(({ from, to, filter, transform }) => {
                         const fromPath = path.resolve(root, from);
-                        const toPath = path.resolve(root, to);
+                        const toRelativePath = to;
 
                         const files = readdirSync(fromPath).filter((file) => filter(file));
 
@@ -100,7 +147,7 @@ class LibraryPlugin {
                             const filePathIn = path.join(fromPath, name);
                             const contentIn = readFileSync(filePathIn, "utf-8");
                             const { name: nameOut, content: contentOut } = transform({ name, content: contentIn });
-                            const filePathOut = path.join(toPath, nameOut);
+                            const filePathOut = path.join(toRelativePath, nameOut);
                             emitAsset(filePathOut, contentOut);
                         });
                     });
@@ -337,6 +384,8 @@ module.exports = async (env, options) => {
         plugins: [
             new LibraryPlugin({
                 command: "npm run doc",
+                // Watch the lib directory, this should contain all lib source files.
+                watch: "lib",
                 patterns: [
                     {
                         from: "temp/library-rollup",
