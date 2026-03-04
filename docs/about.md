@@ -11,4 +11,4 @@
 - [Dependencies](./dependencies.md)
 - [GitHub Pages Setup](./pages-environment.md)
 - [Features](./features.md)
-
+- [AI Policy](./ai-policy.md)

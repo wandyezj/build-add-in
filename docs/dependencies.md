@@ -54,6 +54,13 @@ Build System to bundle website.
 - `webpack-bundle-analyzer`
 - `office-addin-dev-certs`
 
+### Library Generation
+
+These packages generate API documentation and `.d.ts` IntelliSense for built-in libraries.
+
+- `@microsoft/api-documenter`
+- `@microsoft/api-extractor`
+
 ### Other
 
 - `openpgp`
