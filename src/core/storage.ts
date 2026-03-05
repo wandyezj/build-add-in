@@ -1,7 +1,7 @@
-import { Snip, SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./snip/Snip";
+import { type Snip, type SnipReference, getSnipFromJson, getSnipJson, getSnipSource } from "./snip/Snip";
 import { LogTag, log } from "./log";
 import { objectToJson } from "./util/objectToJson";
-import { Settings, parseSettingsJson } from "./setting";
+import { type Settings, parseSettingsJson } from "./setting";
 
 type Key =
     | typeof keyCurrentSnipReference
