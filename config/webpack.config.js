@@ -427,10 +427,16 @@ module.exports = async (env, options) => {
                         to: "library",
                         transform: ({ name, content }) => {
                             // Remove export { } from the rollup file
-                            content = content.replaceAll("export { }", "").replaceAll("export declare", "");
+                            const replacements = [
+                                ["export { }", ""],
+                                ["export declare", ""],
+                            ];
+
+                            content = replacements.reduce((content, [search, replace]) => {
+                                return content.replaceAll(search, replace);
+                            }, content);
 
                             // Embed in namespace
-
                             content =
                                 dedent(`
                                     /**

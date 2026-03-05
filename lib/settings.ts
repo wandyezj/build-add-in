@@ -30,6 +30,6 @@ function getSetting(settingName: "githubPersonalAccessToken"): string {
  * @returns The GitHub Personal Access Token in settings.
  * @beta
  */
-export function getGithubPersonalAccessToken(): string {
+export function getGitHubPersonalAccessToken(): string {
     return getSetting("githubPersonalAccessToken");
 }
