@@ -1,0 +1,9 @@
+# List of AI model names in github-model-catalog.json
+agentic
+azureml
+codestral
+deepseek
+jamba
+ministral
+multimodal
+pretrained

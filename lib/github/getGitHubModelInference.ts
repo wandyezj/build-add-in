@@ -31,7 +31,6 @@ export async function getGitHubModelInference(
             // eslint-disable-next-line @typescript-eslint/naming-convention
             Authorization: `Bearer ${token}`,
 
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             ["X-GitHub-Api-Version"]: "2022-11-28",
         },
         body,

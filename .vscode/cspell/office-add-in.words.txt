@@ -1,0 +1,16 @@
+# List of Office Add-in specific words
+Addin
+aspnetcdn
+appsforoffice
+firstpartyapps
+HIDETASKPANE
+oaspapps
+pinnable
+Runtimes
+SETCOLOR
+SHOWTASKPANE
+Sideload
+sideloading
+supertip
+taskpane
+Taskpanes

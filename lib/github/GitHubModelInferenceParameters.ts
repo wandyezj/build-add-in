@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 /**
  * https://docs.github.com/en/rest/models/inference
  * note: Streaming responses are not currently supported by this API wrapper.
