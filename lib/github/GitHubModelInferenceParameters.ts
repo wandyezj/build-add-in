@@ -20,7 +20,7 @@ export interface GitHubModelInferenceParameters {
          * The chat role associated with this message
          * Can be one of: assistant, developer, system, user
          */
-        role: string | "assistant" | "developer" | "system" | "user";
+        role: "assistant" | "developer" | "system" | "user";
 
         /**
          * The content of the message.
@@ -46,7 +46,7 @@ export interface GitHubModelInferenceParameters {
      * The default modality is text.
      * Indicating an unsupported modality combination results in a 422 error. Supported values are: text, audio
      */
-    modalities?: (string | "text" | "audio")[];
+    modalities?: ("text" | "audio")[];
 
     /**
      * A value that influences the probability of generated tokens appearing based on their existing presence in generated text.
@@ -145,7 +145,7 @@ export interface GitHubModelInferenceParameters {
             /**
              * The parameters the function accepts, described as a JSON Schema object.
              */
-            parameters: string;
+            parameters: unknown;
         };
     }[];
 

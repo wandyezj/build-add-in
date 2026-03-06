@@ -5,6 +5,7 @@ import type { GitHubModelInferenceResponse } from "./GitHubModelInferenceRespons
  * Run inference with a model
  * https://docs.github.com/en/rest/models/inference
  * @param options.token GitHub Personal Access Token with models: read scope
+ * @returns the response from the GitHub model inference API, or undefined if the request was unsuccessful.
  *
  * @beta
  */
@@ -45,12 +46,11 @@ export async function getGitHubModelInference(
     }
 
     if (response.status === 404) {
-        // User does not exist
         return undefined;
     }
 
     if (!response.ok) {
-        console.error("Error getting model catalogue", response.statusText);
+        console.error("Error getting model inference", response.statusText);
     }
 
     return undefined;

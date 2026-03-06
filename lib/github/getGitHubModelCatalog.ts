@@ -13,6 +13,7 @@ import catalog from "./github-model-catalog.json";
 export async function getGitHubModelCatalog(): Promise<GitHubModelCatalogueEntry[]> {
     return catalog as GitHubModelCatalogueEntry[];
 
+    // TODO: swap from hard coded catalog to fetching from API once the API is available. See commented out code below.
     // Does not work because API is not currently available.
 
     // if (token.length === 0) {

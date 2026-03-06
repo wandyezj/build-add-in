@@ -15,7 +15,7 @@ async function test() {
 
 ```
 
-## getGitHubModeInference
+## getGitHubModelInference
 
 ```typescript
 
