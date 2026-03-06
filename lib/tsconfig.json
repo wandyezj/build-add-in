@@ -3,6 +3,8 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "commonjs",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
         "declaration": true,
         "declarationMap": true,
         "types": [],

@@ -1,41 +1,43 @@
 import type { GitHubModelCatalogueEntry } from "./GitHubModelCatalogueEntry";
+import catalog from "./github-model-catalog.json";
 
 /**
  * @beta
- * Does NOT work. But why?
+ * Get the GitHub Model Catalog
+ * This is a static catalog of models available on GitHub.
+ * It is used to provide a list of models that can be used for inference.
+ * The catalog is updated periodically and may not reflect the latest models available on GitHub.
  * https://docs.github.com/en/rest/models/catalog?apiVersion=2022-11-28
  */
-export async function getGitHubModelCatalog(token: string): Promise<GitHubModelCatalogueEntry[] | undefined> {
-    if (token.length === 0) {
-        throw new Error("GitHub token is required to access the model catalog.");
-    }
-    const url = "https://models.github.ai/catalog/models";
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            Accept: "application/vnd.github+json",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export async function getGitHubModelCatalog(): Promise<GitHubModelCatalogueEntry[]> {
+    return catalog as GitHubModelCatalogueEntry[];
 
-    if (response.status === 200) {
-        // User exists
-        const text = await response.text();
+    // Does not work because API is not currently available.
 
-        const user = JSON.parse(text) as GitHubModelCatalogueEntry[];
-        return user;
-    }
-
-    if (response.status === 404) {
-        // User does not exist
-        return undefined;
-    }
-
-    if (!response.ok) {
-        console.error("Error getting model catalogue", response.statusText);
-    }
-
-    return undefined;
+    // if (token.length === 0) {
+    //     throw new Error("GitHub token is required to access the model catalog.");
+    // }
+    // const url = "https://models.github.ai/catalog/models";
+    // const response = await fetch(url, {
+    //     method: "GET",
+    //     headers: {
+    //         // eslint-disable-next-line @typescript-eslint/naming-convention
+    //         Accept: "application/vnd.github+json",
+    //         // eslint-disable-next-line @typescript-eslint/naming-convention
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // });
+    // if (response.status === 200) {
+    //     const text = await response.text();
+    //     const user = JSON.parse(text) as GitHubModelCatalogueEntry[];
+    //     return user;
+    // }
+    // if (response.status === 404) {
+    //     // User does not exist
+    //     return undefined;
+    // }
+    // if (!response.ok) {
+    //     console.error("Error getting model catalogue", response.statusText);
+    // }
+    // return undefined;
 }
