@@ -22,6 +22,7 @@
 - Dev server: `npm run start`
 - Quality: `npm run lint`, `npm run lint-fix`, `npm run style`, `npm run style-check`, `npm run spell-check`
 - E2E tests (Playwright): `npm run playwright-install` (first time), then `npm run test`
+- Spell check: `npm run spell-check` use `--` to pass in additional parameters.
 
 ## Architecture (Quick Map)
 - Webpack entries are defined in `config/webpack.config.js` (`edit`, `run`, `help`, `actions`, `settings`, `blocks`, `test`, `shared`).

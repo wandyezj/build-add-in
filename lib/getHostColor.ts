@@ -3,6 +3,7 @@
  * If the host type is not recognized, it returns a default color.
  * @param host Office.HostType (for example: Excel, Word, PowerPoint, Outlook)
  * @returns The color associated with the host type.
+ *
  * @beta
  */
 export function getHostColor(host: string | unknown): string {

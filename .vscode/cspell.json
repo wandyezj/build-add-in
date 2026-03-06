@@ -7,35 +7,20 @@
     // words - list of words to be always considered correct
     // prettier-ignore
     "words": [
-        "Addin",
-        "appsforoffice",
-        "aspnetcdn",
         "CODEOWNERS",
         "deepskyblue",
         "endregion",
         "eqeqeq",
         "exfiltration",
-        "firstpartyapps",
         "fluentui",
-        "HIDETASKPANE",
         "Inkscape",
         "linebreak",
         "magick",
         "markdownlint",
         "minifier",
-        "oaspapps",
         "openpgp",
-        "pinnable",
         "ploc",
         "prettierrc",
-        "Runtimes",
-        "SETCOLOR",
-        "SHOWTASKPANE",
-        "Sideload",
-        "sideloading",
-        "supertip",
-        "taskpane",
-        "Taskpanes",
         "telemetryservice",
         "testid",
         "wandyezj"
@@ -43,9 +28,17 @@
     // flagWords - list of words to be always considered incorrect
     // This is useful for offensive words and common spelling errors.
     // For example "hte" should be "the"
+    "dictionaryDefinitions": [
+        {
+            "name": "ai-model-names",
+            "path": "./cspell/ai-model-names.words.txt"
+        },
+        {
+            "name": "office-add-in",
+            "path": "./cspell/office-add-in.words.txt"
+        }
+    ],
+    "dictionaries": ["ai-model-names", "office-add-in"],
     "flagWords": [],
-    "ignorePaths": [
-        "localize/strings.tsv",
-        "src/core/localize/strings.json"
-    ]
+    "ignorePaths": ["localize/strings.tsv", "src/core/localize/strings.json"]
 }

@@ -198,6 +198,7 @@ module.exports = async (env, options) => {
     const analyze = env["analyze"] === "true";
 
     const isDevelopment = options.mode === "development";
+    const baseUrl = isDevelopment ? "https://localhost:3000" : "https://wandyezj.github.io/build-add-in";
 
     const ignored = ["**/temp/**", "**/dist/**"];
     const watchOptions = {
@@ -427,14 +428,23 @@ module.exports = async (env, options) => {
                         to: "library",
                         transform: ({ name, content }) => {
                             // Remove export { } from the rollup file
-                            content = content.replaceAll("export { }", "").replaceAll("export declare", "");
+                            const replacements = [
+                                ["export { }", ""],
+                                ["export declare", ""],
+                            ];
+
+                            content = replacements.reduce((content, [search, replace]) => {
+                                return content.replaceAll(search, replace);
+                            }, content);
 
                             // Embed in namespace
-
                             content =
                                 dedent(`
                                     /**
                                      * The Build namespace contains all public APIs of the library.
+                                     * 
+                                     * [Open Build Docs](${baseUrl}/library/build.html)
+                                     * 
                                      * @beta
                                      */
                                     declare namespace Build {
