@@ -1,14 +1,17 @@
 import { getGitHubPersonalAccessToken } from "../settings";
 import type { GitHubModelInferenceParameters } from "./GitHubModelInferenceParameters";
-
+import type { GitHubModelInferenceResponse } from "./GitHubModelInferenceResponse";
 /**
+ * Run inference with a model
+ * https://docs.github.com/en/rest/models/inference
+ * @param options.token GitHub Personal Access Token with models: read scope
+ *
  * @beta
- * Call inference on a model
- * https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28
- * @param token GitHub Personal Access Token with models: read scope
- * @returns
  */
-export async function getGitHubModelInference(inference: GitHubModelInferenceParameters, options?: { token: string }) {
+export async function getGitHubModelInference(
+    inference: GitHubModelInferenceParameters,
+    options?: { token: string }
+): Promise<GitHubModelInferenceResponse | undefined> {
     const token = options?.token || getGitHubPersonalAccessToken();
     if (!token || token.length === 0) {
         throw new Error("GitHub token is required to access the model catalog.");
@@ -20,10 +23,13 @@ export async function getGitHubModelInference(inference: GitHubModelInferencePar
         headers: {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             "Content-Type": "application/json",
+
             // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: "application/vnd.github+json",
+
             // eslint-disable-next-line @typescript-eslint/naming-convention
             Authorization: `Bearer ${token}`,
+
             // eslint-disable-next-line @typescript-eslint/naming-convention
             ["X-GitHub-Api-Version"]: "2022-11-28",
         },
@@ -34,8 +40,8 @@ export async function getGitHubModelInference(inference: GitHubModelInferencePar
         // Response
         const text = await response.text();
 
-        const result = JSON.parse(text);
-        return JSON.stringify(result);
+        const result = JSON.parse(text) as GitHubModelInferenceResponse;
+        return result;
     }
 
     if (response.status === 404) {

@@ -198,6 +198,7 @@ module.exports = async (env, options) => {
     const analyze = env["analyze"] === "true";
 
     const isDevelopment = options.mode === "development";
+    const baseUrl = isDevelopment ? "https://localhost:3000" : "https://wandyezj.github.io/build-add-in";
 
     const ignored = ["**/temp/**", "**/dist/**"];
     const watchOptions = {
@@ -441,6 +442,9 @@ module.exports = async (env, options) => {
                                 dedent(`
                                     /**
                                      * The Build namespace contains all public APIs of the library.
+                                     * 
+                                     * [Open Build Docs](${baseUrl}/library/build.html)
+                                     * 
                                      * @beta
                                      */
                                     declare namespace Build {

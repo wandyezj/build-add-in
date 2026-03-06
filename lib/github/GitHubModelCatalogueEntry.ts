@@ -1,5 +1,6 @@
 /**
  * https://docs.github.com/en/rest/models/catalog
+ *
  * @beta
  */
 export interface GitHubModelCatalogueEntry {

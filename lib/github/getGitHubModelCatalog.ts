@@ -2,12 +2,13 @@ import type { GitHubModelCatalogueEntry } from "./GitHubModelCatalogueEntry";
 import catalog from "./github-model-catalog.json";
 
 /**
- * @beta
  * Get the GitHub Model Catalog
- * This is a static catalog of models available on GitHub.
+ * This is a static catalog of models available on GitHub. The current API to fetch the catalog is not available, so we are using a static JSON file for now.
  * It is used to provide a list of models that can be used for inference.
  * The catalog is updated periodically and may not reflect the latest models available on GitHub.
- * https://docs.github.com/en/rest/models/catalog?apiVersion=2022-11-28
+ * https://docs.github.com/en/rest/models/catalog
+ *
+ * @beta
  */
 export async function getGitHubModelCatalog(): Promise<GitHubModelCatalogueEntry[]> {
     return catalog as GitHubModelCatalogueEntry[];

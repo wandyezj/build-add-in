@@ -28,6 +28,7 @@ function getSetting(settingName: "githubPersonalAccessToken"): string {
 /**
  * Get the GitHub Personal Access Token from settings.
  * @returns The GitHub Personal Access Token in settings.
+ *
  * @beta
  */
 export function getGitHubPersonalAccessToken(): string {

@@ -1,47 +1,26 @@
-# Test 
+# Test
 
 Tests for the different APIs
 
+## getGitHubPersonalAccessToken
+
 ```typescript
+
 async function test() {
     console.log("test")
     const token = Build.getGithubPersonalAccessToken();
+    console.log(token)
     console.log(typeof token);
-
-    // This is allowed
-    //await testInference(token);
-
-
-    await testCat(token);
-
-}
-
-async function testInference(token) {
-    const inf = await getGithubModelInference(token);
-    console.log(inf)
-}
-
-async function testCat(token) {
-    //Test Catalogue
-    //const cat = await Build.getGitHubModelCatalog(token);
-    const cat = await getGitHubModelCatalog(token);
-    const values = cat.map(entry => {
-        const { id, name, publisher } = entry;
-        return [id, name, publisher]
-    });
-
-    values.forEach(value => {
-        console.log(value)
-    })
-
 }
 
 ```
 
+## getGitHubModeInference
 
 ```typescript
 
 async function testInference() {
+    console.log("test getGitHubModeInference")
     // "mistral-ai/ministral-3b"
     const inference: Build.GitHubModelInferenceParameters = {
         model: "openai/gpt-4.1",
@@ -77,7 +56,11 @@ async function testInferenceWithSystem() {
     console.log(response)
 }
 
+```
 
+## getGitHubModelCatalogue
+
+```typescript
 
 async function testCatalog() {
 
@@ -92,27 +75,4 @@ async function testCatalog() {
     })
 }
 
-
-
-```
-
-```javascript
-Excel.run(function (context) {
-    var sheet = context.workbook.worksheets.getActiveWorksheet();
-    var range = sheet.getRange("A1:E1");
-    var colorNames = ["red", "green", "blue", "yellow", "purple"];
-
-    // Set the values of the range
-    range.values = [[colorNames[0], colorNames[1], colorNames[2], colorNames[3], colorNames[4]]];
-
-    // Set the background color of each cell
-    for (var i = 0; i < colorNames.length; i++) {
-        var cell = range.getCell(0, i);
-        cell.format.fill.color = colorNames[i];
-    }
-
-    return context.sync();
-}).catch(function(error) {
-    console.log("Error: " + error);
-});
 ```
