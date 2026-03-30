@@ -4,8 +4,8 @@
     "description": "build-add-in",
     "private": true,
     "engines": {
-        "node": ">=20.0",
-        "npm": ">=10.0"
+        "node": ">=24.0",
+        "npm": ">=11.0"
     },
     "scripts": {
         "build": "npm run clean && npm run style-check && npm run spell-check && npm run lint && npm run compile",
@@ -59,7 +59,8 @@
         "embed-loc": "node ./scripts/embed-loc.js && npm run make-manifest-shared && npm run style",
         "playwright-install": "playwright install --with-deps chromium",
         "playwright-test": "playwright test --config ./config/playwright.config.ts",
-        "playwright-report": "playwright show-report"
+        "playwright-report": "playwright show-report",
+        "check-npm-updates": "node ./scripts/check-npm-updates.js"
     },
     "repository": {
         "type": "git",
@@ -83,7 +84,7 @@
     "devDependencies": {
         "@microsoft/api-documenter": "^7.29.6",
         "@microsoft/api-extractor": "^7.57.6",
-        "@playwright/test": "^1.54.2",
+        "@playwright/test": "^1.58.2",
         "@types/node": "^18.7.17",
         "@types/office-js": "^1.0.376",
         "@types/react": "^18.3.23",
@@ -92,8 +93,8 @@
         "@typescript-eslint/eslint-plugin": "^8.40.0",
         "@typescript-eslint/parser": "^8.40.0",
         "clean-webpack-plugin": "^4.0.0",
-        "copy-webpack-plugin": "^13.0.1",
-        "cspell": "8.15.4",
+        "copy-webpack-plugin": "^14.0.0",
+        "cspell": "^9.7.0",
         "css-loader": "^7.1.2",
         "eslint": "^9.33.0",
         "html-webpack-plugin": "^5.6.4",
@@ -101,8 +102,8 @@
         "marked": "^12.0.0",
         "monaco-editor-webpack-plugin": "^7.1.0",
         "office-addin-dev-certs": "^2.0.3",
-        "playwright": "^1.54.2",
-        "prettier": "^3.6.2",
+        "playwright": "^1.58.2",
+        "prettier": "^3.8.1",
         "style-loader": "^4.0.0",
         "ts-loader": "^9.5.2",
         "webpack": "^5.100.0",
