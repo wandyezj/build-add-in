@@ -3,6 +3,11 @@
 export { getHostColor } from "./getHostColor";
 export { getGitHubPersonalAccessToken } from "./settings";
 
+// Support
+export { getRandomHtmlColorName } from "./getRandomHtmlColorName";
+export { showHostPlatform } from "./showHostPlatform";
+export { showConsole } from "./showConsole";
+
 // GitHub
 export { getGitHubModelInference } from "./github/getGitHubModelInference";
 export { getGitHubModelCatalog } from "./github/getGitHubModelCatalog";
