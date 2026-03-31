@@ -1,4 +1,4 @@
-let _____globalConsoleOverridden = false;
+let globalConsoleOverridden = false;
 
 /**
  * Add a visible console to the end of the document body.
@@ -17,14 +17,14 @@ export function showConsole() {
     document.body.appendChild(document.createElement("br"));
     document.body.appendChild(consoleDiv);
 
-    if (_____globalConsoleOverridden || hasConsole) {
+    if (globalConsoleOverridden || hasConsole) {
         // Already overridden
         return;
     }
 
-    const _____originalConsoleLog = console.log;
-    console.log = function () {
-        _____originalConsoleLog.apply(console, arguments as any);
+    const originalConsoleLog = console.log;
+    console.log = function (...args: Parameters<typeof console.log>) {
+        originalConsoleLog.apply(console, args);
         const consoleDiv = document.getElementById("console");
 
         if (consoleDiv === null) {
@@ -32,8 +32,8 @@ export function showConsole() {
         }
 
         const newLine = document.createElement("div");
-        newLine.textContent = Array.from(arguments).join(" ");
+        newLine.textContent = args.map(String).join(" ");
         consoleDiv.appendChild(newLine);
     };
-    _____globalConsoleOverridden = true;
+    globalConsoleOverridden = true;
 }

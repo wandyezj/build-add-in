@@ -37,8 +37,9 @@ type SimpleUiParameters =
     | SimpleUiParametersImg;
 
 function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLElement {
-    switch (element.type) {
-        case "button":
+    const elementType = element.type;
+    switch (elementType) {
+        case "button": {
             const button = document.createElement("button");
             if (element.id) {
                 button.id = element.id;
@@ -50,10 +51,11 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
                 button.addEventListener("click", element.onclick);
             }
             return button;
+        }
         case "br":
             return document.createElement("br");
 
-        case "p":
+        case "p": {
             const p = document.createElement("p");
             if (element.id) {
                 p.id = element.id;
@@ -62,8 +64,9 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
                 p.innerText = element.text;
             }
             return p;
+        }
 
-        case "textarea":
+        case "textarea": {
             const textarea = document.createElement("textarea");
             if (element.id) {
                 textarea.id = element.id;
@@ -75,8 +78,9 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
                 textarea.cols = element.cols;
             }
             return textarea;
+        }
 
-        case "img":
+        case "img": {
             const img = document.createElement("img");
             if (element.id) {
                 img.id = element.id;
@@ -88,9 +92,10 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
                 img.alt = element.alt;
             }
             return img;
+        }
 
         default:
-            throw new Error(`Unsupported element type: ${(element as any).type}`);
+            throw new Error(`Unsupported element type: ${elementType}`);
     }
 }
 
