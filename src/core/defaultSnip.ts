@@ -110,7 +110,7 @@ h1 {
     color: black;
 }
 
-#button-run {
+button {
     margin: 0;
     margin-left: 20px;
     margin-bottom: 5px;
@@ -120,16 +120,16 @@ h1 {
     padding: 4px 20px 6px;
 }
 
-#button-run:hover {
+button:hover {
     background-color: #eaeaea;
 }
 
-#button-run:focus {
+button:focus {
     background-color: #eaeaea;
     border-color: #0078d7;
 }
 
-#button-run:active {
+button:active {
     background-color: #0078d7;
     border-color: #0078d7;
     color: #fff;
@@ -194,7 +194,7 @@ Office.onReady(({host, platform})=> {
     console.log("READY");
 
     const elementHost = document.getElementById('host');
-    elementHost.innerText = \`\${platform}\`;
+    elementHost.innerText = \`\${host}\`;
 
     const elementPlatform = document.getElementById('platform');
     elementPlatform.innerText = \`\${platform}\`;

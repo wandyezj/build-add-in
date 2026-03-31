@@ -34,11 +34,15 @@
             "path": "./cspell/ai-model-names.words.txt"
         },
         {
+            "name": "html-color-names",
+            "path": "./cspell/html-color-names.words.txt"
+        },
+        {
             "name": "office-add-in",
             "path": "./cspell/office-add-in.words.txt"
         }
     ],
-    "dictionaries": ["ai-model-names", "office-add-in"],
+    "dictionaries": ["ai-model-names", "html-color-names", "office-add-in"],
     "flagWords": [],
     "ignorePaths": ["localize/strings.tsv", "src/core/localize/strings.json"]
 }
