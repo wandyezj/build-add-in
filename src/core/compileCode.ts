@@ -8,8 +8,8 @@ import * as ts from "typescript";
 export function compileCode(code: string) {
     console.log("compileCode");
     console.log(code);
-    const target = ts.ScriptTarget.ES2022;
-    const lib = ["dom", "es2022"];
+    const target = ts.ScriptTarget.ES2024;
+    const lib = ["dom", "es2024"];
 
     const compilerOptions: ts.CompilerOptions = {
         target,
