@@ -22,11 +22,19 @@ interface SimpleUiParametersTextarea {
     cols?: number;
 }
 
+interface SimpleUiParametersImg {
+    type: "img";
+    id?: string;
+    src?: string;
+    alt?: string;
+}
+
 type SimpleUiParameters =
     | SimpleUiParametersButton
     | SimpleUiParametersBr
     | SimpleUiParametersTextarea
-    | SimpleUiParametersP;
+    | SimpleUiParametersP
+    | SimpleUiParametersImg;
 
 function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLElement {
     switch (element.type) {
@@ -67,6 +75,19 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
                 textarea.cols = element.cols;
             }
             return textarea;
+
+        case "img":
+            const img = document.createElement("img");
+            if (element.id) {
+                img.id = element.id;
+            }
+            if (element.src) {
+                img.src = element.src;
+            }
+            if (element.alt) {
+                img.alt = element.alt;
+            }
+            return img;
 
         default:
             throw new Error(`Unsupported element type: ${(element as any).type}`);
@@ -109,6 +130,8 @@ export class SimpleUi {
 
     /**
      * Add br.
+     *
+     * @beta
      */
     public br() {
         const br: SimpleUiParametersBr = {
@@ -171,6 +194,25 @@ export class SimpleUi {
         };
 
         return this.#addElement(p);
+    }
+
+    /**
+     * Add image.
+     * @param options.id - image id
+     * @param options.src - image source
+     * @param options.alt - image alt text
+     *
+     * @beta
+     */
+    public img(options: { id?: string; src?: string; alt?: string } = {}) {
+        const img: SimpleUiParametersImg = {
+            type: "img",
+            id: options.id,
+            src: options.src,
+            alt: options.alt,
+        };
+
+        return this.#addElement(img);
     }
 
     /**
