@@ -116,6 +116,18 @@ export const settingsMetadata = {
     } as SettingBoolean,
 
     /**
+     * Should the overall signature feature that allows signing snips be shown?
+     * This includes the signature button on the edit page and the author item in the UI.
+     */
+    enableFeatureSignature: {
+        name: "Enable Feature Signature",
+        type: "boolean",
+        tooltip: "Enable the signature feature",
+        defaultValue: false,
+        visible: false,
+    } as SettingBoolean,
+
+    /**
      * Show the signature button on the edit page.
      * The button allows:
      * - signing a snip with a GPG key tied to a GitHub account

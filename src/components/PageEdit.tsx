@@ -36,6 +36,7 @@ import { getSnipExport } from "../core/getSnipExport";
 import { enableSignature } from "../core/settings/enableSignature";
 import { DialogSignature } from "./DialogSignature";
 import { DialogAuthorView } from "./DialogAuthorView";
+import { enableFeatureSignature } from "../core/settings/enableFeatureSignature";
 
 function buttonRun() {
     window.location.href = "./run.html#back";
@@ -168,11 +169,15 @@ export function PageEdit({ initialSnip }: { initialSnip: SnipWithSource }) {
                     <></>
                 )}
 
-                <TooltipButton
-                    tip={loc("Author")}
-                    icon={<ContactCardRegular />}
-                    onClick={() => setDialogAuthorViewOpen(true)}
-                />
+                {enableFeatureSignature() ? (
+                    <TooltipButton
+                        tip={loc("Author")}
+                        icon={<ContactCardRegular />}
+                        onClick={() => setDialogAuthorViewOpen(true)}
+                    />
+                ) : (
+                    <></>
+                )}
 
                 <TooltipButton tip={loc("Delete")} icon={<DeleteRegular />} onClick={buttonDeleteSnip} />
 
