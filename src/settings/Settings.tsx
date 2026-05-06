@@ -3,6 +3,7 @@ import { SettingsKey, getSetting, getSettings, getSettingsMetadata } from "../co
 import { SettingControl } from "./components/SettingControl";
 import { saveSettings } from "../core/storage";
 import { Setting } from "./components/Setting";
+import { showControlPanel } from "../core/settings/showControlPanel";
 
 export function Settings() {
     const [settings, setSettings] = useState(getSettings());
@@ -18,11 +19,26 @@ export function Settings() {
 
     const metadata = getSettingsMetadata();
 
-    const settingParameters = Object.getOwnPropertyNames(metadata)
-        .map((property) => {
-            const key = property as SettingsKey;
-            const setting = metadata[key];
+    const metadataSettings = Object.getOwnPropertyNames(metadata).map((property) => {
+        const key = property as SettingsKey;
+        const setting = metadata[key];
+        return { key, setting };
+    });
 
+    const settingsVisible = metadataSettings.filter(({ setting }) => setting.visible);
+
+    // All the settings that should be shown.
+    const settingsShown = settingsVisible;
+
+    // If control panel is enabled then show additional settings.
+    if (showControlPanel()) {
+        const settingsControlPanel = metadataSettings.filter(({ setting }) => !setting.visible);
+
+        settingsShown.push(...settingsControlPanel);
+    }
+
+    const settingParameters = settingsShown
+        .map(({ key, setting }) => {
             const value = getSetting(key);
 
             const parameter = {

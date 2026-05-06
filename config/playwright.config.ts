@@ -3,6 +3,8 @@ import { devices } from "@playwright/test";
 import path from "path";
 import * as fs from "fs";
 
+const isMac = process.platform === "darwin";
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -59,6 +61,8 @@ const config: PlaywrightTestConfig = {
 
         // allow reading from clipboard
         permissions: ["clipboard-read"],
+
+        ignoreHTTPSErrors: isMac,
     },
 
     /* Configure projects for major browsers */

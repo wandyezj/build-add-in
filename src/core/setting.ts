@@ -5,6 +5,40 @@ import { Theme } from "./settings/Theme";
 import { SnipExportFormat } from "./settings/SnipExportFormat";
 import { isPlainObject } from "./util/isPlainObject";
 
+interface Setting {
+    name: string;
+    tooltip?: string;
+    metadata?: unknown;
+    /**
+     * Is this setting visible in the UI under settings?
+     */
+    visible: boolean;
+}
+
+interface SettingValueBoolean {
+    type: "boolean";
+    defaultValue: boolean;
+}
+
+interface SettingValueString {
+    type: "string";
+    defaultValue: string;
+}
+
+interface SettingValueEnum<T> {
+    type: "enum";
+    defaultValue: T;
+    metadata: {
+        enumValues: Record<T & string, string>;
+    };
+}
+
+type SettingBoolean = Readonly<Setting & SettingValueBoolean>;
+
+type SettingString = Readonly<Setting & SettingValueString>;
+
+type SettingEnum<T> = Readonly<Setting & SettingValueEnum<T>>;
+
 /**
  * Returns an object with keys and values from the enum.
  * The keys are the same as the enum values.
@@ -27,6 +61,7 @@ export const settingsMetadata = {
         Gists Read and Write`,
         type: "string",
         defaultValue: "",
+        visible: true,
     } as SettingString,
 
     theme: {
@@ -34,6 +69,7 @@ export const settingsMetadata = {
         tooltip: "Theme to use for the editor.",
         type: "enum",
         defaultValue: Theme.Default,
+        visible: true,
 
         metadata: {
             enumValues: getEnumValues(Theme),
@@ -48,6 +84,7 @@ export const settingsMetadata = {
         tooltip: "Useful for simple debugging without F12",
         type: "boolean",
         defaultValue: true,
+        visible: true,
     } as SettingBoolean,
 
     enableHostSpecificNewSnip: {
@@ -55,6 +92,7 @@ export const settingsMetadata = {
         type: "boolean",
         tooltip: "Use a default snip tailored to each host.",
         defaultValue: true,
+        visible: false,
     } as SettingBoolean,
 
     /**
@@ -64,6 +102,7 @@ export const settingsMetadata = {
         name: "Enable Samples",
         type: "boolean",
         defaultValue: false,
+        visible: true,
     } as SettingBoolean,
 
     /**
@@ -73,6 +112,19 @@ export const settingsMetadata = {
         name: "Enable Embed",
         type: "boolean",
         defaultValue: false,
+        visible: false,
+    } as SettingBoolean,
+
+    /**
+     * Should the overall signature feature that allows signing snips be shown?
+     * This includes the signature button on the edit page and the author item in the UI.
+     */
+    enableFeatureSignature: {
+        name: "Enable Feature Signature",
+        type: "boolean",
+        tooltip: "Enable the signature feature",
+        defaultValue: false,
+        visible: false,
     } as SettingBoolean,
 
     /**
@@ -85,6 +137,7 @@ export const settingsMetadata = {
         type: "boolean",
         tooltip: "Enable the signature button on the edit page.",
         defaultValue: false,
+        visible: false,
     } as SettingBoolean,
 
     /**
@@ -94,6 +147,7 @@ export const settingsMetadata = {
         name: "Enable Edit Run",
         type: "boolean",
         defaultValue: true,
+        visible: true,
     } as SettingBoolean,
 
     /**
@@ -103,13 +157,15 @@ export const settingsMetadata = {
         name: "Enable Edit Import",
         type: "boolean",
         defaultValue: false,
+        visible: true,
     } as SettingBoolean,
 
     snipExportFormat: {
         name: "Snip Export Format",
         tooltip: "Format to use when exporting snips.",
         type: "enum",
-        defaultValue: SnipExportFormat.Json,
+        defaultValue: SnipExportFormat.Yaml,
+        visible: false,
 
         metadata: {
             enumValues: getEnumValues(SnipExportFormat),
@@ -121,6 +177,7 @@ export const settingsMetadata = {
         tooltip: "Language to use for the editor. Best effort AI translation.",
         type: "enum",
         defaultValue: Language.Default,
+        visible: false,
 
         metadata: {
             enumValues: getEnumValues(Language),
@@ -196,36 +253,6 @@ export function parseSettingsJson(value: string): Settings {
     }
 
     return settingsDefaults;
-}
-
-interface Setting {
-    name: string;
-    tooltip?: string;
-    metadata?: unknown;
-}
-
-type SettingBoolean = Readonly<Setting & SettingValueBoolean>;
-
-type SettingString = Readonly<Setting & SettingValueString>;
-
-type SettingEnum<T> = Readonly<Setting & SettingValueEnum<T>>;
-
-interface SettingValueBoolean {
-    type: "boolean";
-    defaultValue: boolean;
-}
-
-interface SettingValueString {
-    type: "string";
-    defaultValue: string;
-}
-
-interface SettingValueEnum<T> {
-    type: "enum";
-    defaultValue: T;
-    metadata: {
-        enumValues: Record<T & string, string>;
-    };
 }
 
 export function getSettingsMetadata(): Readonly<SettingsMetadata> {
