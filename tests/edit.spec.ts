@@ -15,7 +15,11 @@ const editPageTitle = "Edit";
 test("edit page basic", async ({ browser }) => {
     // Use id attribute for test selectors
 
-    const page = await navigateToPage(browser, editPageUrl, editPageTitle);
+    const page = await navigateToPage(browser, editPageUrl, editPageTitle, {
+        settings: JSON.stringify({
+            snipExportFormat: "json",
+        }),
+    });
     await expect(page).toHaveTitle(editPageTitle);
 
     // Navigate to the Local Snips Drawer and create a new snip

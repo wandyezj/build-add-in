@@ -5,9 +5,25 @@ import { getSource, Source } from "./getSource";
 const rootUrlLocal = "https://localhost:3000";
 const rootUrlProduction = "https://wandyezj.github.io/build-add-in";
 
-export async function navigateToPage(browser: Browser, subpath: string, title: string): Promise<Page> {
+export async function navigateToPage(
+    browser: Browser,
+    subpath: string,
+    title: string,
+    localStorageData?: Record<string, string>
+): Promise<Page> {
     // Create a separate browser context for each test
     const context = await browser.newContext();
+
+    // Adjust local storage keys
+    if (localStorageData) {
+        await context.addInitScript(async (localStorageData) => {
+            const records = JSON.parse(localStorageData) as Record<string, string>;
+            for (const [key, value] of Object.entries(records)) {
+                window.localStorage.setItem(key, value);
+            }
+        }, JSON.stringify(localStorageData));
+    }
+
     const page = await context.newPage();
     const useSource = getSource();
     const rootUrl = useSource === Source.Localhost ? rootUrlLocal : rootUrlProduction;
