@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import PaintCanvas, { PaintCanvasHandle } from "./demo/PaintCanvas";
 import { createRoot } from "react-dom/client";
 import {
     ColorArea,
     ColorPicker,
     ColorSlider,
+    Dialog,
+    DialogContent,
+    DialogSurface,
+    DialogTitle,
     FluentProvider,
     Toolbar,
     ToolbarButton,
     webLightTheme,
 } from "@fluentui/react-components";
-
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
 
 type HsvColor = {
     h: number;
@@ -63,84 +65,36 @@ function hsvToHex(color: HsvColor): string {
 }
 
 function App() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const drawing = useRef(false);
+    const paintCanvasRef = useRef<PaintCanvasHandle>(null);
     const [color, setColor] = useState("#000000");
     const [pickerColor, setPickerColor] = useState<HsvColor>({ h: 0, s: 0, v: 0 });
     const [lineWidth, setLineWidth] = useState(4);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-            return;
-        }
-        const context = canvas.getContext("2d");
-        if (!context) {
-            return;
-        }
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    }, []);
-
-    function getPos(e: React.PointerEvent<HTMLCanvasElement>) {
-        const rect = canvasRef.current!.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        };
-    }
-
-    function onPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
-        drawing.current = true;
-        canvasRef.current!.setPointerCapture(e.pointerId);
-        const context = canvasRef.current!.getContext("2d")!;
-        const { x, y } = getPos(e);
-        context.beginPath();
-        context.moveTo(x, y);
-    }
-
-    function onPointerMove(e: React.PointerEvent<HTMLCanvasElement>) {
-        if (!drawing.current) {
-            return;
-        }
-        const context = canvasRef.current!.getContext("2d")!;
-        context.strokeStyle = color;
-        context.lineWidth = lineWidth;
-        context.lineCap = "round";
-        context.lineJoin = "round";
-        const { x, y } = getPos(e);
-        context.lineTo(x, y);
-        context.stroke();
-    }
-
-    function onPointerUp() {
-        drawing.current = false;
-    }
+    const [sidePanelOpen, setSidePanelOpen] = useState(true);
+    const [colorPickerDialogOpen, setColorPickerDialogOpen] = useState(false);
 
     function onClear() {
-        const canvas = canvasRef.current!;
-        const context = canvas.getContext("2d")!;
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        paintCanvasRef.current?.clear();
+    }
+
+    function toggleSidePanel() {
+        setSidePanelOpen(!sidePanelOpen);
     }
 
     return (
         <FluentProvider theme={webLightTheme}>
             <h1>Paint</h1>
             <Toolbar className="toolbar" aria-label="Paint controls">
-                <div className="colorPickerControl">
-                    <span>Color</span>
-                    <ColorPicker
-                        className="colorPicker"
-                        color={pickerColor}
-                        onColorChange={(_, data) => {
-                            setPickerColor(data.color);
-                            setColor(hsvToHex(data.color));
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <ToolbarButton onClick={() => setColorPickerDialogOpen(true)}>Color</ToolbarButton>
+                    <div
+                        style={{
+                            width: "24px",
+                            height: "24px",
+                            backgroundColor: color,
+                            border: "2px solid #333",
+                            borderRadius: "4px",
                         }}
-                    >
-                        <ColorArea />
-                        <ColorSlider />
-                    </ColorPicker>
+                    />
                 </div>
                 <label>
                     Size:
@@ -154,15 +108,41 @@ function App() {
                     {lineWidth}px
                 </label>
                 <ToolbarButton onClick={onClear}>Clear</ToolbarButton>
+                <ToolbarButton onClick={toggleSidePanel}>{sidePanelOpen ? "Close" : "Open"} Editor</ToolbarButton>
             </Toolbar>
-            <canvas
-                ref={canvasRef}
-                width={CANVAS_WIDTH}
-                height={CANVAS_HEIGHT}
-                onPointerDown={onPointerDown}
-                onPointerMove={onPointerMove}
-                onPointerUp={onPointerUp}
-            />
+            <Dialog open={colorPickerDialogOpen} onOpenChange={(_, data) => setColorPickerDialogOpen(data.open)}>
+                <DialogSurface>
+                    <DialogContent>
+                        <DialogTitle>Pick a Color</DialogTitle>
+                        <div style={{ padding: "20px" }}>
+                            <ColorPicker
+                                className="colorPicker"
+                                color={pickerColor}
+                                onColorChange={(_, data) => {
+                                    setPickerColor(data.color);
+                                    setColor(hsvToHex(data.color));
+                                }}
+                            >
+                                <ColorArea />
+                                <ColorSlider />
+                            </ColorPicker>
+                        </div>
+                    </DialogContent>
+                </DialogSurface>
+            </Dialog>
+            <div style={{ display: "flex", gap: "8px" }}>
+                <PaintCanvas ref={paintCanvasRef} color={color} lineWidth={lineWidth} />
+                <iframe
+                    src="/edit.html?site_name=demo"
+                    style={{
+                        border: "1px solid #ccc",
+                        width: "400px",
+                        height: "600px",
+                        display: sidePanelOpen ? "block" : "none",
+                    }}
+                    title="Editor"
+                />
+            </div>
         </FluentProvider>
     );
 }

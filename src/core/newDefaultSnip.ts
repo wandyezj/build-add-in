@@ -7,7 +7,7 @@ import {
     defaultSnipPowerPoint,
     defaultSnipWord,
 } from "./defaultSnip";
-import { getHost } from "./globals";
+import { getHost, Host } from "./globals";
 import { enableHostSpecificNewSnip } from "./settings/enableHostSpecificNewSnip";
 
 export function newDefaultSnip(): Snip {
@@ -24,18 +24,21 @@ export function newDefaultSnip(): Snip {
     return completeSnip(objectClone(snip));
 }
 
-function getHostSpecificSnip(host: Office.HostType): ExportSnip {
+function getHostSpecificSnip(host: Host): ExportSnip {
     switch (host) {
-        case Office.HostType.Excel:
+        case Host.Site:
+            return defaultSnip;
+
+        case Host.Excel:
             return defaultSnipExcel;
 
-        case Office.HostType.PowerPoint:
+        case Host.PowerPoint:
             return defaultSnipPowerPoint;
 
-        case Office.HostType.Word:
+        case Host.Word:
             return defaultSnipWord;
 
-        case Office.HostType.Outlook:
+        case Host.Outlook:
             return defaultSnipOutlook;
 
         default:

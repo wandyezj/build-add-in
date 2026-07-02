@@ -11,6 +11,7 @@ import { setHost } from "./core/globals";
 // import { triggerActionsDefault } from "./core/actions/triggerActionsDefault";
 import { TriggerManager } from "./core/actions/TriggerManager";
 import { getWatch } from "./core/util/getWatch";
+import { getHostFromOfficeHost } from "./core/setupOffice";
 
 // Redirect immediately to shared for simpler testing.
 window.location.href = "./shared.html";
@@ -38,7 +39,7 @@ console.log("actions load");
 
 Office.onReady(async ({ host }) => {
     console.log("ready");
-    setHost(host);
+    setHost(getHostFromOfficeHost(host));
 
     const watch = getWatch("boot");
     watch.start();

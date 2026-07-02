@@ -8,6 +8,7 @@ import { newDefaultSnip } from "./core/newDefaultSnip";
 import { log, LogTag } from "./core/log";
 import { SnipReference, SnipWithSource } from "./core/snip/Snip";
 import { setupOffice } from "./core/setupOffice";
+import { Host, Platform, setHost, setPlatform } from "./core/globals";
 
 async function initializeCurrentId(): Promise<SnipReference> {
     let reference = loadCurrentSnipReference();
@@ -79,9 +80,33 @@ async function persistData() {
     console.log(`Storage persist [${persist ? "true" : "FALSE"}]`);
 }
 
+function loadOfficeJs(): Promise<void> {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://appsforoffice.microsoft.com/lib/1/hosted/office.js";
+        script.type = "text/javascript";
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load Office script"));
+        document.head.appendChild(script);
+    });
+}
+
 async function setup() {
     log(LogTag.SetupStart);
-    await setupOffice();
+
+    // Check for site_name in query string
+    const params = new URLSearchParams(window.location.search);
+    const siteName = params.get("site_name");
+    if (siteName) {
+        console.log(`Site name: ${siteName}`);
+        setHost(Host.Site);
+        setPlatform(Platform.Site);
+    } else {
+        // Dynamically load Office script
+        await loadOfficeJs();
+        await setupOffice();
+    }
+
     const initialSnip = await getInitialSnip();
 
     // Start Render AFTER we have the current snip id.

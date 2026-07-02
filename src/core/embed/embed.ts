@@ -1,4 +1,4 @@
-import { getHost } from "../globals";
+import { getHost, Host } from "../globals";
 
 //
 // Functions to manipulate embed xml that work across Excel and Word.
@@ -12,7 +12,7 @@ import { getHost } from "../globals";
 async function callGenericCallbackForHost<T>(callback: GenericCallback<T>): Promise<T> {
     const host = getHost();
     switch (host) {
-        case Office.HostType.Excel:
+        case Host.Excel:
             // delayForCellEdit
             // https://learn.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-delay-in-cell-edit
             // Delay for cell edit so the call does not fail due to cell edit mode.
@@ -21,7 +21,7 @@ async function callGenericCallbackForHost<T>(callback: GenericCallback<T>): Prom
                 const customXmlParts = context.workbook.customXmlParts;
                 return callback(context, customXmlParts);
             });
-        case Office.HostType.Word:
+        case Host.Word:
             return await Word.run(async (context) => {
                 const customXmlParts = context.document.customXmlParts;
                 return callback(context, customXmlParts);

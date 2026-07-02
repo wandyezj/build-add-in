@@ -102,7 +102,9 @@ export function DrawerSamples({
 
         // Freshly load the samples
         const host = getHostName();
-        await loadSamplesToDatabase(host);
+        await loadSamplesToDatabase(host).catch((error) => {
+            console.error("Failed to load samples:", error);
+        });
         refreshSamples();
     }
 
