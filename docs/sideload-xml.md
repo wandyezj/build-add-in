@@ -1,5 +1,8 @@
 # Sideload the Build Add-In locally
 
+
+## On Windows
+
 1. Create a local share folder
     - Run as admin: [create-manifest-share.cmd](../scripts//create-manifest-share.cmd)
 2. Add shared folder to trusted catalogue
