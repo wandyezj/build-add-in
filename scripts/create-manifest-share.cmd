@@ -1,5 +1,9 @@
 @echo off
 setlocal
+
+set THISDIR=%~dp0
+set THISDIR=%THISDIR:~,-1%
+
 :: Must run as administrator
 
 :: Check for administrative privileges
@@ -7,16 +11,18 @@ net session >nul 2>&1
 
 if %errorlevel% == 0 (
     echo Success: Running as Administrator.
-    goto :main
 ) else (
     echo Failure: Please right-click and Run as Administrator.
     pause
     exit /b
 )
 
+:: set share and share_name
+call %THISDIR%\create-manifest-share-config.cmd
+echo share: %share%
+echo share_name: %share_name%
 
 :: Create a share for the manifest files
-set share=C:\manifests
 
 if exist %share% (
     echo Share folder already exists:
@@ -30,18 +36,11 @@ if exist %share% (
 :: make the folder
 md %share%
 
+:: delete existing share if it exists
+net share %share_name% /delete
+
 :: share the folder
-net share manifests=%share%
-
-:: Add the Office Trusted Catalog registry keys
-set guid=50473000-0000-0000-0000-000000000000
-set share_name=%COMPUTERNAME%\manifests
-
-reg add "HKCU\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{%guid%}" /v "Id" /t REG_SZ /d "{%guid%}" /f
-reg add "HKCU\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{%guid%}" /v "Url" /t REG_SZ /d "\\%share_name%" /f
-reg add "HKCU\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{%guid%}" /v "Flags" /t REG_DWORD /d 1 /f
-
-echo Trusted catalog registry keys configured successfully.
+net share %share_name%=%share%
 
 
 :: open the folder

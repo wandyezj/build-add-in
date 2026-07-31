@@ -1,11 +1,18 @@
 # Sideload the Build Add-In locally
 
-1. Create a Local share and add to trusted catalogue
+1. Create a local share folder
     - Run as admin: [create-manifest-share.cmd](../scripts//create-manifest-share.cmd)
-2. Download the Build Add-In Manifest
+2. Add shared folder to trusted catalogue
+    - Run as current user: [create-manifest-share-entry.cmd](../scripts//create-manifest-share-entry.cmd)
+3. Download the Build Add-In Manifest
     - [Word, Excel, and PowerPoint](https://store.office.com/app/download?assetid=WA200006798)
     - [Outlook](https://store.office.com/app/download?assetid=WA200006932)
-3. Copy the downloaded manifest to the share
+4. Copy the downloaded manifest to the share
+5. Add the Add-In via
+    - Home > Add-ins > advanced
+    - click refresh
+    - click the Add-In
+
 
 ## Reference
 
