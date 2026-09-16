@@ -1,10 +1,11 @@
-import { getHost } from "../globals";
+import { getHostName, SupportedHostName } from "../globals";
 import { getSetting } from "../setting";
 
 export function enableEmbed(): boolean {
-    const host = getHost();
-    const enableForHost = host === Office.HostType.Excel || host === Office.HostType.Word;
+    const host = getHostName();
+    const enabledHosts: SupportedHostName[] = ["word", "excel", "powerpoint"];
+    const enableForHost = enabledHosts.includes(host);
     const enableSetting = getSetting("enableEmbed");
-    const enabled = enableForHost && enableSetting;
+    const enabled = enableSetting && enableForHost;
     return enabled;
 }

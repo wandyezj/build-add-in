@@ -40,7 +40,7 @@ async function runWord() {
 
 async function runPowerPoint() {
     await PowerPoint.run(async (context) => {
-        const range = context.presentation.getSelection();
+        const range = context.presentation.getSelectedTextRange();
         range.font.color = "yellow";
         range.load("text");
         await context.sync();
@@ -248,7 +248,7 @@ async function run() {
     console.log("run");
 
     await PowerPoint.run(async (context) => {
-        const range = context.presentation.getSelection();
+        const range = context.presentation.getSelectedTextRange();
         range.font.color = "yellow";
         range.load("text");
         await context.sync();
