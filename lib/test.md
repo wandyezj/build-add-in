@@ -2,6 +2,22 @@
 
 Tests for the different APIs
 
+Include the following in libraries:
+
+Production
+
+```text
+https://wandyezj.github.io/build-add-in/library/build.js
+https://wandyezj.github.io/build-add-in/library/build-beta.d.ts
+```
+
+Localhost
+
+```text
+https://localhost:3000/library/build.js
+https://localhost:3000/library/build.d.ts
+```
+
 ## getGitHubPersonalAccessToken
 
 ```typescript

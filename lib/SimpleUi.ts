@@ -101,7 +101,7 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
 
 /**
  * A singleton to build a simple UI of basic HTML elements.
- * @beta
+ * @public
  */
 export class SimpleUi {
     #elements: SimpleUiParameters[] = [];
@@ -124,7 +124,7 @@ export class SimpleUi {
     /**
      * Create a new simpleUi builder.
      *
-     * @beta
+    * @public
      */
     public static create(): SimpleUi {
         if (SimpleUi.singleton === undefined) {
@@ -136,7 +136,7 @@ export class SimpleUi {
     /**
      * Add br.
      *
-     * @beta
+    * @public
      */
     public br() {
         const br: SimpleUiParametersBr = {
@@ -152,7 +152,7 @@ export class SimpleUi {
      * @param options.text - button text
      * @param options.onclick - click event handler
      *
-     * @beta
+    * @public
      */
     public button(options: { id?: string; text?: string; onclick?: () => void } = {}) {
         const button: SimpleUiParametersButton = {
@@ -171,7 +171,7 @@ export class SimpleUi {
      * @param options.rows - number of rows
      * @param options.cols - number of columns
      *
-     * @beta
+    * @public
      */
     public textarea(options: { id?: string; rows?: number; cols?: number }) {
         const textarea: SimpleUiParametersTextarea = {
@@ -189,7 +189,7 @@ export class SimpleUi {
      * @param options.id - paragraph id
      * @param options.text - paragraph text
      *
-     * @beta
+    * @public
      */
     public p(options: { id?: string; text?: string }) {
         const p: SimpleUiParametersP = {
@@ -207,7 +207,7 @@ export class SimpleUi {
      * @param options.src - image source
      * @param options.alt - image alt text
      *
-     * @beta
+    * @public
      */
     public img(options: { id?: string; src?: string; alt?: string } = {}) {
         const img: SimpleUiParametersImg = {
@@ -224,7 +224,7 @@ export class SimpleUi {
      * Instantiate and append the simple UI elements to the provided div.
      * @param id The id of the div to append the elements to.
      *
-     * @beta
+    * @public
      */
     public buildOnDiv(id: string) {
         const div = document.getElementById(id);
