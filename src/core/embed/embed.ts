@@ -1,7 +1,7 @@
 import { getHost } from "../globals";
 
 //
-// Functions to manipulate embed xml that work across Excel and Word.
+// Functions to manipulate embed xml that work across Excel, Word, and PowerPoint.
 //
 // embedDeleteById
 // embedSave
@@ -27,8 +27,13 @@ async function callGenericCallbackForHost<T>(callback: GenericCallback<T>): Prom
                 return callback(context, customXmlParts);
             });
 
+        case Office.HostType.PowerPoint:
+            return await PowerPoint.run(async (context) => {
+                const customXmlParts = context.presentation.customXmlParts;
+                return callback(context, customXmlParts);
+            });
+
         default:
-            // PowerPoint does not yet support custom xml parts.
             throw new Error("Host not supported");
     }
 }
@@ -101,7 +106,27 @@ function embedSaveGenericCallback({ xml, id, embedNamespace }: { xml: string; id
         } else {
             // Attempt to update the existing item with the id.
             const collection = customXmlParts.getByNamespace(embedNamespace);
-            item = collection.getItemOrNullObject(id);
+
+            try {
+                // Bug: PowerPoint getItemOrNullObject throws instead of returning a null object.
+                // For now force a sync and wrap this in a try / catch.
+                item = collection.getItemOrNullObject(id);
+                // Remove context
+                await context.sync();
+            } catch (error) {
+                // Mock a NullObject to trigger the add.
+                item = {
+                    isNullObject: true,
+                    setXml: () => {
+                        /* ignore */
+                    },
+                    load: () => {
+                        /* ignore */
+                    },
+                    id: "invalid",
+                };
+            }
+
             item.setXml(xml);
             await context.sync();
             if (item.isNullObject) {
