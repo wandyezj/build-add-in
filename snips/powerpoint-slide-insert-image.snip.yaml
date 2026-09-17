@@ -80,7 +80,7 @@ files:
 
             const id = Build.SimpleUi.createIds({
                 textarea: ["image"]
-            } as const);
+            });
 
             Office.onReady(({ host, platform }) => {
                 console.log("READY");
@@ -91,13 +91,13 @@ files:
                     .br()
                     .p({text:"Paste in Base64 image:"})
                     .textarea({ id: id.textarea.image, rows: 1, cols: 200 })
-                    .buildOnDiv("div-ui")
+                    .buildOnDiv("div-ui");
 
             });
 
     html:
         language: html
-        content: <div id="div-ui" />
+        content: <div id="div-ui" ></div>
     css:
         language: css
         content: |+
