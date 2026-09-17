@@ -1,3 +1,5 @@
+import { getHostColor } from "./getHostColor";
+
 interface SimpleUiParametersBr {
     type: "br";
 }
@@ -13,6 +15,14 @@ interface SimpleUiParametersP {
     type: "p";
     id?: string;
     text?: string;
+    html?: string;
+}
+
+interface SimpleUiParametersH {
+    type: "h1" | "h2" | "h3" | "h4";
+    id?: string;
+    text?: string;
+    html?: string;
 }
 
 interface SimpleUiParametersTextarea {
@@ -34,6 +44,7 @@ type SimpleUiParameters =
     | SimpleUiParametersBr
     | SimpleUiParametersTextarea
     | SimpleUiParametersP
+    | SimpleUiParametersH
     | SimpleUiParametersImg;
 
 function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLElement {
@@ -63,7 +74,27 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
             if (element.text) {
                 p.innerText = element.text;
             }
+            if (element.html) {
+                p.innerHTML = element.html;
+            }
             return p;
+        }
+
+        case "h1":
+        case "h2":
+        case "h3":
+        case "h4": {
+            const h = document.createElement(elementType);
+            if (element.id) {
+                h.id = element.id;
+            }
+            if (element.text) {
+                h.innerText = element.text;
+            }
+            if (element.html) {
+                h.innerHTML = element.html;
+            }
+            return h;
         }
 
         case "textarea": {
@@ -101,7 +132,7 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
 
 /**
  * A singleton to build a simple UI of basic HTML elements.
- * @beta
+ * @public
  */
 export class SimpleUi {
     #elements: SimpleUiParameters[] = [];
@@ -122,9 +153,21 @@ export class SimpleUi {
     static singleton: SimpleUi | undefined = undefined;
 
     /**
+     * Get a span element as a string containing the host and platform information. Apply to html.
+     * @public
+     * @param host - the host name
+     * @param platform - the platform name
+     * @returns a span element as a string containing the host and platform information
+     */
+    static spanHostPlatform(host: string, platform: string): string {
+        const hostColor = getHostColor(host);
+        return `<span><span style="color: ${hostColor}">${host}</span> on ${platform}</span>`;
+    }
+
+    /**
      * Create a new simpleUi builder.
      *
-     * @beta
+     * @public
      */
     public static create(): SimpleUi {
         if (SimpleUi.singleton === undefined) {
@@ -136,7 +179,7 @@ export class SimpleUi {
     /**
      * Add br.
      *
-     * @beta
+     * @public
      */
     public br() {
         const br: SimpleUiParametersBr = {
@@ -152,7 +195,7 @@ export class SimpleUi {
      * @param options.text - button text
      * @param options.onclick - click event handler
      *
-     * @beta
+     * @public
      */
     public button(options: { id?: string; text?: string; onclick?: () => void } = {}) {
         const button: SimpleUiParametersButton = {
@@ -171,7 +214,7 @@ export class SimpleUi {
      * @param options.rows - number of rows
      * @param options.cols - number of columns
      *
-     * @beta
+     * @public
      */
     public textarea(options: { id?: string; rows?: number; cols?: number }) {
         const textarea: SimpleUiParametersTextarea = {
@@ -189,16 +232,76 @@ export class SimpleUi {
      * @param options.id - paragraph id
      * @param options.text - paragraph text
      *
-     * @beta
+     * @public
      */
-    public p(options: { id?: string; text?: string }) {
+    public p(options: { id?: string; text?: string; html?: string }) {
         const p: SimpleUiParametersP = {
             type: "p",
             id: options.id,
             text: options.text,
+            html: options.html,
         };
 
         return this.#addElement(p);
+    }
+
+    #h(level: "h1" | "h2" | "h3" | "h4", options: { id?: string; text?: string; html?: string }) {
+        const h: SimpleUiParametersH = {
+            type: level,
+            id: options.id,
+            text: options.text,
+            html: options.html,
+        };
+
+        return this.#addElement(h);
+    }
+
+    /**
+     * Add heading level 1.
+     * @param options.id - heading id
+     * @param options.text - heading text
+     * @param options.html - heading HTML content
+     *
+     * @public
+     */
+    public h1(options: { id?: string; text?: string; html?: string }) {
+        return this.#h("h1", options);
+    }
+
+    /**
+     * Add heading level 2.
+     * @param options.id - heading id
+     * @param options.text - heading text
+     * @param options.html - heading HTML content
+     *
+     * @public
+     */
+    public h2(options: { id?: string; text?: string; html?: string }) {
+        return this.#h("h2", options);
+    }
+
+    /**
+     * Add heading level 3.
+     * @param options.id - heading id
+     * @param options.text - heading text
+     * @param options.html - heading HTML content
+     *
+     * @public
+     */
+    public h3(options: { id?: string; text?: string; html?: string }) {
+        return this.#h("h3", options);
+    }
+
+    /**
+     * Add heading level 4.
+     * @param options.id - heading id
+     * @param options.text - heading text
+     * @param options.html - heading HTML content
+     *
+     * @public
+     */
+    public h4(options: { id?: string; text?: string; html?: string }) {
+        return this.#h("h4", options);
     }
 
     /**
@@ -207,7 +310,7 @@ export class SimpleUi {
      * @param options.src - image source
      * @param options.alt - image alt text
      *
-     * @beta
+     * @public
      */
     public img(options: { id?: string; src?: string; alt?: string } = {}) {
         const img: SimpleUiParametersImg = {
@@ -224,7 +327,7 @@ export class SimpleUi {
      * Instantiate and append the simple UI elements to the provided div.
      * @param id The id of the div to append the elements to.
      *
-     * @beta
+     * @public
      */
     public buildOnDiv(id: string) {
         const div = document.getElementById(id);

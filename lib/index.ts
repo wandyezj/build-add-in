@@ -14,3 +14,7 @@ export { getGitHubModelInference } from "./github/getGitHubModelInference";
 export { getGitHubModelCatalog } from "./github/getGitHubModelCatalog";
 export type { GitHubModelCatalogueEntry } from "./github/GitHubModelCatalogueEntry";
 export type { GitHubModelInferenceParameters } from "./github/GitHubModelInferenceParameters";
+
+export { getOfficeDocumentName } from "./getOfficeDocumentName";
+export type { ExternalLambdaInstance } from "./GlobalExternalLambda";
+export { initializeExternalLambda } from "./GlobalExternalLambda";

@@ -4,7 +4,7 @@
  * @returns one of the named HTML colors.
  *
  *
- * @beta
+ * @public
  */
 export function getRandomHtmlColorName(): string {
     // List of named HTML colors
