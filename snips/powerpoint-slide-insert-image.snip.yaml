@@ -97,7 +97,7 @@ files:
 
     html:
         language: html
-        content: <div id="div-ui" />
+        content: <div id="div-ui" ></div>
     css:
         language: css
         content: |+
