@@ -258,14 +258,6 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
         });
     }
 
-    async #removeItem(id: string): Promise<void> {
-        await this.#updateQueue((queue) => {
-            // Update - filter out all items with id
-            const update = queue.filter((item) => !(item.id === id));
-            return update;
-        });
-    }
-
     async #removeItems(ids: string[]): Promise<void> {
         await this.#updateQueue((queue) => {
             // Update - filter out all items that have an id in ids

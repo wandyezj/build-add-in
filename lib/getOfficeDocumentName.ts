@@ -1,4 +1,10 @@
-declare var Office: any;
+type OfficeDocumentContext = {
+    context?: {
+        document?: {
+            url?: string;
+        };
+    };
+};
 
 /**
  * Gets the name of the current Office document.
@@ -7,7 +13,10 @@ declare var Office: any;
  * @returns The name of the current Office document.
  */
 export function getOfficeDocumentName(): string {
-    const url = Office?.context?.document?.url as string;
+    const office = (globalThis as typeof globalThis & Record<string, unknown>) ["Office"] as
+        | OfficeDocumentContext
+        | undefined;
+    const url = office?.context?.document?.url;
 
     let name: string | undefined = undefined;
 
