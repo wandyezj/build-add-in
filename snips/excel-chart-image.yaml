@@ -9,7 +9,7 @@ files:
 
             async function excelMakePrettyChartAndGetImage(): string {
                 function createTableSample(worksheet: Excel.Worksheet) {
-            // Split by regex matching multiple spaces or tabs
+                    // Split into [][] via regex matching multiple spaces or tabs
                     const data = `
             Fruit   Color   Quantity
             Orange  orange  5
@@ -22,7 +22,7 @@ files:
 
                     const columnCount = data[0].length;
                     const rowCount = data.length;
-                    
+
                     // 1. Get the target range and assign values directly
                     const range = worksheet.getRangeByIndexes(0, 0, rowCount, columnCount);
                     range.values = data;
@@ -34,19 +34,17 @@ files:
                 }
 
                 function createDoughnutChartFromTable(worksheet: Excel.Worksheet, table: Excel.Table) {
-                    // 1. Get the range of the table (or specifically data you want to chart)
-                    // For a doughnut chart, let's say we chart the "Quantity" column or the whole table range.
+                    // Full table range to use for data
                     const range = table.getRange();
-                    
-                    // 2. Add a doughnut chart to the worksheet
-                    // Excel.ChartType.doughnut represents a doughnut chart
+
+                    // Add a doughnut chart
                     const chart = worksheet.charts.add(
-                        Excel.ChartType.doughnut, 
-                        range, 
+                        Excel.ChartType.doughnut,
+                        range,
                         Excel.ChartSeriesBy.auto
                     );
 
-                    // 3. Optional: Customize chart properties (e.g., title, legend)
+                    // Format Chart
                     chart.title.text = "Fruit Quantities";
                     chart.legend.position = Excel.ChartLegendPosition.right;
                     chart.legend.visible = true;
@@ -56,21 +54,26 @@ files:
 
                 return await Excel.run({ delayForCellEdit: true }, async (context) => {
 
+                    const sheetName = "Pretty Chart";
+
                     const workbook = context.workbook;
-                    let sheet = workbook.worksheets.getItemOrNullObject("Pretty Chart");
+                    
+                    // Clear Sheet
+                    let sheet = workbook.worksheets.getItemOrNullObject(sheetName);
                     sheet.delete();
-                    sheet = workbook.worksheets.add("Pretty Chart");
+                    sheet = workbook.worksheets.add(sheetName);
 
                     sheet.activate();
+
                     const table = createTableSample(sheet);
 
                     const chart = createDoughnutChartFromTable(sheet, table)
 
+                    // Get Chart Image
                     const result = chart.getImage(500, 500)
                     await context.sync()
                     const imageBase64 = result.value
                     return imageBase64;
-
 
                 });
             }
@@ -78,6 +81,7 @@ files:
             async function run() {
                 console.log("run");
 
+                // Create chart and get image as base64
                 const image = await excelMakePrettyChartAndGetImage();
                 console.log(image);
                 setImgSrc(image);
@@ -102,10 +106,10 @@ files:
                 console.log("READY");
 
                 Build.SimpleUi.create()
-                .button({text: "run", onclick: run})
-                .br()
-                .img({id: id.img.chart})
-                .buildOnDiv("div-ui")
+                    .button({ text: "run", onclick: run })
+                    .br()
+                    .img({ id: id.img.chart })
+                    .buildOnDiv("div-ui")
 
 
                 ready();
