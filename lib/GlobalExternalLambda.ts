@@ -107,6 +107,7 @@ interface ExternalLambdaItemCall<ExternalLambdaTarget> {
     parameters: {
         target: ExternalLambdaTarget;
         lambda: string;
+        lambdaArguments: unknown[];
         resultId: string;
     };
 }
@@ -165,7 +166,12 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
         key: string,
         target: ExternalLambdaTarget,
         matchExternalLambdaTarget: MatchExternalLambdaTarget<ExternalLambdaTarget>,
-        handleCall: (lambda: string, resolve: (value: unknown) => void, reject: (value: unknown) => void) => void
+        handleCall: (
+            lambda: string,
+            lambdaArguments: unknown[],
+            resolve: (value: unknown) => void,
+            reject: (value: unknown) => void
+        ) => void
     ) {
         this.#storage = new GlobalStorageKey(key);
         this.#ownTarget = target;
@@ -190,6 +196,7 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
                         // Make the call
                         handleCall(
                             item.parameters.lambda,
+                            item.parameters.lambdaArguments,
                             (value: unknown) => {
                                 this.#addResult(item.parameters.resultId, "resolve", value);
                             },
@@ -278,13 +285,19 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
         return `${prefix}${prefix ? "-" : ""}${crypto.randomUUID()}`;
     }
 
-    async #addCall(resultId: string, target: ExternalLambdaTarget, lambda: string): Promise<void> {
+    async #addCall(
+        resultId: string,
+        target: ExternalLambdaTarget,
+        lambda: string,
+        lambdaArguments: unknown[]
+    ): Promise<void> {
         const item: ExternalLambdaItemCall<ExternalLambdaTarget> = {
             name: ExternalLambdaItemName.Call,
             id: this.#getId(),
             parameters: {
                 target,
                 lambda,
+                lambdaArguments,
                 resultId,
             },
         };
@@ -318,10 +331,10 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
         }
     }
 
-    async makeCall(target: ExternalLambdaTarget, lambda: string): Promise<unknown> {
+    async makeCall(target: ExternalLambdaTarget, lambda: string, lambdaArguments: unknown[]): Promise<unknown> {
         const resultId = this.#getId("result");
         const promise = this.#pendingResults.create(resultId);
-        await this.#addCall(resultId, target, lambda);
+        await this.#addCall(resultId, target, lambda, lambdaArguments);
         return promise;
     }
 }
@@ -331,7 +344,17 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
  * @public
  */
 export interface ExternalLambdaInstance<ExternalLambdaTarget> {
-    executeLambda<T>(target: ExternalLambdaTarget, lambda: () => T): Promise<T>;
+    /**
+     *
+     * @param target - Which instance should execute this lambda.
+     * @param lambda - The lambda to send. note: the lambda is serialized and may not reference any thing outside it's scope.
+     * @param lambdaArguments - The arguments to pass to the lambda function.
+     */
+    executeLambda<LambdaArguments extends unknown[], LambdaReturn>(
+        target: ExternalLambdaTarget,
+        lambda: (...args: LambdaArguments) => LambdaReturn,
+        ...lambdaArguments: LambdaArguments
+    ): Promise<LambdaReturn>;
 
     /**
      * Get the targeting information for the current external lambda instance.
@@ -370,8 +393,8 @@ class GlobalExternalLambda<ExternalLambdaTarget> implements ExternalLambdaInstan
             key,
             target,
             matchExternalLambdaTarget,
-            (lambda, resolve, reject) => {
-                this.#evalLambda(lambda, resolve, reject);
+            (lambda, lambdaArguments, resolve, reject) => {
+                this.#evalLambda(lambda, lambdaArguments, resolve, reject);
             }
         );
     }
@@ -392,15 +415,24 @@ class GlobalExternalLambda<ExternalLambdaTarget> implements ExternalLambdaInstan
         this.#queue.clear();
     }
 
-    async executeLambda<T>(target: ExternalLambdaTarget, lambda: () => T): Promise<T> {
+    async executeLambda<LambdaArguments extends unknown[], LambdaReturn>(
+        target: ExternalLambdaTarget,
+        lambda: (...args: LambdaArguments) => LambdaReturn,
+        ...lambdaArguments: LambdaArguments
+    ): Promise<LambdaReturn> {
         const lambdaString = lambda.toString();
-        return this.#queue.makeCall(target, lambdaString) as Promise<T>;
+        return this.#queue.makeCall(target, lambdaString, lambdaArguments) as Promise<LambdaReturn>;
     }
 
-    async #evalLambda(f: string, resolve: (value: unknown) => void, reject: (value: unknown) => void) {
+    async #evalLambda(
+        f: string,
+        lambdaArguments: unknown[],
+        resolve: (value: unknown) => void,
+        reject: (value: unknown) => void
+    ) {
         try {
             const lambda = eval(f);
-            const result = await lambda();
+            const result = await lambda(...lambdaArguments);
             resolve(result);
         } catch (e) {
             reject(e);
