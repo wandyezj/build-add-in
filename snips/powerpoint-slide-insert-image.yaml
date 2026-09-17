@@ -1,0 +1,145 @@
+name: PowerPoint Slide Insert Image
+files:
+    typescript:
+        language: typescript
+        content: |+
+            async function powerpointAddBase64ImageToSlide(imageAsBase64: string) {
+                function addBase64Image(base64String: string, options?: {
+                    imageLeft?: number;
+                    imageTop?: number;
+                    imageWidth?: number;
+                    imageHeight?: number
+                }): Promise<void> {
+                    return new Promise((resolve, reject) => {
+                        // Strip out the data URI prefix if present
+                        const pureBase64 = base64String.replace(/^data:image\/[a-z]+;base64,/, "");
+
+                        const { imageLeft, imageTop, imageWidth, imageHeight } = options || {};
+
+                        const o: Office.SetSelectedDataOptions = {
+                            coercionType: Office.CoercionType.Image,
+                        };
+
+                        if (imageLeft) {
+                            o.imageLeft = imageLeft;
+                        }
+                        if (imageTop) {
+                            o.imageTop = imageTop;
+                        }
+                        if (imageWidth) {
+                            o.imageWidth = imageWidth;
+                        }
+                        if (imageHeight) {
+                            o.imageHeight = imageHeight;
+                        }
+
+                        Office.context.document.setSelectedDataAsync(
+                            pureBase64,
+                            o,
+                            function (asyncResult) {
+                                if (asyncResult.status === Office.AsyncResultStatus.Failed) {
+                                    reject(new Error(asyncResult.error.message));
+                                } else {
+                                    resolve(asyncResult);
+                                }
+                            }
+                        );
+                    });
+                }
+                await PowerPoint.run(async (context) => {
+                    const presentation = context.presentation;
+                    const slide = presentation.slides.getItemAt(0);
+
+                    // Clear slide
+                    const shapes = slide.shapes;
+                    shapes.load("items");
+                    await context.sync();
+
+                    for (let i = 0; i < shapes.items.length; i++) {
+                        shapes.items[i].delete();
+                    }
+                    await context.sync()
+
+                    await addBase64Image(imageAsBase64, {
+                        imageLeft: 100,
+                        imageTop: 100,
+                        imageWidth: 600,
+                        //imageHeight: 400,
+                    })
+
+                });
+            }
+
+            async function run() {
+                console.log("run");
+
+                const image = document.getElementById(id.textarea.image).value;
+                await powerpointAddBase64ImageToSlide(image);
+            }
+
+
+            const id = Build.SimpleUi.createIds({
+                textarea: ["image"]
+            } as const);
+
+            Office.onReady(({ host, platform }) => {
+                console.log("READY");
+
+                Build.SimpleUi.create()
+                    .h2({ text: "PowerPoint Slide Insert Image" })
+                    .button({ text: "Run", onclick: run })
+                    .br()
+                    .p({text:"Paste in Base64 image:"})
+                    .textarea({ id: id.textarea.image, rows: 1, cols: 200 })
+                    .buildOnDiv("div-ui")
+
+            });
+
+    html:
+        language: html
+        content: <div id="div-ui" />
+    css:
+        language: css
+        content: |+
+            
+            body {
+                background-color: white;
+            }
+
+            h1 { 
+                color: black;
+            }
+
+            button {
+                margin: 0;
+                margin-left: 20px;
+                margin-bottom: 5px;
+                min-width: 80px;
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+                padding: 4px 20px 6px;
+            }
+
+            button:hover {
+                background-color: #eaeaea;
+            }
+
+            button:focus {
+                background-color: #eaeaea;
+                border-color: #0078d7;
+            }
+
+            button:active {
+                background-color: #0078d7;
+                border-color: #0078d7;
+                color: #fff;
+            }
+
+    libraries:
+        language: text
+        content: |-
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.js
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts
+
+            https://wandyezj.github.io/build-add-in/library/build.js
+            https://wandyezj.github.io/build-add-in/library/build.d.ts

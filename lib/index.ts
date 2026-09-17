@@ -8,7 +8,7 @@ export { getRandomHtmlColorName } from "./getRandomHtmlColorName";
 export { showHostPlatform } from "./showHostPlatform";
 export { showConsole } from "./showConsole";
 export { SimpleUi } from "./SimpleUi";
-export type { SimpleUiElementIds, SimpleUiImg } from "./SimpleUi";
+export type { SimpleUiElementIds, SimpleUiImg, SimpleUiTextarea } from "./SimpleUi";
 
 // GitHub
 export { getGitHubModelInference } from "./github/getGitHubModelInference";

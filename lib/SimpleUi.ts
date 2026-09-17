@@ -130,6 +130,24 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
     }
 }
 
+class SimpleUiWrapperElement<T extends HTMLElement> {
+    #id: string;
+    #type: "img" | "textarea";
+
+    constructor(type: "img" | "textarea", id: string) {
+        this.#type = type;
+        this.#id = id;
+    }
+
+    protected get element(): T {
+        const element = document.getElementById(this.#id) as T | null;
+        if (element === null || element.tagName.toLowerCase() !== this.#type) {
+            throw new Error(`Element ${this.#type} with id ${this.#id} not found.`);
+        }
+        return element;
+    }
+}
+
 /**
  * @public
  */
@@ -141,23 +159,38 @@ export interface SimpleUiImg {
     setSrcFromBase64(base64: string): void;
 }
 
-class SimpleUiWrapperImg implements SimpleUiImg {
-    #id: string;
-
+class SimpleUiWrapperImg extends SimpleUiWrapperElement<HTMLImageElement> implements SimpleUiImg {
     constructor(id: string) {
-        this.#id = id;
-    }
-
-    get #img(): HTMLImageElement {
-        const img = document.getElementById(this.#id) as HTMLImageElement | null;
-        if (img === null) {
-            throw new Error(`Image element with id ${this.#id} not found`);
-        }
-        return img;
+        super("img", id);
     }
 
     setSrcFromBase64(base64: string) {
-        this.#img.src = `data:image/png;base64,${base64}`;
+        super.element.src = `data:image/png;base64,${base64}`;
+    }
+}
+
+/**
+ * @public
+ */
+export interface SimpleUiTextarea {
+    /**
+     * Gets and sets the value of the textarea.
+     * @param value - the value to set for the textarea
+     */
+    value: string;
+}
+
+class SimpleUiWrapperTextarea extends SimpleUiWrapperElement<HTMLTextAreaElement> implements SimpleUiTextarea {
+    constructor(id: string) {
+        super("textarea", id);
+    }
+
+    get value(): string {
+        return super.element.value;
+    }
+
+    set value(value: string) {
+        super.element.value = value;
     }
 }
 
@@ -218,8 +251,18 @@ export class SimpleUi {
         return `<span><span style="color: ${hostColor}">${host}</span> on ${platform}</span>`;
     }
 
+    /**
+     * @public
+     */
     static img(id: string): SimpleUiImg {
         return new SimpleUiWrapperImg(id);
+    }
+
+    /**
+     * @public
+     */
+    static textarea(id: string): SimpleUiTextarea {
+        return new SimpleUiWrapperTextarea(id);
     }
 
     /**
@@ -237,7 +280,7 @@ export class SimpleUi {
      * ```
      * @public
      */
-    static createIds<T extends Record<string, readonly string[]>>(config: T): SimpleUiElementIds<T> {
+    static createIds<const T extends Record<string, readonly string[]>>(config: T): SimpleUiElementIds<T> {
         return createIds(config);
     }
 
