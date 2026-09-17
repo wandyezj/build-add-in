@@ -1,0 +1,161 @@
+name: Pretty Chart
+files:
+    typescript:
+        language: typescript
+        content: |+
+            // About
+            // Excel Sample to create a chart and get and display its base64 image
+
+
+            async function excelMakePrettyChartAndGetImage(): string {
+                function createTableSample(worksheet: Excel.Worksheet) {
+            // Split by regex matching multiple spaces or tabs
+                    const data = `
+            Fruit   Color   Quantity
+            Orange  orange  5
+            Apple   red     1
+            Apple   green   2
+            Apple   yellow  1
+            Watermellon green 6
+            Banana  yellow  6
+              `.trim().split("\n").map(line => line.trim().split(/\s+/));
+
+                    const columnCount = data[0].length;
+                    const rowCount = data.length;
+                    
+                    // 1. Get the target range and assign values directly
+                    const range = worksheet.getRangeByIndexes(0, 0, rowCount, columnCount);
+                    range.values = data;
+
+                    // 2. Create the table (true = has headers)
+                    const table = worksheet.tables.add(range, true);
+
+                    return table;
+                }
+
+                function createDoughnutChartFromTable(worksheet: Excel.Worksheet, table: Excel.Table) {
+                    // 1. Get the range of the table (or specifically data you want to chart)
+                    // For a doughnut chart, let's say we chart the "Quantity" column or the whole table range.
+                    const range = table.getRange();
+                    
+                    // 2. Add a doughnut chart to the worksheet
+                    // Excel.ChartType.doughnut represents a doughnut chart
+                    const chart = worksheet.charts.add(
+                        Excel.ChartType.doughnut, 
+                        range, 
+                        Excel.ChartSeriesBy.auto
+                    );
+
+                    // 3. Optional: Customize chart properties (e.g., title, legend)
+                    chart.title.text = "Fruit Quantities";
+                    chart.legend.position = Excel.ChartLegendPosition.right;
+                    chart.legend.visible = true;
+
+                    return chart;
+                }
+
+                return await Excel.run({ delayForCellEdit: true }, async (context) => {
+
+                    const workbook = context.workbook;
+                    let sheet = workbook.worksheets.getItemOrNullObject("Pretty Chart");
+                    sheet.delete();
+                    sheet = workbook.worksheets.add("Pretty Chart");
+
+                    sheet.activate();
+                    const table = createTableSample(sheet);
+
+                    const chart = createDoughnutChartFromTable(sheet, table)
+
+                    const result = chart.getImage(500, 500)
+                    await context.sync()
+                    const imageBase64 = result.value
+                    return imageBase64;
+
+
+                });
+            }
+
+            async function run() {
+                console.log("run");
+
+                const image = await excelMakePrettyChartAndGetImage();
+                console.log(image);
+                setImgSrc(image);
+            }
+
+
+            function ready() {
+                run();
+            }
+
+            const id = {
+                img: {
+                    chart: "img-chart"
+                }
+            } as const;
+
+            function setImgSrc(imageBase64: string) {
+                (document.getElementById(id.img.chart) as HTMLImageElement).src = `data:image/png;base64,${imageBase64}`;
+            }
+
+            Office.onReady(({ host, platform }) => {
+                console.log("READY");
+
+                Build.SimpleUi.create()
+                .button({text: "run", onclick: run})
+                .br()
+                .img({id: id.img.chart})
+                .buildOnDiv("div-ui")
+
+
+                ready();
+            });
+
+    html:
+        language: html
+        content: <div id="div-ui"> </div>
+    css:
+        language: css
+        content: |+
+            
+            body {
+                background-color: white;
+            }
+
+            h1 { 
+                color: black;
+            }
+
+            button {
+                margin: 0;
+                margin-left: 20px;
+                margin-bottom: 5px;
+                min-width: 80px;
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+                padding: 4px 20px 6px;
+            }
+
+            button:hover {
+                background-color: #eaeaea;
+            }
+
+            button:focus {
+                background-color: #eaeaea;
+                border-color: #0078d7;
+            }
+
+            button:active {
+                background-color: #0078d7;
+                border-color: #0078d7;
+                color: #fff;
+            }
+
+    libraries:
+        language: text
+        content: |-
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.js
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts
+
+            https://wandyezj.github.io/build-add-in/library/build.js
+            https://wandyezj.github.io/build-add-in/library/build.d.ts
