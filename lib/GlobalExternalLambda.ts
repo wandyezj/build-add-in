@@ -345,8 +345,8 @@ class GlobalExternalLambdaQueue<ExternalLambdaTarget> {
  */
 export interface ExternalLambdaInstance<ExternalLambdaTarget> {
     /**
-     *
-     * @param target - Which instance should execute this lambda.
+     * @public
+     * @param target - Target instance to execute this lambda.
      * @param lambda - The lambda to send. note: the lambda is serialized and may not reference any thing outside it's scope.
      * @param lambdaArguments - The arguments to pass to the lambda function.
      */
