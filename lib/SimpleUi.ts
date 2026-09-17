@@ -131,6 +131,60 @@ function createSimpleUiElementFromParameters(element: SimpleUiParameters): HTMLE
 }
 
 /**
+ * @public
+ */
+export interface SimpleUiImg {
+    /**
+     * Sets the image src from a base64 string.
+     * @param base64 - the base64 string representing the image data
+     */
+    setSrcFromBase64(base64: string): void;
+}
+
+class SimpleUiWrapperImg implements SimpleUiImg {
+    #id: string;
+
+    constructor(id: string) {
+        this.#id = id;
+    }
+
+    get #img(): HTMLImageElement {
+        const img = document.getElementById(this.#id) as HTMLImageElement | null;
+        if (img === null) {
+            throw new Error(`Image element with id ${this.#id} not found`);
+        }
+        return img;
+    }
+
+    setSrcFromBase64(base64: string) {
+        this.#img.src = `data:image/png;base64,${base64}`;
+    }
+}
+
+/**
+ * @public
+ */
+export type SimpleUiElementIds<T extends Record<string, readonly string[]>> = {
+    readonly [K in keyof T]: {
+        readonly [SubK in T[K][number]]: `${K & string}-${SubK & string}`;
+    };
+};
+
+function createIds<const T extends Record<string, readonly string[]>>(config: T): SimpleUiElementIds<T> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: Record<string, any> = {};
+
+    for (const key of Object.keys(config)) {
+        result[key] = {};
+        for (const subKey of config[key]) {
+            result[key][subKey] = `${key}-${subKey}`;
+        }
+    }
+
+    return result as SimpleUiElementIds<T>;
+}
+
+/**
  * A singleton to build a simple UI of basic HTML elements.
  * @public
  */
@@ -162,6 +216,29 @@ export class SimpleUi {
     static spanHostPlatform(host: string, platform: string): string {
         const hostColor = getHostColor(host);
         return `<span><span style="color: ${hostColor}">${host}</span> on ${platform}</span>`;
+    }
+
+    static img(id: string): SimpleUiImg {
+        return new SimpleUiWrapperImg(id);
+    }
+
+    /**
+     * Creates a SimpleUiElementIds object from provided configuration.
+     *
+     * @example
+     * ```ts
+     * const id = createIds({
+     *   img: ["chart"],
+     *   p: ["description", "title"]
+     * });
+     *
+     * // returns:
+     * //{ img: { chart: "img-chart" }, p: { description: "p-description", title: "p-title" } }
+     * ```
+     * @public
+     */
+    static createIds<T extends Record<string, readonly string[]>>(config: T): SimpleUiElementIds<T> {
+        return createIds(config);
     }
 
     /**
