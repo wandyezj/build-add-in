@@ -4,6 +4,7 @@ export { getHostColor } from "./getHostColor";
 export { getGitHubPersonalAccessToken } from "./settings";
 
 // Support
+export { Log } from "./Log";
 export { getRandomHtmlColorName } from "./getRandomHtmlColorName";
 export { showHostPlatform } from "./showHostPlatform";
 export { showConsole } from "./showConsole";
