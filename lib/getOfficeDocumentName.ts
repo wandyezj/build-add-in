@@ -14,8 +14,7 @@ type OfficeDocumentContext = {
  */
 export function getOfficeDocumentName(): string {
     const office = (globalThis as typeof globalThis & Record<string, unknown>)["Office"] as
-        | OfficeDocumentContext
-        | undefined;
+        OfficeDocumentContext | undefined;
     const url = office?.context?.document?.url;
 
     let name: string | undefined = undefined;

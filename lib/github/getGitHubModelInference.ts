@@ -2,9 +2,11 @@ import { getGitHubPersonalAccessToken } from "../settings";
 import type { GitHubModelInferenceParameters } from "./GitHubModelInferenceParameters";
 import type { GitHubModelInferenceResponse } from "./GitHubModelInferenceResponse";
 /**
- * Run inference with a model
+ * Run inference with a model.
  * https://docs.github.com/en/rest/models/inference
- * @param options.token GitHub Personal Access Token with models: read scope
+ * @param inference - The model inference request payload.
+ * @param options - Optional request settings.
+ *    - `token`: the GitHub Personal Access Token with models: read scope
  * @returns the response from the GitHub model inference API, or undefined if the request was unsuccessful.
  *
  * @beta
