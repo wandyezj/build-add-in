@@ -311,9 +311,10 @@ export class SimpleUi {
 
     /**
      * Add button.
-     * @param options.id - button id
-     * @param options.text - button text
-     * @param options.onclick - click event handler
+     * @param options - The button configuration:
+     *   - `id`: Button element ID.
+     *   - `text`: Button text.
+     *   - `onclick`: Click handler.
      *
      * @public
      */
@@ -330,9 +331,10 @@ export class SimpleUi {
 
     /**
      * Add textarea.
-     * @param options.id - textarea id
-     * @param options.rows - number of rows
-     * @param options.cols - number of columns
+     * @param options - The textarea configuration:
+     *   - `id`: Textarea element ID.
+     *   - `rows`: Number of rows.
+     *   - `cols`: Number of columns.
      *
      * @public
      */
@@ -349,8 +351,10 @@ export class SimpleUi {
 
     /**
      * Add paragraph.
-     * @param options.id - paragraph id
-     * @param options.text - paragraph text
+     * @param options - The paragraph configuration:
+     *   - `id`: Paragraph element ID.
+     *   - `text`: Paragraph text.
+     *   - `html`: Paragraph HTML content.
      *
      * @public
      */
@@ -378,9 +382,10 @@ export class SimpleUi {
 
     /**
      * Add heading level 1.
-     * @param options.id - heading id
-     * @param options.text - heading text
-     * @param options.html - heading HTML content
+     * @param options - The heading configuration:
+     *   - `id`: Heading element ID.
+     *   - `text`: Heading text.
+     *   - `html`: Heading HTML content.
      *
      * @public
      */
@@ -390,9 +395,10 @@ export class SimpleUi {
 
     /**
      * Add heading level 2.
-     * @param options.id - heading id
-     * @param options.text - heading text
-     * @param options.html - heading HTML content
+     * @param options - The heading configuration:
+     *   - `id`: Heading element ID.
+     *   - `text`: Heading text.
+     *   - `html`: Heading HTML content.
      *
      * @public
      */
@@ -402,9 +408,10 @@ export class SimpleUi {
 
     /**
      * Add heading level 3.
-     * @param options.id - heading id
-     * @param options.text - heading text
-     * @param options.html - heading HTML content
+     * @param options - The heading configuration:
+     *   - `id`: Heading element ID.
+     *   - `text`: Heading text.
+     *   - `html`: Heading HTML content.
      *
      * @public
      */
@@ -414,9 +421,10 @@ export class SimpleUi {
 
     /**
      * Add heading level 4.
-     * @param options.id - heading id
-     * @param options.text - heading text
-     * @param options.html - heading HTML content
+     * @param options - The heading configuration:
+     *   - `id`: Heading element ID.
+     *   - `text`: Heading text.
+     *   - `html`: Heading HTML content.
      *
      * @public
      */
@@ -426,9 +434,10 @@ export class SimpleUi {
 
     /**
      * Add image.
-     * @param options.id - image id
-     * @param options.src - image source
-     * @param options.alt - image alt text
+     * @param options - The image configuration:
+     *   - `id`: Image element ID.
+     *   - `src`: Image source.
+     *   - `alt`: Alternative text.
      *
      * @public
      */

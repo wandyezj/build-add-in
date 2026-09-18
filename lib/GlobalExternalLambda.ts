@@ -89,17 +89,37 @@ export class GlobalStorageKey {
     }
 }
 
+/**
+ * A queued item for an external lambda.
+ */
 type ExternalLambdaItem<ExternalLambdaTarget> =
     ExternalLambdaItemCall<ExternalLambdaTarget> | ExternalLambdaItemCallResult;
+
+/**
+ * A queue of external lambda items.
+ */
 type ExternalLambdaItemQueue<ExternalLambdaTarget> = ExternalLambdaItem<ExternalLambdaTarget>[];
 
-type MatchExternalLambdaTarget<ExternalLambdaTarget> = (a: ExternalLambdaTarget, b: ExternalLambdaTarget) => boolean;
+/**
+ * Compares two external lambda targets for equality.
+ * @public
+ */
+export type MatchExternalLambdaTarget<ExternalLambdaTarget> = (
+    a: ExternalLambdaTarget,
+    b: ExternalLambdaTarget
+) => boolean;
 
+/**
+ * The kind of queued item being stored.
+ */
 enum ExternalLambdaItemName {
     Call = "Call",
     CallResult = "CallResult",
 }
 
+/**
+ * A queued external lambda invocation.
+ */
 interface ExternalLambdaItemCall<ExternalLambdaTarget> {
     name: ExternalLambdaItemName.Call;
     id: string;
@@ -111,6 +131,9 @@ interface ExternalLambdaItemCall<ExternalLambdaTarget> {
     };
 }
 
+/**
+ * A queued result from an external lambda invocation.
+ */
 interface ExternalLambdaItemCallResult {
     name: ExternalLambdaItemName.CallResult;
     id: string;
@@ -365,7 +388,7 @@ export interface ExternalLambdaInstance<ExternalLambdaTarget> {
      * Get the current queue of external lambda items.
      * @public
      */
-    currentQueue(): ExternalLambdaItem<ExternalLambdaTarget>[];
+    currentQueue(): unknown[];
 
     /**
      * Force check the current queue of external lambda items.
