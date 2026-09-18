@@ -90,8 +90,7 @@ export class GlobalStorageKey {
 }
 
 type ExternalLambdaItem<ExternalLambdaTarget> =
-    | ExternalLambdaItemCall<ExternalLambdaTarget>
-    | ExternalLambdaItemCallResult;
+    ExternalLambdaItemCall<ExternalLambdaTarget> | ExternalLambdaItemCallResult;
 type ExternalLambdaItemQueue<ExternalLambdaTarget> = ExternalLambdaItem<ExternalLambdaTarget>[];
 
 type MatchExternalLambdaTarget<ExternalLambdaTarget> = (a: ExternalLambdaTarget, b: ExternalLambdaTarget) => boolean;
