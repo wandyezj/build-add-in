@@ -29,7 +29,7 @@ export function getOfficeDocumentName(): string {
     }
 
     if (name === undefined) {
-        name = "UnsavedDocument" + crypto.randomUUID();
+        name = crypto.randomUUID();
     }
 
     return name;
