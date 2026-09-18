@@ -26,6 +26,26 @@ files:
                 documentName: "Demo - Cross App.pptx",
             };
 
+            async function runDebug() {
+                console.log("Run Debug");
+                // Pass Arguments and recieve them
+                const lambdaAdd = (a: number, b: number) => {
+                    Build.Log.enable();
+                    Build.Log.itemType("a", a)
+                    console.log(JSON.stringify(a))
+                    console.log("Lambda Add")
+                    console.log("a", a, "b", b)
+                    return a + b;
+                }
+
+                const result = await executeExternalLambda(globalExternalLambda.ownTarget, lambdaAdd, 1, 2).catch((e) => {
+                    console.log(e.message)
+                    return "Error"
+                });
+
+                console.log("Result:", result);
+            }
+
 
             //
             // Lambdas
@@ -367,7 +387,7 @@ files:
              * Execute a lambda in the context of
              */
             async function executeExternalLambda<T, Args>(target: ExternalLambdaTarget, lambda: (...Args) => T, ...args: Args): Promise<T> {
-                const promise = globalExternalLambda.executeLambda(target, lambda, arguments);
+                const promise = globalExternalLambda.executeLambda(target, lambda, ...args);
                 return promise as Promise<T>;
             }
 
@@ -389,6 +409,8 @@ files:
                     .p({ text: globalExternalLambda.ownTarget.host })
                     .p({ text: globalExternalLambda.ownTarget.documentName })
                     .p({ text: "Demo" })
+
+                    .br()
                     .button({
                         text: "Run - Insert Text In All",
                         onclick: () => {
@@ -401,7 +423,8 @@ files:
                     .button({ text: "(3) Run - PowerPoint - Insert Chart" onclick: runPowerPointInsertChart })
                     .img({ id: id.img.chart })
                     .br()
-                    .p({ text: "Queue Debug" })
+                    .p({text: "Debug"})
+                    .button(({text: "Run - Debug", onclick: runDebug}))
                     .button({
                         text: "Read Queue",
                         onclick: () => {
