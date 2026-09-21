@@ -11,20 +11,41 @@ files:
 
             */
 
+
             const targetExcel: ExternalLambdaTarget = {
                 host: "Excel",
-                documentName: "Demo - Cross App.xlsx",
+                documentName: "Demo.xlsx",
             };
 
             const targetWord: ExternalLambdaTarget = {
                 host: "Word",
-                documentName: "Demo - Cross App.docx",
+                documentName: "Demo.docx",
             };
 
             const targetPowerPoint: ExternalLambdaTarget = {
                 host: "PowerPoint",
-                documentName: "Demo - Cross App.pptx",
+                documentName: "Demo.pptx",
             };
+
+            async function runDebug() {
+                console.log("Run Debug");
+                // Pass Arguments and recieve them
+                const lambdaAdd = (a: number, b: number) => {
+                    Build.Log.enable();
+                    Build.Log.itemType("a", a)
+                    console.log(JSON.stringify(a))
+                    console.log("Lambda Add")
+                    console.log("a", a, "b", b)
+                    return a + b;
+                }
+
+                const result = await executeExternalLambda(globalExternalLambda.ownTarget, lambdaAdd, 1, 2).catch((e) => {
+                    console.log(e.message)
+                    return "Error"
+                });
+
+                console.log("Result:", result);
+            }
 
 
             //
@@ -33,7 +54,8 @@ files:
 
 
             const lambdaExcelMakePrettyChartAndGetImage = async () => {
-
+                console.log("Lambda - Excel - Make Pretty Chart");
+                console.log(typeof Excel);
                 function createTableSample(worksheet: Excel.Worksheet) {
                     // Split into [][] via regex matching multiple spaces or tabs
                     const data = `
@@ -105,6 +127,8 @@ files:
             }
 
             const lambdaPowerPointAddBase64ImageToSlide = async (imageAsBase64: string) => {
+                console.log("Lambda - PowerPoint - Add Chart");
+                console.log(typeof PowerPoint);
                 function addBase64Image(base64String: string, options?: {
                     imageLeft?: number;
                     imageTop?: number;
@@ -147,6 +171,9 @@ files:
                         );
                     });
                 }
+                try {
+
+                
                 await PowerPoint.run(async (context) => {
                     const presentation = context.presentation;
                     const slide = presentation.slides.getItemAt(0);
@@ -169,17 +196,34 @@ files:
                     })
 
                 });
+                } catch (e) {
+                    console.error(e);
+                    return `Error: ${e.message}`;
+                }
+                return "success"
             }
 
             const lambdaWordAddBase64ImageToDocument = async (imageAsBase64: string) => {
+                console.log("Lambda - Word - Add Chart");
+                console.log(typeof Word);
+
                 const pureBase64 = imageAsBase64.replace(/^data:image\/[a-z]+;base64,/, "");
 
-                await Word.run(async (context) => {
-                    const document = context.document;
-                    const body = document.body;
-                    body.clear();
-                    body.insertInlinePictureFromBase64(pureBase64, Word.InsertLocation.start)
-                });
+                try {
+
+                    await Word.run(async (context) => {
+                        const document = context.document;
+                        const body = document.body;
+                        body.clear();
+                        body.insertInlinePictureFromBase64(pureBase64, Word.InsertLocation.start)
+                    });
+
+                } catch (e) {
+                    console.error(e)
+                    return `Error: ${e.message}`;
+                }
+
+                return "success"
 
             }
 
@@ -277,7 +321,7 @@ files:
 
                 for (let i = 0; i < runTargetLambdas.length; i++) {
                     const [id, target, lambda] = runTargetLambdas[i];
-                    console.log(`Execute External Lambda [${i}] ${id}`);
+                    console.log(`Execute External Lambda [${i}] ${id} -> ${target.host} ${target.documentName}`);
 
                     (async () => {
                         const result = await executeExternalLambda(target, lambda).catch((e) => {
@@ -313,7 +357,7 @@ files:
             async function runWordInsertChart() {
                 console.log(`Run - Word - Insert Chart`);
 
-                const result = await executeExternalLambda(targetExcel, lambdaWordAddBase64ImageToDocument, globalImageAsBase64).catch(e => {
+                const result = await executeExternalLambda(targetWord, lambdaWordAddBase64ImageToDocument, globalImageAsBase64).catch(e => {
                     console.error("Lambda Error", e);
                     return e;
                 });
@@ -324,7 +368,7 @@ files:
             async function runPowerPointInsertChart() {
                 console.log(`Run - PowerPoint - Insert Chart`);
 
-                const result = await executeExternalLambda(targetExcel, lambdaPowerPointAddBase64ImageToSlide, globalImageAsBase64).catch(e => {
+                const result = await executeExternalLambda(targetPowerPoint, lambdaPowerPointAddBase64ImageToSlide, globalImageAsBase64).catch(e => {
                     console.error("Lambda Error", e);
                     return e;
                 });
@@ -353,8 +397,6 @@ files:
                     documentName,
                 };
 
-                console.log(targetInfo);
-
                 globalExternalLambda = Build.initializeExternalLambda(
                     "SimpleExternalLambda",
                     targetInfo,
@@ -367,7 +409,7 @@ files:
              * Execute a lambda in the context of
              */
             async function executeExternalLambda<T, Args>(target: ExternalLambdaTarget, lambda: (...Args) => T, ...args: Args): Promise<T> {
-                const promise = globalExternalLambda.executeLambda(target, lambda, arguments);
+                const promise = globalExternalLambda.executeLambda(target, lambda, ...args);
                 return promise as Promise<T>;
             }
 
@@ -378,17 +420,17 @@ files:
             const id = Build.SimpleUi.createIds({
                 div: ["ui"],
                 img: ["chart"]
-                textarea: ["storageCurrent", "storageWrite", "storageRead"]
+                textarea: ["storageWrite", "storageRead"]
             });
 
 
             async function setupUi() {
                 Build.SimpleUi.create()
                     .h3({ text: "Cross App and Document " })
-                    .p({ text: "Target" })
-                    .p({ text: globalExternalLambda.ownTarget.host })
-                    .p({ text: globalExternalLambda.ownTarget.documentName })
-                    .p({ text: "Demo" })
+                    .p({ text: `Target: ${globalExternalLambda.ownTarget.host} ${globalExternalLambda.ownTarget.documentName}` })
+                    .h4({ text: "Demo" })
+
+                    .br()
                     .button({
                         text: "Run - Insert Text In All",
                         onclick: () => {
@@ -401,7 +443,8 @@ files:
                     .button({ text: "(3) Run - PowerPoint - Insert Chart" onclick: runPowerPointInsertChart })
                     .img({ id: id.img.chart })
                     .br()
-                    .p({ text: "Queue Debug" })
+                    .p({ text: "Debug" })
+                    .button(({ text: "Run - Debug", onclick: runDebug }))
                     .button({
                         text: "Read Queue",
                         onclick: () => {
@@ -420,7 +463,18 @@ files:
                             globalExternalLambda.clearQueue();
                         },
                     })
-
+                    .p("shared")
+                    .textarea({ id: id.textarea.storageRead, rows: 1, cols: 20 })
+                    .button({
+                        text: "Read", onclick: () => {
+                            Build.SimpleUi.textarea(id.textarea.storageRead).value = localStorage.getItem("shared")
+                        }
+                    })
+                    .button({
+                        text: "Write", onclick: () => {
+                            localStorage.setItem("shared", Build.SimpleUi.textarea(id.textarea.storageRead).value)
+                        }
+                    })
                     .br()
                     .buildOnDiv(id.div.ui);
 
