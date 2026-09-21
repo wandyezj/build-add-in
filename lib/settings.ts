@@ -12,13 +12,11 @@ function getSetting(settingName: "githubPersonalAccessToken"): string {
         throw new Error("Failed to parse settings from localStorage.");
     }
 
-    if (
-        !(
-            typeof settings === "object" &&
-            settings !== null &&
-            Object.prototype.hasOwnProperty.call(settings, settingName)
-        )
-    ) {
+    if (!(
+        typeof settings === "object" &&
+        settings !== null &&
+        Object.prototype.hasOwnProperty.call(settings, settingName)
+    )) {
         throw new Error(`Setting ${settingName} does not exist.`);
     }
 

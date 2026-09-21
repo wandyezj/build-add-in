@@ -1,0 +1,90 @@
+name: Word Insert Image
+files:
+    typescript:
+        language: typescript
+        content: |+
+            async function wordAddBase64ImageToDocument(imageAsBase64: string) {
+                const pureBase64 = imageAsBase64.replace(/^data:image\/[a-z]+;base64,/, "");
+
+                await Word.run(async (context) => {
+                    const document = context.document;
+                    const body = document.body;
+                    body.clear();
+                    body.insertInlinePictureFromBase64(pureBase64, Word.InsertLocation.start)
+                });
+
+            }
+
+            async function run() {
+                console.log("run");
+
+                const image = Build.SimpleUi.textarea(id.textarea.image).value;
+                console.log(image)
+                await wordAddBase64ImageToDocument(image);
+            }
+
+            const id = Build.SimpleUi.createIds({
+                textarea: ["image"]
+            } as const);
+
+            Office.onReady(({ host, platform }) => {
+                console.log("READY");
+
+                Build.SimpleUi.create()
+                    .h2({ text: "Word Insert Image" })
+                    .button({ text: "Run", onclick: run })
+                    .br()
+                    .p({text:"Paste in Base64 image:"})
+                    .textarea({ id: id.textarea.image, rows: 1, cols: 200 })
+                    .buildOnDiv("div-ui")
+
+            });
+
+    html:
+        language: html
+        content: <div id="div-ui" ></div>
+    css:
+        language: css
+        content: |+
+            
+            body {
+                background-color: white;
+            }
+
+            h1 { 
+                color: black;
+            }
+
+            button {
+                margin: 0;
+                margin-left: 20px;
+                margin-bottom: 5px;
+                min-width: 80px;
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+                padding: 4px 20px 6px;
+            }
+
+            button:hover {
+                background-color: #eaeaea;
+            }
+
+            button:focus {
+                background-color: #eaeaea;
+                border-color: #0078d7;
+            }
+
+            button:active {
+                background-color: #0078d7;
+                border-color: #0078d7;
+                color: #fff;
+            }
+
+    libraries:
+        language: text
+        content: |-
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.js
+            https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts
+
+            https://wandyezj.github.io/build-add-in/library/build.js
+            https://wandyezj.github.io/build-add-in/library/build.d.ts
