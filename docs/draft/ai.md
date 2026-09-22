@@ -61,6 +61,9 @@ Two options:
 
 Decision: better to integrate inside of the application - it's more convenient from a customer perspective.
 
+### Available Models
+
+[GitHub REST API available models](https://docs.github.com/en/rest/models/catalog)
 
 ### Calling an AI model
 
