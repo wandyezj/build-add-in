@@ -4,6 +4,8 @@ import { Settings } from "./Settings";
 import { ArrowLeftRegular } from "@fluentui/react-icons";
 import { TooltipButton } from "../components/TooltipButton";
 import { loc } from "../core/localize/loc";
+import { toggleLocalStorageKey } from "../core/settings/toggleLocalStorageKey";
+import { LocalStorageKey } from "../core/settings/LocalStorageKey";
 
 export function App() {
     const goBack = window.location.hash === "#back";
@@ -29,7 +31,14 @@ export function App() {
                         }}
                     />
                 )}
-                <h1>{loc("Settings")}</h1>
+                <h1
+                    onClick={() => {
+                        toggleLocalStorageKey(LocalStorageKey.ShowControlPanel);
+                        window.location.reload();
+                    }}
+                >
+                    {loc("Settings")}
+                </h1>
                 <Settings />
             </div>
         </FluentProvider>
