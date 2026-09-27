@@ -31,10 +31,14 @@ export function App() {
                         }}
                     />
                 )}
-                <h1 onClick={() => {
-                    toggleLocalStorageKey(LocalStorageKey.ShowControlPanel);
-                    window.location.reload();
-                }}>{loc("Settings")}</h1>
+                <h1
+                    onClick={() => {
+                        toggleLocalStorageKey(LocalStorageKey.ShowControlPanel);
+                        window.location.reload();
+                    }}
+                >
+                    {loc("Settings")}
+                </h1>
                 <Settings />
             </div>
         </FluentProvider>
