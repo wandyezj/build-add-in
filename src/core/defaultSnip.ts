@@ -155,7 +155,7 @@ const defaultFileCss = {
 const defaultFileLibraries = {
     language: "text",
     content:
-        "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
+        "https://officeapis.public.onecdn.static.microsoft/1/office.js\nhttps://officeapis.public.onecdn.static.microsoft/1/office.d.ts",
 };
 
 export const defaultSnip: ExportSnip = {

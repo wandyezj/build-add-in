@@ -532,8 +532,8 @@ files:
     libraries:
         language: text
         content: |
-            https://appsforoffice.microsoft.com/lib/1/hosted/office.js
-            https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts
+            https://officeapis.public.onecdn.static.microsoft/1/office.js
+            https://officeapis.public.onecdn.static.microsoft/1/office.d.ts
 
             https://wandyezj.github.io/build-add-in/library/build.js
             https://wandyezj.github.io/build-add-in/library/build.d.ts

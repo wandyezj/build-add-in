@@ -123,7 +123,7 @@ function transformLibraries(data: string): string {
 
             // office.js
             if (line === "@types/office-js") {
-                return `https://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts`;
+                return `https://officeapis.public.onecdn.static.microsoft/1/office.d.ts`;
             }
 
             // Remove packages
