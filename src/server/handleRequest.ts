@@ -19,7 +19,8 @@ export async function handleRequest(
     }
 
     // Default handler if no match found
-    response.writeHead(404, { "Content-Type": "text/plain" });
+    response.writeHead(404);
+    response.setHeader("Content-Type", "text/plain");
     response.write("Not Found");
     response.end();
 }
