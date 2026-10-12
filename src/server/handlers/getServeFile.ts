@@ -16,9 +16,10 @@ export function getServeFile(
         const data = isBinary
             ? readFileSync(path.join(__dirname, filePath))
             : readFileSync(path.join(__dirname, filePath), "utf-8");
-        response.writeHead(200);
-        response.setHeader("Content-Type", contentType);
-        response.setHeader("Cache-Control", "no-cache, no-store");
+        response.writeHead(200, [
+            ["Content-Type", contentType],
+            ["Cache-Control", "no-cache, no-store"],
+        ]);
         response.end(data);
     };
 }

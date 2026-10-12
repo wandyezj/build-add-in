@@ -11,8 +11,7 @@ export const registry: [FunctionRequestMatcher, FunctionRequestHandler][] = [
     [
         getMatcher({ method: "GET", url: "/" }),
         async (request, response) => {
-            response.writeHead(200);
-            response.setHeader("Content-Type", "text/plain");
+            response.writeHead(200, [["Content-Type", "text/plain"]]);
             response.write("");
             response.end();
         },
@@ -22,9 +21,8 @@ export const registry: [FunctionRequestMatcher, FunctionRequestHandler][] = [
     [
         getMatcher({ method: "GET", url: "/ping" }),
         async (request, response) => {
-            response.writeHead(200);
-            response.setHeader("Content-Type", "text/plain");
-            response.write("pong 2");
+            response.writeHead(200, [["Content-Type", "text/plain"]]);
+            response.write("pong");
             response.end();
         },
     ],
@@ -33,8 +31,7 @@ export const registry: [FunctionRequestMatcher, FunctionRequestHandler][] = [
     [
         getMatcher({ method: "POST", url: "/run-command" }),
         async (request, response) => {
-            response.writeHead(200);
-            response.setHeader("Content-Type", "text/plain");
+            response.writeHead(200, [["Content-Type", "text/plain"]]);
             response.write("command received");
             response.end();
         },

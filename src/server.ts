@@ -1,6 +1,7 @@
 import { globalLog } from "./server/globalLog";
 import { parseArgs } from "node:util";
 import { startServer, ServerConfig } from "./server/startServer";
+import { defaultHttpPort } from "./server/defaults";
 
 const { values } = parseArgs({
     options: {
@@ -30,8 +31,10 @@ function getPort(portArg?: string): number | undefined {
     if (typeof portArg === "string") {
         const parsedPort = parseInt(portArg, 10);
         if (!isNaN(parsedPort)) {
+            const portMinimum = 1024;
+            const portMaximum = 49151;
             // Ensure the port is within the valid range for dynamic/private ports
-            if (parsedPort >= 1024 && parsedPort <= 49151) {
+            if (parsedPort >= portMinimum && parsedPort <= portMaximum) {
                 return parsedPort;
             }
         }
@@ -44,7 +47,7 @@ const portArg = typeof values.port === "string" ? values.port : undefined;
 
 const config: ServerConfig = {
     http: {
-        port: getPort(portArg) || 3003,
+        port: getPort(portArg) || defaultHttpPort,
     },
 };
 

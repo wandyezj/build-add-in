@@ -30,8 +30,7 @@ async function handleRequestGeneral(request: http.IncomingMessage, response: htt
         await handleRequest(registry, request, response);
     } catch (error) {
         globalLog.error(`Error handling request: ${error}`, { indent: 0 });
-        response.writeHead(500);
-        response.setHeader("Content-Type", "text/plain");
+        response.writeHead(500, [["Content-Type", "text/plain"]]);
         response.write("Internal Server Error");
         response.end();
     }
