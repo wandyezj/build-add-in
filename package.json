@@ -60,7 +60,9 @@
         "playwright-install": "playwright install --with-deps chromium",
         "playwright-test": "playwright test --config ./config/playwright.config.ts",
         "playwright-report": "playwright show-report",
-        "check-npm-updates": "node ./scripts/check-npm-updates.js"
+        "check-npm-updates": "node ./scripts/check-npm-updates.js",
+        "watch-compile": "webpack --config ./config/webpack.config.js --mode development --watch",
+        "watch-server": "node --watch ./dist/server.js"
     },
     "repository": {
         "type": "git",

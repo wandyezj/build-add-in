@@ -205,6 +205,8 @@ module.exports = async (env, options) => {
         ignored,
     };
 
+    const outputPath = path.resolve(__dirname, "..", "dist");
+
     const config = {
         name: "main",
         // no source maps for production
@@ -244,7 +246,7 @@ module.exports = async (env, options) => {
             //     return isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js";
             // },
             filename: isDevelopment ? "[name].bundle.js" : "[name].bundle-[contenthash].js",
-            path: path.resolve(__dirname, "..", "dist"),
+            path: outputPath,
         },
         optimization: {
             runtimeChunk: "single",
@@ -390,7 +392,7 @@ module.exports = async (env, options) => {
         },
         output: {
             filename: "library/build.js",
-            path: path.resolve(__dirname, "..", "dist"),
+            path: outputPath,
             library: {
                 // Expose the library on the global object as "Build"
                 name: "Build",
@@ -474,7 +476,33 @@ module.exports = async (env, options) => {
         ],
     };
 
-    return [config, libraryConfig];
+    const serverConfig = {
+        dependencies: ["main"],
+        name: "server",
+        target: "node",
+        devtool: isDevelopment ? "inline-source-map" : undefined,
+        performance: { hints: false },
+        entry: { server: "./src/server.ts" },
+        output: {
+            filename: "[name].js",
+            path: outputPath,
+        },
+        resolve: {
+            extensions: [".ts", ".json", ".js"],
+        },
+        externals: {
+            // For ws
+            bufferutil: "commonjs bufferutil",
+            "utf-8-validate": "commonjs utf-8-validate",
+        },
+        module: {
+            rules: [{ test: /\.(ts|tsx)$/, loader: "ts-loader" }],
+        },
+        watch: isDevelopment,
+        plugins: [],
+    };
+
+    return [config, libraryConfig, serverConfig];
 };
 
 async function getHttpsOptions() {
