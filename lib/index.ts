@@ -11,6 +11,8 @@ export { showConsole } from "./showConsole";
 export { SimpleUi } from "./SimpleUi";
 export type { SimpleUiElementIds, SimpleUiImg, SimpleUiTextarea } from "./SimpleUi";
 
+export { getRandomGuid } from "./getRandomGuid";
+
 // GitHub
 export { getGitHubModelInference } from "./github/getGitHubModelInference";
 export { getGitHubModelCatalog } from "./github/getGitHubModelCatalog";
