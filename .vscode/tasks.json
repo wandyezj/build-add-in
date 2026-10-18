@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Watch Compile Debug",
+            "command": "npm",
+            "args": ["run", "watch-compile"],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "webpack-watch",
+                "pattern": {
+                    "regexp": "^(?!x)x$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^> .* watch-compile$",
+                    "endsPattern": "^\\s*server \\(webpack .*\\) compiled (?:successfully|with .*) in \\d+ ms$"
+                }
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "label": "Watch Compile",
+            "command": "npm",
+            "args": ["run", "watch-compile"],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "label": "Watch Server",
+            "command": "npm",
+            "args": ["run", "watch-server"],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "label": "Start",
+            "dependsOn": ["Watch Compile", "Watch Server"],
+            "group": {
+                "kind": "build",
+                "isDefault": true // Makes this the default build task
+            }
+        }
+    ]
+}

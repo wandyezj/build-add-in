@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start Debug",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/dist/server.js",
+            "runtimeArgs": ["--watch"],
+            "preLaunchTask": "Watch Compile Debug",
+            "autoAttachChildProcesses": true,
+            "sourceMaps": true,
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+            "skipFiles": ["<node_internals>/**"]
+        }
+    ]
+}
