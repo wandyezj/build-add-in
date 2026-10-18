@@ -2,6 +2,7 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 import path from "path";
 import * as fs from "fs";
+import { defaultHttpPort } from "../src/server/defaults";
 
 const isMac = process.platform === "darwin";
 
@@ -121,10 +122,16 @@ const config: PlaywrightTestConfig = {
     // outputDir: 'test-results/',
 
     /* Run your local dev server before starting the tests */
-    // webServer: {
-    //   command: 'npm run start',
-    //   port: 3000,
-    // },
+    webServer: [
+        // Server
+        {
+            command: "node ./dist/server.js",
+            cwd: path.resolve(__dirname, ".."),
+            url: `http://localhost:${defaultHttpPort}/`,
+            reuseExistingServer: !process.env.CI,
+            timeout: 30_000,
+        },
+    ],
 };
 
 export default config;
