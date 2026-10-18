@@ -1,10 +1,12 @@
 # List of Office Add-in specific words
 Addin
-aspnetcdn
 appsforoffice
+aspnetcdn
 firstpartyapps
 HIDETASKPANE
 oaspapps
+officeapis
+onecdn
 pinnable
 Runtimes
 SETCOLOR
