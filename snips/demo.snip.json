@@ -15,7 +15,7 @@
             "language": "css"
         },
         "libraries": {
-            "content": "https://appsforoffice.microsoft.com/lib/1/hosted/office.js\nhttps://appsforoffice.microsoft.com/lib/1/hosted/office.d.ts",
+            "content": "https://officeapis.public.onecdn.static.microsoft/1/office.js\nhttps://officeapis.public.onecdn.static.microsoft/1/office.d.ts",
             "language": "text"
         }
     }
